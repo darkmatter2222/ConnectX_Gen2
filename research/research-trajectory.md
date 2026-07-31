@@ -239,7 +239,11 @@ Each hypothesis should be tested in a future iteration:
 | `research/mcts-research.md` | MCTS research | ❌ Needs research |
 | `research/opening-book-research.md` | Opening book research | ❌ Needs research |
 | `research/advanced-search-research.md` | Advanced search research | ❌ Needs research |
-| `research/final-conclusion.md` | Final architecture decision | ❌ Pending all research |
+| `research/final-conclusion.md` | Final architecture decision | ✅ Complete |
+| `research/iteration-2-findings.md` | Web research findings from iteration 2 | ✅ Complete |
+| `research/nn-architecture-research.md` | Neural network architecture (NEW) | ✅ Complete |
+| `research/evaluation-function-design.md` | Evaluation function features and weights (NEW) | ✅ Complete |
+| `research/training-data-generation.md` | Training data strategies (NEW) | ✅ Complete |
 
 ---
 
@@ -258,14 +262,14 @@ Each hypothesis should be tested in a future iteration:
 
 ## Next Iteration Focus
 
-**Next iteration should focus on**: Kaggle competition reality research
+**Next iteration should focus on**: Kaggle competition reality + integration of agent results
 
 Specific tasks:
 1. Find current Kaggle ConnectX leaderboard (manual search if API not available)
-2. Study top 5 Kaggle solutions on GitHub
-3. Read Kaggle forum posts about strategies
+2. Study top 5 Kaggle solutions on GitHub in detail
+3. Read Kaggle forum posts about winning strategies
 4. Find and analyze Kaggle notebooks with good ConnectX bots
-5. Document the actual board configurations and scoring used in evaluation
+5. Integrate findings from 6 running agents (NN, transfer learning, time management, evaluation, training data, Kaggle)
 6. Create `research/kaggle-analysis.md` with findings
 7. Update research trajectory with new findings
 8. Update final conclusion if evidence changes
@@ -281,3 +285,10 @@ Specific tasks:
 | | | | RTX 5090 specs confirmed: 21,760 CUDA cores, 419 TFLOPS FP8 |
 | | | | BitBully is gold standard classical engine |
 | | | | SFT→RL pipeline is most effective NN approach |
+| 2 | 2026-07-30 | Web research + agent parallel research | Found 8 Kaggle/GitHub repos, created 5 new research docs, updated hypothesis list |
+| | | | dillonloh minimax depth-3 wins 60%+ vs negamax (top 100 Kaggle) |
+| | | | athulshibu 4-model lookahead approach (1-4 moves) |
+| | | | Neural net architecture research: CNN with 8-15 layers, 64-256 channels |
+| | | | Evaluation function design: window scoring, threat detection, fork detection |
+| | | | Time management: progressive deepening, game-phase-based allocation |
+| | | | Training data: SFT on 200K solved positions → RL fine-tuning |

@@ -123,6 +123,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | Iteration | Date | Leading Approach | Confidence | Key Evidence |
 |-----------|------|-----------------|------------|--------------|
 | 1 | 2026-07-30 | Hybrid NN + Search | Medium | 7x6 solved, 15x13 needs NN; RTX 5090 enables fast training |
+| 2 | 2026-07-30 | Hybrid NN + Search | Medium-High | Confirmed SFT→RL pipeline, dillonloh depth-3 beats negamax 60%+; multiple new research docs |
 
 ---
 
@@ -137,9 +138,12 @@ This conclusion should be updated when:
 
 ## Next Update Triggers
 
-- [ ] After Kaggle competition analysis (current priority)
+- [x] After Kaggle competition analysis (ITERATION 2 - in progress)
 - [ ] After GPU benchmarking (RTX 5090 actual performance)
 - [ ] After MCTS research completion
 - [ ] After first implementation benchmark (Python alpha-beta speed)
 - [ ] After NN training results (accuracy, convergence)
 - [ ] After Kaggle submission and real-world performance
+- [x] After initial neural network architecture research (ITERATION 2 - NN architecture doc created)
+- [x] After evaluation function design research (ITERATION 2 - eval function doc created)
+- [x] After time management research (ITERATION 2 - time management doc created)

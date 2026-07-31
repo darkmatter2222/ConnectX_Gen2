@@ -125,6 +125,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 1 | 2026-07-30 | Hybrid NN + Search | Medium | 7x6 solved, 15x13 needs NN; RTX 5090 enables fast training |
 | 2 | 2026-07-30 | Hybrid NN + Search | Medium-High | Confirmed SFT→RL pipeline, dillonloh depth-3 beats negamax 60%+; multiple new research docs |
 | 3 | 2026-07-30 | Hybrid NN + Search | High | Axelredx 8-move lookahead Java AI targets L0/L1; ayeennp C implementation claims "(almost) perfect" 8-move; comprehensive Kaggle analysis; 10 strategies documented |
+| 4 | 2026-07-31 | Hybrid NN + Search | High-High | GPU research: 0.1ms inference, 50-200× NN training speedup; MCTS variants documented; Game theory confirmed; Open-source bots cataloged; Advanced search techniques mapped |
 
 ---
 
@@ -141,10 +142,14 @@ This conclusion should be updated when:
 
 - [x] After Kaggle competition analysis (ITERATION 2 - in progress)
 - [ ] After GPU benchmarking (RTX 5090 actual performance)
-- [ ] After MCTS research completion
 - [ ] After first implementation benchmark (Python alpha-beta speed)
 - [ ] After NN training results (accuracy, convergence)
 - [ ] After Kaggle submission and real-world performance
 - [x] After initial neural network architecture research (ITERATION 2 - NN architecture doc created)
 - [x] After evaluation function design research (ITERATION 2 - eval function doc created)
 - [x] After time management research (ITERATION 2 - time management doc created)
+- [x] After GPU research (ITERATION 4 - gpu-research-iteration4.md created)
+- [x] After MCTS research (ITERATION 4 - mcts-research-iteration4.md created)
+- [x] After game theory research (ITERATION 4 - game-theory-iteration4.md created)
+- [x] After open-source bots research (ITERATION 4 - open-source-bots-iteration4.md created)
+- [x] After advanced search research (ITERATION 4 - advanced-search-iteration4.md created)

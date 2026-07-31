@@ -246,6 +246,13 @@ Each hypothesis should be tested in a future iteration:
 | `research/training-data-generation.md` | Training data strategies (NEW) | ✅ Complete |
 | `research/neural_network_architectures_connectx.md` | NN architectures, hyperparameters, RTX 5090 timeline (NEW) | ✅ Complete |
 | `research/transfer-learning-research.md` | Transfer learning findings (NEW) | ✅ Complete |
+| `research/iteration-3-findings.md` | Kaggle competition analysis + new repos | ✅ Complete |
+| `research/iteration-4-findings.md` | GPU, MCTS, game theory, open-source bots, search | ✅ Complete |
+| `research/gpu-research-iteration4.md` | GPU opportunities: inference, training, hybrid CPU+GPU | ✅ Complete |
+| `research/mcts-research-iteration4.md` | MCTS variants: UCT, RAVE, Neural MCTS, AlphaZero-style | ✅ Complete |
+| `research/game-theory-iteration4.md` | 7x6 SOLVED, opening book design, game-theoretic transfer | ✅ Complete |
+| `research/open-source-bots-iteration4.md` | 10 repos cataloged, key patterns, recommendations | ✅ Complete |
+| `research/advanced-search-iteration4.md` | MTD(f), PVS, LMR, killer heuristic, JIT speedups | ✅ Complete |
 
 ---
 
@@ -298,3 +305,18 @@ Specific tasks:
 | | | | RTX 5090 total training: ~21 hours end-to-end (SFT: 2h, RL: 18h, transfer: 1h) |
 | | | | Evaluation function: 7 core features with weights, adaptive by board size |
 | | | | Time management: progressive deepening, game-phase-based allocation |
+| 3 | 2026-07-30 | Kaggle leaderboard research + web search + agents | Comprehensive Kaggle competition analysis, new repos (Axelredx, Mikesteinberg, etc) |
+| | | | Found Axelredx/ConnectX_AI "AxelBrain" Java AI with 8-move lookahead targeting L0/L1 |
+| | | | Found ayeennp/ConnectFour-bot C implementation claiming "(almost) perfect" 8-move lookahead |
+| | | | Found danielspottiswood/ML_Connect_4 hybrid NN+minimax approach |
+| | | | Kaggle analysis updated: 10 strategies documented, board configurations detailed |
+| | | | Rule changes: agentTimeout deprecated, actTimeout simplified to `2` |
+| 4 | 2026-07-31 | GPU, MCTS, game theory, open-source bots, advanced search | 5 new comprehensive research documents created |
+| | | | RTX 5090 GPU opportunities: 0.1ms inference, 50-200× NN training speedup, hybrid CPU+GPU recommended |
+| | | | MCTS variants: 5 variants documented (UCT, RAVE, Progressive Bias, Neural MCTS, Win-rate MCTS) |
+| | | | Game theory: 7x6 SOLVED (Allis 1988, Böck 2025), 4.5T positions, opening book design detailed |
+| | | | Open-source bots: 10 repos cataloged (BitBully 68 stars, mra1991 7 stars, etc) |
+| | | | Advanced search: MTD(f), PVS, LMR, killer heuristic, transposition table, JIT speedups |
+| | | | Key pattern: Compiled languages (C/C++) can achieve 8-move lookahead; Python max depth 6-8 |
+| | | | Key pattern: MCTS+NN (AlphaZero-style) is the strongest approach for larger boards |
+| | | | Key pattern: No MCTS-based public repos for ConnectX — our opportunity |

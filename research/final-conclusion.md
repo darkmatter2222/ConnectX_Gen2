@@ -124,6 +124,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 |-----------|------|-----------------|------------|--------------|
 | 1 | 2026-07-30 | Hybrid NN + Search | Medium | 7x6 solved, 15x13 needs NN; RTX 5090 enables fast training |
 | 2 | 2026-07-30 | Hybrid NN + Search | Medium-High | Confirmed SFT→RL pipeline, dillonloh depth-3 beats negamax 60%+; multiple new research docs |
+| 3 | 2026-07-30 | Hybrid NN + Search | High | Axelredx 8-move lookahead Java AI targets L0/L1; ayeennp C implementation claims "(almost) perfect" 8-move; comprehensive Kaggle analysis; 10 strategies documented |
 
 ---
 

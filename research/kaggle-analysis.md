@@ -145,3 +145,63 @@ config = {
 - marcpaulo15/RL-connect4 — GitHub: SFT → RL pipeline with CNN
 - mra1991/connect-four-negamax — GitHub: Symmetric negamax with bitboards
 - MarkusThill/BitBully — GitHub: C++ perfect-play solver
+
+---
+
+## Iteration 3 Additions (2026-07-30)
+
+### New Repositories Found
+
+| Repository | Stars | Approach | Key Details |
+|-----------|-------|----------|-------------|
+| Mikesteinberg/ConnectX | 1 | RL | "Reinforcement Learning Model for Connect 4, Connect 5, etc" |
+| Axelredx/ConnectX_AI | 1 | Java, 8-move lookahead | "AxelBrain" targets L0/L1 Kaggle opponents |
+| danielspottiswood/ML_Connect_4 | 0 | NN + Minimax | "Neural network + minimax recursive algorithm" |
+| ayeennp/ConnectFour-bot | 0 | C, 8-move lookahead | Claims "(almost) perfect" play via 8-move minimax |
+| darkatwi/Connect-4 | 0 | C, minimax+AB | Console game with difficulty tiers |
+| Amir-rfz/Connect-4-Game-Bot | 0 | HTML, minimax | Adaptive gameplay logic |
+
+### Key Iteration 3 Findings
+
+1. **Axelredx/ConnectX_AI ("AxelBrain")**: Java-based AI with **8-move lookahead** targeting Kaggle L0/L1 opponents. Has CXPlayerTester utility with repetition and timeout controls. Demonstrates that compiled languages can achieve deeper lookahead than Python.
+
+2. **ayeennp/ConnectFour-bot**: C implementation claiming **"(almost) perfect" play** via minimax checking **8 moves ahead**. Notably, 8 moves = 16 plies is very deep — suggests C/C++ implementations are significantly stronger than Python ones.
+
+3. **danielspottiswood/ML_Connect_4**: Hybrid NN + minimax approach — confirms the hybrid trend is widespread.
+
+4. **Mikesteinberg/ConnectX**: RL model supporting multiple win conditions (Connect 4, Connect 5, etc) — shows multi-condition support is feasible.
+
+5. **Notable pattern**: Most GitHub repos use **minimax with alpha-beta** as core algorithm. Only a few use neural networks. No one appears to be using MCTS for ConnectX.
+
+### Top 10 Kaggle Strategies (Comprehensive)
+
+| Rank | Author | Approach | Key Technique |
+|------|--------|----------|---------------|
+| 1 | sidhantagar | RL + DP + Alpha-Beta | Minimax + alpha-beta, variable boards up to 20×20 |
+| 2 | VSZM | DQN + Minimax Hybrid | Deep Q-Network + minimax, Cython acceleration |
+| 3 | BEPb | AlphaZero MCTS | Self-play RL with MCTS, PyTorch, xparl cluster |
+| 4 | marcpaulo15 | SFT → RL CNN | Supervised learning then self-play RL, CNN transfer |
+| 5 | mra1991 | Symmetric Negamax | Bitboards, iterative deepening, transposition table |
+| 6 | dillonloh | Minimax + eval function | Depth 3-6 on 7×6, ~0.88s per move |
+| 7 | MarkusThill | MTD(f) C++ | 197.5s per move on 2012 hardware, 7×6 only |
+| 8 | Axelredx | 8-move lookahead Java | Targets L0/L1, CXPlayerTester utility |
+| 9 | ayeennp | 8-move lookahead C | Claims "(almost) perfect" play |
+| 10 | Kaggle built-in | Random + Negamax | Random agent and depth-4 negamax
+
+### Board Configuration State Space
+
+| Board | Cells | State Space | Solved? |
+|-------|-------|-------------|---------|
+| 4×4, inarow=4 | 16 | Trivial | Yes (draw) |
+| 5×5, inarow=4 | 25 | ~10^10 | Yes (draw) |
+| 6×6, inarow=4 | 36 | ~10^14 | Yes (draw) |
+| 7×6, inarow=4 | 42 | 4.5 trillion | Yes (P1 wins) |
+| 10×7, inarow=4 | 70 | Vast | No |
+| 15×10, inarow=4 | 150 | Extremely large | No |
+| 15×13, inarow=4 | 195 | Extremely large | No |
+
+### Rule Changes (2024-2026)
+- **Current version**: 1.0.1
+- **Key change**: agentTimeout deprecated, use remainingOverageTime
+- **actTimeout**: Simplified to just `2` (not a dict)
+- No other significant rule changes reported

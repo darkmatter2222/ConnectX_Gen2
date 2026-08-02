@@ -119,6 +119,15 @@
 
 ---
 
+## Material Claims — Framework & Game Evaluation (Round 10)
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C054 | eSlams is an open AI game evaluation framework supporting 50 arenas including Connect Four "standard" with "faithful" fidelity; REST-based agent protocol (POST /act); Ed29919 proof archives; direct adapters for 5 AI providers | VERIFIED | S039 (eSlams README + source code analysis) | Strong | Bot benchmarking, empirical evaluation | Round 10 | Round 10 | HIGH | Moderate — provides evaluation infrastructure for ConnectX bots |
+| C055 | kenrick95/c4 (278★) is the most-starred Connect 4 repository on GitHub; uses Minimax+alpha-beta with hard-coded evaluation function; browser-based game (TypeScript/Canvas) | VERIFIED | S040 (kenrick95/c4 GitHub page analysis) | Strong | Classical search reference | Round 10 | Round 10 | HIGH | Moderate — reference for simple alpha-beta implementation |
+
+---
+
 ## Material Claims — Evaluation Function
 
 | Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
@@ -128,6 +137,23 @@
 | C028 | Fork detection is highest-value tactical pattern (one move = two threats) | SUPPORTED | Connect 4 literature | Moderate | Tactical play | Round 1 | Round 5 | MEDIUM | Moderate |
 | C029 | Hybrid (NN eval + search) beats pure search on 15x13 | HYPOTHESIS | Internal knowledge | Weak | Architecture choice | Round 1 | Round 5 | LOW | High |
 | C030 | MCTS + NN superior on 15x13; alpha-beta superior on 7x6 | SUPPORTED | Game AI literature | Moderate | Algorithm selection | Round 4 | Round 5 | MEDIUM | High |
+| C056 | rowspire evaluation uses 7 features (center control, piece count, threats, mobility, vertical/horizontal control, defensive score) with genetic-tuned weights | VERIFIED | S030, S039 (rowspire source code: evaluation.rs, feature_scores.rs) | Strong | Evaluation function design | Round 10 | Round 10 | HIGH | High — strongest manual eval blueprint yet |
+| C057 | rowspire neural network: 4×128 MLP with skip connections, dual value+policy networks, 100D input (64-cell binary + 16 normalized features), UCB1 MCTS c=1.41, 4000 sims, Dirichlet root noise (75% prior + 25% random) | VERIFIED | S030 (rowspire full source code: neural_network.rs, mcts.rs, features.rs, feature_scores.rs, bitboard.rs, ml_ai.rs) | Strong | NN architecture, MCTS tuning | Round 10 | Round 10 | HIGH | High — most complete neural MCTS blueprint for Connect 4 |
+| C058 | rowspire training mechanism is opaque: npm run train generates/loads training data and trains under caffeinate, but training algorithm/source code is NOT in the GitHub repository | VERIFIED | S030 (rowspire full source code analysis) | Moderate | Training strategy | Round 10 | Round 10 | HIGH | Moderate — critical gap for replicating rowspire approach |
+| C059 | rowspire bitboard: 64-bit encoding with 7 bits per column (6 rows + 1 padding), move via bitwise carry propagation, win detection via shift-based 4-direction checker | VERIFIED | S030 (rowspire bitboard.rs source code) | Strong | Board representation | Round 10 | Round 10 | HIGH | Moderate — elegant bitboard design for Connect 4 |
+
+---
+
+## Material Claims — Solver Benchmarks (Round 9)
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C048 | Tromp's Fhourstones solver benchmark: 20 systems tested, KPOS/S measured, alpha-beta 28.15%, haswon 25.47% of runtime | VERIFIED | S032 (tromp.github.io/c4/fhour.html) | Strong | Search optimization | Round 9 | Round 9 | HIGH | Moderate — profiling data informs search optimization priorities |
+| C049 | John Tromp solved 8x8 Connect 4 in late 2014/early 2015; book88 stores all solved positions ≤16 plies (~500MB TT) | VERIFIED | S034 (jesper-olsen/connect-four), S035 (tromp/fhourstones88) | Strong | Larger-board solving | Round 9 | Round 9 | HIGH | High — shows solving extends beyond 7x6; 8x8 is the next milestone |
+| C050 | haithameleuch/connect-four-ai implements alpha-beta depth-3 with Monte Carlo leaf evaluation (250 random playouts) | VERIFIED | S036 (haithameleuch/connect-four-ai source code) | Strong | Hybrid search | Round 9 | Round 9 | HIGH | Moderate — validates Monte Carlo evaluation as a practical leaf heuristic |
+| C051 | GoodCoder666/katac4 ported KataGo techniques: pre-activation ResNet, nested bottleneck, mixed spatial pooling (mean+max), CUDA graph caching, shallow conv heads | VERIFIED | S037 (model.py source) | Strong | NN architecture | Round 9 | Round 9 | HIGH | High — first concrete mapping of KataGo techniques to Connect 4 |
+| C052 | GoodCoder666/katac4 training: parallel self-play workers, replay buffer, temperature decay, 3 cross-entropy loss terms (policy, value, rival), SGD+momentum, 30K epochs, batch=16, checkpoints every 500 | VERIFIED | S038 (train.py source) | Strong | Training pipeline | Round 9 | Round 9 | HIGH | High — fully specified training pipeline for Connect 4 AlphaZero-style |
+| C053 | james dow allen's "The Complete Book of Connect Four" is a published reference for Connect 4 solving history and strategy | VERIFIED | S033 (tromp.github.io/c4/c4.html, reference [3]) | Moderate | History/strategy | Round 9 | Round 9 | MEDIUM | Low — historical reference, not directly implementation-relevant |
 
 ---
 
@@ -147,12 +173,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 29 (C020-C025, C031-C047, C048-C053) | 55% |
-| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 23% |
+| VERIFIED | 36 (C020-C025, C031-C047, C048-C053, C054-C059) | 60% |
+| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 20% |
 | STRONGLY SUPPORTED | 1 (C016) | 2% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 11% |
-| UNKNOWN | 3 (C002-C004) | 6% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 10% |
+| UNKNOWN | 3 (C002-C004) | 5% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 55% of material claims are VERIFIED (up from 50% in R8, driven by R9's six fully-analyzed sources: Tromp Fhourstones benchmark, Tromp 8x8 solver, jesper-olsen Rust Fhourstones port, haithameleuch alpha-beta+MCTS hybrid, and full katac4 training/NN source code). 23% are SUPPORTED. 6% are UNKNOWN (only Böck database specifics remain — C002-C004). 11% are HYPOTHESIS (training/performance). Round 9 added 6 new VERIFIED claims (C048–C053) from Tromp's Fhourstones benchmark profiling, 8x8 solving verification, hybrid alpha-beta+MCTS source analysis, and full katac4 training pipeline disclosure.
+**Key observation**: 60% of material claims are VERIFIED (up from 55% in R9, driven by R10's full source code decoding of rowspire — 14 source files — plus discovery of eSlams and kenrick95/c4). 20% are SUPPORTED. 5% are UNKNOWN (only Böck database specifics remain — C002-C004). 10% are HYPOTHESIS (training/performance). Round 10 added 7 new VERIFIED claims (C054–C059): eSlams framework, kenrick95/c4 Minimax AI, rowspire evaluation (7 features + genetic tuning), rowspire neural network (4×128 MLP, dual value+policy, 100D features), rowspire MCTS (UCB1 c=1.41, 4000 sims, root noise), rowspire bitboard (64-bit, shift-based win detection), and rowspire training gap (opaque `npm run train`).

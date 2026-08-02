@@ -24,6 +24,10 @@
 | katac4 training as reference | 9 | 30K epochs, 3 loss terms, self-play workers, temperature decay, 3-phase lambda scheduler | Full training pipeline revealed; validates AlphaZero-style training for Connect 4 | Simpler training schedules | Yes — training compute requirement |
 | Alpha-beta+MCTS hybrid viable | 9 | haithameleuch/connect-four-ai: alpha-beta depth-3 with Monte Carlo leaf (250 playouts), no heuristic | Hybrid search is practical without MCTS tree; statistical leaf evaluation | Pure heuristic leaf eval | Yes — evaluation function design |
 | ICAPS/JOCIG/Google Scholar abandonment | 9 | All three venues unworkable: ICAPS DNS fail, JOCIG DNS fail, Google Scholar 404 | No external academic venue retrievable via WebFetch | Continue trying external venues | No — all 3 venues dead for this research |
+| rowspire training algorithm is opaque | 10 | Full source code (14 files) analyzed; no training code found; npm run train invokes un-publish code | Training mechanism is the single largest gap in understanding rowspire | Rowspire training is available; it is not | No — training code is not on GitHub |
+| eSlams is evaluation framework, not bot | 10 | ElectronicSlams/eSlams supports 50 arenas incl. Connect Four "standard" | Provides evaluation infrastructure but not a ConnectX bot | eSlams is a Connect 4 AI | No — it is a framework, not a bot |
+| Rowspire 7-feature evaluation is the strongest manual eval baseline | 10 | 7 features with genetic-tuned weights: center control, piece count, threats, mobility, vertical/horizontal control, defensive score | Provides a strong manual eval design for Kaggle | Manual eval is weak without tuning | Yes — weights could be manually set to reasonable values |
+| Wikipedia opening theory confirmed | 10 | Center column = first-player win ≤41, adjacent = draw, edge = loss 40-42 | Validates center-first move ordering for Kaggle | Opening theory may not generalize to 15x13 | Yes — only applies to 7x6 |
 
 ---
 

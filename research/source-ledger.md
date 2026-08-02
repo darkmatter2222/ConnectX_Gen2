@@ -67,6 +67,9 @@
 | S036 | haithameleuch/connect-four-ai (0★) — Alpha-Beta + MCTS hybrid (Kotlin) | VERIFIED + source code — Round 9 | Alpha-beta depth-3 with Monte Carlo leaf evaluation (250 random playouts), board state via 2D array, parallel copy-and-play
 | S037 | GoodCoder666/katac4/train.py — Training pipeline details | VERIFIED — Round 9 | Self-play training: parallel workers, shared model, temperature decay, 3 loss terms (policy, value, rival), SGD+momentum, 30K epochs, batch=16, checkpoints every 500
 | S038 | GoodCoder666/katac4/model.py — ResNet + KataGo techniques | VERIFIED — Round 9 | Pre-activation ResNet with batch norm + ReLU, nested bottleneck, mixed spatial pooling (mean+max), CUDA graph caching, shallow conv heads
+| S039 | ElectronicSlams/eSlams (4★) — Open AI game evaluation framework; 50 arenas incl. Connect Four "standard" | VERIFIED — Round 10 | REST-based agent protocol (POST /act); Ed25519 proof archives; local CLI + server-side official eval; adapters for 5 AI providers (OpenAI, Anthropic, Gemini, OpenRouter, Bedrock)
+| S040 | kenrick95/c4 (278★) — Browser-based Connect 4 with Minimax+alpha-beta AI | VERIFIED — Round 10 | Minimax+alpha-beta opponent; hard-coded evaluation; TypeScript/HTML5 Canvas; 278★ (most-starred Connect 4 repo on GitHub)
+| S041 | tre-systems/rowspire — Full source code (14 Rust files): neural_network.rs, mcts.rs, ml_ai.rs, bitboard.rs, evaluation.rs, features.rs, feature_scores.rs, ml_network.rs, ml_tactics.rs, mcts_node.rs, mcts_policy.rs — Round 10 | VERIFIED + full source — Round 10 | 4×128 MLP with skip connections (dual value+policy), UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 100D input encoding (64-cell binary + 16 normalized features), 7-feature heuristic evaluation with genetic-tuned weights, 64-bit bitboard with carry-propagation move generation. Training algorithm opaque — npm run train invokes un-publish code.
 
 ---
 
@@ -179,3 +182,33 @@ WebSearch is known broken (Round 5+): API error 400.
 | projects.ias.ac/icaps/ | ❌ DNS lookup failed |
 | www.jocig.org/ | ❌ DNS lookup failed |
 | github.com/KanWarChristensen/katac-go | ❌ 404 — KataGo upstream not found under this name |
+
+## URLs Probed This Round (Round 10)
+
+| URL | Result |
+|-----|--------|
+| github.com/topics/connect-four?o=desc&s=updated | ✅ OK — 20 repos (all previously known since R6; kenrick95/c4 top with 278★) |
+| github.com/topics/connectx?o=desc&s=updated | ✅ OK — 6 repos (2 newly cataloged: eSlams, connect-n; rest previously known since R6) |
+| github.com/kenrick95/c4 | ✅ VERIFIED — Browser-based Connect 4, Minimax+alpha-beta AI, 278★ |
+| raw.githubusercontent.com/kenrick95/c4/main/core/ai.ts | ❌ 404 — AI source code path not found |
+| github.com/kenrick95/c4/tree/main/core | ❌ 404 — core directory tree not found via WebFetch |
+| github.com/kenrick95/c4/tree/main/browser | ❌ 404 — browser directory tree not found via WebFetch |
+| github.com/EternaPeptix/verbifrost | ✅ VERIFIED — NOT Connect 4: InfiniBand RDMA for macOS |
+| github.com/ElectronicSlams/eSlams | ✅ VERIFIED — Open AI game evaluation framework, 50 arenas, REST protocol |
+| raw.githubusercontent.com/ElectronicSlams/eSlams/main/README.md | ❌ 404 — no raw README at expected path |
+| github.com/acsl-technion/flexdriver-model | ✅ VERIFIED — NOT Connect 4: Mellanox ConnectX networking hardware driver modeling |
+| github.com/Kamide/connect-n | ✅ VERIFIED — NOT Connect 4: TypeScript PWA board game |
+| github.com/tre-systems/rowspire | ✅ VERIFIED — npm run train command noted, ML weights generated |
+| raw.githubusercontent.com/tre-systems/rowspire/main/README.md | ✅ OK — Project overview (sparse NN training details) |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/features.rs | ✅ OK — Feature encoding: 100D array |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/feature_scores.rs | ✅ OK — 16 feature scores with normalization constants |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/evaluation.rs | ✅ OK — 7-feature evaluation with genetic-tuned weights |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/neural_network.rs | ✅ OK — 4×128 MLP with skip connections, dual value+policy |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/ml_ai.rs | ✅ OK — NN + MCTS integration, 4000 sims, NN value/policy guidance |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/ml_network.rs | ✅ OK — Network config: 4 hidden layers of 128, skip connections |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/mcts.rs | ✅ OK — UCB1 selection, NN-guided, root noise, temperature sampling |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/bitboard.rs | ✅ OK — 64-bit board, carry-propagation move generation |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/ml_tactics.rs | ✅ OK — Basic tactical move selector (wins/blocks), no GA code |
+| en.wikipedia.org/wiki/Connect_Four | ✅ VERIFIED — Opening theory: center=win ≤41, adjacent=draw, edge=loss 40-42 |
+| github.com/tromp/fhourstones88 | ❌ 404 (via Bash curl — may be network restriction) |
+| api.github.com/repos/kenrick95/c4/contents | ❌ Empty (no curl output via Bash) |

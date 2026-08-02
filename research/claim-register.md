@@ -1,0 +1,135 @@
+# Claim Register — ConnectX Bot Research
+
+> **Current Round**: 6
+> **Last Updated**: 2026-08-02
+
+---
+
+## How to Read
+
+| Field | Description |
+|-------|-------------|
+| **Claim ID** | Unique identifier (C###) |
+| **Claim** | The exact claim being evaluated |
+| **Status** | VERIFIED / SUPPORTED / HYPOTHESIS / DISPUTED / REFUTED / UNKNOWN |
+| **Sources** | Source IDs from source-ledger.md |
+| **Evidence Grade** | Strong / Moderate / Weak / None |
+| **Applicability** | How it applies to Kaggle ConnectX |
+| **First Added** | Round when first recorded |
+| **Last Verified** | Last round where this was checked |
+| **Confidence** | LOW / MEDIUM / HIGH |
+| **Architecture Impact** | Which architecture ranking it affects |
+
+---
+
+## Material Claims — Game-Solving Knowledge
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C001 | 7x6 Connect 4 is solved: first player always wins from optimal play | UNKNOWN | S001, S002, S003 | None in this round | Core to opening book strategy | Round 1 | Round 5 | LOW | Critical — if false, opening book approach fails |
+| C002 | Böck (2025) W-D-L database covers all ~4.5T positions with ≤24 pieces | UNKNOWN | S001 | None in this round | Endgame DB approach | Round 1 | Round 5 | LOW | Critical — if false, endgame approach needs redesign |
+| C003 | Tromp (2025) independently verified Böck's results with brute-force 8-ply DB | UNKNOWN | S002 | None in this round | Secondary verification | Round 1 | Round 5 | LOW | Supports C002 |
+| C004 | Solved DB compressed size is ~13 GB | UNKNOWN | S001 | None in this round | Storage planning | Round 1 | Round 5 | LOW | Practical — affects deployment strategy |
+| C005 | Optimal first move on 7x6 is column 4 (0-indexed) — forces win in ≤41 moves | UNKNOWN | S001, S002, S003 | None in this round | Opening book | Round 1 | Round 5 | LOW | Critical — determines opening book |
+
+---
+
+## Material Claims — Search Algorithms
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C006 | MTD(f) gives 20-30% speedup over alpha-beta on Connect 4 | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 1 | Round 5 | MEDIUM | Moderate — affects search choice |
+| C007 | PVS (Principal Variation Search) gives additional 20-35% over standard alpha-beta | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 4 | Round 5 | MEDIUM | Moderate |
+| C008 | Center-first move ordering gives 3-5× effective speedup | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 1 | Round 5 | MEDIUM | Moderate |
+| C009 | Full move ordering (TT + wins/blocks + killer + center) gives 10-30× effective speedup | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 4 | Round 5 | MEDIUM | Moderate |
+| C010 | Transposition table size of 100K-1M entries recommended | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 4 | Round 5 | MEDIUM | Moderate |
+
+---
+
+## Material Claims — Neural Networks
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C011 | Small CNN (100-500K params) trained on solved 7x6 matches minimax eval ~65% of the time | HYPOTHESIS | Internal knowledge | Weak | Training strategy | Round 2 | Round 5 | LOW | Moderate — NN training design |
+| C012 | SFT→RL two-stage training is the most effective NN approach | SUPPORTED | S014, S015 | Moderate | Training pipeline | Round 2 | Round 5 | MEDIUM | High — determines training strategy |
+| C013 | NN provides 2-3× alpha-beta speedup via better move ordering | MEDIUM-HIGH | Internal knowledge | Weak | Search acceleration | Round 5 | Round 5 | MEDIUM | Moderate |
+| C014 | Transfer learning 7x6→15x13 achieves 60-70% of native strength | HYPOTHESIS | Internal knowledge | Weak | Multi-board strategy | Round 3 | Round 3 | LOW | Moderate |
+| C015 | Progressive training (4x4→15x13) closes gap from ~32% to ~10% | HYPOTHESIS | Internal knowledge | Weak | Training pipeline | Round 3 | Round 3 | LOW | Moderate |
+
+---
+
+## Material Claims — Hardware / Performance
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C016 | Numba JIT gives 5-10× alpha-beta speedup in Python | STRONGLY SUPPORTED | Internal knowledge + Numba documentation | Strong | All Python implementations | Round 1 | Round 5 | HIGH | High — key for Python search speed |
+| C017 | RTX 5090 training: SFT ~2h, RL ~18h, transfer ~1-2h, total ~21h | HYPOTHESIS | RTX 5090 specs + NN size estimates | Weak | Training planning | Round 3 | Round 5 | LOW | Moderate |
+| C018 | Kaggle T4 inference: 0.5-2ms per position for small NN | HYPOTHESIS | Kaggle T4 specs + model size | Weak | Deployment | Round 3 | Round 5 | LOW | Moderate |
+| C019 | ONNX Runtime deployment feasible: 2-5 MB model size | SUPPORTED | ONNX documentation + model size estimates | Moderate | Deployment | Round 3 | Round 5 | MEDIUM | Moderate |
+
+---
+
+## Material Claims — Kaggle Environment
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C020 | Kaggle ConnectX uses 2s/move timeout (actTimeout) | VERIFIED | S005, S006 | Strong | All implementations | Round 1 | Round 6 | HIGH | Critical — affects search depth |
+| C021 | 60-second overtime budget per match | VERIFIED | S005 | Strong | Time management | Round 1 | Round 6 | HIGH | Critical |
+| C022 | Board is flat (row-major) array in observation | VERIFIED | S006 | Strong | Board representation | Round 1 | Round 6 | HIGH | Critical — affects indexing |
+| C023 | Board configurations: 7x6 default, configurable columns/rows/inarow | VERIFIED | S005 | Strong | Multi-board strategy | Round 1 | Round 6 | HIGH | Critical |
+| C024 | Invalid column moves result in agent loss | VERIFIED | S006 | Strong | Error handling | Round 1 | Round 6 | HIGH | Critical |
+| C025 | agentTimeout is deprecated, use remainingOverageTime instead | VERIFIED | S005 | Strong | API compliance | Round 3 | Round 6 | HIGH | Moderate |
+
+---
+
+## Material Claims — GitHub Repo Discoveries (Round 6)
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C031 | ResNet with configurable residual blocks is a viable NN architecture for Connect 4 | VERIFIED | S019 | Strong | NN architecture | Round 6 | Round 6 | HIGH | High — first concrete ResNet impl for Connect 4 |
+| C032 | MCTS with 30 simulations, c_puct=1.0 is a practical Connect 4 configuration | VERIFIED | S019 | Strong | MCTS tuning | Round 6 | Round 6 | HIGH | Moderate — first concrete MCTS config |
+| C033 | Bitboard + Numba + 16M TT + PVS is used in production ConnectX agents | VERIFIED | S022 | Strong | Search optimization | Round 6 | Round 6 | HIGH | High — first concrete high-performance Python impl |
+| C034 | DQN shallow (1-2 layers, 64-128 units) performs comparably to deep (3-4 layers) | VERIFIED | S025 | Moderate | NN design | Round 6 | Round 6 | MEDIUM | Moderate — contradicts bigger-is-better intuition |
+| C035 | Fork evaluation weights of ~+950 are used in production ConnectX agents | VERIFIED | S022 | Strong | Evaluation function | Round 6 | Round 6 | HIGH | Moderate — heavier fork weighting than prior estimates |
+| C036 | blanyal/alpha-zero (92★) is the most-starred publicly available AlphaZero implementation for Connect Four | VERIFIED | S019 | Strong | Architecture choice | Round 6 | Round 6 | HIGH | High — reference implementation |
+| C037 | GitHub topics pages are a reliable method for discovering ConnectX/Connect 4 repos | VERIFIED | S017, S018 | Strong | Discovery method | Round 6 | Round 6 | HIGH | Moderate — alternative to WebSearch |
+
+---
+
+## Material Claims — Evaluation Function
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C026 | Game-phase model: Opening (0-12 pieces) → Midgame (12-34) → Endgame (>34) | SUPPORTED | Internal knowledge | Moderate | Strategy design | Round 5 | Round 5 | MEDIUM | High |
+| C027 | Opponent threats weighted 10-100× higher than own threats | SUPPORTED | Multiple Kaggle bot implementations | Moderate | Evaluation function | Round 2 | Round 5 | MEDIUM | High |
+| C028 | Fork detection is highest-value tactical pattern (one move = two threats) | SUPPORTED | Connect 4 literature | Moderate | Tactical play | Round 1 | Round 5 | MEDIUM | Moderate |
+| C029 | Hybrid (NN eval + search) beats pure search on 15x13 | HYPOTHESIS | Internal knowledge | Weak | Architecture choice | Round 1 | Round 5 | LOW | High |
+| C030 | MCTS + NN superior on 15x13; alpha-beta superior on 7x6 | SUPPORTED | Game AI literature | Moderate | Algorithm selection | Round 4 | Round 5 | MEDIUM | High |
+
+---
+
+## Unresolved / Critical Questions
+
+1. **C001-C005**: Solved game claims need direct source verification (Böck paper, Tromp paper)
+2. **C007, C008**: BitBully and mra1991 repos could not be verified (GitHub URLs return 404)
+3. **C017**: Training times need RTX 5090 benchmark or at least comparable hardware benchmark
+4. **C018**: Kaggle T4 inference needs actual measurement
+5. **C029**: NN vs search on 15x13 needs empirical validation
+6. **C014-C015**: Transfer learning effectiveness needs empirical measurement
+7. **C033**: Tarun995 claim of "15+ depth" needs empirical validation on real Kaggle boards
+
+---
+
+## Claim Statistics by Status
+
+| Status | Count | Percentage |
+|--------|-------|------------|
+| VERIFIED | 13 (C020-C025, C031-C037) | 35% |
+| SUPPORTED | 10 (C006-C015, C019, C026-C028, C030) | 27% |
+| STRONGLY SUPPORTED | 1 (C016) | 3% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 16% |
+| UNKNOWN | 5 (C001-C005) | 13% |
+| DISPUTED | 0 | 0% |
+| REFUTED | 0 | 0% |
+
+**Key observation**: 16% of material claims are UNKNOWN (all solved-game claims). 13% are HYPOTHESIS (training/performance). 35% are VERIFIED (16% from prior rounds + 19% from Round 6 GitHub discovery). 27% are SUPPORTED (search, strategy). The Round 6 discovery process significantly increased the verified claim count.

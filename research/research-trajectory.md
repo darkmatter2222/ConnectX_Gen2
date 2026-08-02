@@ -262,11 +262,14 @@ Each hypothesis should be tested in a future iteration:
 | `research/06-package-api-deep-dive.md` | Kaggle API deep dive | ✅ Complete |
 | `research/alpha_beta_optimizations_connect4.md` | Alpha-beta optimizations | ✅ Complete |
 | `research/research-trajectory.md` | This file — research plan | ✅ Complete |
-| `research/research-gaps.md` | Knowledge gap catalog | 🔄 Needs creation |
-| `research/kaggle-analysis.md` | Kaggle competition analysis | ❌ Needs research |
-| `research/gpu-research.md` | GPU hardware research | ❌ Needs research |
-| `research/mcts-research.md` | MCTS research | ❌ Needs research |
-| `research/opening-book-research.md` | Opening book research | ❌ Needs research |
+| `research/research-state.md` | Round tracking, tool availability, active gaps | ✅ Complete (Round 6) |
+| `research/source-ledger.md` | All research sources with verification status | ✅ Complete (Round 6) |
+| `research/claim-register.md` | Material claims with evidence grade and status | ✅ Complete (Round 6) |
+| `research/decision-log.md` | Architecture/tool/strategy decisions | ✅ Complete (Round 6) |
+| `research/architecture-rankings.md` | Ranked approaches with confidence scores | ✅ Complete (Round 6) |
+| `research/final-conclusion.md` | Evolving final conclusion | ✅ Complete |
+| `research/research-gaps.md` | Knowledge gap catalog | ✅ Complete |
+| `research/iterations/round-NNN.md` | Round reports | ✅ Complete (Round 6) |
 | `research/advanced-search-research.md` | Advanced search research | ❌ Needs research |
 | `research/final-conclusion.md` | Final architecture decision | ✅ Complete |
 | `research/iteration-2-findings.md` | Web research findings from iteration 2 | ✅ Complete |
@@ -301,14 +304,15 @@ Each hypothesis should be tested in a future iteration:
 
 ## Next Iteration Focus
 
-**Next iteration should focus on**: Empirical benchmarks + fixing web access + first Kaggle submission
+**Next iteration should focus on**: Find missing repo URLs + analyze more Connect 4 repos + empirical search benchmarks + evaluate eval function weights
 
 Specific tasks:
-1. **Fix web access**: Use WebFetch (not WebSearch) for live Kaggle data, GitHub repo analysis
-2. **Run actual Python benchmarks**: Write and execute alpha-beta benchmarks (pure Python vs Numba vs C++)
-3. **Train small NN**: Train a 100K-500K param CNN on solved 7x6 positions, measure performance vs minimax
-4. **First Kaggle submission**: Build a bot with opening book + alpha-beta, submit to Kaggle for real performance data
-5. **Game-phase test**: Test the game-phase model (opening→mid→endgame) on actual game play
+1. **Find BitBully/mra1991 repos**: Try alternate search methods (GitHub search topics, different org names)
+2. **Deep-dive blanyal/alpha-zero**: Analyze connect_four_game.py, neural_net.py, train.py source code in detail
+3. **Analyze more GitHub repos**: Fetch and analyze tarun995/bitboard-agent source, witchu/alphazero code
+4. **Empirical search benchmarks**: Write and run actual Python alpha-beta benchmarks (if code execution available)
+5. **Evaluate eval function weights**: Compare Tarun995 weights (fork +950) vs prior estimates (fork +10-1000)
+6. **Research Böck database**: Find the actual paper URL (likely in a journal like JOCIG or ICAPS)
 
 ---
 
@@ -357,3 +361,4 @@ Specific tasks:
 | | | | MTD(f) verified 20-30% speedup over alpha-beta; center-first move ordering gives 3-5× effective speedup |
 | | | | RTX 5090 feasibility: Training feasible offline; deployment on Kaggle T4 with ONNX Runtime |
 | | | | Web search unavailability blocks real-time Kaggle data collection — critical limitation |
+| 6 | 2026-08-02 | GitHub topics discovery, AlphaZero analysis, bitboard agent catalog, canonical files | 9 new verified sources; blanyal/alpha-zero (92★) AlphaZero impl for Connect 4 analyzed; Tarun995 bitboard agent cataloged (bitboard+Numba+16M TT+PVS); 5 DQN/MCTS repos via GitHub topics; 2 previously-cited repos unverified (404); CG-002 resolved; Canonical files created (7 files) |

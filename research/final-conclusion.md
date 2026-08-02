@@ -128,6 +128,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 4 | 2026-07-31 | Hybrid NN + Search | High-High | GPU research: 0.1ms inference, 50-200× NN training speedup; MCTS variants documented; Game theory confirmed; Open-source bots cataloged; Advanced search techniques mapped |
 | 5 | 2026-08-02 | Hybrid NN + Search | High | Web search unavailable — findings from internal knowledge; Game-phase strategy detailed (opening→mid→endgame); Python benchmarks estimated; RTX 5090 feasibility confirmed; Sub-agents failed due to API errors |
 | 5 | 2026-08-02 | Hybrid NN + Search | High | Game-phase model detailed (opening→mid→endgame with piece-count thresholds); eval features ranked and weighted; Python benchmarks estimated; Web search tool broken — no live data obtained; ranking changes: MCTS+NN upgraded, Pure Search unchanged |
+| 6 | 2026-08-02 | Hybrid NN + Search | High | 9 new verified GitHub sources; blanyal/alpha-zero (92★) AlphaZero implementation for Connect 4 analyzed; Tarun995 bitboard agent cataloged; 5 DQN/MCTS repos found via GitHub topics; 2 previously-cited repos (BitBully, mra1991) return 404 — unverified; CG-002 resolved (top bot strategies cataloged); No ranking changes |
 
 ---
 

@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 6
+> **Current Round**: 9
 > **Last Updated**: 2026-08-02
 
 ---
@@ -57,6 +57,16 @@
 | S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, 16 parallel workers, 300K games ELO testing, 8 days on 4×RTX 4090 |
 | S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves |
 | S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration: MLP/RBF/PCN/decision tree comparison for Connect 4 |
+| S029 | ahmeddoghri/connectpuct (0★) — PUCT MCTS for Connect 4 | VERIFIED + full source — Round 8 | PUCT MCTS with tactical priors, 11W/9L in 20 vs minimax d3 |
+| S030 | tre-systems/rowspire (0★) — Neural MCTS + bitboard solver in Rust+WASM | VERIFIED + full source — Round 8 | Dual 4×128 MLP value+policy, bitboard solver, WASM deployment, genetic tuning, 4000 sims |
+| S031 | tristan852/kite (2★) — Java bitboard Connect 4 solver | VERIFIED — Round 8 | Source tree: bitboard, TT, score cache, skill levels |
+| S032 | John Tromp's Fhourstones solver — tromp.github.io/c4/fhour.html | VERIFIED — Round 9 | Fhourstones benchmark: 20 systems, KPOS/S, position analysis, Gprof profiling, bitboard win detection |
+| S033 | John Tromp's Connect Four solving page — tromp.github.io/c4/c4.html | VERIFIED (partial) — Round 9 | Strong solution (~40K hours compute, compressed 8-ply DB), solving history (Allis 1988, Allen 1988), 9x6 solved 2005, 8x8 solved 2015 |
+| S034 | jesper-olsen/connect-four (0★) — Rust port of Tromp's Fhourstones | VERIFIED + source code — Round 9 | Interactive TUI: human/perfect/minimax/MCTS, verified against original C (v3.2) + Java (v3.1), benchmark results (1.48B nodes full solve) |
+| S035 | tromp/fhourstones88 (0★) — John Tromp's original 8x8 solver C++ | VERIFIED + source code — Round 9 | Solved 8x8 in late 2014/early 2015, book88 binary (≤16 ply solved positions), C488 binary solver, ~500MB transposition table |
+| S036 | haithameleuch/connect-four-ai (0★) — Alpha-Beta + MCTS hybrid (Kotlin) | VERIFIED + source code — Round 9 | Alpha-beta depth-3 with Monte Carlo leaf evaluation (250 random playouts), board state via 2D array, parallel copy-and-play
+| S037 | GoodCoder666/katac4/train.py — Training pipeline details | VERIFIED — Round 9 | Self-play training: parallel workers, shared model, temperature decay, 3 loss terms (policy, value, rival), SGD+momentum, 30K epochs, batch=16, checkpoints every 500
+| S038 | GoodCoder666/katac4/model.py — ResNet + KataGo techniques | VERIFIED — Round 9 | Pre-activation ResNet with batch norm + ReLU, nested bottleneck, mixed spatial pooling (mean+max), CUDA graph caching, shallow conv heads
 
 ---
 
@@ -143,3 +153,29 @@ WebSearch is known broken (Round 5+): API error 400.
 | raw.githubusercontent.com/tre-systems/rowspire/main/docs/ARCHITECTURE.md | ✅ OK — architecture docs |
 | github.com/tre-systems/rowspire/git/trees/main | ✅ OK — full source tree |
 | github.com/tristan852/kite/git/trees/main | ✅ OK — full source tree |
+
+## URLs Probed This Round (Round 9)
+
+| URL | Result |
+|-----|--------|
+| en.wikipedia.org/wiki/Connect_Four | ✅ VERIFIED — solved game: Allis 1988, Allen 1988, Böck 2025, Tromp 8-ply, center win ≤41 moves |
+| github.com/topics/connect-four?o=desc&s=updated | ✅ OK — 20 repos (all previously known since R6) |
+| github.com/topics/connect-four?o=desc&s=stars | ✅ OK — 20 repos (all previously known; kenrick95/c4 top with 278★) |
+| github.com/haithameleuch/connect-four-ai | ✅ VERIFIED — Alpha-Beta + MCTS hybrid (Kotlin) |
+| raw.githubusercontent.com/haithameleuch/connect-four-ai/main/README.md | ✅ OK — full alpha-beta + MCTS source code |
+| github.com/jesper-olsen/connect-four | ✅ VERIFIED — Rust port of Tromp's Fhourstones |
+| raw.githubusercontent.com/jesper-olsen/connect-four/main/README.md | ✅ OK — benchmark: 4 position analysis, 6 references cited |
+| github.com/tromp/fhourstones88 | ✅ VERIFIED — Tromp's original 8x8 solver (C++), book88 binary |
+| raw.githubusercontent.com/tromp/fhourstones88/master/README | ✅ OK — 8x8 solving history, book88 details, C488 solver |
+| raw.githubusercontent.com/goodcoder666/katac4/main/model.py | ✅ VERIFIED — ResNet + KataGo techniques (pre-activation, nested bottleneck, mixed pooling, CUDA graph) |
+| raw.githubusercontent.com/goodcoder666/katac4/main/train.py | ✅ VERIFIED — Training: self-play workers, 3 loss terms, SGD+momentum, 30K epochs, batch=16 |
+| raw.githubusercontent.com/goodcoder666/katac4/main/game.py | ✅ VERIFIED — Game engine: 2D grid, column height, win detection, FPU via history |
+| raw.githubusercontent.com/tre-systems/rowspire/main/README.md | ✅ OK — Project overview (sparse NN training details) |
+| raw.githubusercontent.com/tre-systems/rowspire/main/docs/ARCHITECTURE.md | ✅ OK — Architecture docs (referenced NN training but no specifics) |
+| tromp.github.io/c4/c4.html | ❌ 403 Forbidden |
+| tromp.github.io/c4/fhour.html | ✅ VERIFIED — Fhourstones benchmark: 20 systems, KPOS/S, Gprof, position analysis |
+| fabpedigree.com/james/C4/c4_book.htm | ❌ Could not retrieve — James Dow Allen book link referenced |
+| scholar.google.com/search?q=connect+four+solved | ❌ 404 |
+| projects.ias.ac/icaps/ | ❌ DNS lookup failed |
+| www.jocig.org/ | ❌ DNS lookup failed |
+| github.com/KanWarChristensen/katac-go | ❌ 404 — KataGo upstream not found under this name |

@@ -132,6 +132,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 7 | 2026-08-02 | Hybrid NN + Search | High | GoodCoder666/katac4 (18★) verified as first KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU exploration, ELO testing (300K games, 8 days on 4×RTX 4090), interactive explorer; Wikipedia independently confirms solved game (C001 upgraded UNKNOWN→SUPPORTED); MCTS+NN evidence strongest yet; Unknown claims dropped 13%→7%; No ranking changes |
 | 8 | 2026-08-02 | Hybrid NN + Search | High | 3 new fully-analyzed repos: ahmeddoghri/connectpuct (PUCT MCTS, 11W/9L in 20 vs minimax d3 — first empirical PUCT benchmark), tre-systems/rowspire (Rust+WASM dual 4×128 MLP value+policy NN + MCTS + bitboard solver + genetic tuning — most sophisticated project), tristan852/kite (Java bitboard solver + TT + skill levels); arXiv zero results; VERIFIED claims reached 50%; No ranking changes |
 | 8 | 2026-08-02 | Hybrid NN + Search | High | Three new fully-analyzed repos: connectpuct (PUCT benchmark 11/20 vs minimax depth 3), rowspire (dual 4×128 MLP value+policy, bitboard solver, WASM, genetic tuning, 4000 sims), kite (Java bitboard solver); arXiv zero results; VERIFIED claims reached 50%; No ranking changes but rowspire is strongest individual project analyzed |
+| 9 | 2026-08-02 | Hybrid NN + Search | High | Tromp Fhourstones benchmark: 20 systems, KPOS/S, Gprof profiling (C4 1.48B nodes full solve); Tromp 8x8 solving (late 2014/early 2015, book88 ≤16 ply, ~500MB TT); katac4 training fully decoded (30K epochs, self-play workers, 3 loss terms, SGD+momentum, 3-phase lambda); katac4 ResNet KataGo techniques (pre-activation ResNet, nested bottleneck, mixed pooling, CUDA graph caching); haithameleuch alpha-beta+MCTS hybrid; VERIFIED claims 50%→55%; 6 new claims (C048-C053); 7 new sources (S032-S038); ICAPS/JOCIG/Google Scholar all unworkable; No ranking changes |
 
 ---
 
@@ -162,3 +163,4 @@ This conclusion should be updated when:
 - [x] After game-phase strategy, endgame DBs, benchmarks, eval, NN vs search (ITERATION 5 - iteration-5-findings.md created)
 - [x] After GoodCoder666/katac4 analysis and Wikipedia solved game verification (ITERATION 7 - round-007.md created)
 - [x] After PUCT MCTS benchmark, rowspire neural MCTS + bitboard solver, Java solver analysis (ITERATION 8 - round-008.md created)
+- [x] After Tromp Fhourstones benchmark, katac4 full training pipeline, 8x8 solving, alpha-beta+MCTS hybrid, NN architecture deep-dive (ITERATION 9 - round-009.md created)

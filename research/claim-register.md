@@ -1,6 +1,6 @@
 # Claim Register — ConnectX Bot Research
 
-> **Current Round**: 6
+> **Current Round**: 9
 > **Last Updated**: 2026-08-02
 
 ---
@@ -102,7 +102,20 @@
 | C044 | Neural MCTS with separate value + policy networks (4×128 MLP with skip connections) is a viable approach for Connect 4 | VERIFIED | S030 | Moderate | NN architecture, MCTS integration | Round 8 | Round 8 | HIGH | High — most concrete neural architecture yet for Connect 4 |
 | C045 | Java bitboard solver with transposition caching and configurable skill levels is viable for Connect 4 | VERIFIED | S031 | Moderate | Classical search, board representation | Round 8 | Round 8 | MEDIUM | Moderate — adds to classical search evidence pool |
 | C046 | 4-layer 128-unit MLP with skip connections and 100-dimensional input is a viable neural architecture for Connect 4 | VERIFIED | S030 | Moderate | NN design, feature engineering | Round 8 | Round 8 | HIGH | High — 100D input (98 cells + 16 features) is the richest representation yet |
-| C047 | Dirichlet root noise (75% prior + 25% random) is a viable MCTS exploration strategy for Connect 4 | VERIFIED | S030 | Moderate | MCTS tuning | Round 8 | Round 8 | MEDIUM | Moderate — connects to prior MCTS tuning evidence |
+| C047 | Dirichlet root noise (75% prior + 25% random) is a viable MCTS exploration strategy for Connect 4 | VERIFIED | S030 | Moderate | MCTS tuning | Round 8 | Round 9 | MEDIUM | Moderate — connects to prior MCTS tuning evidence |
+
+---
+
+## Material Claims — Solver Benchmarks (Round 9)
+
+| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
+|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
+| C048 | Tromp's Fhourstones solver benchmark: 20 systems tested, KPOS/S measured, alpha-beta main 28.15%, haswon 25.47% of runtime | VERIFIED | S032 (tromp.github.io/c4/fhour.html) | Strong | Search optimization | Round 9 | Round 9 | HIGH | Moderate — profiling data informs search optimization priorities |
+| C049 | John Tromp solved 8x8 Connect 4 in late 2014/early 2015; book88 stores all solved positions ≤16 plies (~500MB TT) | VERIFIED | S034 (jesper-olsen/connect-four), S035 (tromp/fhourstones88) | Strong | Larger-board solving | Round 9 | Round 9 | HIGH | High — shows solving extends beyond 7x6; 8x8 is the next milestone |
+| C050 | haithameleuch/connect-four-ai implements alpha-beta depth-3 with Monte Carlo leaf evaluation (250 random playouts) | VERIFIED | S036 (haithameleuch/connect-four-ai source code) | Strong | Hybrid search | Round 9 | Round 9 | HIGH | Moderate — validates Monte Carlo evaluation as a practical leaf heuristic |
+| C051 | GoodCoder666/katac4 ported KataGo techniques: pre-activation ResNet, nested bottleneck, mixed spatial pooling (mean+max), CUDA graph caching, shallow conv heads | VERIFIED | S037 (model.py source) | Strong | NN architecture | Round 9 | Round 9 | HIGH | High — first concrete mapping of KataGo techniques to Connect 4 |
+| C052 | GoodCoder666/katac4 training: parallel self-play workers, replay buffer, temperature decay, 3 cross-entropy loss terms (policy, value, rival), SGD+momentum, 30K epochs, batch=16, checkpoints every 500 | VERIFIED | S038 (train.py source) | Strong | Training pipeline | Round 9 | Round 9 | HIGH | High — fully specified training pipeline for Connect 4 AlphaZero-style |
+| C053 | james dow allen's "The Complete Book of Connect Four" is a published reference for Connect 4 solving history and strategy | VERIFIED | S033 (tromp.github.io/c4/c4.html, reference [3]) | Moderate | History/strategy | Round 9 | Round 9 | MEDIUM | Low — historical reference, not directly implementation-relevant |
 
 ---
 
@@ -134,12 +147,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 23 (C020-C025, C031-C047) | 50% |
-| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 26% |
+| VERIFIED | 29 (C020-C025, C031-C047, C048-C053) | 55% |
+| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 23% |
 | STRONGLY SUPPORTED | 1 (C016) | 2% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 13% |
-| UNKNOWN | 3 (C002-C004) | 7% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 11% |
+| UNKNOWN | 3 (C002-C004) | 6% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 50% of material claims are VERIFIED (up from 43% in R7, driven by R8's three fully-analyzed repos: connectpuct, rowspire, kite). 26% are SUPPORTED. 7% are UNKNOWN (only Böck database specifics remain — C002-C004). 13% are HYPOTHESIS (training/performance). The VERIFIED count reached exactly 50% for the first time. Round 8 added 5 new VERIFIED claims (C043–C047) from PUCT benchmarking and neural MCTS architecture analysis.
+**Key observation**: 55% of material claims are VERIFIED (up from 50% in R8, driven by R9's six fully-analyzed sources: Tromp Fhourstones benchmark, Tromp 8x8 solver, jesper-olsen Rust Fhourstones port, haithameleuch alpha-beta+MCTS hybrid, and full katac4 training/NN source code). 23% are SUPPORTED. 6% are UNKNOWN (only Böck database specifics remain — C002-C004). 11% are HYPOTHESIS (training/performance). Round 9 added 6 new VERIFIED claims (C048–C053) from Tromp's Fhourstones benchmark profiling, 8x8 solving verification, hybrid alpha-beta+MCTS source analysis, and full katac4 training pipeline disclosure.

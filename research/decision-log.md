@@ -19,6 +19,11 @@
 | Source verification standard | 6 | All internal-knowledge repos must be verified via WebFetch | S007 (BitBully), S008 (mra1991) URLs returned 404 | Continue citing unverified sources | Yes — if URLs are found |
 | GitHub topics sort method | 8 | Sort by `updated` (descending) instead of `stars` | connectpuct, rowspire, kite all newly discovered via sorted-by-update scan | Sort by stars | Yes — stars may surface different repos |
 | arXiv as Böck source | 8 | arXiv yields zero results for "Connect Four solved" — try ICAPS, JOCIG, Google Scholar | arXiv search returned 0 results | Only use arXiv | Yes — arXiv is not the only venue |
+| Tromp Fhourstones as 8x8 solver | 9 | tromp/fhourstones88 is Tromp's original 8x8 solver C++ code; book88 binary stores ≤16 ply positions | Verified 8x8 solving; book88 provides concrete training data source | Only use Fhourstones for 7x6 | Yes — 8x8 data may inform 7x6 |
+| katac4 KataGo technique mapping | 9 | katac4 implements pre-activation ResNet, nested bottleneck, mixed spatial pooling, CUDA graph caching | First concrete KataGo port for Connect 4 | Standard ResNet | Yes — KataGo-specific optimizations |
+| katac4 training as reference | 9 | 30K epochs, 3 loss terms, self-play workers, temperature decay, 3-phase lambda scheduler | Full training pipeline revealed; validates AlphaZero-style training for Connect 4 | Simpler training schedules | Yes — training compute requirement |
+| Alpha-beta+MCTS hybrid viable | 9 | haithameleuch/connect-four-ai: alpha-beta depth-3 with Monte Carlo leaf (250 playouts), no heuristic | Hybrid search is practical without MCTS tree; statistical leaf evaluation | Pure heuristic leaf eval | Yes — evaluation function design |
+| ICAPS/JOCIG/Google Scholar abandonment | 9 | All three venues unworkable: ICAPS DNS fail, JOCIG DNS fail, Google Scholar 404 | No external academic venue retrievable via WebFetch | Continue trying external venues | No — all 3 venues dead for this research |
 
 ---
 

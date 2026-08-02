@@ -27,9 +27,10 @@
 | `iterations/round-003.md` | 3 | 2026-07-30 | Kaggle analysis, new repos |
 | `iterations/round-004.md` | 4 | 2026-07-31 | GPU, MCTS, game theory, bots, search |
 | `iterations/round-005.md` | 5 | 2026-08-02 | Game-phase, endgame, benchmarks, eval |
-| `iterations/round-006.md` | 6 | 2026-08-02 | This round |
+| `iterations/round-006.md` | 6 | 2026-08-02 | GitHub topics discovery; AlphaZero (blanyal 92★) fully analyzed; bitboard agent catalog; canonical files created |
 | `iterations/round-007.md` | 7 | 2026-08-02 | GoodCoder666/katac4 (KataGo-inspired AlphaZero) fully analyzed; Wikipedia confirms solved game |
 | `iterations/round-008.md` | 8 | 2026-08-02 | PUCT MCTS benchmark (11/20 vs minimax); rowspire neural MCTS + bitboard solver (Rust+WASM); Java bitboard solver |
+| `iterations/round-009.md` | 9 | 2026-08-02 | Tromp Fhourstones benchmark (20 systems, KPOS/S); Tromp 8x8 solver (book88 ≤16 ply); katac4 full training pipeline; katac4 ResNet KataGo techniques; alpha-beta+MCTS hybrid; VERIFIED 55% |
 
 ## Legacy Documents (evidence, preserved)
 

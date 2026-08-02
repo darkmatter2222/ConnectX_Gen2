@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 8
+> **Current Round**: 9
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 7 (2026-08-02)
+> **Previous Round**: 8 (2026-08-02)
 > **Status**: Active — deep research phase
 
 ---
@@ -19,6 +19,7 @@
 | 6 | 2026-08-02 | Complete | GitHub topics discovery, AlphaZero analysis, bitboard agent catalog; canonical files created |
 | 7 | 2026-08-02 | Complete | GoodCoder666/katac4 (18★) KataGo-inspired AlphaZero fully analyzed; Wikipedia confirms solved game; C001/C005 upgraded to SUPPORTED; 3 new sources (S026-S028) |
 | 8 | 2026-08-02 | Complete | 3 new repos via sorted GitHub topics: connectpuct (PUCT benchmark 11/20), rowspire (neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zero results; 5 new claims (C043-C047); 3 new sources (S029-S031) |
+| 9 | 2026-08-02 | Complete | Tromp Fhourstones benchmark (20 systems, KPOS/S, Gprof profiling); Tromp 8x8 solver (book88, ≤16 ply); haithameleuch alpha-beta+MCTS hybrid; katac4 training pipeline fully decoded (self-play workers, 3 loss terms, 30K epochs); VERIFIED claims 50%→55%; 7 new sources (S032-S038); 6 new claims (C048-C053); ICAPS/JOCIG/Google Scholar all unworkable |
 
 ---
 
@@ -86,9 +87,11 @@ Combined with game-phase strategy:
 
 ## Next Round Focus Areas
 
-1. Find the Böck database paper (ICAPS, JOCIG, Google Scholar via WebFetch — arXiv yields zero)
-2. Research KataGo upstream engine — what techniques does katac4 port from the original?
-3. rowspire neural network training methodology — how were weights trained? (currently random)
-4. PUCT c_puct sensitivity analysis — 1.0 vs 1.4 vs 1.41 across different board sizes
-5. Research Connect 4 opening theory — what are the strongest openings beyond center-column?
-6. Find Kaggle ConnectX notebooks via direct URL patterns (page is 404)
+1. rowspire neural network training data — how were the MLP weights trained? (currently random)
+2. PUCT c_puct sensitivity — 1.0 (blanyal) vs 1.4 (connectpuct) vs adaptive (katac4)
+3. rowspire evaluation feature importance — genetic-tuned weights vs prior heuristics
+4. Find the Böck database paper — try ICAPS, JOCIG, or Google Scholar via WebFetch — arXiv yields zero results; ICAPS/JOCIG DNS fail; Google Scholar 404
+5. Connect 4 opening theory beyond center-column
+6. Research KataGo upstream engine techniques — katac4 confirmed pre-activation ResNet, nested bottleneck, mixed pooling, CUDA graph caching (C051)
+7. James Dow Allen's "The Complete Book of Connect Four" — what opening theory does it contain?
+8. 8x8 Connect 4 solving details — what is book88? How does the 8x8 solve relate to 7x6?

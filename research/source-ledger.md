@@ -126,3 +126,20 @@ WebSearch is known broken (Round 5+): API error 400.
 | raw.githubusercontent.com/GoodCoder666/katac4/main/elo.json | ✅ OK — ELO ratings |
 | raw.githubusercontent.com/GoodCoder666/katac4/main/human_play.py | ✅ OK — human play |
 | raw.githubusercontent.com/GoodCoder666/katac4/main/export_model.py | ✅ OK — model export |
+| arxiv.org/search?query=Connect+Four+solved+database+Win-Draw-Loss | ❌ 0 results |
+| raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/engine.py | ✅ OK — board engine |
+| raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/mcts.py | ✅ OK — PUCT MCTS |
+| raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/minimax.py | ✅ OK — alpha-beta minimax |
+| raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/adversarial.py | ✅ OK — benchmark code |
+| raw.githubusercontent.com/ahmeddoghri/connectpuct/main/README.md | ✅ OK — README with benchmark |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/mcts.rs | ✅ OK — MCTS Rust |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/neural_network.rs | ✅ OK — neural net Rust |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/ml_ai.rs | ✅ OK — dual NN + MCTS |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/bitboard.rs | ✅ OK — bitboard Rust |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/evaluation.rs | ✅ OK — evaluation function |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/features.rs | ✅ OK — feature encoding |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/feature_scores.rs | ✅ OK — feature scoring |
+| raw.githubusercontent.com/tre-systems/rowspire/main/worker/src/ml_network.rs | ✅ OK — network config |
+| raw.githubusercontent.com/tre-systems/rowspire/main/docs/ARCHITECTURE.md | ✅ OK — architecture docs |
+| github.com/tre-systems/rowspire/git/trees/main | ✅ OK — full source tree |
+| github.com/tristan852/kite/git/trees/main | ✅ OK — full source tree |

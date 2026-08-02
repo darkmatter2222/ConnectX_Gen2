@@ -130,6 +130,8 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 5 | 2026-08-02 | Hybrid NN + Search | High | Game-phase model detailed (opening→mid→endgame with piece-count thresholds); eval features ranked and weighted; Python benchmarks estimated; Web search tool broken — no live data obtained; ranking changes: MCTS+NN upgraded, Pure Search unchanged |
 | 6 | 2026-08-02 | Hybrid NN + Search | High | 9 new verified GitHub sources; blanyal/alpha-zero (92★) AlphaZero implementation for Connect 4 analyzed; Tarun995 bitboard agent cataloged; 5 DQN/MCTS repos found via GitHub topics; 2 previously-cited repos (BitBully, mra1991) return 404 — unverified; CG-002 resolved (top bot strategies cataloged); No ranking changes |
 | 7 | 2026-08-02 | Hybrid NN + Search | High | GoodCoder666/katac4 (18★) verified as first KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU exploration, ELO testing (300K games, 8 days on 4×RTX 4090), interactive explorer; Wikipedia independently confirms solved game (C001 upgraded UNKNOWN→SUPPORTED); MCTS+NN evidence strongest yet; Unknown claims dropped 13%→7%; No ranking changes |
+| 8 | 2026-08-02 | Hybrid NN + Search | High | 3 new fully-analyzed repos: ahmeddoghri/connectpuct (PUCT MCTS, 11W/9L in 20 vs minimax d3 — first empirical PUCT benchmark), tre-systems/rowspire (Rust+WASM dual 4×128 MLP value+policy NN + MCTS + bitboard solver + genetic tuning — most sophisticated project), tristan852/kite (Java bitboard solver + TT + skill levels); arXiv zero results; VERIFIED claims reached 50%; No ranking changes |
+| 8 | 2026-08-02 | Hybrid NN + Search | High | Three new fully-analyzed repos: connectpuct (PUCT benchmark 11/20 vs minimax depth 3), rowspire (dual 4×128 MLP value+policy, bitboard solver, WASM, genetic tuning, 4000 sims), kite (Java bitboard solver); arXiv zero results; VERIFIED claims reached 50%; No ranking changes but rowspire is strongest individual project analyzed |
 
 ---
 
@@ -158,3 +160,5 @@ This conclusion should be updated when:
 - [x] After open-source bots research (ITERATION 4 - open-source-bots-iteration4.md created)
 - [x] After advanced search research (ITERATION 4 - advanced-search-iteration4.md created)
 - [x] After game-phase strategy, endgame DBs, benchmarks, eval, NN vs search (ITERATION 5 - iteration-5-findings.md created)
+- [x] After GoodCoder666/katac4 analysis and Wikipedia solved game verification (ITERATION 7 - round-007.md created)
+- [x] After PUCT MCTS benchmark, rowspire neural MCTS + bitboard solver, Java solver analysis (ITERATION 8 - round-008.md created)

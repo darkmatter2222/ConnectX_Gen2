@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 7 (2026-08-02)
+> **Current Round**: 8 (2026-08-02)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -29,6 +29,7 @@
 | `iterations/round-005.md` | 5 | 2026-08-02 | Game-phase, endgame, benchmarks, eval |
 | `iterations/round-006.md` | 6 | 2026-08-02 | This round |
 | `iterations/round-007.md` | 7 | 2026-08-02 | GoodCoder666/katac4 (KataGo-inspired AlphaZero) fully analyzed; Wikipedia confirms solved game |
+| `iterations/round-008.md` | 8 | 2026-08-02 | PUCT MCTS benchmark (11/20 vs minimax); rowspire neural MCTS + bitboard solver (Rust+WASM); Java bitboard solver |
 
 ## Legacy Documents (evidence, preserved)
 

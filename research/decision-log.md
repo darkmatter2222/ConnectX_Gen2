@@ -17,6 +17,8 @@
 | Evaluation strategy | 5 | Manual weights (80% optimal) then NN fine-tuning | Manual tuning achieves 80% of optimal | NN-only learning from scratch | Yes — can switch to NN-only |
 | WebSearch abandonment | 5 | Switch to WebFetch only | WebSearch API error 400 confirmed across all agents | Continue attempting WebSearch | Yes — can retry WebSearch in future |
 | Source verification standard | 6 | All internal-knowledge repos must be verified via WebFetch | S007 (BitBully), S008 (mra1991) URLs returned 404 | Continue citing unverified sources | Yes — if URLs are found |
+| GitHub topics sort method | 8 | Sort by `updated` (descending) instead of `stars` | connectpuct, rowspire, kite all newly discovered via sorted-by-update scan | Sort by stars | Yes — stars may surface different repos |
+| arXiv as Böck source | 8 | arXiv yields zero results for "Connect Four solved" — try ICAPS, JOCIG, Google Scholar | arXiv search returned 0 results | Only use arXiv | Yes — arXiv is not the only venue |
 
 ---
 

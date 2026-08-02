@@ -98,6 +98,11 @@
 | C040 | Training on randomized 9×9 to 12×12 boards with self-play produces a generalized Connect 4 player | VERIFIED | S026 | Moderate | Multi-board strategy | Round 7 | Round 7 | MEDIUM | High — directly relevant to Kaggle multi-board scoring |
 | C041 | 6-channel board representation (player, opponent, valid moves, open territories, last moves) provides rich positional features | VERIFIED | S026 | Moderate | Board representation | Round 7 | Round 7 | MEDIUM | Moderate — richer than 3-channel or 4-channel approaches |
 | C042 | AlphaZero for Connect 4 can achieve measurable ELO ratings through self-play and tournament testing | VERIFIED | S026 | Moderate | Performance measurement | Round 7 | Round 7 | MEDIUM | Moderate — ELO-based evaluation is concrete |
+| C043 | PUCT MCTS with tactical priors (center control, immediate wins, blocks) achieves 11/20 wins in 20 games vs minimax depth 3 | VERIFIED | S029 | Moderate | PUCT tuning, benchmark methodology | Round 8 | Round 8 | MEDIUM | High — first empirical PUCT benchmark on Connect 4 |
+| C044 | Neural MCTS with separate value + policy networks (4×128 MLP with skip connections) is a viable approach for Connect 4 | VERIFIED | S030 | Moderate | NN architecture, MCTS integration | Round 8 | Round 8 | HIGH | High — most concrete neural architecture yet for Connect 4 |
+| C045 | Java bitboard solver with transposition caching and configurable skill levels is viable for Connect 4 | VERIFIED | S031 | Moderate | Classical search, board representation | Round 8 | Round 8 | MEDIUM | Moderate — adds to classical search evidence pool |
+| C046 | 4-layer 128-unit MLP with skip connections and 100-dimensional input is a viable neural architecture for Connect 4 | VERIFIED | S030 | Moderate | NN design, feature engineering | Round 8 | Round 8 | HIGH | High — 100D input (98 cells + 16 features) is the richest representation yet |
+| C047 | Dirichlet root noise (75% prior + 25% random) is a viable MCTS exploration strategy for Connect 4 | VERIFIED | S030 | Moderate | MCTS tuning | Round 8 | Round 8 | MEDIUM | Moderate — connects to prior MCTS tuning evidence |
 
 ---
 
@@ -129,12 +134,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 18 (C020-C025, C031-C042) | 43% |
-| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 29% |
+| VERIFIED | 23 (C020-C025, C031-C047) | 50% |
+| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 26% |
 | STRONGLY SUPPORTED | 1 (C016) | 2% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 14% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 13% |
 | UNKNOWN | 3 (C002-C004) | 7% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 43% of material claims are VERIFIED (up from 35% in R6, driven by R6's GitHub discovery + R7's GoodCoder666/katac4 + Wikipedia). 29% are SUPPORTED (C001 and C005 upgraded from UNKNOWN to SUPPORTED via Wikipedia). 7% are UNKNOWN (only Böck database specifics remain — C002-C004). 14% are HYPOTHESIS (training/performance). Round 7 significantly upgraded the solved-game claim from UNKNOWN to SUPPORTED via Wikipedia. The unknown count dropped from 13% to 7%.
+**Key observation**: 50% of material claims are VERIFIED (up from 43% in R7, driven by R8's three fully-analyzed repos: connectpuct, rowspire, kite). 26% are SUPPORTED. 7% are UNKNOWN (only Böck database specifics remain — C002-C004). 13% are HYPOTHESIS (training/performance). The VERIFIED count reached exactly 50% for the first time. Round 8 added 5 new VERIFIED claims (C043–C047) from PUCT benchmarking and neural MCTS architecture analysis.

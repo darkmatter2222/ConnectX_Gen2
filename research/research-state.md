@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 7
+> **Current Round**: 8
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 6 (2026-08-02)
+> **Previous Round**: 7 (2026-08-02)
 > **Status**: Active — deep research phase
 
 ---
@@ -18,6 +18,7 @@
 | 5 | 2026-08-02 | Complete | Game-phase strategy, endgame DBs, benchmarks, eval |
 | 6 | 2026-08-02 | Complete | GitHub topics discovery, AlphaZero analysis, bitboard agent catalog; canonical files created |
 | 7 | 2026-08-02 | Complete | GoodCoder666/katac4 (18★) KataGo-inspired AlphaZero fully analyzed; Wikipedia confirms solved game; C001/C005 upgraded to SUPPORTED; 3 new sources (S026-S028) |
+| 8 | 2026-08-02 | Complete | 3 new repos via sorted GitHub topics: connectpuct (PUCT benchmark 11/20), rowspire (neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zero results; 5 new claims (C043-C047); 3 new sources (S029-S031) |
 
 ---
 
@@ -85,8 +86,9 @@ Combined with game-phase strategy:
 
 ## Next Round Focus Areas
 
-1. Find the Böck database paper (arXiv, Google Scholar via WebFetch)
-2. Research KataGo itself — the upstream engine that katac4 adapts
-3. Find Kaggle ConnectX notebooks via direct URL patterns (page is 404)
-4. Try Kaggle API for leaderboard data
-5. Research Connect 4 evaluation function literature (sebadorn project uses MLP/RBF/PCN/decision trees)
+1. Find the Böck database paper (ICAPS, JOCIG, Google Scholar via WebFetch — arXiv yields zero)
+2. Research KataGo upstream engine — what techniques does katac4 port from the original?
+3. rowspire neural network training methodology — how were weights trained? (currently random)
+4. PUCT c_puct sensitivity analysis — 1.0 vs 1.4 vs 1.41 across different board sizes
+5. Research Connect 4 opening theory — what are the strongest openings beyond center-column?
+6. Find Kaggle ConnectX notebooks via direct URL patterns (page is 404)

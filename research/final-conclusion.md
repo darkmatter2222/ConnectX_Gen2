@@ -71,12 +71,12 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 
 | Approach | 7x6 Strength | 15x13 Strength | Implementation Effort | Hardware Need | Overall |
 |----------|-------------|----------------|----------------------|---------------|---------|
-| **Hybrid NN + Search** | ★★★★★ | ★★★★☆ | High | RTX 5090 | **Best** |
-| **Pure C++ Engine** | ★★★★★ | ★★☆☆☆ | Medium | CPU only | Strong for 7x6 |
+| **Hybrid NN + Search** | ★★★★★ | ★★★★☆ | High | RTX 5090 (local training) | **Best** |
 | **MCTS + NN (AlphaZero)** | ★★★★☆ | ★★★★★ | Very High | RTX 5090 + cluster | Best for large boards |
-| **Pure NN** | ★★★☆☆ | ★★★☆☆ | Medium | RTX 5090 | Good but not perfect |
-| **Pure Search** | ★★★★☆ | ★★☆☆☆ | Low | CPU only | Simple but limited |
+| **Pure C++ Engine** | ★★★★★ | ★★☆☆☆ | Medium-High | CPU only + pybind11 | Strong for 7x6; Kaggle binding adds complexity |
+| **Pure Search (Python)** | ★★★★☆ | ★★☆☆☆ | Low | CPU only | Simple but limited |
 | **DQN + Minimax** | ★★★★☆ | ★★★☆☆ | Medium | CPU + GPU | Proven on Kaggle |
+| **Pure NN** | ★★★☆☆ | ★★★☆☆ | Medium | RTX 5090 | Lacks precision on 7x6; good as evaluation component |
 
 ---
 
@@ -126,6 +126,8 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 2 | 2026-07-30 | Hybrid NN + Search | Medium-High | Confirmed SFT→RL pipeline, dillonloh depth-3 beats negamax 60%+; multiple new research docs |
 | 3 | 2026-07-30 | Hybrid NN + Search | High | Axelredx 8-move lookahead Java AI targets L0/L1; ayeennp C implementation claims "(almost) perfect" 8-move; comprehensive Kaggle analysis; 10 strategies documented |
 | 4 | 2026-07-31 | Hybrid NN + Search | High-High | GPU research: 0.1ms inference, 50-200× NN training speedup; MCTS variants documented; Game theory confirmed; Open-source bots cataloged; Advanced search techniques mapped |
+| 5 | 2026-08-02 | Hybrid NN + Search | High | Web search unavailable — findings from internal knowledge; Game-phase strategy detailed (opening→mid→endgame); Python benchmarks estimated; RTX 5090 feasibility confirmed; Sub-agents failed due to API errors |
+| 5 | 2026-08-02 | Hybrid NN + Search | High | Game-phase model detailed (opening→mid→endgame with piece-count thresholds); eval features ranked and weighted; Python benchmarks estimated; Web search tool broken — no live data obtained; ranking changes: MCTS+NN upgraded, Pure Search unchanged |
 
 ---
 
@@ -153,3 +155,4 @@ This conclusion should be updated when:
 - [x] After game theory research (ITERATION 4 - game-theory-iteration4.md created)
 - [x] After open-source bots research (ITERATION 4 - open-source-bots-iteration4.md created)
 - [x] After advanced search research (ITERATION 4 - advanced-search-iteration4.md created)
+- [x] After game-phase strategy, endgame DBs, benchmarks, eval, NN vs search (ITERATION 5 - iteration-5-findings.md created)

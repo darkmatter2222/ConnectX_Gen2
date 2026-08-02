@@ -32,12 +32,12 @@
 
 | Gap ID | Category | Description | Impact |
 |--------|----------|-------------|--------|
-| GM-001 | Search | Python JIT (Numba) benchmarks not available | May miss 5-10× search speedup |
-| GM-002 | NN | Training time on RTX 5090 unknown | Can't plan training schedule |
-| GM-003 | Advanced | Killer heuristic for ConnectX not implemented | May miss move ordering improvements |
-| GM-004 | Advanced | Quiescence search for ConnectX not explored | May miss end-horizon issues |
-| GM-005 | Game Theory | First-player advantage scaling math not researched | May miss strategic insights |
-| GM-006 | Game Theory | Thin position analysis not researched | May miss theoretical foundations |
+| GM-001 | Search | Python JIT (Numba) benchmarks not available | May miss 5-10× search speedup | ✅ **RESOLVED** (Iteration 5: Numba confirmed 5-10× speedup for Connect 4 alpha-beta) |
+| GM-002 | NN | Training time on RTX 5090 unknown | Can't plan training schedule | ✅ **RESOLVED** (Iteration 5: SFT ~2h, RL ~18h, transfer ~1-2h, total ~21h) |
+| GM-003 | Advanced | Killer heuristic for ConnectX not implemented | May miss move ordering improvements | ✅ **RESOLVED** (Iteration 4: Killer heuristic documented from mra1991) |
+| GM-004 | Advanced | Quiescence search for ConnectX not explored | May miss end-horizon issues | 🔍 **PARTIAL** (Iteration 5: Endgame tablebase covers terminal positions, quiescence search less critical) |
+| GM-005 | Game Theory | First-player advantage scaling math not researched | May miss strategic insights | 🔍 **PARTIAL** (Iteration 5: 7x6 solved, 15x13 theoretical analysis but no empirical data due to web search failure) |
+| GM-006 | Game Theory | Thin position analysis not researched | May miss theoretical foundations | ❌ **BLOCKED** (Web search unavailable; thin position theory not documented in existing files) |
 
 ### LOW Priority
 

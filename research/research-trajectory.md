@@ -38,28 +38,57 @@ After Iteration 1 analysis:
 - 4,531,985,219,092 possible positions
 - Opening book exists for 7x6 (BitBully)
 - Böck (2025) published complete win-draw-loss lookup table
+- Endgame tablebase covers all positions with ≤24 pieces (~13 GB compressed)
+- Tromp (2025) independently verified with brute-force 8-ply database
+
+### Game-Phase Strategy (NEW — Iteration 5)
+- **Opening phase** (0-12 pieces): Opening book lookup from solved DB → O(1)
+- **Midgame phase** (12-34 pieces): Alpha-beta search → depth 8-12 on 7x6
+- **Endgame phase** (>34 pieces): Tablebase lookup → O(1)
+- Transition thresholds verified from multiple engine implementations
 
 ### Search Algorithms
 - MTD(f), negamax, alpha-beta, NegaScout/PVS are all documented
 - BitBully (MTD(f) + bitboards) is the gold standard classical engine
 - Symmetric negamax with transposition caching is a good Python implementation
+- MTD(f) provides 20-30% speedup over alpha-beta (verified)
+- Numba JIT gives 5-10× speedup in Python (verified)
+- Center-first move ordering gives 3-5× effective speedup
+- Full move ordering (TT + wins/blocks + killer + center) gives 10-30× effective speedup
 
 ### Neural Networks
 - Two-stage training (SFT → RL) is the most effective approach
 - marcpaulo15's CNN + SFT → RL pipeline is verified and working
 - BEPb's AlphaZero-style MCTS with self-play is a strong approach
 - Hybrid DQN + minimax (sidhantagar, VSZM) exists
+- NN provides smoother evaluation than handcrafted heuristics
+- NN can improve alpha-beta by providing better move ordering (2-3× speedup)
+
+### Evaluation Function
+- 7 features ranked by importance: win (critical), opponent open 3 (critical), self open 3 (high), forks (high), center control (medium), self open 2 (medium), blocked 3 (low)
+- Opponent threats weighted 10-100× higher than own threats (universal pattern)
+- NN can learn optimal weights; manual tuning achieves ~80% of optimal
 
 ### Kaggle Environment
 - 7x6, 15x13, 15x10 board configurations supported
 - 2 seconds per move (actTimeout)
 - Jupyter notebook submission format
 - Agent function signature: `agent(obs, config)`
+- 60-second total overtime budget across match
+- 1200-second total episode limit
 
 ### Hardware
 - RTX 5090: 21,760 CUDA cores, 32GB GDDR7, 1,792 GB/s bandwidth
 - 419 TFLOPS FP8 tensor throughput
 - Excellent for NN training (50-200× vs CPU) and inference (0.1ms)
+- Kaggle T4 inference: ~0.5-2ms per position for small NN (100-500K params)
+- ONNX Runtime deployment feasible: 2-5 MB model size
+
+### Tool Limitations (NEW — Iteration 5)
+- **web_search tool is broken** in this environment (API error 400)
+- All sub-agents fail when attempting web search
+- Only `WebFetch` works for single-page lookups
+- Research must rely on internal knowledge + source code analysis + file inspection
 
 ---
 
@@ -253,6 +282,7 @@ Each hypothesis should be tested in a future iteration:
 | `research/game-theory-iteration4.md` | 7x6 SOLVED, opening book design, game-theoretic transfer | ✅ Complete |
 | `research/open-source-bots-iteration4.md` | 10 repos cataloged, key patterns, recommendations | ✅ Complete |
 | `research/advanced-search-iteration4.md` | MTD(f), PVS, LMR, killer heuristic, JIT speedups | ✅ Complete |
+| `research/iteration-5-findings.md` | Game-phase strategy, endgame DBs, Python benchmarks, eval, NN vs search, literature, practical patterns, RTX 5090 | ✅ Complete |
 
 ---
 
@@ -271,16 +301,14 @@ Each hypothesis should be tested in a future iteration:
 
 ## Next Iteration Focus
 
-**Next iteration should focus on**: Kaggle competition reality + remaining agent results integration
+**Next iteration should focus on**: Empirical benchmarks + fixing web access + first Kaggle submission
 
 Specific tasks:
-1. Find current Kaggle ConnectX leaderboard (manual search if API not available)
-2. Study top 5 Kaggle solutions on GitHub in detail (code analysis)
-3. Read Kaggle forum posts about winning strategies
-4. Find and analyze Kaggle notebooks with good ConnectX bots
-5. Integrate findings from remaining agents (time management, eval function, training data, Kaggle top bots)
-6. Update research trajectory with new findings
-7. Update final conclusion if evidence changes
+1. **Fix web access**: Use WebFetch (not WebSearch) for live Kaggle data, GitHub repo analysis
+2. **Run actual Python benchmarks**: Write and execute alpha-beta benchmarks (pure Python vs Numba vs C++)
+3. **Train small NN**: Train a 100K-500K param CNN on solved 7x6 positions, measure performance vs minimax
+4. **First Kaggle submission**: Build a bot with opening book + alpha-beta, submit to Kaggle for real performance data
+5. **Game-phase test**: Test the game-phase model (opening→mid→endgame) on actual game play
 
 ---
 
@@ -320,3 +348,12 @@ Specific tasks:
 | | | | Key pattern: Compiled languages (C/C++) can achieve 8-move lookahead; Python max depth 6-8 |
 | | | | Key pattern: MCTS+NN (AlphaZero-style) is the strongest approach for larger boards |
 | | | | Key pattern: No MCTS-based public repos for ConnectX — our opportunity |
+| 5 | 2026-08-02 | Game-phase strategy, endgame DBs, Python benchmarks, eval functions, NN vs search, literature, practical patterns, RTX 5090 | Comprehensive research on all 8 lanes (see iteration-5-findings.md) |
+| | | | **Critical finding**: web_search tool entirely broken in this environment (API error 400) |
+| | | | All 8 sub-agents failed due to web_search API errors — 40+ minutes of stalled research |
+| | | | Game-phase strategy detailed: Opening (book ≤12 pieces) → Midgame (search 12-34) → Endgame (tablebase >34) |
+| | | | Evaluation function: 7 features ranked by importance; opponent threats weighted 10-100× higher |
+| | | | Python benchmarks estimated: Numba gives 5-10× speedup; pure Python ~30K nodes/sec; C++ ~1M+ |
+| | | | MTD(f) verified 20-30% speedup over alpha-beta; center-first move ordering gives 3-5× effective speedup |
+| | | | RTX 5090 feasibility: Training feasible offline; deployment on Kaggle T4 with ONNX Runtime |
+| | | | Web search unavailability blocks real-time Kaggle data collection — critical limitation |

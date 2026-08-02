@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 10 (2026-08-02)
+> **Current Round**: 11 (2026-08-02)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -32,6 +32,7 @@
 | `iterations/round-008.md` | 8 | 2026-08-02 | PUCT MCTS benchmark (11/20 vs minimax); rowspire neural MCTS + bitboard solver (Rust+WASM); Java bitboard solver |
 | `iterations/round-009.md` | 9 | 2026-08-02 | Tromp Fhourstones benchmark (20 systems, KPOS/S); Tromp 8x8 solver (book88 ≤16 ply); katac4 full training pipeline; katac4 ResNet KataGo techniques; alpha-beta+MCTS hybrid; VERIFIED 55% |
 | `iterations/round-010.md` | 10 | 2026-08-02 | rowspire FULL source decoded (14 files): 4×128 MLP, dual value+policy, 100D input, 7-feature eval, UCB1 MCTS; eSlams framework; kenrick95/c4; Wikipedia opening theory; VERIFIED 60% |
+| `iterations/round-011.md` | 11 | 2026-08-02 | Pascal Pons C++ solver fully decoded (negamax+PVS+TT+book); TonyCWang 958M-row training dataset (board-state, exact solver targets); Hugging Face LLM catalog (11+ models); evidence audit (17 fixes: duplicates, stale headers); Supervised Pre-training + Search approach added; VERIFIED 60%→66% |
 
 ## Legacy Documents (evidence, preserved)
 

@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 10
+> **Current Round**: 11
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 9 (2026-08-02)
+> **Previous Round**: 10 (2026-08-02)
 > **Status**: Active — deep research phase
 
 ---
@@ -21,6 +21,7 @@
 | 8 | 2026-08-02 | Complete | 3 new repos via sorted GitHub topics: connectpuct (PUCT benchmark 11/20), rowspire (neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zero results; 5 new claims (C043-C047); 3 new sources (S029-S031) |
 | 9 | 2026-08-02 | Complete | Tromp Fhourstones benchmark (20 systems, KPOS/S, Gprof profiling); Tromp 8x8 solver (book88, ≤16 ply); haithameleuch alpha-beta+MCTS hybrid; katac4 training pipeline fully decoded (self-play workers, 3 loss terms, 30K epochs); VERIFIED claims 50%→55%; 7 new sources (S032-S038); 6 new claims (C048-C053); ICAPS/JOCIG/Google Scholar all unworkable |
 | 10 | 2026-08-02 | Complete | rowspire FULL source decoded (14 files): 4×128 MLP + skip connections (dual value+policy), 100D input (64-cell binary + 16 normalized features), 7-feature evaluation with genetic tuning, UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 64-bit bitboard; training OPAQUE; eSlams evaluation framework discovered (50 arenas, REST protocol, Ed25519 proof); kenrick95/c4 (278★) cataloged; Wikipedia opening theory confirmed; VERIFIED claims 55%→60%; 3 new sources (S039-S041) |
+| 11 | 2026-08-02 | Complete | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+book; iterative binary search); TonyCWang/ConnectFour dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors, exact solver evaluations); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking metrics); evidence audit (17 structural issues fixed: duplicate sections, duplicate sources, stale headers); GitHub API unreachable (TLS/schannel error); VERIFIED claims 60%→66%; 9 new claims (C060-C068); 8 new sources (S042-S049) |
 
 ---
 
@@ -78,6 +79,9 @@ Combined with game-phase strategy:
 | GH-007 | rowspire training algorithm | HIGH | ❌ STILL UNKNOWN — npm run train is opaque; no training code in GitHub repo |
 | GH-008 | rowspire genetic tuning weights | MODERATE | ⏳ UNKNOWN — weights loaded externally; not in source code |
 | GH-009 | rowspire resources/ directory | MODERATE | ⏳ PENDING — may contain pre-trained weights |
+| GH-010 | TonyCWang dataset training pipeline | MODERATE | 🔍 PARTIAL — 958M rows generated via Pascal Pons solver self-play with temperature; but exact temperature schedule and self-play agent configuration undocumented |
+| GH-011 | GitHub API access | HIGH | ❌ NEW IN R11 — GitHub API (api.github.com) now unreachable via curl and WebFetch (TLS/schannel certificate errors); same network restriction that blocked R10 raw.githubusercontent.com fetches |
+| GH-012 | LLM-based Connect 4 model evaluation | LOW | 🔍 PARTIAL — 11+ models on Hugging Face; all lack evaluation metrics; no evidence of competitive viability; text-based approach theoretically inferior to board-state for ConnectX |
 
 ---
 
@@ -91,11 +95,10 @@ Combined with game-phase strategy:
 
 ## Next Round Focus Areas
 
-1. **rowspire training algorithm** — `npm run train` is opaque; no training code in repo. Try npm registry, Docker images, or infer from weight structure.
-2. **rowspire genetic tuning weights** — the actual weight values are loaded from an external source, not in repo. Try resources/ directory, npm package, or Docker container.
-3. **rowspire resources/** — README mentions a `resources/` directory that may contain pre-trained weights or config files.
-4. **eSlams deep-dive** — understand the Connect Four arena implementation to see if it can be used for local bot evaluation.
-5. **New GitHub topics scan** — `connect-four-ai`, `mcts`, `alpha-zero`, `minimax`, `negamax`, `connect-four-engine` topic scans for new repos.
-6. **rowspire evaluation weights** — the genetic-tuned weight values are not in source code. Could be in JSON config, binary file, or generated at runtime.
-7. **James Dow Allen's "The Complete Book of Connect Four"** — 403 Forbidden on fabpedigree.com; try alternative sources.
-8. **ICAPS/JOCIG fallback** — try Semantic Scholar, DBLP, or DOI lookups for Böck database paper.
+1. **TonyCWang dataset training details** — The self-play temperature schedule, agent configuration, and position sampling method are undocumented. Try fetching more dataset card details or contacting dataset author.
+2. **Pascal Pons blog.gamesolver.org tutorial** — The step-by-step tutorial referenced in Pascal Pons' README is unreachable (SSL cert mismatch). Try alternative URLs or cached versions.
+3. **rowspire training algorithm** — Still opaque. `npm run train` is un-publish code. No new leads discovered in R11.
+4. **rowspire genetic tuning weights** — Still loaded externally, not in repo.
+5. **LLM-based Connect 4 model evaluation** — 11+ models on Hugging Face with zero metrics. Could try inference on sample models to measure move-prediction accuracy.
+6. **GitHub API accessibility** — GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
+7. **S005/S006 Kaggle ConnectX spec internal paths** — Consider adding GitHub API links as web-accessible fallback URLs.

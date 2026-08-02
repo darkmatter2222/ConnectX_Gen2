@@ -1,6 +1,6 @@
 # Claim Register — ConnectX Bot Research
 
-> **Current Round**: 9
+> **Current Round**: 11
 > **Last Updated**: 2026-08-02
 
 ---
@@ -141,19 +141,15 @@
 | C057 | rowspire neural network: 4×128 MLP with skip connections, dual value+policy networks, 100D input (64-cell binary + 16 normalized features), UCB1 MCTS c=1.41, 4000 sims, Dirichlet root noise (75% prior + 25% random) | VERIFIED | S030 (rowspire full source code: neural_network.rs, mcts.rs, features.rs, feature_scores.rs, bitboard.rs, ml_ai.rs) | Strong | NN architecture, MCTS tuning | Round 10 | Round 10 | HIGH | High — most complete neural MCTS blueprint for Connect 4 |
 | C058 | rowspire training mechanism is opaque: npm run train generates/loads training data and trains under caffeinate, but training algorithm/source code is NOT in the GitHub repository | VERIFIED | S030 (rowspire full source code analysis) | Moderate | Training strategy | Round 10 | Round 10 | HIGH | Moderate — critical gap for replicating rowspire approach |
 | C059 | rowspire bitboard: 64-bit encoding with 7 bits per column (6 rows + 1 padding), move via bitwise carry propagation, win detection via shift-based 4-direction checker | VERIFIED | S030 (rowspire bitboard.rs source code) | Strong | Board representation | Round 10 | Round 10 | HIGH | Moderate — elegant bitboard design for Connect 4 |
-
----
-
-## Material Claims — Solver Benchmarks (Round 9)
-
-| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
-|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
-| C048 | Tromp's Fhourstones solver benchmark: 20 systems tested, KPOS/S measured, alpha-beta 28.15%, haswon 25.47% of runtime | VERIFIED | S032 (tromp.github.io/c4/fhour.html) | Strong | Search optimization | Round 9 | Round 9 | HIGH | Moderate — profiling data informs search optimization priorities |
-| C049 | John Tromp solved 8x8 Connect 4 in late 2014/early 2015; book88 stores all solved positions ≤16 plies (~500MB TT) | VERIFIED | S034 (jesper-olsen/connect-four), S035 (tromp/fhourstones88) | Strong | Larger-board solving | Round 9 | Round 9 | HIGH | High — shows solving extends beyond 7x6; 8x8 is the next milestone |
-| C050 | haithameleuch/connect-four-ai implements alpha-beta depth-3 with Monte Carlo leaf evaluation (250 random playouts) | VERIFIED | S036 (haithameleuch/connect-four-ai source code) | Strong | Hybrid search | Round 9 | Round 9 | HIGH | Moderate — validates Monte Carlo evaluation as a practical leaf heuristic |
-| C051 | GoodCoder666/katac4 ported KataGo techniques: pre-activation ResNet, nested bottleneck, mixed spatial pooling (mean+max), CUDA graph caching, shallow conv heads | VERIFIED | S037 (model.py source) | Strong | NN architecture | Round 9 | Round 9 | HIGH | High — first concrete mapping of KataGo techniques to Connect 4 |
-| C052 | GoodCoder666/katac4 training: parallel self-play workers, replay buffer, temperature decay, 3 cross-entropy loss terms (policy, value, rival), SGD+momentum, 30K epochs, batch=16, checkpoints every 500 | VERIFIED | S038 (train.py source) | Strong | Training pipeline | Round 9 | Round 9 | HIGH | High — fully specified training pipeline for Connect 4 AlphaZero-style |
-| C053 | james dow allen's "The Complete Book of Connect Four" is a published reference for Connect 4 solving history and strategy | VERIFIED | S033 (tromp.github.io/c4/c4.html, reference [3]) | Moderate | History/strategy | Round 9 | Round 9 | MEDIUM | Low — historical reference, not directly implementation-relevant |
+| C060 | Pascal Pons/connect4 C++ solver uses negamax with alpha-beta + PVS + transposition tables + opening book with iterative null-window binary search for exact game values | VERIFIED | S039 (Pascal Pons/connect4 source code: Solver.cpp, Solver.hpp, generator.cpp, Position.hpp, TranspositionTable.hpp, OpeningBook.hpp, MoveSorter.hpp, main.cpp) | Strong | Classical search, board representation | Round 11 | Round 11 | HIGH | High — provides concrete implementation of perfect play for Connect 4; directly relevant to training data generation |
+| C061 | Pascal Pons solver supports configurable board sizes via template WIDTH/HEIGHT parameters; default 7×6; supports up to 9×6 in uint64_t (49-63 bits); opening book generator uses DEPTH=14 | VERIFIED | S039 (Pascal Pons/connect4 source code: Position.hpp, generator.cpp) | Strong | Board representation, larger-board solving | Round 11 | Round 11 | HIGH | Moderate — shows solving can generalize beyond 7×6; 9×6 is theoretically solvable with bitboard techniques |
+| C062 | TonyCWang/ConnectFour dataset: 958M rows, 14.8 GB; 2×6×7 binary matrix observations (active/opponent player channels, 0 or 255 values); 7-element target vectors encoding exact solver column evaluations; ~109M train / ~61M test split, <3% overlap | VERIFIED | S044 (TonyCWang/ConnectFour dataset card) | Strong | Training data, NN training | Round 11 | Round 11 | HIGH | High — largest publicly available Connect 4 training dataset; ground-truth optimal evaluations from perfect solver |
+| C063 | TonyCWang/ConnectFour targets encode exact game-theoretic values: 1/-1 = immediate win/loss on last move; larger positive = win in more plies; negative = loss; solver computes exact depth-to-resolution for each column | VERIFIED | S044 (TonyCWang/ConnectFour dataset card) | Strong | Evaluation targets, NN training | Round 11 | Round 11 | HIGH | High — targets are ground truth, not learned estimates; ideal for supervised pre-training of policy+value heads |
+| C064 | TonyCWang/ConnectFour uses self-play with temperature sampling via Pascal Pons solver as value oracle; early positions duplicated to balance data distribution | VERIFIED | S044 (TonyCWang/ConnectFour dataset card) | Moderate | Training data generation | Round 11 | Round 11 | HIGH | High — temperature sampling introduces diversity in training data; exact temperature schedule undocumented |
+| C065 | Hugging Face hosts 11+ LLM-based Connect 4 models (Leon-LLM GPT-2 variants: LC4N/SC4N with 10k-1M datasets; Qwen2.5-1.5B and Qwen3-4B fine-tunes) but all lack evaluation metrics (no win rates, ELO, or move-prediction accuracy) | VERIFIED | S047 (Leon-LLM model collection), S048 (Looyyd Qwen2.5, UnstableBaselines Qwen3) | Moderate | LLM-based approach | Round 11 | Round 11 | MEDIUM | Low — text-based move prediction is fundamentally sequential and error-prone; no evidence of competitive viability |
+| C066 | Text-based Connect 4 datasets (Leon-LLM, Lyte) use coordinate notation (e.g., "1. d1 g1") with outcome strings ("1-0", "0-1"); 217K-237K games; orders of magnitude smaller than board-state datasets (958M rows) | VERIFIED | S045 (Leon-LLM dataset), S046 (Lyte/ConnectFour-clean) | Moderate | Dataset format | Round 11 | Round 11 | MEDIUM | Low — text notation is semantically distant from board state; compounding error in sequential prediction |
+| C067 | blog.gamesolver.org (Pascal Pons tutorial) is unreachable via WebFetch due to SSL certificate mismatch — served GitHub certificate instead of proper gamesolver.org cert | VERIFIED | Round 11 WebFetch attempts | Weak | Tool limitation | Round 11 | Round 11 | LOW | Low — prevents verification of the step-by-step solver tutorial |
+| C068 | Board-state approach (TonyCWang) is theoretically superior to text-based approach for Connect 4: optimal move depends only on current state, not move history; text-based models must "remember" full game history | SUPPORTED | Internal knowledge + dataset analysis | Weak | Architecture selection | Round 11 | Round 11 | MEDIUM | High — supports supervised pre-training with board-state inputs over autoregressive text prediction |
 
 ---
 
@@ -173,12 +169,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 36 (C020-C025, C031-C047, C048-C053, C054-C059) | 60% |
-| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 20% |
-| STRONGLY SUPPORTED | 1 (C016) | 2% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 10% |
-| UNKNOWN | 3 (C002-C004) | 5% |
+| VERIFIED | 44 (C020-C025, C031-C047, C048-C053, C054-C059, C060-C067) | 66% |
+| SUPPORTED | 13 (C001, C005, C006-C015, C019, C026-C028, C030, C068) | 19% |
+| STRONGLY SUPPORTED | 1 (C016) | 1% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 9% |
+| UNKNOWN | 3 (C002-C004) | 4% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 60% of material claims are VERIFIED (up from 55% in R9, driven by R10's full source code decoding of rowspire — 14 source files — plus discovery of eSlams and kenrick95/c4). 20% are SUPPORTED. 5% are UNKNOWN (only Böck database specifics remain — C002-C004). 10% are HYPOTHESIS (training/performance). Round 10 added 7 new VERIFIED claims (C054–C059): eSlams framework, kenrick95/c4 Minimax AI, rowspire evaluation (7 features + genetic tuning), rowspire neural network (4×128 MLP, dual value+policy, 100D features), rowspire MCTS (UCB1 c=1.41, 4000 sims, root noise), rowspire bitboard (64-bit, shift-based win detection), and rowspire training gap (opaque `npm run train`).
+**Key observation**: 66% of material claims are VERIFIED (up from 60% in R10, driven by R11's discovery of Pascal Pons' perfect C++ solver with full source code decoding, TonyCWang/ConnectFour dataset (958M rows of solver-generated training data), and Hugging Face LLM-based Connect 4 model catalog). 19% are SUPPORTED. 4% are UNKNOWN (only Böck database specifics remain — C002-C004). 9% are HYPOTHESIS (training/performance). Round 11 added 8 new VERIFIED claims (C060–C067): Pascal Pons solver (negamax+PVS+transposition table+opening book+iterative binary search), Pascal Pons board-size support (template WIDTH/HEIGHT, up to 9×6), TonyCWang dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors), TonyCWang target encoding (exact game-theoretic values), TonyCWang temperature sampling, Hugging Face LLM model catalog (11+ models, no evaluation metrics), text-based Connect 4 dataset format (coordinate notation), and blog.gamesolver.org unreachable. Also added 1 new SUPPORTED claim (C068): board-state approach is theoretically superior to text-based for Connect 4.

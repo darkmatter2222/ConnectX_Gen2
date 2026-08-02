@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 9
+> **Current Round**: 11
 > **Last Updated**: 2026-08-02
 
 ---
@@ -51,12 +51,9 @@
 | S023 | darkmatter2222/ConnectX-RL-DQN (1★) | VERIFIED | WebFetch — DQN ConnectX submission |
 | S024 | ChristianMontecchiani/ConnectX_RL (0★) | VERIFIED | WebFetch — MCTS without NN |
 | S025 | psalarc/DQN-ConnectX-Agent (0★) | VERIFIED | WebFetch — DQN architecture study |
-| S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source code | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, ELO testing (300K games, 8 days on 4×RTX 4090), interactive explorer |
-| S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves |
-| S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration (MLP/RBF/PCN/DT/KMeans) |
-| S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, 16 parallel workers, 300K games ELO testing, 8 days on 4×RTX 4090 |
-| S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves |
-| S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration: MLP/RBF/PCN/decision tree comparison for Connect 4 |
+| S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source code | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, 16 parallel workers, 300K games ELO testing (8 days on 4×RTX 4090), interactive explorer |
+| S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves, infinite/connect4 variants |
+| S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration: MLP/RBF/PCN/decision tree/KMeans comparison for Connect 4 |
 | S029 | ahmeddoghri/connectpuct (0★) — PUCT MCTS for Connect 4 | VERIFIED + full source — Round 8 | PUCT MCTS with tactical priors, 11W/9L in 20 vs minimax d3 |
 | S030 | tre-systems/rowspire (0★) — Neural MCTS + bitboard solver in Rust+WASM | VERIFIED + full source — Round 8 | Dual 4×128 MLP value+policy, bitboard solver, WASM deployment, genetic tuning, 4000 sims |
 | S031 | tristan852/kite (2★) — Java bitboard Connect 4 solver | VERIFIED — Round 8 | Source tree: bitboard, TT, score cache, skill levels |
@@ -70,6 +67,13 @@
 | S039 | ElectronicSlams/eSlams (4★) — Open AI game evaluation framework; 50 arenas incl. Connect Four "standard" | VERIFIED — Round 10 | REST-based agent protocol (POST /act); Ed25519 proof archives; local CLI + server-side official eval; adapters for 5 AI providers (OpenAI, Anthropic, Gemini, OpenRouter, Bedrock)
 | S040 | kenrick95/c4 (278★) — Browser-based Connect 4 with Minimax+alpha-beta AI | VERIFIED — Round 10 | Minimax+alpha-beta opponent; hard-coded evaluation; TypeScript/HTML5 Canvas; 278★ (most-starred Connect 4 repo on GitHub)
 | S041 | tre-systems/rowspire — Full source code (14 Rust files): neural_network.rs, mcts.rs, ml_ai.rs, bitboard.rs, evaluation.rs, features.rs, feature_scores.rs, ml_network.rs, ml_tactics.rs, mcts_node.rs, mcts_policy.rs — Round 10 | VERIFIED + full source — Round 10 | 4×128 MLP with skip connections (dual value+policy), UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 100D input encoding (64-cell binary + 16 normalized features), 7-feature heuristic evaluation with genetic-tuned weights, 64-bit bitboard with carry-propagation move generation. Training algorithm opaque — npm run train invokes un-publish code.
+| S042 | Pascal Pons/connect4 — C++ Connect 4 solver (AGPL v3) — Round 11 | VERIFIED + full source — Round 11 | Negamax with alpha-beta + PVS + transposition tables + opening book. Iterative null-window binary search for exact game values. Board sizes via template WIDTH×HEIGHT, default 7×6. Supports up to 9×6 in uint64_t. blog.gamesolver.org tutorial referenced but unreachable (SSL cert mismatch — GitHub cert served instead). Opening book generator uses DEPTH=14.
+| S043 | connect4.gamesolver.org — Pascal Pons interactive Connect 4 solver page — Round 11 | VERIFIED — Round 11 | Alpha-beta engine with optimal play evaluation. Column ratings: positive = winning lines, negative = losing lines, absolute value = turns to resolution. Confirms solved game (Allen/Allis 1988). Step-by-step tutorial link to blog.gamesolver.org.
+| S044 | TonyCWang/ConnectFour — 958M-row supervised training dataset (14.8 GB) — Round 11 | VERIFIED + full dataset card — Round 11 | 2×6×7 binary matrix observations (active/opponent channels), 7-element target vectors (solver column evaluation). ~109M train / ~61M test split, <3% overlap. Self-play with temperature sampling via Pascal Pons solver as value oracle. MIT license. Parquet format.
+| S045 | Leon-LLM/Connect-Four-Datasets-Collection — 237K text-based Connect 4 game dataset — Round 11 | VERIFIED + dataset card — Round 11 | Move-by-move text notation (e.g., "1. d1 g1") with outcomes ("1-0", "0-1"). 11.1 MB, Parquet format. 195K train / 21.7K validation split. Coordinate-based encoding (column a-g, row 1-6).
+| S046 | Lyte/ConnectFour-clean — 217K text-based Connect 4 game dataset — Round 11 | VERIFIED + dataset card — Round 11 | Text notation with outcomes. 50.4 MB. Referenced by same github.zhaw.ch/connect4-llm project as Leon-LLM models.
+| S047 | Leon-LLM Connect 4 model collection (6 GPT-2 variants: 3 LC4N + 3 SC4N) — Round 11 | VERIFIED — Round 11 | Text-based GPT-2 models fine-tuned on Connect 4 game sequences. LC4N=Large, SC4N=Small, suffixes encode dataset size → seed → epochs. All models lack model cards and evaluation metrics.
+| S048 | Looyyd/connectfour-qwen2.5-1.5b-instruct — Qwen2.5 1.5B fine-tuned on Connect 4 — Round 11 | VERIFIED — Round 11 | 2B param SFT model via TRL library. No model card, no evaluation. PEFT/LoRA variant (Qwen3-4B) also exists (UnstableBaselines).
 
 ---
 

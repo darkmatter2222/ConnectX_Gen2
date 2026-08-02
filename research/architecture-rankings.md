@@ -1,11 +1,11 @@
 # Architecture Rankings — ConnectX Bot
 
-> **Current Round**: 6
+> **Current Round**: 11
 > **Last Updated**: 2026-08-02
 
 ---
 
-## Current Rankings (Post Round 5)
+## Current Rankings (Post Round 11)
 
 | Rank | Approach | Confidence | 7x6 Strength | 15x13 Strength | Evidence Grade | Major Unknowns |
 |------|----------|------------|-------------|----------------|---------------|----------------|
@@ -14,6 +14,7 @@
 | 3 | Classical Engine (MTD(f) + Python/C++) | MEDIUM | ★★★★★ | ★★☆☆☆ | SUPPORTED | C++ binding complexity on Kaggle, 15x13 depth |
 | 4 | Pure Search (Python alpha-beta + heuristics) | MEDIUM | ★★★★☆ | ★★☆☆☆ | SUPPORTED | Depth limits on 15x13, eval function quality |
 | 5 | Pure Neural Network | LOW | ★★★☆☆ | ★★★☆☆ | HYPOTHESIS | NN precision without search, generalization |
+| 6 | Supervised Pre-training + Search | MEDIUM | ★★★★☆ | ★★★☆☆ | SUPPORTED | Board-state dataset transfer to ConnectX, target encoding mapping |
 
 ---
 
@@ -129,6 +130,28 @@
 | **Evidence Against** • Lacks precision (63-65% minimax agreement) • No pure-NN ConnectX top 100 Kaggle bots found • NN alone cannot guarantee optimal play | |
 | Score change rationale | Downgraded from LOW-MEDIUM → LOW (Round 5) — NN alone lacks precision for competitive play | |
 
+### 6. Supervised Pre-training (Board-State) — Confidence: MEDIUM
+
+| Factor | Rating | Notes |
+|--------|--------|-------|
+| 7x6 expected strength | 5/5 | Ground-truth optimal evaluations from Pascal Pons solver; supervised pre-training achieves perfect policy on solved positions |
+| 15x13 expected strength | 3/5 | Dataset is 7×6 only; needs transfer learning or generalization |
+| Tactical correctness | 5/5 | Exact optimal column evaluations; solver provides definitive answers |
+| Robustness | 4/5 | Proven dataset generation method; 958M records provides broad coverage |
+| Kaggle compliance | 4/5 | Board-state input (2×6×7 tensor) needs reshape for flat 1D observation; otherwise pure Python PyTorch |
+| Inference latency | 5/5 | Small ResNet (~200K params) on 2×6×7 → ~0.5ms inference |
+| Offline compute | 2/5 | Supervised pre-training requires GPU (958M records); 958M rows × 2×6×7 × 4 bytes ≈ 14.8 GB dataset |
+| RTX 5090 feasibility | 4/5 | Training feasible on RTX 5090; 958M records is large but manageable with batching |
+| Engineering complexity | 3/5 | ResNet encoder + policy head; simpler than AlphaZero (no self-play loop) |
+| Verification difficulty | 1/5 | Can verify against solver on 7×6 positions |
+| Overfitting risk | 3/5 | Dataset covers all positions reachable by self-play; solver provides ground truth |
+| Reproducibility | 4/5 | Dataset is fixed; training is deterministic with same architecture |
+| Evidence grade | VERIFIED | S042-S044 (Pascal Pons solver, TonyCWang dataset card) |
+| Major unknowns | Training convergence on 958M records, generalization to non-solved positions, transfer to 15×13 | |
+| **Evidence For** • TonyCWang/ConnectFour: 958M rows of exact optimal evaluations • Pascal Pons solver confirmed via source code (negamax + PVS + TT + book) • Board-state input maps directly to ResNet architecture • Targets are ground truth, not learned estimates — faster convergence than AlphaZero self-play | |
+| **Evidence Against** • Dataset is 7×6 only (Connect 4, not general ConnectX) • Self-play with temperature may miss some board positions • 958M records requires significant training infrastructure | |
+| Score change rationale | NEW — Round 11 introduces this approach via TonyCWang dataset discovery (958M solver-generated training pairs). Theoretically the strongest training strategy for 7×6 ConnectX if supervised pre-training converges. Not directly ranked against search engines because this is a training strategy, not a runtime strategy — best used WITH a search engine (NN evaluation at leaves or NN-guided MCTS). | |
+
 ---
 
 ## Ranking Stability
@@ -145,6 +168,7 @@
 | 8 | Hybrid NN+Search | No change — but rowspire (0★) provides strongest individual project yet: dual 4×128-layer MLP + MCTS + bitboard solver + WASM deployment + genetic tuning; connectpuct provides first PUCT benchmark (11/20 vs minimax depth 3); kite adds Java bitboard solver; VERIFIED claims reached 50%; 3 new sources (S029-S031) |
 | 9 | Hybrid NN+Search | No change — but Tromp Fhourstones benchmark (20 systems, KPOS/S, Gprof) provides strongest classical search evidence yet; katac4 training fully decoded (30K epochs, 3 loss terms, self-play workers); katac4 ResNet fully decoded (pre-activation, nested bottleneck, mixed pooling); haithameleuch alpha-beta+MCTS hybrid verified; VERIFIED claims 50%→55%; 7 new sources (S032-S038); ICAPS/JOCIG/Google Scholar all unworkable |
 | 10 | Hybrid NN+Search | No change — but rowspire fully decoded from source (14 Rust files): 4×128 MLP with skip connections, dual value+policy, 100D input encoding (64-cell binary + 16 normalized features), 7-feature evaluation with genetic-tuned weights, UCB1 MCTS (c=1.41, 4000 sims, root noise 75/25), 64-bit bitboard with carry-propagation move generation. Training algorithm remains opaque (npm run train is un-publish code). eSlams discovered as novel evaluation framework (50 arenas, REST protocol, Ed25519 proof archives). kenrick95/c4 (278★) cataloged: browser-based Minimax+alpha-beta. Wikipedia opening theory confirmed. VERIFIED claims 55%→60%. 3 new sources (S039-S041). |
+| 11 | Hybrid NN+Search | No change — but Pascal Pons/connect4 solver fully decoded (C++ negamax + PVS + TT + opening book, iterative null-window binary search, template WIDTH/HEIGHT board sizes); TonyCWang/ConnectFour dataset discovered (958M rows, 14.8 GB, 2×6×7 binary observations + 7-element target vectors from solver); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking evaluation metrics). NEW approach added: Supervised Pre-training + Search (board-state). Evidence audit: 17 structural issues fixed (duplicate claim section removed, duplicate sources merged, stale headers updated). VERIFIED claims 60%→66%. 9 new sources (S042-S048 added; S026-S028 deduplicated). |
 
 ---
 

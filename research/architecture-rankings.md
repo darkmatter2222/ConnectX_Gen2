@@ -57,11 +57,11 @@
 | Verification difficulty | 2/5 | Hard to verify without running |
 | Overfitting risk | 2/5 | Self-play may converge to local optimum |
 | Reproducibility | 3/5 | Self-play is stochastic but reproducible |
-| Evidence grade | SUPPORTED | AlphaZero literature, BEPb implementation |
+| Evidence grade | SUPPORTED | AlphaZero literature, BEPb, GoodCoder666/katac4 (R7) |
 | Major unknowns | MCTS moves per 2s budget on 15x13, NN quality needed | |
-| **Evidence For** | • MCTS + NN wins Go, Shogi, Chess • No MCTS-based public repos for ConnectX (opportunity) • NN policy guides MCTS efficiently | |
-| **Evidence Against** • AlphaZero required 8×V100 for training • 2s/move may not allow enough MCTS rolls • Self-play convergence is slow | |
-| Score change rationale | Upgraded from MEDIUM → MEDIUM-HIGH (Round 5) — stronger evidence for large boards; no change in rank | |
+| **Evidence For** | • MCTS + NN wins Go, Shogi, Chess • GoodCoder666/katac4 (18★): KataGo-inspired engine with 1600 sims, FPU, ELO-tested on 300K games, 8 days on 4×RTX 4090 • Training on randomized 9×9–12×12 boards shows generalization • blanyal/alpha-zero (92★): full AlphaZero impl • No MCTS-based public repos for ConnectX (opportunity) • NN policy guides MCTS efficiently | |
+| **Evidence Against** • AlphaZero required 8×V100 for training • 2s/move may not allow enough MCTS rolls (katac4 uses 1600 sims but on larger boards) • Self-play convergence is slow | |
+| Score change rationale | MEDIUM-HIGH (Round 7) — GoodCoder666/katac4 provides strongest evidence yet for MCTS+NN: advanced KataGo techniques (FPU, adaptive CPUCT, LCB), 1600 simulations, ELO-based benchmarking, generalization across board sizes. No change in rank. | |
 
 ### 3. Classical Engine (MTD(f) + C++) — Confidence: MEDIUM
 
@@ -141,6 +141,7 @@
 | 4 | Hybrid NN+Search | MCTS+NN upgraded | MCTS evidence strengthened for large boards |
 | 5 | Hybrid NN+Search | MCTS+NN upgraded, Classical downgraded | Game-phase model solidified |
 | 6 | Hybrid NN+Search | No change — but 9 new verified sources added (blanyal/alpha-zero, Tarun995 bitboard, 5 DQN/MCTS repos); MCTS+NN evidence strengthened by 92-star AlphaZero impl; Internal-knowledge repos (BitBully, mra1991) unverified (404) |
+| 7 | Hybrid NN+Search | No change — but GoodCoder666/katac4 (18★) verified as first KataGo-inspired AlphaZero for Connect 4; Wikipedia confirms solved game (C001 upgraded from UNKNOWN→SUPPORTED); MCTS+NN evidence strengthened by advanced techniques (FPU, adaptive CPUCT, LCB, 1600 sims, ELO testing); Unknown claims dropped from 13% to 7% |
 
 ---
 

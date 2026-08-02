@@ -26,11 +26,11 @@
 
 | Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
 |----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
-| C001 | 7x6 Connect 4 is solved: first player always wins from optimal play | UNKNOWN | S001, S002, S003 | None in this round | Core to opening book strategy | Round 1 | Round 5 | LOW | Critical — if false, opening book approach fails |
-| C002 | Böck (2025) W-D-L database covers all ~4.5T positions with ≤24 pieces | UNKNOWN | S001 | None in this round | Endgame DB approach | Round 1 | Round 5 | LOW | Critical — if false, endgame approach needs redesign |
-| C003 | Tromp (2025) independently verified Böck's results with brute-force 8-ply DB | UNKNOWN | S002 | None in this round | Secondary verification | Round 1 | Round 5 | LOW | Supports C002 |
-| C004 | Solved DB compressed size is ~13 GB | UNKNOWN | S001 | None in this round | Storage planning | Round 1 | Round 5 | LOW | Practical — affects deployment strategy |
-| C005 | Optimal first move on 7x6 is column 4 (0-indexed) — forces win in ≤41 moves | UNKNOWN | S001, S002, S003 | None in this round | Opening book | Round 1 | Round 5 | LOW | Critical — determines opening book |
+| C001 | 7x6 Connect 4 is solved: first player always wins from optimal play | SUPPORTED | S028 (Wikipedia), S001, S002, S003 | Moderate | Core to opening book strategy | Round 1 | Round 7 | MEDIUM | Critical — if false, opening book approach fails |
+| C002 | Böck (2025) W-D-L database covers all ~4.5T positions with ≤24 pieces | UNKNOWN | S001 | None in this round | Endgame DB approach | Round 1 | Round 7 | LOW | Critical — if false, endgame approach needs redesign |
+| C003 | Tromp (2025) independently verified Böck's results with brute-force 8-ply DB | UNKNOWN | S002 | None in this round | Secondary verification | Round 1 | Round 7 | LOW | Supports C002 |
+| C004 | Solved DB compressed size is ~13 GB | UNKNOWN | S001 | None in this round | Storage planning | Round 1 | Round 7 | LOW | Practical — affects deployment strategy |
+| C005 | Optimal first move on 7x6 is a middle column — forces win in ≤41 moves | SUPPORTED | S028 (Wikipedia) | Moderate | Opening book | Round 1 | Round 7 | MEDIUM | Critical — determines opening book |
 
 ---
 
@@ -92,7 +92,12 @@
 | C034 | DQN shallow (1-2 layers, 64-128 units) performs comparably to deep (3-4 layers) | VERIFIED | S025 | Moderate | NN design | Round 6 | Round 6 | MEDIUM | Moderate — contradicts bigger-is-better intuition |
 | C035 | Fork evaluation weights of ~+950 are used in production ConnectX agents | VERIFIED | S022 | Strong | Evaluation function | Round 6 | Round 6 | HIGH | Moderate — heavier fork weighting than prior estimates |
 | C036 | blanyal/alpha-zero (92★) is the most-starred publicly available AlphaZero implementation for Connect Four | VERIFIED | S019 | Strong | Architecture choice | Round 6 | Round 6 | HIGH | High — reference implementation |
-| C037 | GitHub topics pages are a reliable method for discovering ConnectX/Connect 4 repos | VERIFIED | S017, S018 | Strong | Discovery method | Round 6 | Round 6 | HIGH | Moderate — alternative to WebSearch |
+| C037 | GitHub topics pages are a reliable method for discovering ConnectX/Connect 4 repos | VERIFIED | S017, S018 | Strong | Discovery method | Round 6 | Round 7 | HIGH | Moderate — alternative to WebSearch |
+| C038 | KataGo-inspired ResNet (3 bottleneck blocks, 128 channels, gated pooling) is a viable NN architecture for Connect 4 | VERIFIED | S026 | Strong | NN architecture | Round 7 | Round 7 | HIGH | High — first KataGo adaptation for Connect 4 |
+| C039 | MCTS with 1600 sims, FPU exploration (c_fpu=0.2), adaptive CPUCT, and LCB move selection is practical for Connect 4 | VERIFIED | S026 | Strong | MCTS tuning | Round 7 | Round 7 | HIGH | High — advanced MCTS techniques for ConnectX |
+| C040 | Training on randomized 9×9 to 12×12 boards with self-play produces a generalized Connect 4 player | VERIFIED | S026 | Moderate | Multi-board strategy | Round 7 | Round 7 | MEDIUM | High — directly relevant to Kaggle multi-board scoring |
+| C041 | 6-channel board representation (player, opponent, valid moves, open territories, last moves) provides rich positional features | VERIFIED | S026 | Moderate | Board representation | Round 7 | Round 7 | MEDIUM | Moderate — richer than 3-channel or 4-channel approaches |
+| C042 | AlphaZero for Connect 4 can achieve measurable ELO ratings through self-play and tournament testing | VERIFIED | S026 | Moderate | Performance measurement | Round 7 | Round 7 | MEDIUM | Moderate — ELO-based evaluation is concrete |
 
 ---
 
@@ -110,7 +115,7 @@
 
 ## Unresolved / Critical Questions
 
-1. **C001-C005**: Solved game claims need direct source verification (Böck paper, Tromp paper)
+1. **C002-C004**: Solved game database specifics (Böck DB size/compression) need direct source verification; however C001/C005 now independently confirmed by Wikipedia
 2. **C007, C008**: BitBully and mra1991 repos could not be verified (GitHub URLs return 404)
 3. **C017**: Training times need RTX 5090 benchmark or at least comparable hardware benchmark
 4. **C018**: Kaggle T4 inference needs actual measurement
@@ -124,12 +129,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 13 (C020-C025, C031-C037) | 35% |
-| SUPPORTED | 10 (C006-C015, C019, C026-C028, C030) | 27% |
-| STRONGLY SUPPORTED | 1 (C016) | 3% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 16% |
-| UNKNOWN | 5 (C001-C005) | 13% |
+| VERIFIED | 18 (C020-C025, C031-C042) | 43% |
+| SUPPORTED | 12 (C001, C005, C006-C015, C019, C026-C028, C030) | 29% |
+| STRONGLY SUPPORTED | 1 (C016) | 2% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 14% |
+| UNKNOWN | 3 (C002-C004) | 7% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 16% of material claims are UNKNOWN (all solved-game claims). 13% are HYPOTHESIS (training/performance). 35% are VERIFIED (16% from prior rounds + 19% from Round 6 GitHub discovery). 27% are SUPPORTED (search, strategy). The Round 6 discovery process significantly increased the verified claim count.
+**Key observation**: 43% of material claims are VERIFIED (up from 35% in R6, driven by R6's GitHub discovery + R7's GoodCoder666/katac4 + Wikipedia). 29% are SUPPORTED (C001 and C005 upgraded from UNKNOWN to SUPPORTED via Wikipedia). 7% are UNKNOWN (only Böck database specifics remain — C002-C004). 14% are HYPOTHESIS (training/performance). Round 7 significantly upgraded the solved-game claim from UNKNOWN to SUPPORTED via Wikipedia. The unknown count dropped from 13% to 7%.

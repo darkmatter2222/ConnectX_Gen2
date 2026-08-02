@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 6
+> **Current Round**: 7
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 5 (2026-08-02)
+> **Previous Round**: 6 (2026-08-02)
 > **Status**: Active — deep research phase
 
 ---
@@ -17,6 +17,7 @@
 | 4 | 2026-07-31 | Complete | GPU, MCTS, game theory, open-source bots, search |
 | 5 | 2026-08-02 | Complete | Game-phase strategy, endgame DBs, benchmarks, eval |
 | 6 | 2026-08-02 | Complete | GitHub topics discovery, AlphaZero analysis, bitboard agent catalog; canonical files created |
+| 7 | 2026-08-02 | Complete | GoodCoder666/katac4 (18★) KataGo-inspired AlphaZero fully analyzed; Wikipedia confirms solved game; C001/C005 upgraded to SUPPORTED; 3 new sources (S026-S028) |
 
 ---
 
@@ -61,15 +62,15 @@ Combined with game-phase strategy:
 
 | ID | Category | Priority | Status |
 |----|----------|----------|--------|
-| CG-001 | Kaggle leaderboard | CRITICAL | ❌ BLOCKED (no web search) |
-| CG-002 | Top bot strategies | CRITICAL | ✅ RESOLVED (Round 6: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics) |
+| CG-001 | Kaggle leaderboard | CRITICAL | ❌ BLOCKED (no web search; Kaggle pages require JS) |
+| CG-002 | Top bot strategies | CRITICAL | ✅ RESOLVED (Round 6-7: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics; GoodCoder666/katac4 analyzed) |
 | CG-003 | RTX 5090 benchmarks | CRITICAL | ⏳ PENDING |
-| CG-004 | 15x13 first-player advantage | CRITICAL | 🔍 PARTIAL |
-| GH-001 | MCTS variants | HIGH | ✅ RESOLVED (Round 4) |
+| CG-004 | 15x13 first-player advantage | CRITICAL | 🔍 PARTIAL — Wikipedia confirms 7x6, not 15x13 |
+| GH-001 | MCTS variants | HIGH | ✅ RESOLVED (Round 7: 3 MCTS implementations analyzed, including katac4 with FPU/adaptive CPUCT) |
 | GH-002 | TensorRT benchmarks | HIGH | ⏳ PENDING |
 | GH-003 | CUDA search | HIGH | ⏳ PENDING |
 | GH-004 | MTD(f) Python benchmark | HIGH | ✅ RESOLVED (Round 5) |
-| GH-005 | Optimal CNN architecture | HIGH | 🔄 PARTIAL |
+| GH-005 | Optimal CNN architecture | HIGH | 🔄 PARTIAL (katac4 ResNet with gated pooling now known) |
 | GH-006 | Transfer learning effectiveness | HIGH | ✅ RESOLVED (Round 3) |
 
 ---
@@ -84,7 +85,8 @@ Combined with game-phase strategy:
 
 ## Next Round Focus Areas
 
-1. Use WebFetch to pull specific pages of interest (GitHub repos, papers, Kaggle pages)
-2. Deep-dive into existing repos from round 4 catalog for implementation details
-3. Validate or falsify existing claims with fresh analysis
-4. Identify new gaps that emerged from rounds 1-5
+1. Find the Böck database paper (arXiv, Google Scholar via WebFetch)
+2. Research KataGo itself — the upstream engine that katac4 adapts
+3. Find Kaggle ConnectX notebooks via direct URL patterns (page is 404)
+4. Try Kaggle API for leaderboard data
+5. Research Connect 4 evaluation function literature (sebadorn project uses MLP/RBF/PCN/decision trees)

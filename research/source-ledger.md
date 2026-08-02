@@ -51,6 +51,12 @@
 | S023 | darkmatter2222/ConnectX-RL-DQN (1★) | VERIFIED | WebFetch — DQN ConnectX submission |
 | S024 | ChristianMontecchiani/ConnectX_RL (0★) | VERIFIED | WebFetch — MCTS without NN |
 | S025 | psalarc/DQN-ConnectX-Agent (0★) | VERIFIED | WebFetch — DQN architecture study |
+| S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source code | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, ELO testing (300K games, 8 days on 4×RTX 4090), interactive explorer |
+| S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves |
+| S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration (MLP/RBF/PCN/DT/KMeans) |
+| S026 | GoodCoder666/katac4 (18★) | VERIFIED + full source | WebFetch — KataGo-inspired AlphaZero for Connect 4: PyTorch ResNet (b3c128nbt), 1600 MCTS sims, FPU, 16 parallel workers, 300K games ELO testing, 8 days on 4×RTX 4090 |
+| S027 | Wikipedia — Connect Four | VERIFIED | WebFetch — Solved game: Allen/Allis 1988, 4.53T positions, first-player win ≤41 moves |
+| S028 | sebadorn/Machine-Learning--Connect-Four (13★) | VERIFIED | WebFetch — ML training exploration: MLP/RBF/PCN/decision tree comparison for Connect 4 |
 
 ---
 
@@ -104,3 +110,19 @@ WebSearch is known broken (Round 5+): API error 400.
 | raw.githubusercontent.com/blanyal/alpha-zero/master/config.py | ✅ OK |
 | kaggle.com/competitions/carlospolm-connectx | ❌ 404 (requires JS) |
 | jocig.org | ❌ DNS lookup failed |
+| researchgate.net | ❌ 403 (authentication required) |
+| connect-four.net | ❌ DNS lookup failed |
+| connect-four.die-bocks.at | ❌ DNS lookup failed |
+| www.bock.im | ❌ DNS lookup failed |
+| github.com/abock/connect4 | ❌ 404 (repo not found) |
+| arxiv.org/search/connected_connect4_solved | ❌ 404 |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/model.py | ✅ OK — full NN architecture |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/mcts.py | ✅ OK — MCTS implementation |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/train.py | ✅ OK — training pipeline |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/game.py | ✅ OK — game rules, board repr |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/saiblo/search.py | ✅ OK — MCGS implementation |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/explorer_main.py | ✅ OK — interactive GUI |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/benchmark.py | ✅ OK — benchmark code |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/elo.json | ✅ OK — ELO ratings |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/human_play.py | ✅ OK — human play |
+| raw.githubusercontent.com/GoodCoder666/katac4/main/export_model.py | ✅ OK — model export |

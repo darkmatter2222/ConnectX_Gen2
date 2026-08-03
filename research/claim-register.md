@@ -1,6 +1,6 @@
 ﻿# Claim Register — ConnectX Bot Research
 
-> **Current Round**: 23
+> **Current Round**: 24
 > **Last Updated**: 2026-08-03
 
 ---

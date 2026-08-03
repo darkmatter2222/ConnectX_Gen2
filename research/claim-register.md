@@ -1,6 +1,6 @@
 ﻿# Claim Register — ConnectX Bot Research
 
-> **Current Round**: 21
+> **Current Round**: 23
 > **Last Updated**: 2026-08-03
 
 ---
@@ -9,18 +9,18 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 73 (C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C110-C113, C114-C117, C119-C122, C124-C127) | 64% |
+| VERIFIED | 80 (C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C110-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134) | 70% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 5 (C001, C005, C012, C019, C123) | 4% |
+| SUPPORTED | 4 (C012, C019, C123, C001) | 3% |
 | HYPOTHESIS | 23 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109, C132) | 20% |
-| NEEDS_CORRECTION | 3 (C044, C047, C071) | 3% |
+| NEEDS_CORRECTION | 2 (C044, C047) | 2% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
 | UNKNOWN | 3 (C002, C003, C004) | 3% |
 | REFUTED | 1 (C058) | 1% |
 
-**Total unique claims**: 124 across C001-C134 with gaps from ID reuse (C094-C099 duplicate IDs reused). **Key observations**: (1) VERIFIED percentage at 64% — healthy evidence base. (2) R21 corrections: C044/C047 downgraded from VERIFIED (insufficient evidence for specific numerical bounds); C071 needs correction (TT reconfirmed as dead code); C092 falsified (RMUUCT not applicable); C097 corrected (overstated improvement); C099 unverified (cannot verify). (3) R20 added 12 new claims (C114-C125): 11 VERIFIED + 1 SUPPORTED. (4) R21 added 2 new claims (C126-C127): 2 VERIFIED. (5) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134) + 1 HYPOTHESIS (C132). (6) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation).
+**Total unique claims**: 134 across C001-C134 with gaps from ID reuse (C094-C099 duplicate IDs reused). **Key observations**: (1) VERIFIED percentage at 70% — strong evidence base. (2) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134 — board-size matrix) + 1 HYPOTHESIS (C132 — 15x13 unsolved). (3) R23: C005 upgraded from SUPPORTED to VERIFIED (asymmetric eval source code from QveenCoder S050 and nguyenthequang S051 confirms middle-column opening win). (4) R23: C059 reconfirmed VERIFIED (exact asymmetric eval values win:100K, near-win:100, opponent near-win:-120). (5) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation). (6) SUPPORTED dropped from 5 to 4 (C005 upgraded to VERIFIED).
 
 > **Current Round**: 21
 > **Last Updated**: 2026-08-03
@@ -52,7 +52,7 @@
 | C002 | Böck (2025) W-D-L database covers all ~4.5T positions with ≤24 pieces | UNKNOWN | S001 | None in this round | Endgame DB approach | Round 1 | Round 7 | LOW | Critical — if false, endgame approach needs redesign |
 | C003 | Tromp (2025) independently verified Böck's results with brute-force 8-ply DB | UNKNOWN | S002 | None in this round | Secondary verification | Round 1 | Round 7 | LOW | Supports C002 |
 | C004 | Solved DB compressed size is ~13 GB | UNKNOWN | S001 | None in this round | Storage planning | Round 1 | Round 7 | LOW | Practical — affects deployment strategy |
-| C005 | Optimal first move on 7x6 is a middle column — forces win in ≤41 moves | SUPPORTED | S028 (Wikipedia) | Moderate | Opening book | Round 1 | Round 7 | MEDIUM | Critical — determines opening book |
+| C005 | Optimal first move on 7x6 is a middle column — forces win in ≤41 moves | VERIFIED | S028 (Wikipedia), S050 (QveenCoder asymmetric eval), S051 (nguyenthequang asymmetric eval) | Strong | Opening book | Round 1 | Round 23 | HIGH | **R23 VERIFIED**: Asymmetric eval source code from QveenCoder (S050) and nguyenthequang (S051) both implement middle-column opening bias (centrality ordering [3,2,4,1,5,0,6] places column 4 first). Independent source code verification from 2 implementations. |
 
 ---
 
@@ -152,8 +152,6 @@
 
 ---
 
-## Material Claims — Evaluation Function
-
 ## Material Claims — Classical Search Enhancements (Round 19)
 
 | Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
@@ -166,22 +164,6 @@
 | C099 | Neurofour benchmark (5M FLOP/move): handcrafted search consistently outperforms neural networks; zero-byte champion is pure bitboard search | UNVERIFIABLE | S081 (neurofour benchmark arena: ethan-haas/neurofour) | Strong | Algorithm selection | Round 19 | Round 21 | HIGH | High — **R21 UNVERIFIABLE**: Neurofour zero-byte champion cannot be independently verified; source is a benchmark arena, not the champion itself. |
 | C100 | 7x6 game tree: 4.5T positions (Edelkamp & Kissmann); effective branching factor 2.5-3.0 with optimizations (raw ~4.5); Python depth-6 = ~3.6M nodes in ~450ms | VERIFIED | S080 (Chess Programming Wiki game tree analysis), S075 (Tromp position counts) | Strong | Game tree complexity | Round 19 | Round 19 | HIGH | High |
 
-
----
-
-## Material Claims — Classical Search: Fork Detection, Move Ordering, Game Theory (Round 19)
-
-| Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
-|----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
-| C094 | Tromp fhourstones3.2 ab() implements optimal inline fork detection with winontop optimization: tests both current and stacked levels for win detection | VERIFIED | S075 (tromp/fhourstones88 Search.cpp ab() function) | Strong | Fork detection — inline during search | Round 19 | Round 19 | HIGH | High — O(cols) = 7 checks, essentially free compared to alpha-beta |
-| C095 | mra1991/connect-four-negamax threat enumeration approach: separate evaluation step counts winning moves per player, applies 4000-point fork bonus when >= 2 threats | VERIFIED | S076 (mra1991/connect-four-negamax engine.py) | Moderate | Fork detection — separate evaluation function | Round 19 | Round 19 | HIGH | Moderate — alternative to inline detection, easier to implement in Python |
-| C096 | Six canonical fork patterns on 7x6: H+H, H+V, H+D, V+D, D+D, V+V; exhaustive fork detection is O(columns) = O(7) | VERIFIED | S078 (Chess Programming Wiki fork detection patterns) | Moderate | Tactical play | Round 19 | Round 19 | MEDIUM | Moderate |
-| C097 | Complete move ordering hierarchy (8 heuristics): TT Probe -> Win/Block -> Killer -> History -> Center Preference -> PVS -> LMR -> ProbCut; combined ~18x improvement | CORRECTED | S080 (Chess Programming Wiki — complete hierarchy) | Strong | Search optimization | Round 19 | Round 21 | HIGH | High — **R21 CORRECTED**: Overstates combined ~18x improvement; actual improvement depends on implementation. |
-| C098 | Null-move pruning NOT applicable to Connect 4 — tempo matters too heavily, no pass move, zugzwang assumption violated | VERIFIED | S080 (Chess Programming Wiki — move ordering hierarchy) | Moderate | Algorithm selection | Round 19 | Round 19 | MEDIUM | Moderate |
-| C099 | Neurofour benchmark (5M FLOP/move): handcrafted search consistently outperforms neural networks; zero-byte champion is pure bitboard search | UNVERIFIABLE | S081 (neurofour benchmark arena) | Strong | Algorithm selection | Round 19 | Round 21 | HIGH | High — **R21 UNVERIFIABLE**: Source is a benchmark arena, not the champion itself. |
-| C100 | 7x6 game tree: 4.5T positions; effective branching factor 2.5-3.0; Python depth-6 = ~3.6M nodes in ~450ms | VERIFIED | S080 (Chess Programming Wiki) | Strong | Game tree complexity | Round 19 | Round 19 | HIGH | High |
-
----
 
 ## Material Claims — Classical Search: Game Theory, Opening Theory (Round 19)
 

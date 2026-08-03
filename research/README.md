@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 18 (2026-08-03)
+> **Current Round**: 23 (2026-08-03)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -36,6 +36,8 @@
 | `iterations/round-012.md` | 12 | 2026-08-02 | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings |
 | `iterations/round-013.md` | 13 | 2026-08-02 | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal); 5 new JS/TS/Python engine eval benchmarks decoded; VERIFIED 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); C025 → STRONGLY SUPPORTED |
 | `iterations/round-014.md` | 14 | 2026-08-02 | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings |
+| `iterations/round-022.md` | 22 | 2026-08-03 | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11); 8x8 solved P2 win; 9x6 solved; 10x8 draw; 15x13/15x10 no results |
+| `iterations/round-023.md` | 23 | 2026-08-03 | T017 Worker Result (batch-00008): Asymmetric eval source code verification (QveenCoder S050, nguyenthequang S051); C005 upgraded to VERIFIED; 120/100 opponent-threat amplification (1.2x proactive defense bias) |
 
 ## Legacy Documents (evidence, preserved)
 

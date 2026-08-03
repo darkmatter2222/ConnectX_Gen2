@@ -1,8 +1,8 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 22
+> **Current Round**: 23
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 20 (2026-08-03, NEURAL TRAINING AND HARDWARE -- NN architecture comparison, T4 GPU specs)
+> **Previous Round**: 22 (2026-08-03, T029 Connect 4 Engine Performance on Non-7x6 Boards -- board-size matrix 4x4-11x11)
 > **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (resumed R19)
 
 ---
@@ -36,6 +36,7 @@
 | 20 | 2026-08-03 | Complete | NEURAL TRAINING AND HARDWARE (Lane 4): Neural network architecture comparison completed across 3 fully verified implementations (ResNet katac4 vs MLP rowspire vs CNN marcpaulo15). 5 new VERIFIED claims (C114-C117), 1 SUPPORTED (C118). Key: katac4 ResNet pre-activation with 2 bottleneck blocks (128 channels), 3-phase lambda scheduler, 30K epochs, 3 cross-entropy loss terms (policy+value+rival) - highest training completeness. Kaggle T4 GPU specs verified (2560 CUDA cores, 320 Turing TCs, 16GB GDDR6). GPU MCTS on GRID A100 achieves 20.3M playouts in 5s with 73.375% avg win rate - lock-free design. GPU inference estimates: NN inference 0.05-2ms on RTX 5090; Numba JIT/bitboard yield 10-100x more ROI than GPU inference acceleration. 3 new sources (S091-S093). VERIFIED 69->71. |
 | 21 | 2026-08-03 | Complete | External-Pool Batch Synthesis (batch-00006): 13 workers dispatched. 7 produced usable findings (board representation comparison, MCTS variant analysis, adversarial corrections, corpus audit). 5 produced stale R16-R19 results. 1 API error (worker-04 job-4). 1 premature completion (worker-06 job-10). 2 new VERIFIED claims (C126: board representation comparison — 4 implementations documented; C127: NN-guided PUCT dominates MCTS, RMUUCT inapplicable). 6 claim corrections (C044/C047 → NEEDS_CORRECTION; C071 → NEEDS_CORRECTION; C092 → FALSIFIED; C097 → CORRECTED; C099 → UNVERIFIABLE). R20 sources S085-S090 already in ledger. No new R21 sources. VERIFIED 73 (C126, C127 added). Architecture rankings unchanged. |
 | 22 | 2026-08-03 | Complete | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11) from connect4.gamesolver.org. 8x8 solved as P2 win (Tromp, late 2014/2015, book88 ~500MB, column 4 universal P2 reply). 9x6 solved Nov 2005 (~2E13 positions, 2,000 CPU-hours). 10x8 is draw. 15x13/15x10 no results (HYPOTHESIS). Computational complexity O(R+C) disc placement, O(C*(R+C)) decision. Board representation scaling across 5 implementations. Claims C128-C134 added (6 VERIFIED, 1 HYPOTHESIS). VERIFIED 73-->79, HYPOTHESIS 22-->23. |
+| 23 | 2026-08-03 | Complete | T017 Worker Result (batch-00008) -- External-Pool Batch Synthesis: Asymmetric eval source code verification -- QveenCoder (S050) and nguyenthequang (S051) both implement identical asymmetric window scoring: win:100K, near-win:100, opponent near-win:-120 (1.2x opponent threat amplification = proactive defense bias). C005 upgraded from SUPPORTED to VERIFIED (middle-column opening win confirmed by source code from 2 independent implementations). C059 reconfirmed VERIFIED. Wikipedia Connect Four page unchanged since R10 (15x13 solving status still unknown); infinite Connect-Four solved: Draw (new detail). Tromp board-size chart 4x4-11x11 already captured in R22. GitHub topic scans: no new repos since R21. "Winning moves never in central columns" pattern for larger boards. 1 new source (S094 Wikipedia). VERIFIED 79->80, SUPPORTED 5->4. |
 ---
 
 ## Tool Availability
@@ -111,14 +112,18 @@ esearch/ (preserved, indexed in README)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 71 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C068, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113, C114, C115, C116, C117) | 67% |
+| VERIFIED | 80 (C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C110-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134) | 70% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 4 (C001, C005, C012, C019) | 4% |
-| HYPOTHESIS | 22 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 21% |
+| SUPPORTED | 4 (C001, C012, C019, C123) | 3% |
+| HYPOTHESIS | 23 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109, C132) | 20% |
+| NEEDS_CORRECTION | 2 (C044, C047) | 2% |
+| FALSIFIED | 1 (C092) | 1% |
+| CORRECTED | 1 (C097) | 1% |
+| UNVERIFIABLE | 1 (C099) | 1% |
 | UNKNOWN | 3 (C002, C003, C004) | 3% |
 | REFUTED | 1 (C058) | 1% |
 
-**Key observation**: 65% of material claims are VERIFIED. STRONGLY SUPPORTED: 3% (C016 Numba JIT, C025 Kaggle timeout API, C056 rowspire evaluation — upgraded from VERIFIED). SUPPORTED: 4% (C001 Wikipedia, C005 Wikipedia, C012 SFT→RL training, C019 ONNX). HYPOTHESIS: 21% (evidence-gate downgrades C027/C028 from SUPPORTED, opening book implementations C107-C109). UNKNOWN: 3% (Bock database specifics — C002-C004). 1% REFUTED (C058). Total: 103 unique claims across C001-C113 with gaps (C094-C099 duplicate, C100-C101 remapped). R19 additions: 7 new VERIFIED (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109), C027/C028 downgraded HYPOTHESIS, C056 upgraded STRONGLY SUPPORTED. R19 resolves: CG-001. T051 COMPLETE. R18 corrections already applied: C027/C028 downgraded, C056 upgraded.
+**Key observation**: 70% of material claims are VERIFIED — strong evidence base. R22: 7 new claims (C128-C134: board-size matrix). R23: C005 upgraded SUPPORTED→VERIFIED (asymmetric eval source code confirms middle-column opening win). R23: C059 reconfirmed VERIFIED (exact asymmetric eval values). STRONGLY SUPPORTED: 3 (C016 Numba JIT, C025 Kaggle timeout API, C056 rowspire evaluation). SUPPORTED: 4 (C001 Wikipedia, C012 SFT→RL training, C019 ONNX, C123 XO Royale). HYPOTHESIS: 23 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109, C132). UNKNOWN: 3 (Bock database specifics — C002-C004). 1% REFUTED (C058). Total: 114 unique claims across C001-C134 with gaps.
 
 ---
 

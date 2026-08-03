@@ -1,6 +1,6 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 21
+> **Current Round**: 22
 > **Last Updated**: 2026-08-03
 > **Previous Round**: 20 (2026-08-03, NEURAL TRAINING AND HARDWARE -- NN architecture comparison, T4 GPU specs)
 > **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (resumed R19)
@@ -35,7 +35,7 @@
 
 | 20 | 2026-08-03 | Complete | NEURAL TRAINING AND HARDWARE (Lane 4): Neural network architecture comparison completed across 3 fully verified implementations (ResNet katac4 vs MLP rowspire vs CNN marcpaulo15). 5 new VERIFIED claims (C114-C117), 1 SUPPORTED (C118). Key: katac4 ResNet pre-activation with 2 bottleneck blocks (128 channels), 3-phase lambda scheduler, 30K epochs, 3 cross-entropy loss terms (policy+value+rival) - highest training completeness. Kaggle T4 GPU specs verified (2560 CUDA cores, 320 Turing TCs, 16GB GDDR6). GPU MCTS on GRID A100 achieves 20.3M playouts in 5s with 73.375% avg win rate - lock-free design. GPU inference estimates: NN inference 0.05-2ms on RTX 5090; Numba JIT/bitboard yield 10-100x more ROI than GPU inference acceleration. 3 new sources (S091-S093). VERIFIED 69->71. |
 | 21 | 2026-08-03 | Complete | External-Pool Batch Synthesis (batch-00006): 13 workers dispatched. 7 produced usable findings (board representation comparison, MCTS variant analysis, adversarial corrections, corpus audit). 5 produced stale R16-R19 results. 1 API error (worker-04 job-4). 1 premature completion (worker-06 job-10). 2 new VERIFIED claims (C126: board representation comparison — 4 implementations documented; C127: NN-guided PUCT dominates MCTS, RMUUCT inapplicable). 6 claim corrections (C044/C047 → NEEDS_CORRECTION; C071 → NEEDS_CORRECTION; C092 → FALSIFIED; C097 → CORRECTED; C099 → UNVERIFIABLE). R20 sources S085-S090 already in ledger. No new R21 sources. VERIFIED 73 (C126, C127 added). Architecture rankings unchanged. |
-
+| 22 | 2026-08-03 | Complete | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11) from connect4.gamesolver.org. 8x8 solved as P2 win (Tromp, late 2014/2015, book88 ~500MB, column 4 universal P2 reply). 9x6 solved Nov 2005 (~2E13 positions, 2,000 CPU-hours). 10x8 is draw. 15x13/15x10 no results (HYPOTHESIS). Computational complexity O(R+C) disc placement, O(C*(R+C)) decision. Board representation scaling across 5 implementations. Claims C128-C134 added (6 VERIFIED, 1 HYPOTHESIS). VERIFIED 73-->79, HYPOTHESIS 22-->23. |
 ---
 
 ## Tool Availability
@@ -100,7 +100,8 @@ Combined with game-phase strategy:
 
 ## Research Corpus
 
-- **Legacy documents**: ~30 research files in esearch/ (preserved, indexed in README)
+- **Legacy documents**: ~30 research files in 
+esearch/ (preserved, indexed in README)
 - **Canonical files**: research-state.md (this file), research-trajectory.md, final-conclusion.md, research-gaps.md
 - **Iteration reports**: iterations/round-NNN.md (starting with round 6)
 
@@ -125,7 +126,9 @@ Combined with game-phase strategy:
 
 1. **TonyCWang dataset temperature schedule** -- The exact temperature schedule, self-play agent configuration, and position sampling method remain undocumented. Try fetching more dataset card details or contacting dataset author.
 2. **Pascal Pons blog.gamesolver.org tutorial** -- The step-by-step tutorial referenced in Pascal Pons' README is unreachable (SSL cert mismatch). Try alternative URLs or cached versions.
-3. **GitHub API accessibility** -- GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
+3. **12x12+ solving status** -- The gamesolver.org matrix only extends to 11x11; check if any larger boards have been solved.
+4. **Gridline-four-android source decode** -- Inspect BoardSize.java and TacticalComputerStrategy.java for full implementation details.
+5. **GitHub API accessibility** -- GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
 4. **ariobarin transposition table port to JS/Python** -- The 10M-entry TT with LRU eviction and history heuristic is the most sophisticated classical technique found -- worth benchmarking for Kaggle.
 5. **GitHub topics scan: connect-four-ai topic** -- Additional repos may exist under that topic not covered by connect-four or connectx topics.
 6. **Kaggle T4 inference measurement** -- Measure actual alpha-beta depth achievable in 2s on Kaggle T4 hardware (pure Python vs Numba).

@@ -1,6 +1,6 @@
-
+﻿
 > **Last Updated**: 2026-08-03
-> **Current Round**: 17
+> **Current Round**: 19
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---
@@ -52,7 +52,7 @@
 | T029 | P2 | — | Find Connect 4 engine performance on non-7x6 boards: how does alpha-beta scale on 8x8, 10x10, 15x13? | Performance on larger boards determines which approach is viable for 15x13 Kaggle boards | Tromp 8x8 solver, Pascal Pons 9x6 support, any 15x13 benchmarks | Round 9-11: 8x8 solved, 9x6 supported, no 15x13 data | Performance metrics on 8x8, 10x10, 15x13 for alpha-beta search | Depth achievable, time per move, board size scaling factor |
 | T030 | P2 | C053 | James Dow Allen's "The Complete Book of Connect Four" — find an alternative source | This is the definitive reference for Connect 4 solving history; the fabpedigree.com link is blocked | Google Books, archive.org, other libraries, secondhand sellers | Round 9: C053 verified that the book exists; fabpedigree.com 403 | Alternative URL to book content, preview, or summary | Book summary, key findings, relevant quotes |
 | T031 | P2 | — | Find Connect 4 AI conference papers: any ICAPS/JOCIG papers specifically on Connect 4 solving | Academic papers may contain rigorous analysis of solving methods, complexity bounds | ICAPS proceedings, JOCIG proceedings, Google Scholar (try direct URLs) | Round 9: ICAPS/JOCIG DNS failures; no papers found | Paper title, authors, year, key findings, download URL | Paper citation, summary, availability |
-| T032 | P2 | — | Kaggle ConnectX environment spec: check kaggle-environments repo for any recent changes to ConnectX rules or board configs | Kaggle may have updated the environment since Round 1; new rules could affect strategy | kaggle-environments GitHub repo, ConnectX spec JSON | Round 6: Kaggle spec analyzed (7x6 default, 2s/move, 60s overage) | Any changes to rules, board configs, timeouts, or scoring | List of changes, impact assessment | COMPLETE — R13: kaggle-environments spec fully analyzed. episodeSteps/runTimeout moved to global schemas.json; agentTimeout fully removed; remainingOverageTime moved to observation; game rules unchanged. C069/C070 verified. C025 upgraded to STRONGLY SUPPORTED. |
+| T032 | P2 | — | Kaggle ConnectX environment spec: check kaggle-environments repo for any recent changes to ConnectX rules or board configs | Kaggle may have updated the environment since Round 1; new rules could affect strategy | kaggle-environments GitHub repo, ConnectX spec JSON | Round 6: Kaggle spec analyzed (7x6 default, 2s/move, 60s overage) | Any changes to rules, board configs, timeouts, or scoring | List of changes, impact assessment | COMPLETE -- R19: Full deep source analysis of kaggle-environments v1.32.2. Core findings: overtime per-step consumption from core.py line 631-632 (max(0, duration - actTimeout), remainingOverageTime -= overage_time_consumed), per-call DeadlineExceeded from agent.py line 220, UrlAgent timeout formula (remainingOverageTime + actTimeout + 1s grace), agent signature autodetection via co_argcount, board is mutable single list (no cloning between steps), maxLogLength 10K per agent per step (~20MB per episode), canvas-based TS visualizer with cyan/white pieces and animated drop, 5 deprecated environments cataloged, invalid move handling (board[column] check, 3 conditions), is_win has_played=False branch for lookahead. C069-C070 VERIFIED, C025 STRONGLY SUPPORTED, C102-C111 VERIFIED. 10 new sources (S075-S084). |
 | T033 | P2 | — | Find Connect 4 engine source code in languages other than C++/Rust/Python/Java: JavaScript/TypeScript implementations | JavaScript/TypeScript is closer to Kaggle notebook environment; may reveal browser-optimized techniques | GitHub repos with "connect4" topic | Round 10: kenrick95/c4 (TypeScript) found; no other JS Connect 4 AI | JavaScript/TypeScript implementations, algorithms used, performance | Implementation URL, algorithm, performance notes | COMPLETE — R13: 5 new repos cataloged (QveenCoder connect-four, nguyenthequang games-website, ariobarin The-Reticle, Woonderpipe connect-4, jambolo four-in-a-row). 2 fully source-decoded (QveenCoder minimax+alpha-beta with asymmetric eval; nguyenthequang alpha-beta with centrality move ordering). ariobarin TT+history+threat-map most sophisticated classical engine. C069–C072 verified. |
 | T034 | P2 | — | Search for "Connect 4 opening moves" — list of all optimal first moves and their theoretical outcomes | Knowing all optimal openings helps build a comprehensive opening book | Solved game databases, Wikipedia, Connect 4 forums | Round 10: Wikipedia confirms center = win ≤41 moves; adjacent = draw; edge = loss | Complete list of first moves with theoretical outcomes (win/draw/loss) | First move → outcome mapping for all 7 columns |
 | T035 | P2 | — | Find Connect 4 position evaluation databases: any public position databases beyond Pascal Pons' solver | Position databases could provide quick evaluation without running search | GitHub repos, academic databases, chess position evaluators | Round 11: Pascal Pons DB is the largest found (depth-14) | Position database URL, size, format, coverage | Database URL, size, format, coverage |
@@ -88,20 +88,23 @@
 | T106 | P1 | — | Benchmark evolved vs default rowspire weights on 1000-position test set | Quantifies improvement from genetic evolution; informs Kaggle eval function design | rowspire evolved.json, genetic_params.rs | Round 18: Evolved weights found (threat=3.851, piece_count=0.113) | Win rate improvement, eval accuracy delta | Benchmark results, improvement factor |
 | T107 | P1 | — | Transfer evolved rowspire weights to Kaggle Python bot — adapt threat_weight=3.851, horizontal=2.840, piece_count=0.113 for Kaggle evaluation function | Evolved weights directly applicable to Kaggle bot eval function | rowspire evaluation.rs, feature_scores.rs | Round 18: Full formula decoded — directly implementable in Python | Kaggle win rate vs baseline, eval function correctness | Win rate improvement, eval function code |
 | T108 | P2 | — | Investigate Kaggle 95MB binary asset limits — Kite uses 95.6MB binary cache; assess if Kaggle allows large assets | Opening book binary sizes approach Kaggle limits | tristan852/kite README.md | Round 18: Kite 95.6MB cache | Maximum allowed asset size, alternative strategies | Asset limit documentation, alternative approach |
+| T118 | P2 | — | Benchmark MCTS-NC on Kaggle T4 GPU — estimate from GRID A100 performance (20.3M playouts in 5s) | GPU MCTS could provide orders-of-magnitude search depth within 2s budget | pklesk/mcts_numba_cuda GitHub + paper | Round 18: GPU MCTS proved effective (75% avg score vs 2.5% baseline) | GPU MCTS performance on T4, nodes/second, search depth per move | Performance metrics, recommended MCTS variant |
+| T120 | P2 | — | Investigate TonyCWang data generation phase-bucketing bias (40% early 0-8, 40% mid 9-20, 20% late 21-30) | Uniform random + depth-18 solver (not self-play); phase distribution affects training data diversity | TonyCWang/ConnectFour dataset card | Round 18: Data generation corrected (uniform random + solver) | Phase coverage analysis, depth bias assessment | Phase coverage report, bias mitigation recommendations |
+| T121 | P2 | — | Verify remainingOverageTime behavior — does it use spec override (60) vs global default (12)? | Overtime tracking depends on correct remainingOverageTime interpretation | kaggle-environments core.py, connectx.json | Round 18: Flat board array confirmed; overtime tracking from core.py | remainingOverageTime behavior, spec override value | Verified remainingOverageTime behavior |
 
 ---
 
-## Task Status Summary (Round 18 Updated)
+## Task Status Summary (Round 19 Updated)
 
 | Status | Count |
 |--------|--------|
 | READY | 55 |
 | RUNNING | 0 |
-| COMPLETE | 6 (T032, T033, T001, T004, T014, T051) |
+| COMPLETE | 14 (T032, T033, T001, T004, T014, T051, T005, T006, T052, T053, T054, T055, T056, T057) |
 | BLOCKED | 0 |
 | REJECTED | 0 |
 
-Total: 66 tasks (C001-C113 claims, T001-T108 tasks). R18 added 8 new tasks (T101-T108) from R18 worker follow-ups. R18 completed 1 task (T051 — Kaggle board config verification).
+Total: 69 tasks (T001-T059, T101-T108, T118, T120, T121; gaps: T016, T114-T117, T119 removed as duplicates/missing). R19 added 3 new unique tasks (T118, T120, T121). R19 added 8 follow-up tasks, 5 removed as duplicates (T114-T117, T119).
 | FOLLOW-UP | 6 (FU-016 through FU-021) |
 
 ---
@@ -114,11 +117,11 @@ Total: 66 tasks (C001-C113 claims, T001-T108 tasks). R18 added 8 new tasks (T101
 | FU-002 | R11 audit | blog.gamesolver.org SSL cert issue may need admin intervention to fix | PENDING |
 | FU-003 | R11 audit | rowspire npm package may be private or unpublished; check package.json for hints | RESOLVED R15: Training fully decoded from train.rs/data.rs/training.rs in public GitHub repo; npm package details no longer relevant |
 | FU-004 | R12 batch | DGX endpoint (192.168.86.39:8006) unreachable — both timeouts and model-selection failures | PENDING |
-| FU-005 | R13 worker-01 | Verify Kaggle evaluation harness board configurations (check if evaluate() passes non-default configs) | PENDING |
-| FU-006 | R13 worker-01 | Check deprecated_envs/ directory for historical ConnectX behavior or configs | PENDING |
-| FU-007 | R13 worker-01 | Inspect visualizer/ for new features or configuration options | PENDING |
+| FU-005 | R13 worker-01 | Verify Kaggle evaluation harness board configurations | RESOLVED R19: Fully analyzed via kaggle-environments v1.32.2 source code. Default 7x6 confirmed. Test suite: 7x6 (6 tests), 4x5/inarow=3 (8 tests). No tests >10x8.
+| FU-006 | R13 worker-01 | Check deprecated_envs/ directory | RESOLVED R19: Deprecated environments cataloged: chess (Dockerfile), Lux AI s2 (dep conflict), LLM 20Q (gymnasium), tic-tac-toe (obsolete visualizer), open_spiel_env (obsolete visualizers). No ConnectX-specific deprecated configs.
+| FU-007 | R13 worker-01 | Inspect visualizer/ | RESOLVED R19: Canvas-based TS renderer fully decoded: cyan/white pieces, animated drop, win-line, step controls, JSON replay. renderer.ts and index.html analyzed.
 | FU-008 | R13 worker-01 | Verify maxLogLength behavior — test uses it but not in agent interface spec | PENDING |
-| FU-009 | R13 worker-01 | Check env.train() API availability on Kaggle evaluation servers | PENDING |
+| FU-009 | R13 worker-01 | Check env.train() API | RESOLVED R19: env.train() available in core.py Environment class for self-play training. API fully analyzed.
 | FU-010 | R13 worker-01 | Determine exact kaggle-environments version deployed on Kaggle servers | PENDING |
 | FU-011 | R13 worker-05 | Decode Woonderpipe/connect-4 AI (try src/app/, components/, lib/ paths) | PENDING |
 | FU-012 | R13 worker-05 | Decode jambolo/four-in-a-row AI (check src-tauri/src/ for Rust) | PENDING |
@@ -131,4 +134,4 @@ Total: 66 tasks (C001-C113 claims, T001-T108 tasks). R18 added 8 new tasks (T101
 | FU-019 | R17 | Port Kite's mixed hash to Python for Kaggle — three-key MurmurHash3-like scheme (0x9E3779B97F4A7C15L, 0xBF58476D1CE4E5B9L, 0x94D049BB133111EBL) | READY |
 | FU-020 | R17 | Create minimal Python opening book for 7x6 Kaggle — using Kite's 6-bit packed score format as reference | READY |
 | FU-021 | R17 | Compare Kite opening-hard benchmark methodology — Kite 22us vs Fhourstones 5.5s may have different measurement approaches | READY |
-
+| FU-022 | R19 | Deprecated environments analysis: verify deprecation reasons are current (gymnasium, vec_noise, etc.) | READY |

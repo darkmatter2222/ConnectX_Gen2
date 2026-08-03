@@ -2,8 +2,8 @@
 
 > **Current Round**: 19
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 18 (2026-08-03, MCTS Algorithms and Self-Play)
-> **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12
+> **Previous Round**: 19 (2026-08-03, External-pool batch synthesis: Kaggle board config, flat array, opening books, GPU MCTS)
+> **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (resumed R19)
 
 ---
 
@@ -106,14 +106,14 @@ Combined with game-phase strategy:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 68 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C067, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113) | 64% |
+| VERIFIED | 69 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C068, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113) | 65% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
 | SUPPORTED | 4 (C001, C005, C012, C019) | 4% |
-| HYPOTHESIS | 22 (C006-C010, C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 21% |
+| HYPOTHESIS | 22 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 21% |
 | UNKNOWN | 3 (C002, C003, C004) | 3% |
 | REFUTED | 1 (C058) | 1% |
 
-**Key observation**: 64% of material claims are VERIFIED. STRONGLY SUPPORTED: 3% (C016 Numba JIT, C025 Kaggle timeout API, C056 rowspire evaluation — upgraded from VERIFIED). SUPPORTED: 4% (C001 Wikipedia, C005 Wikipedia, C012 SFT→RL training, C019 ONNX). HYPOTHESIS: 21% (evidence-gate downgrades C027/C028 from SUPPORTED, opening book implementations C107-C109). UNKNOWN: 3% (Bock database specifics — C002-C004). 1% REFUTED (C058). Total: 101 unique claims across C001-C113 with gaps (C094-C099 duplicate, C100-C101 remapped). R19 additions: 7 new VERIFIED (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109), C027/C028 downgraded HYPOTHESIS, C056 upgraded STRONGLY SUPPORTED. R19 resolves: CG-001. T051 COMPLETE. R18 corrections already applied: C027/C028 downgraded, C056 upgraded.
+**Key observation**: 65% of material claims are VERIFIED. STRONGLY SUPPORTED: 3% (C016 Numba JIT, C025 Kaggle timeout API, C056 rowspire evaluation — upgraded from VERIFIED). SUPPORTED: 4% (C001 Wikipedia, C005 Wikipedia, C012 SFT→RL training, C019 ONNX). HYPOTHESIS: 21% (evidence-gate downgrades C027/C028 from SUPPORTED, opening book implementations C107-C109). UNKNOWN: 3% (Bock database specifics — C002-C004). 1% REFUTED (C058). Total: 103 unique claims across C001-C113 with gaps (C094-C099 duplicate, C100-C101 remapped). R19 additions: 7 new VERIFIED (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109), C027/C028 downgraded HYPOTHESIS, C056 upgraded STRONGLY SUPPORTED. R19 resolves: CG-001. T051 COMPLETE. R18 corrections already applied: C027/C028 downgraded, C056 upgraded.
 
 ---
 

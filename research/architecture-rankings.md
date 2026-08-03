@@ -1,11 +1,11 @@
-# Architecture Rankings — ConnectX Bot
+﻿# Architecture Rankings — ConnectX Bot
 
-> **Current Round**: 18
+> **Current Round**: 19
 > **Last Updated**: 2026-08-03
 
 ---
 
-## Current Rankings (Post Round 18)
+## Current Rankings (Post Round 19)
 
 | Rank | Approach | Confidence | 7x6 Strength | 15x13 Strength | Evidence Grade | Major Unknowns |
 |------|----------|------------|-------------|----------------|---------------|----------------|
@@ -176,6 +176,7 @@
 | 16 | Hybrid NN+Search | No change — but GPU/Parallel Search: 7 new sources (S059-S065), 7 new VERIFIED claims (C078-C084); Liang Li et al. 2012 (70.8x GPU speedup), MCTS-NC Klęsk (four GPU MCTS variants, 75%+ avg score), Navade788 gpu-connect4-cuda, Project-Artetra CUDA target; AlphaZero auxiliary loss 0.785 oracle match as verification path; T014 NEGATIVE RESULT (no formal multi-engine ELO); Pascal Pons solver corrections (no PVS, static constexpr board sizes); Corpus audit: R15 stat table recount fixed (VERIFIED 48→51, SUPPORTED 8→9); C006-C010 and C026 downgraded HYPOTHESIS per evidence gate (see R17) |
 | 18 | Hybrid NN+Search | No change — corpus audit: 14 structural issues found (S039 identity conflict, S066/S069 duplicate S-numbers, S055 broken row, claim-register metadata errors). 11 claims audited (C067-C077): 6 VERIFIED, 1 HYPOTHESIS, 1 PARTIALLY INVALID (C077). No substantive architecture changes.
 | 17 | Hybrid NN+Search | No change — but corpus audit corrections: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations — Internal knowledge only, no published external source); VERIFIED 56/68%, SUPPORTED 9→3/4%, HYPOTHESIS 13→19/23%; Opening book survey: 3 implementations found (tromp book88 8x8 binary, Pascal Pons DEPTH=14 source-generated, Kite 15-ply compiled cache); Kite outperforms Fhourstones and Pascal Pons on Pascal Pons benchmark; GPU inference bottleneck: NN inference negligible regardless of hardware tier; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference acceleration; AlphaZero auxiliary loss paper (0.785 oracle match rate) identified as verification path |
+| 19 | Hybrid NN+Search | No change — but external-pool batch (8 workers): 7x6 confirmed as only board with test evidence in kaggle-environments v1.32.2; 15x13/15x10 have ZERO evidence; obs.board is flat 1D array; 3 opening book implementations decoded (tromp book88 ~500MB, Pascal Pons DEPTH=14, Kite 15-ply 95.6MB with 250000x speedup); TonyCWang data generation corrected: uniform random + depth-18 solver; C027/C028 downgraded HYPOTHESIS; C056 upgraded STRONGLY SUPPORTED (16 features); No engine ELO exists. 7 VERIFIED (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109). VERIFIED 66->68, HYPOTHESIS 19->22.
 
 ---
 

@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 12 (2026-08-02)
+> **Current Round**: 13 (2026-08-02)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -34,6 +34,7 @@
 | `iterations/round-010.md` | 10 | 2026-08-02 | rowspire FULL source decoded (14 files): 4×128 MLP, dual value+policy, 100D input, 7-feature eval, UCB1 MCTS; eSlams framework; kenrick95/c4; Wikipedia opening theory; VERIFIED 60% |
 | `iterations/round-011.md` | 11 | 2026-08-02 | Pascal Pons C++ solver fully decoded (negamax+PVS+TT+book); TonyCWang 958M-row training dataset (board-state, exact solver targets); Hugging Face LLM catalog (11+ models); evidence audit (17 fixes: duplicates, stale headers); Supervised Pre-training + Search approach added; VERIFIED 60%→66% |
 | `iterations/round-012.md` | 12 | 2026-08-02 | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings |
+| `iterations/round-013.md` | 13 | 2026-08-02 | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal); 5 new JS/TS/Python engine eval benchmarks decoded; VERIFIED 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); C025 → STRONGLY SUPPORTED |
 
 ## Legacy Documents (evidence, preserved)
 

@@ -1,7 +1,7 @@
 # Research Work Queue — ConnectX Bot
 
 > **Last Updated**: 2026-08-02
-> **Current Round**: 12
+> **Current Round**: 13
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---
@@ -54,8 +54,8 @@
 | T029 | P2 | — | Find Connect 4 engine performance on non-7x6 boards: how does alpha-beta scale on 8x8, 10x10, 15x13? | Performance on larger boards determines which approach is viable for 15x13 Kaggle boards | Tromp 8x8 solver, Pascal Pons 9x6 support, any 15x13 benchmarks | Round 9-11: 8x8 solved, 9x6 supported, no 15x13 data | Performance metrics on 8x8, 10x10, 15x13 for alpha-beta search | Depth achievable, time per move, board size scaling factor |
 | T030 | P2 | C053 | James Dow Allen's "The Complete Book of Connect Four" — find an alternative source | This is the definitive reference for Connect 4 solving history; the fabpedigree.com link is blocked | Google Books, archive.org, other libraries, secondhand sellers | Round 9: C053 verified that the book exists; fabpedigree.com 403 | Alternative URL to book content, preview, or summary | Book summary, key findings, relevant quotes |
 | T031 | P2 | — | Find Connect 4 AI conference papers: any ICAPS/JOCIG papers specifically on Connect 4 solving | Academic papers may contain rigorous analysis of solving methods, complexity bounds | ICAPS proceedings, JOCIG proceedings, Google Scholar (try direct URLs) | Round 9: ICAPS/JOCIG DNS failures; no papers found | Paper title, authors, year, key findings, download URL | Paper citation, summary, availability |
-| T032 | P2 | — | Kaggle ConnectX environment spec: check kaggle-environments repo for any recent changes to ConnectX rules or board configs | Kaggle may have updated the environment since Round 1; new rules could affect strategy | kaggle-environments GitHub repo, ConnectX spec JSON | Round 6: Kaggle spec analyzed (7x6 default, 2s/move, 60s overage) | Any changes to rules, board configs, timeouts, or scoring | List of changes, impact assessment |
-| T033 | P2 | — | Find Connect 4 engine source code in languages other than C++/Rust/Python/Java: JavaScript/TypeScript implementations | JavaScript/TypeScript is closer to Kaggle notebook environment; may reveal browser-optimized techniques | GitHub repos with "connect4" topic | Round 10: kenrick95/c4 (TypeScript) found; no other JS Connect 4 AI | JavaScript/TypeScript implementations, algorithms used, performance | Implementation URL, algorithm, performance notes |
+| T032 | P2 | — | Kaggle ConnectX environment spec: check kaggle-environments repo for any recent changes to ConnectX rules or board configs | Kaggle may have updated the environment since Round 1; new rules could affect strategy | kaggle-environments GitHub repo, ConnectX spec JSON | Round 6: Kaggle spec analyzed (7x6 default, 2s/move, 60s overage) | Any changes to rules, board configs, timeouts, or scoring | List of changes, impact assessment | COMPLETE — R13: kaggle-environments spec fully analyzed. episodeSteps/runTimeout moved to global schemas.json; agentTimeout fully removed; remainingOverageTime moved to observation; game rules unchanged. C069/C070 verified. C025 upgraded to STRONGLY SUPPORTED. |
+| T033 | P2 | — | Find Connect 4 engine source code in languages other than C++/Rust/Python/Java: JavaScript/TypeScript implementations | JavaScript/TypeScript is closer to Kaggle notebook environment; may reveal browser-optimized techniques | GitHub repos with "connect4" topic | Round 10: kenrick95/c4 (TypeScript) found; no other JS Connect 4 AI | JavaScript/TypeScript implementations, algorithms used, performance | Implementation URL, algorithm, performance notes | COMPLETE — R13: 5 new repos cataloged (QveenCoder connect-four, nguyenthequang games-website, ariobarin The-Reticle, Woonderpipe connect-4, jambolo four-in-a-row). 2 fully source-decoded (QveenCoder minimax+alpha-beta with asymmetric eval; nguyenthequang alpha-beta with centrality move ordering). ariobarin TT+history+threat-map most sophisticated classical engine. C069–C072 verified. |
 | T034 | P2 | — | Search for "Connect 4 opening moves" — list of all optimal first moves and their theoretical outcomes | Knowing all optimal openings helps build a comprehensive opening book | Solved game databases, Wikipedia, Connect 4 forums | Round 10: Wikipedia confirms center = win ≤41 moves; adjacent = draw; edge = loss | Complete list of first moves with theoretical outcomes (win/draw/loss) | First move → outcome mapping for all 7 columns |
 | T035 | P2 | — | Find Connect 4 position evaluation databases: any public position databases beyond Pascal Pons' solver | Position databases could provide quick evaluation without running search | GitHub repos, academic databases, chess position evaluators | Round 11: Pascal Pons DB is the largest found (depth-14) | Position database URL, size, format, coverage | Database URL, size, format, coverage |
 | T036 | P3 | — | Kaggle ConnectX forum discussions: any strategy tips from Kaggle community | Community knowledge may reveal practical tips not found in academic sources | Kaggle forum, Kaggle ConnectX competition page | Round 5: Kaggle forum inaccessible due to JS requirement | Forum posts with strategy tips, winning approaches | Post URLs, summary of tips, practical applicability |
@@ -73,19 +73,28 @@
 | T048 | P3 | — | Research Connect 4 AI error analysis: what mistakes do different approaches make? | Understanding error patterns helps design targeted improvements | Chess engine error analysis, Connect 4 forums | No prior error analysis | Common error types, approach-specific error patterns, frequency | Error types, patterns, frequency, improvement strategies |
 | T049 | P3 | — | Find Connect 4 AI competitive tournaments: any organized tournaments with results | Tournament results provide the most authoritative strength comparison | Chess tournament databases, Connect 4 tournaments | No prior tournament research | Tournament name, date, participants, results, source | Tournament details, top results, authoritative source |
 | T050 | P3 | — | Research Connect 4 AI reproducibility: can the TonyCWang dataset be regenerated? | If the dataset can be regenerated, it enables custom training with different parameters | Pascal Pons solver source, TonyCWang methodology description | Round 11: TonyCWang uses Pascal Pons solver + self-play + temperature | Reproduction method, required compute, expected dataset size | Reproduction steps, compute estimate, dataset size estimate |
+| T051 | P2 | CG-001 | Verify Kaggle evaluation board configurations — check if evaluate() in core.py receives non-default configurations (7x6/15x13/15x10) | R13 verified spec changes but Kaggle's live evaluation harness config remains unknown | core.py evaluate() function signature, Kaggle evaluation docs | Round 13: spec analyzed but Kaggle page requires JS rendering | Configuration object passed to evaluate(), board sizes tested | Board size list, configuration parameters, source code path |
+| T052 | P2 | — | Decode Woonderpipe/connect-4 AI: check src/app/, components/, lib/, server/, api/ directories for "serverless AI" implementation | R13 found Next.js project but src/connect4.ts was 404 | Woonderpipe/connect-4 GitHub repo | Round 13: src/connect4.ts returned 404 | AI source code path, algorithm used, implementation details | File path, algorithm summary, code availability |
+| T053 | P2 | — | Decode jambolo/four-in-a-row AI: check src-core/ or src-tauri/src/ for Rust source files | R13 found Tauri desktop app but AI implementation path unknown | jambolo/four-in-a-row GitHub repo | Round 13: src-core/ directory exists but contents not inspected | AI source code, algorithm used, performance characteristics | File path, algorithm summary, Rust source availability |
+| T054 | P2 | — | Check kaggle-environments deprecated_envs/ directory for historical ConnectX behavior | Deprecated environments may contain historical ConnectX configs no longer in main spec | kaggle-environments deprecated_envs/ directory | Round 13: spec changes analyzed but deprecated_envs/ not checked | Deprecated ConnectX configs, historical behavior changes | Config list, change dates, impact on current bots |
+| T055 | P2 | — | Inspect kaggle-environments visualizer for new features relevant to bot development | The HTML visualizer may have new features or configuration options | kaggle_environments/envs/connectx/visualizer/ directory | Round 13: spec and tests analyzed but visualizer not checked | Visualizer features, configuration options, rendering changes | Feature list, applicable options, code location |
+| T056 | P2 | — | Verify maxLogLength behavior — the test uses it, agent runner truncates to it, but it's undocumented | maxLogLength (default 10000 chars) affects stdout/stderr output limits | kaggle-environments test_max_log_length, agent.py | Round 13: test found but behavior not verified | Truncation behavior, logging limits, agent output impact | maxLogLength value, truncation behavior, code path |
+| T057 | P2 | — | Check env.train() API availability on Kaggle evaluation servers | Training-mode API may not be available on Kaggle; determines what techniques are possible | core.py train() method in kaggle-environments | Round 13: test_can_train_first/second found but API not tested on Kaggle | API availability, documentation, usage constraints | API signature, availability on Kaggle, documentation URL |
+| T058 | P3 | — | Scan GitHub topics: connect-four-ai for additional repos not covered by connect-four/connectx topics | connect-four-ai topic may have repos not tagged with connect-four or connectx | github.com/topics/connect-four-ai | Round 13: connect-four topics scanned (20 repos) | New repos, star counts, brief descriptions | New repo URLs, star counts, priority for deep dive |
+| T059 | P3 | — | Benchmark JS alpha-beta depth on Kaggle T4 — measure actual depth achievable in 2 seconds | 2s/move budget may only support depth 4–5 in pure JS; measurement informs approach | Kaggle T4 specs, benchmark scripts | Round 13: JS engines cataloged but no latency benchmarks | Depth achievable, nodes per second, time per move | Depth, NPS, latency ms, benchmark methodology |
 
 ---
 
-## Task Status Summary (Round 11 Baseline)
+## Task Status Summary (Round 13 Updated)
 
 | Status | Count |
 |--------|-------|
-| READY | 50 |
+| READY | 48 |
 | RUNNING | 0 |
-| COMPLETE | 0 |
+| COMPLETE | 2 (T032, T033) |
 | BLOCKED | 0 |
 | REJECTED | 0 |
-| FOLLOW-UP | 0 |
+| FOLLOW-UP | 0 | |
 
 ---
 
@@ -97,3 +106,12 @@
 | FU-002 | R11 audit | blog.gamesolver.org SSL cert issue may need admin intervention to fix | PENDING |
 | FU-003 | R11 audit | rowspire npm package may be private or unpublished; check package.json for hints | PENDING |
 | FU-004 | R12 batch | DGX endpoint (192.168.86.39:8006) unreachable — both timeouts and model-selection failures | PENDING |
+| FU-005 | R13 worker-01 | Verify Kaggle evaluation harness board configurations (check if evaluate() passes non-default configs) | PENDING |
+| FU-006 | R13 worker-01 | Check deprecated_envs/ directory for historical ConnectX behavior or configs | PENDING |
+| FU-007 | R13 worker-01 | Inspect visualizer/ for new features or configuration options | PENDING |
+| FU-008 | R13 worker-01 | Verify maxLogLength behavior — test uses it but not in agent interface spec | PENDING |
+| FU-009 | R13 worker-01 | Check env.train() API availability on Kaggle evaluation servers | PENDING |
+| FU-010 | R13 worker-01 | Determine exact kaggle-environments version deployed on Kaggle servers | PENDING |
+| FU-011 | R13 worker-05 | Decode Woonderpipe/connect-4 AI (try src/app/, components/, lib/ paths) | PENDING |
+| FU-012 | R13 worker-05 | Decode jambolo/four-in-a-row AI (check src-tauri/src/ for Rust) | PENDING |
+| FU-013 | R13 worker-05 | Benchmark JS alpha-beta depth on Kaggle T4 (measure actual depth per 2s) | PENDING |

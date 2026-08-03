@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 11
+> **Current Round**: 13
 > **Last Updated**: 2026-08-02
 
 ---
@@ -74,6 +74,13 @@
 | S046 | Lyte/ConnectFour-clean — 217K text-based Connect 4 game dataset — Round 11 | VERIFIED + dataset card — Round 11 | Text notation with outcomes. 50.4 MB. Referenced by same github.zhaw.ch/connect4-llm project as Leon-LLM models.
 | S047 | Leon-LLM Connect 4 model collection (6 GPT-2 variants: 3 LC4N + 3 SC4N) — Round 11 | VERIFIED — Round 11 | Text-based GPT-2 models fine-tuned on Connect 4 game sequences. LC4N=Large, SC4N=Small, suffixes encode dataset size → seed → epochs. All models lack model cards and evaluation metrics.
 | S048 | Looyyd/connectfour-qwen2.5-1.5b-instruct — Qwen2.5 1.5B fine-tuned on Connect 4 — Round 11 | VERIFIED — Round 11 | 2B param SFT model via TRL library. No model card, no evaluation. PEFT/LoRA variant (Qwen3-4B) also exists (UnstableBaselines).
+| S049 | GitHub topics scan: connect-four sorted by updated (20 repos as of 2026-08-02) — Round 11 | VERIFIED — Round 11 | All 20 repos cataloged; 3 new since R10 scan. No GitHub API access (TLS/schannel errors); WebFetch used.
+| S050 | QveenCoder/connect-four — Minimax AI with alpha-beta pruning (vanilla JS) — Round 13 | VERIFIED + full source — Round 13 | Minimax with alpha-beta, configurable depth (3–6 via UI), window-scoring eval with asymmetric weights (win: 100K, near-win: 100, opponent near-win: -120), 2D array board (row-major), pure JS with browser+Node.js exports, 14 unit tests, no dependencies
+| S051 | nguyenthequang/games-website — Connect 4 AI with alpha-beta and threat evaluation (multi-game JS) — Round 13 | VERIFIED + full source — Round 13 | Alpha-beta with depth 5, in-place board mutation (no cloning), centrality move ordering [3,2,4,1,5,0,6], pre-computed C4_WINDOWS array, threat-based scoring (AI 3-in-row: +80, human block: -90), multi-game website (6 games)
+| S052 | ariobarin/The-Reticle — Python AlphaZero-inspired arcade collection with Connect 4 engine (TT + history + threat-map) — Round 13 | VERIFIED + full source — Round 13 | Minimax with alpha-beta + transposition table (10M capacity, LRU eviction), history heuristic (3^depth), threat-map evaluation (±1000 strong, ±100 weak), iterative deepening with time limit, column-major board with hash()
+| S053 | Woonderpipe/connect-4 — Next.js 16 + TypeScript Connect 4 with mobile/Play Store support — Round 13 | VERIFIED — Round 13 | Next.js 16 + React 19 + Capacitor mobile + Playwright E2E + PeerJS multiplayer. AI implementation ("serverless AI") not in publicly accessible source.
+| S054 | jambolo/four-in-a-row — Desktop Connect 4 game (Tauri/Rust app) — Round 13 | VERIFIED — Round 13 | Tauri desktop app with `src-core/` and `src-tauri/` directories. Rust-based computer opponent; Tauri pattern suggests AI in `src-tauri/src/`.
+| S055 | GitHub topics scan: connect-four sorted by updated (20 repos as of 2026-08-02, 4 new since R10) — Round 13 | VERIFIED — Round 13 | All 20 repos cataloged; Woonderpipe/connect-4 and nguyenthequang/games-website newly discovered |
 
 ---
 

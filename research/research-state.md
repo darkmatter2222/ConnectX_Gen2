@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 11
+> **Current Round**: 13
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 10 (2026-08-02)
+> **Previous Round**: 12 (2026-08-02)
 > **Status**: Active — deep research phase; external-pool DGX unavailable since round 12
 
 ---
@@ -23,6 +23,7 @@
 | 10 | 2026-08-02 | Complete | rowspire FULL source decoded (14 files): 4×128 MLP + skip connections (dual value+policy), 100D input (64-cell binary + 16 normalized features), 7-feature evaluation with genetic tuning, UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 64-bit bitboard; training OPAQUE; eSlams evaluation framework discovered (50 arenas, REST protocol, Ed25519 proof); kenrick95/c4 (278★) cataloged; Wikipedia opening theory confirmed; VERIFIED claims 55%→60%; 3 new sources (S039-S041) |
 | 11 | 2026-08-02 | Complete | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+book; iterative binary search); TonyCWang/ConnectFour dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors, exact solver evaluations); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking metrics); evidence audit (17 structural issues fixed: duplicate sections, duplicate sources, stale headers); GitHub API unreachable (TLS/schannel error); VERIFIED claims 60%→66%; 9 new claims (C060-C068); 8 new sources (S042-S049) |
 | 12 | 2026-08-02 | Complete | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings; DGX at 192.168.86.39:8006 unavailable since this round |
+| 13 | 2026-08-02 | Complete | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval function benchmarks decoded; VERIFIED claims stable at 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); C025 upgraded to STRONGLY SUPPORTED; CG-001 and GH-005 partially resolved |
 
 ---
 
@@ -67,7 +68,7 @@ Combined with game-phase strategy:
 
 | ID | Category | Priority | Status |
 |----|----------|----------|--------|
-| CG-001 | Kaggle leaderboard | CRITICAL | ❌ BLOCKED (no web search; Kaggle pages require JS) |
+| CG-001 | Kaggle leaderboard | CRITICAL | 🔍 PARTIAL — R13 verified kaggle-environments spec analysis (global config schema, agentTimeout removal, remainingOverageTime relocation); Kaggle competition page still requires JS rendering; board configurations (7x6/15x13/15x10) confirmed from spec but not from live Kaggle page |
 | CG-002 | Top bot strategies | CRITICAL | ✅ RESOLVED (Round 6-7: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics; GoodCoder666/katac4 analyzed) |
 | CG-003 | RTX 5090 benchmarks | CRITICAL | ⏳ PENDING |
 | CG-004 | 15x13 first-player advantage | CRITICAL | 🔍 PARTIAL — Wikipedia confirms 7x6, not 15x13; 8x8 solved |
@@ -75,7 +76,7 @@ Combined with game-phase strategy:
 | GH-002 | TensorRT benchmarks | HIGH | ⏳ PENDING |
 | GH-003 | CUDA search | HIGH | ⏳ PENDING |
 | GH-004 | MTD(f) Python benchmark | HIGH | ✅ RESOLVED (Round 5) |
-| GH-005 | Optimal CNN architecture | HIGH | ✅ RESOLVED (katac4 ResNet fully decoded in R9; rowspire fully decoded in R10) |
+| GH-005 | Optimal CNN architecture / Classical engine eval functions | HIGH | ✅ RESOLVED (katac4 ResNet fully decoded R9; rowspire fully decoded R10); R13 adds 5 JS/TS/Python engine eval function benchmarks: QveenCoder (win:100K, near-win:100), nguyenthequang (centrality move ordering [3,2,4,1,5,0,6], in-place mutation), ariobarin (TT + history + threat-map) |
 | GH-006 | Transfer learning effectiveness | HIGH | ✅ RESOLVED (Round 3) |
 | GH-007 | rowspire training algorithm | HIGH | ❌ STILL UNKNOWN — npm run train is opaque; no training code in GitHub repo |
 | GH-008 | rowspire genetic tuning weights | MODERATE | ⏳ UNKNOWN — weights loaded externally; not in source code |
@@ -102,4 +103,8 @@ Combined with game-phase strategy:
 4. **rowspire genetic tuning weights** — Still loaded externally, not in repo.
 5. **LLM-based Connect 4 model evaluation** — 11+ models on Hugging Face with zero metrics. Could try inference on sample models to measure move-prediction accuracy.
 6. **GitHub API accessibility** — GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
-7. **S005/S006 Kaggle ConnectX spec internal paths** — Consider adding GitHub API links as web-accessible fallback URLs.
+7. **Woonderpipe/connect-4 AI** — The `src/connect4.ts` path returned 404. Try alternative paths: `src/app/`, `components/`, `lib/`, or check if the "serverless AI" is a separate server file.
+8. **jambolo/four-in-a-row AI** — Check `src-core/` for Rust source files. Tauri pattern suggests AI may be in `src-tauri/src/` (Rust).
+9. **kaggle-environments exact deployed version** — Determine what version Kaggle servers actually run; local repo may be newer.
+10. **ariobarin transposition table port to JS/Python** — The 10M-entry TT with LRU eviction and history heuristic is the most sophisticated classical technique found — worth benchmarking for Kaggle.
+11. **GitHub topics scan: connect-four-ai topic** — Additional repos may exist under that topic not covered by `connect-four` or `connectx` topics.

@@ -43,6 +43,8 @@
 | C008 | Center-first move ordering gives 3-5× effective speedup | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 1 | Round 5 | MEDIUM | Moderate |
 | C009 | Full move ordering (TT + wins/blocks + killer + center) gives 10-30× effective speedup | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 4 | Round 5 | MEDIUM | Moderate |
 | C010 | Transposition table size of 100K-1M entries recommended | SUPPORTED | Internal knowledge | Moderate | All board sizes | Round 4 | Round 5 | MEDIUM | Moderate |
+| C071 | ariobarin/The-Reticle Connect 4 engine uses transposition table (10M capacity, LRU eviction), history heuristic (3^depth), threat-map evaluation (+/-1000 strong, +/-100 weak), iterative deepening with time limit, column-major board with hash() | VERIFIED | S052 (ariobarin/The-Reticle source code: engine.py, board.py) | Strong | Search optimization | Round 13 | Round 13 | HIGH | High — most sophisticated classical search technique found across all languages; provides concrete reference for Kaggle classical implementation |
+| C072 | nguyenthequang/games-website implements centrality-based move ordering [3,2,4,1,5,0,6], in-place board mutation (no cloning), pre-computed C4_WINDOWS array, immediate win/block detection before alpha-beta search | VERIFIED | S051 (nguyenthequang/games-website source code: js/connect4.js) | Strong | Search optimization | Round 13 | Round 13 | HIGH | High — proven move ordering and board cloning optimization directly applicable to Kaggle JS/Python implementations |
 
 ---
 
@@ -78,7 +80,7 @@
 | C022 | Board is flat (row-major) array in observation | VERIFIED | S006 | Strong | Board representation | Round 1 | Round 6 | HIGH | Critical — affects indexing |
 | C023 | Board configurations: 7x6 default, configurable columns/rows/inarow | VERIFIED | S005 | Strong | Multi-board strategy | Round 1 | Round 6 | HIGH | Critical |
 | C024 | Invalid column moves result in agent loss | VERIFIED | S006 | Strong | Error handling | Round 1 | Round 6 | HIGH | Critical |
-| C025 | agentTimeout is deprecated, use remainingOverageTime instead | VERIFIED | S005 | Strong | API compliance | Round 3 | Round 6 | HIGH | Moderate |
+| C025 | agentTimeout is deprecated, use remainingOverageTime instead | STRONGLY SUPPORTED | S005, S006 | Strong | API compliance | Round 3 | Round 13 | HIGH | Moderate — agentTimeout fully removed from spec; observation.remainingOverageTime is now the sole authoritative source |
 
 ---
 
@@ -150,6 +152,8 @@
 | C066 | Text-based Connect 4 datasets (Leon-LLM, Lyte) use coordinate notation (e.g., "1. d1 g1") with outcome strings ("1-0", "0-1"); 217K-237K games; orders of magnitude smaller than board-state datasets (958M rows) | VERIFIED | S045 (Leon-LLM dataset), S046 (Lyte/ConnectFour-clean) | Moderate | Dataset format | Round 11 | Round 11 | MEDIUM | Low — text notation is semantically distant from board state; compounding error in sequential prediction |
 | C067 | blog.gamesolver.org (Pascal Pons tutorial) is unreachable via WebFetch due to SSL certificate mismatch — served GitHub certificate instead of proper gamesolver.org cert | VERIFIED | Round 11 WebFetch attempts | Weak | Tool limitation | Round 11 | Round 11 | LOW | Low — prevents verification of the step-by-step solver tutorial |
 | C068 | Board-state approach (TonyCWang) is theoretically superior to text-based approach for Connect 4: optimal move depends only on current state, not move history; text-based models must "remember" full game history | SUPPORTED | Internal knowledge + dataset analysis | Weak | Architecture selection | Round 11 | Round 11 | MEDIUM | High — supports supervised pre-training with board-state inputs over autoregressive text prediction |
+| C069 | Kaggle kaggle-environments has restructured configuration: `episodeSteps` and `runTimeout` moved from per-environment spec to global `schemas.json` defaults; `actTimeout` and `timeout` simplified to plain numbers; `agentTimeout` fully removed; `remainingOverageTime` moved to observation section | VERIFIED | S006 (kaggle-environments source code: connectx.json, schemas.json, core.py) | Strong | Kaggle compliance | Round 13 | Round 13 | HIGH | Moderate — structural changes are backward-compatible; functional behavior unchanged |
+| C070 | Global configuration schema in schemas.json provides `episodeSteps=1000`, `actTimeout=6`, `runTimeout=1200` as defaults; environment specs can override via `extend_specification()` | VERIFIED | S006 (kaggle-environments source code: schemas.json, core.py) | Strong | Kaggle compliance | Round 13 | Round 13 | HIGH | Low — defaults documented in global schema; connectx overrides actTimeout=2 |
 
 ---
 
@@ -169,12 +173,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 44 (C020-C025, C031-C047, C048-C053, C054-C059, C060-C067) | 66% |
-| SUPPORTED | 13 (C001, C005, C006-C015, C019, C026-C028, C030, C068) | 19% |
-| STRONGLY SUPPORTED | 1 (C016) | 1% |
-| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 9% |
+| VERIFIED | 48 (C020-C025, C031-C047, C048-C053, C054-C059, C060-C067, C069-C072) | 67% |
+| SUPPORTED | 13 (C001, C005, C006-C015, C019, C026-C028, C030, C068) | 18% |
+| STRONGLY SUPPORTED | 2 (C016, C025) | 3% |
+| HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 8% |
 | UNKNOWN | 3 (C002-C004) | 4% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 66% of material claims are VERIFIED (up from 60% in R10, driven by R11's discovery of Pascal Pons' perfect C++ solver with full source code decoding, TonyCWang/ConnectFour dataset (958M rows of solver-generated training data), and Hugging Face LLM-based Connect 4 model catalog). 19% are SUPPORTED. 4% are UNKNOWN (only Böck database specifics remain — C002-C004). 9% are HYPOTHESIS (training/performance). Round 11 added 8 new VERIFIED claims (C060–C067): Pascal Pons solver (negamax+PVS+transposition table+opening book+iterative binary search), Pascal Pons board-size support (template WIDTH/HEIGHT, up to 9×6), TonyCWang dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors), TonyCWang target encoding (exact game-theoretic values), TonyCWang temperature sampling, Hugging Face LLM model catalog (11+ models, no evaluation metrics), text-based Connect 4 dataset format (coordinate notation), and blog.gamesolver.org unreachable. Also added 1 new SUPPORTED claim (C068): board-state approach is theoretically superior to text-based for Connect 4.
+**Key observation**: 67% of material claims are VERIFIED (up from 66% in R11, driven by R12 all-failures and R13's Kaggle kaggle-environments spec analysis and JS/TS/Python engine eval function benchmarks). 18% are SUPPORTED. 3% are STRONGLY SUPPORTED (C016 Numba JIT speedup; C025 Kaggle timeout API). 4% are UNKNOWN (only Böck database specifics remain — C002-C004). 8% are HYPOTHESIS (training/performance). Round 13 added 4 new VERIFIED claims (C069-C072): Kaggle kaggle-environments config restructuring (C069) — episodeSteps/runTimeout moved to global schemas.json, agentTimeout fully removed, remainingOverageTime moved to observation; global config schema defaults (C070) — episodeSteps=1000, actTimeout=6, runTimeout=1200; ariobarin/The-Reticle classical search engine with TT+history heuristic+threat-map (C071); nguyenthequang/games-website centrality move ordering and in-place board mutation (C072). C025 upgraded VERIFIED→STRONGLY SUPPORTED (agentTimeout fully removed from spec, remainingOverageTime is sole authoritative source).

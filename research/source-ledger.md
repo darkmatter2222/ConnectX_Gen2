@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 19
+> **Current Round**: 21
 > **Last Updated**: 2026-08-03
 
 ---
@@ -307,3 +307,46 @@ WebSearch is known broken (Round 5+): API error 400.
 | S083 | kaggle-environments pyproject.toml (v1.32.2) — Package version and dependencies | kaggle-environments/pyproject.toml | Config | 2020-2025 | Package version v1.32.2. Python >=3.11 required. Dependencies: numpy, jsonschema, fastapi, uvicorn, httpx, jinja2, pydantic. Version confirms the exact version used for deep source analysis in R19. |
 | S084 | kaggle-environments visualizer/index.html (v1.32.2) — Visualizer HTML entry point | kaggle-environments/kaggle_environments/envs/connectx/visualizer/index.html | HTML | 2020-2025 | Visualizer HTML entry point. Loads renderer.ts as ES module. Canvas element for game rendering. Step controls (next, previous, autoplay buttons). Replay panel for JSON replay files. Instructions for Kaggle environment visualization. |
 
+
+## Sources Added Round 20 (Slot 5, Job 7, Lane: REPOSITORY_AND_SOURCE_CODE_ANALYSIS)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S085 | tristan852/kite Kite.java — Full Java solver architecture (net.kite.internal.Kite) — Round 20 | github.com/tristan852/kite | Source code | 2024-2025 | Complete architecture decoded: fixed 7x6 board, center-first move ordering {3,2,4,1,5,0,6}, 5 skill levels (RANDOM, PERFECT, ADAPTIVE, 3 configurable via maximal_evaluation_loss), cubic score weight (score-min)^3 for probability distribution, adaptive move targeting half-board score with shrinking equal-score range, performance metrics tracking (evaluations, nodes, throughput), OpeningBoardScoreCaches (95.6 MB), mutable 2D board (no bitboard), no transposition table visible in Kite.java |
+| S086 | pklesk/mcts_numba_cuda c4.py — Connect 4 game state with Numba JIT win detection — Round 20 | github.com/pklesk/mcts_numba_cuda/src/c4.py | Source code | 2024-2025 | C4 game state class: 6x7 numpy int8 board, column_fills tracking (7 int8 entries), Numba JIT win detection at last-placed piece only (4-directional scan from drop point), win detection: N-S, E-W, NE-SW, NW-SE each scanning +/-3 cells from last piece, returns {-1, 0, 1} for terminal states, None for ongoing, draw detection via board.sum(), random playout via np.random.choice from open columns |
+| S087 | pklesk/mcts_numba_cuda mcts.py — Standard CPU Monte Carlo Tree Search reference — Round 20 | github.com/pklesk/mcts_numba_cuda/src/mcts.py | Source code | 2024-2025 | State base class: win_flag, n, n_wins, parent, children, outcome_computed, outcome, turn, last_action_index. MCTS class: UCB1 c=2.0 (DEFAULT_UCB_C), selection via UCB1 at every internal node, expansion via random child, playout via take_random_action_playout until terminal, backup backing up from terminal to root. Best action selection: (1) win_flag first, (2) visit count n, (3) win count n_wins. Performance tracking: loop time, select/expand/playout/backup times, tree size/depth, steps/second, playouts/second |
+| S088 | pklesk/mcts_numba_cuda mctsnc_game_mechanics.py — CUDA device functions for Connect 4 game mechanics — Round 20 | github.com/pklesk/mcts_numba_cuda/src/mctsnc_game_mechanics.py | CUDA source code | 2024-2025 | Five CUDA device functions: is_action_legal_c4, take_action_c4, legal_actions_playout_c4, take_action_playout_c4, compute_outcome_c4. Lock-free design: no atomics, no mutexes. is_action_legal_c4: extra_info[action] < m (column not full). take_action_c4: extra_info[action] += 1; row = m - extra_info[action]; board[row, action] = turn. compute_outcome_c4: 4-directional scan from last_action, returns {-1, 1} for wins, 0 for draw, 2 for ongoing |
+| S089 | Himath2002/gridline-four-android GameEngine.java + TacticalComputerStrategy.java + BoardSize.java — Pure 2D rules engine with configurable board sizes — Round 20 | github.com/Himath2002/gridline-four-android | Source code | 2025-2026 | GameEngine: configurable rows/columns at construction (min 4x4), 2D Disc[][] board, Move history (ArrayDeque), gravity via findOpenRow, 4-directional win detection via connectedCount, wouldWin() virtual placement, undoLastMove(), copyBoard(), canDrop(). BoardSize enum: COMPACT(5,6), CLASSIC(6,7), EXPANDED(7,8). TacticalComputerStrategy: win -> block -> center with leftmost tiebreaker. GameViewModel: Android MVVM ViewModel |
+| S090 | NasserAlbusaidi/tic-tac-toe-royale — XO Royale multiplayer Connect Four (README only; source code inaccessible) — Round 20 | github.com/NasserAlbusaidi/tic-tac-toe-royale | Metadata | 2026 | Connect Four as one of 4 game modes (Normal, Misere, Ultimate Tic Tac Toe, Connect Four). Server-authoritative engine via Vercel WebSocket + Redis. Real-time multiplayer with private rooms, chat, spectators, 256-bit resume tokens. Source files exist in server/ (game-engine.mjs), api/ (ws.mjs, health.mjs) but all raw.githubusercontent.com fetches return 404 |
+
+## URLs Probed Round 20 (Slot 5)
+
+| URL | Result |
+|-----|--------|
+| github.com/topics/connectx?o=desc&s=updated | OK — 7 repos (same as R19) |
+| github.com/topics/connect-four?o=desc&s=updated | OK — 21+ repos; NasserAlbusaidi/tic-tac-toe-royale new |
+| github.com/tristan852/kite | VERIFIED — full source decoded |
+| raw.githubusercontent.com/tristan852/kite/main/src/main/java/net/kite/internal/Kite.java | OK — full source (1000+ lines decoded) |
+| github.com/pklesk/mcts_numba_cuda | VERIFIED — source tree decoded |
+| github.com/Himath2002/gridline-four-android | VERIFIED — GameEngine + Strategy + BoardSize decoded |
+| raw.githubusercontent.com/Himath2002/gridline-four-android/main/app/src/main/java/io/github/himath2002/gridlinefour/game/GameEngine.java | OK — full GameEngine.java decoded |
+| raw.githubusercontent.com/Himath2002/gridline-four-android/main/app/src/main/java/io/github/himath2002/gridlinefour/game/TacticalComputerStrategy.java | OK — full strategy decoded |
+| raw.githubusercontent.com/Himath2002/gridline-four-android/main/app/src/main/java/io/github/himath2002/gridlinefour/model/BoardSize.java | OK — BoardSize enum decoded |
+| raw.githubusercontent.com/Himath2002/gridline-four-android/main/app/src/main/java/io/github/himath2002/gridlinefour/viewmodel/GameViewModel.java | OK — ViewModel decoded |
+| github.com/NasserAlbusaidi/tic-tac-toe-royale | VERIFIED — README accessible, source 404 |
+| raw.githubusercontent.com/pklesk/mcts_numba_cuda/main/src/mctsnc_game_mechanics.py | OK — CUDA device functions decoded |
+| raw.githubusercontent.com/pklesk/mcts_numba_cuda/main/src/c4.py | OK — C4 game state decoded |
+| raw.githubusercontent.com/pklesk/mcts_numba_cuda/main/src/mcts.py | OK — CPU MCTS reference decoded |
+| api.github.com/repos/NasserAlbusaidi/tic-tac-toe-royale/contents | OK — metadata (not source content) |
+| api.github.com/repos/pklesk/mcts_numba_cuda/contents | OK — source tree listing |
+| github.com/tristan852/kite/tree/main/src/main/java/net/kite/internal | VERIFIED — Kite.java + api/ internal/ directories |
+| raw.githubusercontent.com/NasserAlbusaidi/tic-tac-toe-royale/main/server/game-engine.mjs | FAILED — 404 (source inaccessible) |
+| raw.githubusercontent.com/NasserAlbusaidi/tic-tac-toe-royale/main/server/index.mjs | FAILED — 404 (source inaccessible) |
+
+## Sources Added Round 20 (NEURAL TRAINING AND HARDWARE)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S091 | GoodCoder666/katac4 model.py - Pre-activation ResNet architecture source code | raw.githubusercontent.com/GoodCoder666/katac4/main/model.py | Source code | ~2024 | VERIFIED + full source - Round 20. Pre-activation ResNet (b3c128nbt): 2 bottleneck blocks, 128 channels, nested bottleneck with mixed spatial pooling (mean+max), shallow conv heads (policy: 7x6x4=112 moves; value: 1 for W/D/L). Input encoding: 6 channels (2 player channels x board cells) + 1 side-to-move = 7 channels. ELO testing 300K games on 4xRTX 4090. CUDA graph caching. |
+| S092 | GoodCoder666/katac4 train.py - Training pipeline source code | raw.githubusercontent.com/GoodCoder666/katac4/main/train.py | Source code | ~2024 | VERIFIED + full source - Round 20. Self-play: 30K epochs, batch=16, SGD+momentum, 3-phase lambda scheduler. 3 cross-entropy loss terms: policy + value + auxiliary rival. Parallel workers, replay buffer, temperature decay. Checkpoints every 500 epochs. Highest training completeness of any Connect 4 project. |
+| S093 | NVIDIA T4 product page specifications | nvidia.com | Documentation | 2020 | VERIFIED - Round 20. Kaggle T4: 2,560 CUDA cores, 320 Turing Tensor Cores, 16GB GDDR6, 320+ GB/s bandwidth, 70W TDP, FP16 65 TFLOPS, INT8 130 TOPS. Inference optimized: up to 40x throughput vs CPU. |

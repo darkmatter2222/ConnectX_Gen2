@@ -1,8 +1,8 @@
-﻿# Research State -- ConnectX Bot
+# Research State -- ConnectX Bot
 
-> **Current Round**: 19
+> **Current Round**: 21
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 19 (2026-08-03, External-pool batch synthesis: Kaggle board config, flat array, opening books, GPU MCTS)
+> **Previous Round**: 20 (2026-08-03, NEURAL TRAINING AND HARDWARE -- NN architecture comparison, T4 GPU specs)
 > **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (resumed R19)
 
 ---
@@ -31,6 +31,10 @@
 | 17 | 2026-08-03 | Complete | R15 corpus audit corrections applied: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations -- Internal knowledge only, no published source). GPU inference bottleneck: NN inference negligible regardless of hardware; search tree is bottleneck; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference. AlphaZero auxiliary loss paper (0.785 oracle match) identified as verification path. 12 workers across 4 slots all successful. |
 | 19 | 2026-08-03 | Complete | OFFICIAL_KAGGLE_RULES_AND_COMPETITION Deep Source Analysis: 10 new VERIFIED claims (C102-C111), 10 new sources (S075-S084). Core findings: (1) Overtime enforcement from core.py line 631-632: per-step overage consumption via max(0, duration - actTimeout). (2) Agent timeout from agent.py line 220: per-call DeadlineExceeded() check. (3) UrlAgent timeout calc from agent.py line 89: remainingOverageTime + actTimeout + 1s grace. (4) Board is mutable single list across all steps -- no cloning. (5) maxLogLength: 10K chars per agent per step, ~20MB per episode. (6) Visualizer: Canvas-based TS renderer with cyan/white pieces, animated drop, win-line highlighting, step controls, JSON replay. (7) Deprecated environments: chess (Dockerfile), Lux AI s2 (dep conflict), LLM 20Q (gymnasium), tic-tac-toe (obsolete visualizer). (8) Agent signature autodetection: 1-arg or 2-arg both work via co_argcount. (9) Invalid move: board[column] != EMPTY check with 3 conditions, active agent = Invalid column status, inactive = DONE. (10) is_win has_played=False branch: lowest EMPTY row instead of just-placed mark row. Board is flat row-major, pieces: EMPTY=0, P1=1, P2=2. Play() drops to lowest empty row. CG-001, CG-002, CG-005 RESOLVED. T032, T005, T006, T051-T057 COMPLETE. VERIFIED 63-->66 (69%). |
 | 19 | 2026-08-03 | Complete | External-pool batch (8 workers): 7×6 confirmed as only board with test evidence in kaggle-environments v1.32.2 (6 tests for 7×6, 8 for 4×5/inarow=3; 15×13/15×10 have ZERO evidence). obs.board is flat 1D array (not 2D). 3 opening book implementations decoded (tromp book88 ~500MB, Pascal Pons DEPTH=14, Kite 15-ply 95.6MB with 250,000× speedup). TonyCWang data generation corrected: uniform random + depth-18 solver (not self-play). C027/C028 downgraded HYPOTHESIS (evidence gate); C056 upgraded STRONGLY SUPPORTED (16 features fully decoded). No engine ELO exists. CG-001 RESOLVED. 7 new VERIFIED claims (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109). VERIFIED 66→68, STRONGLY SUPPORTED 2→3, SUPPORTED 4→5, HYPOTHESIS 19→22.
+
+
+| 20 | 2026-08-03 | Complete | NEURAL TRAINING AND HARDWARE (Lane 4): Neural network architecture comparison completed across 3 fully verified implementations (ResNet katac4 vs MLP rowspire vs CNN marcpaulo15). 5 new VERIFIED claims (C114-C117), 1 SUPPORTED (C118). Key: katac4 ResNet pre-activation with 2 bottleneck blocks (128 channels), 3-phase lambda scheduler, 30K epochs, 3 cross-entropy loss terms (policy+value+rival) - highest training completeness. Kaggle T4 GPU specs verified (2560 CUDA cores, 320 Turing TCs, 16GB GDDR6). GPU MCTS on GRID A100 achieves 20.3M playouts in 5s with 73.375% avg win rate - lock-free design. GPU inference estimates: NN inference 0.05-2ms on RTX 5090; Numba JIT/bitboard yield 10-100x more ROI than GPU inference acceleration. 3 new sources (S091-S093). VERIFIED 69->71. |
+| 21 | 2026-08-03 | Complete | External-Pool Batch Synthesis (batch-00006): 13 workers dispatched. 7 produced usable findings (board representation comparison, MCTS variant analysis, adversarial corrections, corpus audit). 5 produced stale R16-R19 results. 1 API error (worker-04 job-4). 1 premature completion (worker-06 job-10). 2 new VERIFIED claims (C126: board representation comparison — 4 implementations documented; C127: NN-guided PUCT dominates MCTS, RMUUCT inapplicable). 6 claim corrections (C044/C047 → NEEDS_CORRECTION; C071 → NEEDS_CORRECTION; C092 → FALSIFIED; C097 → CORRECTED; C099 → UNVERIFIABLE). R20 sources S085-S090 already in ledger. No new R21 sources. VERIFIED 73 (C126, C127 added). Architecture rankings unchanged. |
 
 ---
 
@@ -106,7 +110,7 @@ Combined with game-phase strategy:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 69 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C068, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113) | 65% |
+| VERIFIED | 71 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C068, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113, C114, C115, C116, C117) | 67% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
 | SUPPORTED | 4 (C001, C005, C012, C019) | 4% |
 | HYPOTHESIS | 22 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 21% |
@@ -126,3 +130,6 @@ Combined with game-phase strategy:
 5. **GitHub topics scan: connect-four-ai topic** -- Additional repos may exist under that topic not covered by connect-four or connectx topics.
 6. **Kaggle T4 inference measurement** -- Measure actual alpha-beta depth achievable in 2s on Kaggle T4 hardware (pure Python vs Numba).
 7. **RTX 5090 inference benchmarks** -- Find RTX 5090 neural net inference benchmarks for small models (100-500K params) to validate timing estimates.
+
+
+

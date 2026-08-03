@@ -1,6 +1,6 @@
 # Architecture Rankings — ConnectX Bot
 
-> **Current Round**: 13
+> **Current Round**: 15
 > **Last Updated**: 2026-08-02
 
 ---
@@ -14,7 +14,7 @@
 | 3 | Classical Engine (MTD(f) + Python/C++) | MEDIUM | ★★★★★ | ★★☆☆☆ | SUPPORTED | C++ binding complexity on Kaggle, 15x13 depth |
 | 4 | Pure Search (Python alpha-beta + heuristics) | MEDIUM | ★★★★☆ | ★★☆☆☆ | SUPPORTED | Depth limits on 15x13, eval function quality |
 | 5 | Pure Neural Network | LOW | ★★★☆☆ | ★★★☆☆ | HYPOTHESIS | NN precision without search, generalization |
-| 6 | Supervised Pre-training + Search | MEDIUM | ★★★★☆ | ★★★☆☆ | SUPPORTED | Board-state dataset transfer to ConnectX, target encoding mapping |
+| 6 | Supervised Pre-training + Search | LOW | ★★★★☆ | ★★☆☆☆ | VERIFIED | Board-size lock-in (7×6 only); transfer to 15×13 unverified |
 
 ---
 
@@ -130,12 +130,12 @@
 | **Evidence Against** • Lacks precision (63-65% minimax agreement) • No pure-NN ConnectX top 100 Kaggle bots found • NN alone cannot guarantee optimal play | |
 | Score change rationale | Downgraded from LOW-MEDIUM → LOW (Round 5) — NN alone lacks precision for competitive play | |
 
-### 6. Supervised Pre-training (Board-State) — Confidence: MEDIUM
+### 6. Supervised Pre-training (Board-State) — Confidence: LOW
 
 | Factor | Rating | Notes |
 |--------|--------|-------|
 | 7x6 expected strength | 5/5 | Ground-truth optimal evaluations from Pascal Pons solver; supervised pre-training achieves perfect policy on solved positions |
-| 15x13 expected strength | 3/5 | Dataset is 7×6 only; needs transfer learning or generalization |
+| 15x13 expected strength | 2/5 | Dataset is 7×6 only; no evidence of transfer to 15×13; board-size lock-in severely limits standalone utility |
 | Tactical correctness | 5/5 | Exact optimal column evaluations; solver provides definitive answers |
 | Robustness | 4/5 | Proven dataset generation method; 958M records provides broad coverage |
 | Kaggle compliance | 4/5 | Board-state input (2×6×7 tensor) needs reshape for flat 1D observation; otherwise pure Python PyTorch |
@@ -147,10 +147,10 @@
 | Overfitting risk | 3/5 | Dataset covers all positions reachable by self-play; solver provides ground truth |
 | Reproducibility | 4/5 | Dataset is fixed; training is deterministic with same architecture |
 | Evidence grade | VERIFIED | S042-S044 (Pascal Pons solver, TonyCWang dataset card) |
-| Major unknowns | Training convergence on 958M records, generalization to non-solved positions, transfer to 15×13 | |
+| Major unknowns | Training convergence on 958M records; 7×6-only board-size lock-in prevents 15×13 transfer; no evidence generalizes beyond solved positions | |
 | **Evidence For** • TonyCWang/ConnectFour: 958M rows of exact optimal evaluations • Pascal Pons solver confirmed via source code (negamax + PVS + TT + book) • Board-state input maps directly to ResNet architecture • Targets are ground truth, not learned estimates — faster convergence than AlphaZero self-play | |
 | **Evidence Against** • Dataset is 7×6 only (Connect 4, not general ConnectX) • Self-play with temperature may miss some board positions • 958M records requires significant training infrastructure | |
-| Score change rationale | NEW — Round 11 introduces this approach via TonyCWang dataset discovery (958M solver-generated training pairs). Theoretically the strongest training strategy for 7×6 ConnectX if supervised pre-training converges. Not directly ranked against search engines because this is a training strategy, not a runtime strategy — best used WITH a search engine (NN evaluation at leaves or NN-guided MCTS). | |
+| Score change rationale | NEW — Round 11. UPGRADED R15→LOW: Discovered via TonyCWang dataset (958M solver-generated training pairs). R15 downgrade MEDIUM→LOW: dataset is strictly 7×6; no transfer learning evidence to 15×13; board-size lock-in makes it a training strategy, not a runtime strategy; best combined with Hybrid NN+Search (NN trained on 7×6 data fine-tuned for Kaggle), not ranked as standalone approach. | |
 
 ---
 
@@ -171,6 +171,7 @@
 | 11 | Hybrid NN+Search | No change — but Pascal Pons/connect4 solver fully decoded (C++ negamax + PVS + TT + opening book, iterative null-window binary search, template WIDTH/HEIGHT board sizes); TonyCWang/ConnectFour dataset discovered (958M rows, 14.8 GB, 2×6×7 binary observations + 7-element target vectors from solver); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking evaluation metrics). NEW approach added: Supervised Pre-training + Search (board-state). Evidence audit: 17 structural issues fixed (duplicate claim section removed, duplicate sources merged, stale headers updated). VERIFIED claims 60%→66%. 9 new sources (S042-S048 added; S026-S028 deduplicated). |
 | 12 | Hybrid NN+Search | No change — but external-pool batch 7/7 workers failed; no findings |
 | 13 | Hybrid NN+Search | No change — but Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval benchmarks decoded: QveenCoder (minimax+alpha-beta, asymmetric weights), nguyenthequang (centrality move ordering, in-place mutation), ariobarin (TT+history+threat-map). VERIFIED claims 67%. 5 new sources (S049–S055), 4 new claims (C069–C072). |
+| 15 | Hybrid NN+Search | No change — but C058 REFUTED (rowspire training fully decoded); C057 corrected (84-cell binary, uniform random noise); Supervised Pre-training downgraded MEDIUM→LOW (board-size lock-in 7×6 only, no 15×13 transfer evidence); VERIFIED claims 66% → 64% (recount: C013 downgraded to HYPOTHESIS, C002-C004 reclassified as UNKNOWN); 5 new claims (C073-C077) from Kaggle kaggle-environments spec deep analysis |
 
 ---
 

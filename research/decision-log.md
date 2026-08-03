@@ -1,6 +1,6 @@
 # Decision Log — ConnectX Bot Research
 
-> **Current Round**: 13
+> **Current Round**: 15
 > **Last Updated**: 2026-08-02
 
 ---
@@ -38,6 +38,9 @@
 | JS engine eval weights show high asymmetry | 13 | QveenCoder (win:100K vs near-win:100), nguyenthequang (AI 3-in-row: +80 vs human block: -90), ariobarin (strong: ±1000, weak: ±100) | All three engines prioritize threats over building; opponent threats consistently weighted 1.5–12× higher | Eval function design may evolve | Yes — weights are tunable |
 | Centrality move ordering [3,2,4,1,5,0,6] is proven | 13 | nguyenthequang/games-website uses centrality ordering to maximize alpha-beta pruning | Directly applicable to Kaggle implementation; more sophisticated than simple center-first ordering | Alternative orderings may exist | Yes — move ordering is tunable |
 | ariobarin TT + history + threat-map is most sophisticated classical engine | 13 | 10M-entry TT with LRU eviction, history heuristic (3^depth), threat-map evaluation (±1000/±100), iterative deepening with time limit | Provides concrete reference for Kaggle classical engine optimization; worth benchmarking in JS/Python | Classical search may not be competitive on 15x13 | Yes — search engine choice is reversible |
+| rowspire training algorithm decoded | 15 | 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent | Training was previously OPAQUE (npm run train = un-publish code); corpus audit R15 found train.rs/data.rs/training.rs in public GitHub repo | Training remains opaque | No — now decoded |
+| rowspire input is 84-cell not 64-cell | 15 | 12×7 board = 84 cells (16 padding); root noise is uniform random not Dirichlet | Prior R10 analysis assumed 64-cell + Dirichlet based on sparse documentation; full source audit corrects both | Rowsire design unchanged — our understanding was wrong | No — factual correction |
+| Supervised Pre-training downgraded to LOW | 15 | Dataset strictly 7×6; no transfer learning to 15×13 proven; board-size lock-in | R11 introduced as MEDIUM confidence; R15 evidence shows no 15×13 transfer possible | Use as component of Hybrid NN+Search | Yes — can be re-evaluated if 15×13 transfer data found |
 
 ---
 

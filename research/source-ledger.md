@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 13
+> **Current Round**: 15
 > **Last Updated**: 2026-08-02
 
 ---
@@ -223,3 +223,54 @@ WebSearch is known broken (Round 5+): API error 400.
 | en.wikipedia.org/wiki/Connect_Four | ✅ VERIFIED — Opening theory: center=win ≤41, adjacent=draw, edge=loss 40-42 |
 | github.com/tromp/fhourstones88 | ❌ 404 (via Bash curl — may be network restriction) |
 | api.github.com/repos/kenrick95/c4/contents | ❌ Empty (no curl output via Bash) |
+## Sources Added Round 13 (Slot 5, Job 3, Lane: REPOSITORY_AND_SOURCE_CODE_ANALYSIS)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S056 | sagar-sap/connect-n-bot — C++ bitboard negamax solver for Arduino Nano 33 BLE — Round 13 | github.com/sagar-sap/connect-n-bot | Solver source code | ~2026 | Embedded Connect-N AI: Arduino Nano 33 BLE (nRF52840, Cortex-M4), mbed RTOS, BitBoard<240> template (up to 15×15 board), uint32_t words, 4096-entry transposition table, iterative deepening to 40 depths, time-bounded search (15ms check interval), tactical win/loss shortcuts, center-first move ordering, negamax with alpha-beta pruning, DWT cycle-counter timing. PlatformIO project. Everything is author's own work. |
+| S057 | sjqtentacles/sml-connect4 — Standard ML alpha-beta Connect 4 engine — Round 13 | github.com/sjqtentacles/sml-connect4 | Solver source code | ~2026 | Pure Standard ML engine with alpha-beta search. 6×7 board, configurable search depth. API: Connect4.empty, Connect4.legalCols, Connect4.drop, Connect4.winner, Connect4.terminal, Connect4.isDraw, Connect4.bestMove(depth). Dual-compiler testing (MLton + Poly/ML) with byte-identical output gate. Comprehensive unit tests: win detection (vertical/horizontal/diagonal), bestMove win-in-1 detection. Uses harness.sml testing framework. |
+| S058 | hemakumargokul/ai-game-agents — Java Connect Four agent using minimax with alpha-beta pruning — Round 13 | github.com/hemakumargokul/ai-game-agents | Solver source code | ~2026 | Java implementation of classic AI algorithms including Connect Four minimax + alpha-beta agent. 0★, Java. Part of a broader collection of classic AI algorithms. |
+
+---
+
+## URLs Probed This Round (Round 13, Slot 5)
+
+| URL | Result |
+|-----|--------|
+| github.com/topics/connect-four?o=desc&s=updated | ✅ OK — 20 repos (2 new since R11: QveenCoder/connect-four, Woonderpipe/connect-4, nguyenthequang/games-website, hemakumargokul/ai-game-agents) |
+| github.com/topics/connectx?o=desc&s=updated | ✅ OK — 7 repos (1 new since R10: sml-connect4 not listed, 0 new) |
+| github.com/QveenCoder/connect-four | ✅ VERIFIED + full source — vanilla JS minimax + alpha-beta, depth 2/4/6 |
+| raw.githubusercontent.com/QveenCoder/connect-four/main/ai.js | ✅ OK — full AI engine (328 lines): board logic, evaluation, minimax with alpha-beta |
+| raw.githubusercontent.com/QveenCoder/connect-four/main/game.js | ✅ OK — UI layer (DOM rendering, game flow) |
+| github.com/Woonderpipe/connect-4/tree/main/components/Connect4 | ✅ VERIFIED — Next.js/TS Connect 4 with 8 fun modes |
+| raw.githubusercontent.com/Woonderpipe/connect-4/main/components/Connect4/index.tsx | ✅ OK — React component (UI layer only, AI in hook) |
+| raw.githubusercontent.com/Woonderpipe/connect-4/main/hooks/use-connect4.ts | ✅ OK — AI hook: minimax with alpha-beta, POSITIONAL_BONUS matrix, center-first ordering, depth 3/5 by difficulty |
+| raw.githubusercontent.com/Woonderpipe/connect-4/main/lib/connect4-logic.ts | ✅ VERIFIED + full source — AI logic: 5×7 POSITIONAL_BONUS, evaluateBoard (positional + windows), minimax with alpha-beta, center-first column ordering, difficulty-based depth (3/5), 8 fun modes |
+| github.com/nguyenthequang/games-website | ✅ VERIFIED — Multi-game JS engine (7 games) |
+| raw.githubusercontent.com/nguyenthequang/games-website/main/js/connect4.js | ✅ OK — Connect 4 AI: 6-ply alpha-beta, center-first ordering [3,2,4,1,5,0,6], pre-computed C4_WINDOWS, threat-based scoring (+80/-90) |
+| raw.githubusercontent.com/nguyenthequang/games-website/main/tests/run-tests.js | ✅ OK — Headless test harness (DOM stubs) |
+| raw.githubusercontent.com/nguyenthequang/games-website/main/tests/suites.js | ✅ OK — Test suite: Connect 4 hard takes wins/blocks verification |
+| github.com/sagar-sap/connect-n-bot | ✅ VERIFIED + full source — Arduino Nano 33 BLE Connect-N bot |
+| raw.githubusercontent.com/sagar-sap/connect-n-bot/main/src/main.cpp | ✅ OK — Main entry: mbed RTOS loop, serial comms, BitBoard<240> allocation |
+| raw.githubusercontent.com/sagar-sap/connect-n-bot/main/lib/GameLogic/Players/SagarsPlayer.hpp | ✅ OK — BitBoardSolver<240>: 4096-entry TT, iterative deepening, time management (15ms check interval), tactical shortcuts, negamax + alpha-beta |
+| raw.githubusercontent.com/sagar-sap/connect-n-bot/main/lib/GameLogic/GameBoard/BitBoard.hpp | ✅ OK — BitBoard<N>: up to 240-bit (15×15), uint32_t words for ARM M4, column height tracking, win detection via shift-and, threat detection, center-first move ordering |
+| raw.githubusercontent.com/sagar-sap/connect-n-bot/main/platformio.ini | ✅ OK — PlatformIO: nRF52/nano33ble, 115200 baud serial |
+| github.com/sjqtentacles/sml-connect4 | ✅ VERIFIED — SML alpha-beta Connect 4 |
+| raw.githubusercontent.com/sjqtentacles/sml-connect4/main/test/test.sml | ✅ OK — Unit tests: win detection, bestMove, board state |
+| raw.githubusercontent.com/sjqtentacles/sml-connect4/main/Makefile | ✅ OK — MLton + Poly/ML dual-compiler build + byte-identical output gate |
+| github.com/ariobarin/The-Reticle | ✅ VERIFIED — Arcade collection with Connect 4 |
+| raw.githubusercontent.com/ariobarin/The-Reticle/main/src/connect_four/engine.py | ✅ OK — Minimax + alpha-beta + TT (10M LRU) + history heuristic (3^depth) + threat-map eval. TT is commented out in search. |
+| raw.githubusercontent.com/ariobarin/The-Reticle/main/src/connect_four/board.py | ✅ OK — Column-major board, threat-map creation, win detection |
+| github.com/hemakumargokul/ai-game-agents | ✅ VERIFIED — Java AI algorithms including Connect Four |
+| github.com/topics/negamax?o=desc&s=updated | ✅ OK — 20 repos (chess engines, no new Connect 4) |
+| github.com/topics/bitboard?o=desc&s=updated | ✅ OK — 20 repos (chess/shogi engines, sagar-sap/connect-n-bot confirmed) |
+ENDOFAPPIN
+
+## Sources Added Round 13 (Slot 5, Job 3, Lane: REPOSITORY_AND_SOURCE_CODE_ANALYSIS)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S056 | sagar-sap/connect-n-bot — C++ bitboard negamax solver for Arduino Nano 33 BLE | github.com/sagar-sap/connect-n-bot | Solver source code | ~2026 | Embedded Connect-N AI: Arduino Nano 33 BLE (nRF52840 Cortex-M4), mbed RTOS, BitBoard<240> template (up to 15x15 board), uint32_t words, 4096-entry transposition table, iterative deepening to 40 depths, time-bounded search (15ms check interval), tactical shortcuts, center-first move ordering, negamax with alpha-beta pruning. PlatformIO project. |
+| S057 | sjqtentacles/sml-connect4 — Standard ML alpha-beta Connect 4 engine | github.com/sjqtentacles/sml-connect4 | Solver source code | ~2026 | Pure Standard ML engine with alpha-beta search. 6x7 board, configurable search depth. Dual-compiler testing (MLton + Poly/ML) with byte-identical output gate. Comprehensive unit tests for win detection and bestMove. |
+| S058 | hemakumargokul/ai-game-agents — Java Connect Four minimax + alpha-beta agent | github.com/hemakumargokul/ai-game-agents | Solver source code | ~2026 | Java implementation of classic AI algorithms including Connect Four minimax + alpha-beta agent. Part of broader classic AI algorithms collection. |
+

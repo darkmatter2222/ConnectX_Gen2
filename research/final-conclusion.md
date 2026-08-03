@@ -138,6 +138,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 12 | 2026-08-02 | Hybrid NN + Search | High | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings; DGX at 192.168.86.39:8006 unavailable since this round |
 | 13 | 2026-08-02 | Hybrid NN + Search | High | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval benchmarks decoded; VERIFIED 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); No ranking changes |
 | 14 | 2026-08-02 | Hybrid NN + Search | High | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified; all canonical state files consistent through R13 |
+| 15 | 2026- | Hybrid NN + Search | High | External-pool batch: 3/7 workers succeed (worker-06 job-00003: Kaggle spec deep analysis; worker-07 job-00004: JS/TS/Python engine eval benchmarks; worker-07 job-00005: rowspire full source audit); 4/7 fail (DGX timeout, model-selection); C058 REFUTED (rowspire training fully decoded); C057 corrected (84-cell, uniform random); C013 downgraded HYPOTHESIS; Supervised Pre-training MEDIUM→LOW (board-size lock-in); 5 new VERIFIED claims (C073-C077); VERIFIED 67%→64% (recount) |
 
 ---
 

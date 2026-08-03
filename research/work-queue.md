@@ -1,7 +1,7 @@
 # Research Work Queue — ConnectX Bot
 
 > **Last Updated**: 2026-08-02
-> **Current Round**: 13
+> **Current Round**: 15
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---
@@ -23,7 +23,7 @@
 
 | ID | Priority | Claim/Gap IDs | Research Question | Why It Matters | Source Targets | Prior Docs / Not To Repeat | Evidence Needed | Required Output |
 |----|----------|---------------|-------------------|----------------|----------------|---------------------------|-----------------|-----------------|
-| T001 | P0 | GH-007, C058 | rowspire training algorithm: search npm registry for `rowspire-train` or similar package | rowspire training is the single largest gap — if we can find it, we replicate the full neural MCTS pipeline | npmjs.com search for "rowspire", package.json dependencies | Round 10 rowspire analysis; no training code in GitHub repo | Exact training loop, loss function, optimizer, data generation method | npm package name, GitHub repo URL, training method summary |
+| T001 | P0 | GH-007, C058 | rowspire training algorithm: search npm registry for `rowspire-train` or similar package | rowspire training is the single largest gap — if we can find it, we replicate the full neural MCTS pipeline | npmjs.com search for "rowspire", package.json dependencies | Round 10 rowspire analysis; no training code in GitHub repo | Exact training loop, loss function, optimizer, data generation method | COMPLETE — R15: Training fully decoded via corpus audit. 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent. Source files: train.rs, data.rs, training.rs (public in GitHub repo). | COMPLETE — R15 corpus audit decoded training: 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent. Source files: train.rs, data.rs, training.rs in public GitHub repo. C058 → REFUTED. |
 | T002 | P0 | GH-010, C064 | TonyCWang dataset training details: self-play temperature schedule and agent configuration | Dataset was generated via self-play with temperature; the schedule matters for data diversity | TonyCWang/ConnectFour Hugging Face dataset card, any linked README or paper | Round 11 dataset card analysis; no temperature schedule documented | Temperature schedule (start/end values, decay rate), self-play agent type, number of games played | Exact temperature schedule, agent configuration, game count |
 | T003 | P0 | — | New GitHub topics scan for ConnectX/Connect 4: `connect-four`, `connectx`, `connect-four-ai`, `mcts`, `negamax`, `bitboard`, `alphazero`, `connect4` sorted by updated | Topics may have new repos since Round 10 scan (R10 found 20 repos on connect-four); 2+ weeks have passed | GitHub topics pages, sorted by updated descending | Round 10 topic scan (20 repos on connect-four, all known); Round 11 GitHub API broken | List of any new repos since R10; star counts; brief description | New repo URLs, star counts, brief descriptions, priority for deep dive |
 | T004 | P0 | GH-008, GH-009 | rowspire evaluation weights: check `resources/` directory, config files, releases for genetic-tuned weight values | 7-feature evaluation with genetic-tuned weights but weights are external; knowing the values helps design manual eval | rowspire GitHub `resources/` directory, releases page, releases downloads | Round 10 source analysis; weights not in source code; `resources/` directory not checked | Weight values or configuration file with weights | Exact weight values or path to weight configuration file |
@@ -85,13 +85,13 @@
 
 ---
 
-## Task Status Summary (Round 13 Updated)
+## Task Status Summary (Round 15 Updated)
 
 | Status | Count |
 |--------|-------|
 | READY | 48 |
 | RUNNING | 0 |
-| COMPLETE | 2 (T032, T033) |
+| COMPLETE | 3 (T032, T033, T001) |
 | BLOCKED | 0 |
 | REJECTED | 0 |
 | FOLLOW-UP | 0 | |
@@ -104,7 +104,7 @@
 |----|-------------|-------------|--------|
 | FU-001 | R11 audit | GitHub API still broken after R11 TLS fix attempt; may resolve in future | PENDING |
 | FU-002 | R11 audit | blog.gamesolver.org SSL cert issue may need admin intervention to fix | PENDING |
-| FU-003 | R11 audit | rowspire npm package may be private or unpublished; check package.json for hints | PENDING |
+| FU-003 | R11 audit | rowspire npm package may be private or unpublished; check package.json for hints | RESOLVED R15: Training fully decoded from train.rs/data.rs/training.rs in public GitHub repo; npm package details no longer relevant |
 | FU-004 | R12 batch | DGX endpoint (192.168.86.39:8006) unreachable — both timeouts and model-selection failures | PENDING |
 | FU-005 | R13 worker-01 | Verify Kaggle evaluation harness board configurations (check if evaluate() passes non-default configs) | PENDING |
 | FU-006 | R13 worker-01 | Check deprecated_envs/ directory for historical ConnectX behavior or configs | PENDING |
@@ -115,3 +115,5 @@
 | FU-011 | R13 worker-05 | Decode Woonderpipe/connect-4 AI (try src/app/, components/, lib/ paths) | PENDING |
 | FU-012 | R13 worker-05 | Decode jambolo/four-in-a-row AI (check src-tauri/src/ for Rust) | PENDING |
 | FU-013 | R13 worker-05 | Benchmark JS alpha-beta depth on Kaggle T4 (measure actual depth per 2s) | PENDING |
+| FU-014 | R15 | GitHub API (api.github.com) still unreachable via curl and WebFetch (TLS/schannel errors); resume topic scan if resolved | PENDING |
+| FU-015 | R15 | blog.gamesolver.org (Pascal Pons tutorial) still unreachable via SSL cert mismatch; try archive.org or cached versions | PENDING |

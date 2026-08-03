@@ -1,8 +1,8 @@
 # Research State — ConnectX Bot
 
-> **Current Round**: 14
+> **Current Round**: 15
 > **Last Updated**: 2026-08-02
-> **Previous Round**: 13 (2026-08-02)
+> **Previous Round**: 14 (2026-08-02)
 > **Status**: Active — deep research phase; external-pool DGX unavailable since round 12
 
 ---
@@ -24,6 +24,7 @@
 | 11 | 2026-08-02 | Complete | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+book; iterative binary search); TonyCWang/ConnectFour dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors, exact solver evaluations); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking metrics); evidence audit (17 structural issues fixed: duplicate sections, duplicate sources, stale headers); GitHub API unreachable (TLS/schannel error); VERIFIED claims 60%→66%; 9 new claims (C060-C068); 8 new sources (S042-S049) |
 | 12 | 2026-08-02 | Complete | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings; DGX at 192.168.86.39:8006 unavailable since this round |
 | 14 | 2026-08-02 | Complete | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified |
+| 15 | 2026-08-02 | Complete | External-pool batch: 7 worker results consumed (3/7 succeed: worker-06-job-00003, worker-07-job-00004, worker-07-job-00005); 4/7 fail (DGX timeout, model-selection, 2x endpoint); 5 new VERIFIED claims (C073-C077): Kaggle overtime tracking, global config schema, agent status enum, kaggle-environments v1.32.2, observation.step field; C058 REFUTED (rowspire training fully decoded via corpus audit); C057 corrected (84-cell binary, uniform random noise); C013 downgraded HYPOTHESIS (non-standard label); VERIFIED 66% → 64% (recount); 0 new sources |
 
 ---
 
@@ -78,7 +79,7 @@ Combined with game-phase strategy:
 | GH-004 | MTD(f) Python benchmark | HIGH | ✅ RESOLVED (Round 5) |
 | GH-005 | Optimal CNN architecture / Classical engine eval functions | HIGH | ✅ RESOLVED (katac4 ResNet fully decoded R9; rowspire fully decoded R10); R13 adds 5 JS/TS/Python engine eval function benchmarks: QveenCoder (win:100K, near-win:100), nguyenthequang (centrality move ordering [3,2,4,1,5,0,6], in-place mutation), ariobarin (TT + history + threat-map) |
 | GH-006 | Transfer learning effectiveness | HIGH | ✅ RESOLVED (Round 3) |
-| GH-007 | rowspire training algorithm | HIGH | ❌ STILL UNKNOWN — npm run train is opaque; no training code in GitHub repo |
+| GH-007 | rowspire training algorithm | HIGH | ✅ RESOLVED R15: 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent — fully decoded via corpus audit |
 | GH-008 | rowspire genetic tuning weights | MODERATE | ⏳ UNKNOWN — weights loaded externally; not in source code |
 | GH-009 | rowspire resources/ directory | MODERATE | ⏳ PENDING — may contain pre-trained weights |
 | GH-010 | TonyCWang dataset training pipeline | MODERATE | 🔍 PARTIAL — 958M rows generated via Pascal Pons solver self-play with temperature; but exact temperature schedule and self-play agent configuration undocumented |

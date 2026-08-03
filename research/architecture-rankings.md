@@ -1,6 +1,6 @@
 # Architecture Rankings — ConnectX Bot
 
-> **Current Round**: 11
+> **Current Round**: 13
 > **Last Updated**: 2026-08-02
 
 ---

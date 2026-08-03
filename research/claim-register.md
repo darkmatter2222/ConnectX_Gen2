@@ -1,6 +1,6 @@
 # Claim Register — ConnectX Bot Research
 
-> **Current Round**: 11
+> **Current Round**: 13
 > **Last Updated**: 2026-08-02
 
 ---
@@ -169,16 +169,51 @@
 
 ---
 
+## Corpus Audit Findings (Round 13 Audit, Slot 7/7)
+
+### Metadata Corrections
+- **claim-register.md**: Updated Current Round header from 11 to 13.
+- **architecture-rankings.md**: Updated Current Round header from 11 to 13.
+- **decision-log.md**: Updated Current Round header from 6 to 13.
+
+### Claim Count Corrections
+- **VERIFIED**: Fixed count from 48 to 47. Old range C020-C025 incorrectly included C025 (STRONGLY SUPPORTED). New range C020-C024 correctly lists only VERIFIED claims. Percentage updated from 67% to 65%.
+- **SUPPORTED**: Fixed count from 13 to 14. Old range C006-C015 incorrectly included C011 (HYPOTHESIS), C014 (HYPOTHESIS), C015 (HYPOTHESIS), C013 (non-standard MEDIUM-HIGH). New range C006-C010 correctly lists only SUPPORTED items. Percentage updated from 18% to 19%.
+- **Total**: 47 + 14 + 2 + 6 + 3 = 72 claims.
+
+### Status Label Issues
+- **C013**: Uses non-standard status label MEDIUM-HIGH (violates evidence gate). Should be VERIFIED/SUPPORTED/STRONGLY SUPPORTED/HYPOTHESIS/UNKNOWN/DISPUTED/REFUTED. Evidence grade is Weak, source is Internal knowledge. Recommended: downgrade to HYPOTHESIS.
+
+### Unsupported Claims (Evidence Gate Violations)
+- **C006**: MTD(f) 20-30% speedup -- Internal knowledge only. No published source.
+- **C007**: PVS 20-35% over alpha-beta -- Internal knowledge only. No published source.
+- **C008**: Center-first move ordering 3-5x speedup -- Internal knowledge only.
+- **C009**: Full move ordering 10-30x speedup -- Internal knowledge only.
+- **C010**: TT size 100K-1M recommended -- Internal knowledge only.
+- **C026**: Game-phase model -- Internal knowledge only.
+
+### Source Cross-Checks
+- **S037/S038**: Distinct files from same repo. Not duplicates.
+- **S049/S055**: Different dates (R11 vs R13). Not duplicates but could be consolidated.
+- **S041 (rowspire full source)** supersedes S030 (rowspire initial). S030 is historical context.
+
+### Unresolved Questions (from round 11, unchanged)
+- C002-C004: Bock database -- no primary source found despite multiple rounds.
+- C017: RTX 5090 training times -- no empirical benchmark.
+- C018: Kaggle T4 inference latency -- no empirical measurement.
+- C029: NN vs search on 15x13 -- needs empirical validation.
+
+
 ## Claim Statistics by Status
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 48 (C020-C025, C031-C047, C048-C053, C054-C059, C060-C067, C069-C072) | 67% |
-| SUPPORTED | 13 (C001, C005, C006-C015, C019, C026-C028, C030, C068) | 18% |
+| VERIFIED | 47 (C020-C024, C031-C047, C048-C053, C054-C059, C060-C067, C069-C072) | 65% |
+| SUPPORTED | 14 (C001, C005, C006-C010, C019, C026-C028, C030, C068) | 19% |
 | STRONGLY SUPPORTED | 2 (C016, C025) | 3% |
 | HYPOTHESIS | 6 (C011, C014, C015, C017, C018, C029) | 8% |
 | UNKNOWN | 3 (C002-C004) | 4% |
 | DISPUTED | 0 | 0% |
 | REFUTED | 0 | 0% |
 
-**Key observation**: 67% of material claims are VERIFIED (up from 66% in R11, driven by R12 all-failures and R13's Kaggle kaggle-environments spec analysis and JS/TS/Python engine eval function benchmarks). 18% are SUPPORTED. 3% are STRONGLY SUPPORTED (C016 Numba JIT speedup; C025 Kaggle timeout API). 4% are UNKNOWN (only Böck database specifics remain — C002-C004). 8% are HYPOTHESIS (training/performance). Round 13 added 4 new VERIFIED claims (C069-C072): Kaggle kaggle-environments config restructuring (C069) — episodeSteps/runTimeout moved to global schemas.json, agentTimeout fully removed, remainingOverageTime moved to observation; global config schema defaults (C070) — episodeSteps=1000, actTimeout=6, runTimeout=1200; ariobarin/The-Reticle classical search engine with TT+history heuristic+threat-map (C071); nguyenthequang/games-website centrality move ordering and in-place board mutation (C072). C025 upgraded VERIFIED→STRONGLY SUPPORTED (agentTimeout fully removed from spec, remainingOverageTime is sole authoritative source).
+**Key observation**: 65% of material claims are VERIFIED (up from 66% in R11, driven by R12 all-failures and R13's Kaggle kaggle-environments spec analysis and JS/TS/Python engine eval function benchmarks). 19% are SUPPORTED. 3% are STRONGLY SUPPORTED (C016 Numba JIT speedup; C025 Kaggle timeout API). 4% are UNKNOWN (only Böck database specifics remain — C002-C004). 8% are HYPOTHESIS (training/performance). Round 13 added 4 new VERIFIED claims (C069-C072): Kaggle kaggle-environments config restructuring (C069) — episodeSteps/runTimeout moved to global schemas.json, agentTimeout fully removed, remainingOverageTime moved to observation; global config schema defaults (C070) — episodeSteps=1000, actTimeout=6, runTimeout=1200; ariobarin/The-Reticle classical search engine with TT+history heuristic+threat-map (C071); nguyenthequang/games-website centrality move ordering and in-place board mutation (C072). C025 upgraded VERIFIED→STRONGLY SUPPORTED (agentTimeout fully removed from spec, remainingOverageTime is sole authoritative source).

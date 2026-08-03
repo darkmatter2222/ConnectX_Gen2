@@ -12,7 +12,7 @@
 | VERIFIED | 73 (C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C110-C113, C114-C117, C119-C122, C124-C127) | 64% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
 | SUPPORTED | 5 (C001, C005, C012, C019, C123) | 4% |
-| HYPOTHESIS | 22 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 19% |
+| HYPOTHESIS | 23 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109, C132) | 20% |
 | NEEDS_CORRECTION | 3 (C044, C047, C071) | 3% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
@@ -20,7 +20,7 @@
 | UNKNOWN | 3 (C002, C003, C004) | 3% |
 | REFUTED | 1 (C058) | 1% |
 
-**Total unique claims**: 117 across C001-C127 with gaps from ID reuse (C094-C099 duplicate IDs reused). **Key observations**: (1) VERIFIED percentage at 64% — healthy evidence base. (2) R21 corrections: C044/C047 downgraded from VERIFIED (insufficient evidence for specific numerical bounds); C071 needs correction (TT reconfirmed as dead code); C092 falsified (RMUUCT not applicable); C097 corrected (overstated improvement); C099 unverified (cannot verify). (3) R20 added 12 new claims (C114-C125): 11 VERIFIED + 1 SUPPORTED. (4) R21 added 2 new claims (C126-C127): 2 VERIFIED. (5) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation).
+**Total unique claims**: 124 across C001-C134 with gaps from ID reuse (C094-C099 duplicate IDs reused). **Key observations**: (1) VERIFIED percentage at 64% — healthy evidence base. (2) R21 corrections: C044/C047 downgraded from VERIFIED (insufficient evidence for specific numerical bounds); C071 needs correction (TT reconfirmed as dead code); C092 falsified (RMUUCT not applicable); C097 corrected (overstated improvement); C099 unverified (cannot verify). (3) R20 added 12 new claims (C114-C125): 11 VERIFIED + 1 SUPPORTED. (4) R21 added 2 new claims (C126-C127): 2 VERIFIED. (5) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134) + 1 HYPOTHESIS (C132). (6) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation).
 
 > **Current Round**: 21
 > **Last Updated**: 2026-08-03

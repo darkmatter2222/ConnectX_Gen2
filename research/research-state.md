@@ -1,9 +1,9 @@
-# Research State — ConnectX Bot
+﻿# Research State -- ConnectX Bot
 
-> **Current Round**: 18
+> **Current Round**: 19
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 17 (2026-08-03, GPU/Parallel Search + Corpus Audit)
-> **Status**: Active — deep research phase; external-pool DGX unavailable since round 12
+> **Previous Round**: 18 (2026-08-03, MCTS Algorithms and Self-Play)
+> **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12
 
 ---
 
@@ -17,30 +17,31 @@
 | 4 | 2026-07-31 | Complete | GPU, MCTS, game theory, open-source bots, search |
 | 5 | 2026-08-02 | Complete | Game-phase strategy, endgame DBs, benchmarks, eval |
 | 6 | 2026-08-02 | Complete | GitHub topics discovery, AlphaZero analysis, bitboard agent catalog; canonical files created |
-| 7 | 2026-08-02 | Complete | GoodCoder666/katac4 (18★) KataGo-inspired AlphaZero fully analyzed; Wikipedia confirms solved game; C001/C005 upgraded to SUPPORTED; 3 new sources (S026-S028) |
+| 7 | 2026-08-02 | Complete | GoodCoder666/katac4 (18 star) KataGo-inspired AlphaZero fully analyzed; Wikipedia confirms solved game; C001/C005 upgraded to SUPPORTED; 3 new sources (S026-S028) |
 | 8 | 2026-08-02 | Complete | 3 new repos via sorted GitHub topics: connectpuct (PUCT benchmark 11/20), rowspire (neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zero results; 5 new claims (C043-C047); 3 new sources (S029-S031) |
-| 9 | 2026-08-02 | Complete | Tromp Fhourstones benchmark (20 systems, KPOS/S, Gprof profiling); Tromp 8x8 solver (book88, ≤16 ply); haithameleuch alpha-beta+MCTS hybrid; katac4 training pipeline fully decoded (self-play workers, 3 loss terms, 30K epochs); VERIFIED claims 50%→55%; 7 new sources (S032-S038); 6 new claims (C048-C053); ICAPS/JOCIG/Google Scholar all unworkable |
-| 10 | 2026-08-02 | Complete | rowspire FULL source decoded (14 files): 4×128 MLP + skip connections (dual value+policy), 100D input (64-cell binary + 16 normalized features), 7-feature evaluation with genetic tuning, UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 64-bit bitboard; training OPAQUE; eSlams evaluation framework discovered (50 arenas, REST protocol, Ed25519 proof); kenrick95/c4 (278★) cataloged; Wikipedia opening theory confirmed; VERIFIED claims 55%→60%; 3 new sources (S039-S041) |
-| 11 | 2026-08-02 | Complete | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+book; iterative binary search); TonyCWang/ConnectFour dataset (958M rows, 2×6×7 binary matrices, 7-element target vectors, exact solver evaluations); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking metrics); evidence audit (17 structural issues fixed: duplicate sections, duplicate sources, stale headers); GitHub API unreachable (TLS/schannel error); VERIFIED claims 60%→66%; 9 new claims (C060-C068); 8 new sources (S042-S049) |
+| 9 | 2026-08-02 | Complete | Tromp Fhourstones benchmark (20 systems, KPOS/S, Gprof profiling); Tromp 8x8 solver (book88, <=16 ply); haithameleuch alpha-beta+MCTS hybrid; katac4 training pipeline fully decoded (self-play workers, 3 loss terms, 30K epochs); VERIFIED claims 50%--55%; 7 new sources (S032-S038); 6 new claims (C048-C053); ICAPS/JOCIG/Google Scholar all unworkable |
+| 10 | 2026-08-02 | Complete | rowspire FULL source decoded (14 files): 4x128 MLP + skip connections (dual value+policy), 100D input (64-cell binary + 16 normalized features), 7-feature evaluation with genetic tuning, UCB1 MCTS (c=1.41, 4000 sims, NN-guided, Dirichlet root noise 75/25), 64-bit bitboard; training OPAQUE; eSlams evaluation framework discovered (50 arenas, REST protocol, Ed25519 proof); kenrick95/c4 (278 star) cataloged; Wikipedia opening theory confirmed; VERIFIED claims 55%--60%; 3 new sources (S039-S041) |
+| 11 | 2026-08-02 | Complete | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+book; iterative binary search); TonyCWang/ConnectFour dataset (958M rows, 2x6x7 binary matrices, 7-element target vectors, exact solver evaluations); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking metrics); evidence audit (17 structural issues fixed: duplicate sections, duplicate sources, stale headers); GitHub API unreachable (TLS/schannel error); VERIFIED claims 60%--66%; 9 new claims (C060-C068); 8 new sources (S042-S049) |
 | 12 | 2026-08-02 | Complete | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings; DGX at 192.168.86.39:8006 unavailable since this round |
 | 14 | 2026-08-02 | Complete | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified |
-| 15 | 2026-08-02 | Complete | External-pool batch: 7 worker results consumed
-| 16 | 2026-08-03 | Complete | GPU/Parallel Search + Corpus Audit: 7 sources (S059-S065), 7 claims (C078-C084). T011 VERIFIED. Key: Liang Li et al. 2012 Connect 6 GPU search 70.8x speedup; MCTS-NC Klęsk four GPU MCTS variants 75% avg score; Pascal Pons solver corrections (no PVS, static constexpr board sizes); rowspire training completeness verified (bin/train.rs entry point, core loop in rowspire_ai_core external crate); T014 Connect 4 engine ELO — NEGATIVE RESULT (no formal multi-engine tournament ELO exists); Partial data: katac4 b3c128_v1 ~1080→~1178 (self-comparison only). Corpus audit: R15 stat table recount fixed (VERIFIED 48→51, SUPPORTED 8→9, VERIFIED% 64%→66%). R15 evidence gate violations (C006-C010, C026 — Internal knowledge only) deferred to R17.
+| 15 | 2026-08-02 | Complete | External-pool batch: 7 worker results consumed |
+| 16 | 2026-08-03 | Complete | GPU/Parallel Search + Corpus Audit: 7 sources (S059-S065), 7 claims (C078-C084). T011 VERIFIED. Key: Liang Li et al. 2012 Connect 6 GPU search 70.8x speedup; MCTS-NC Klens four GPU MCTS variants 75% avg score; Pascal Pons solver corrections (no PVS, static constexpr board sizes); rowspire training completeness verified (bin/train.rs entry point, core loop in rowspire_ai_core external crate); T014 Connect 4 engine ELO -- NEGATIVE RESULT (no formal multi-engine tournament ELO exists); Partial data: katac4 b3c128_v1 ~1080-->~1178 (self-comparison only). Corpus audit: R15 stat table recount fixed (VERIFIED 48-->51, SUPPORTED 8-->9, VERIFIED% 64%-->66%). R15 evidence gate violations (C006-C010, C026 -- Internal knowledge only) deferred to R17. |
 | 16 | 2026-08-03 | Complete | Repository and Source Code Analysis (Slot 5): 5 new sources (S070-S074: BitBully MTD(f), ecc521 NNUE, neurofour benchmark, pyvezi bitboard, Karthick-Flutter). 11 new repos found via topic scan. 5 deep source code analyses. Zero-byte champion (search beats NN on tight budgets). Center-first ordering universal. C085-C089 (3 VERIFIED, 2 SUPPORTED). Classical Engine MEDIUM to MEDIUM-HIGH (Python bindings eliminate C++ binding complexity). |
-| 18 | 2026-08-03 | Complete | MCTS Algorithms and Self-Play: 19 new verified claims (C083-C101). Three parallel agents: PUCT dominates MCTS selection (c_puct=1.0 train, 1.1 inference). FPU c_fpu=0.2 prevents NN policy domination. Adaptive CPUCT scales with visit variance. LCB move selection via t-distribution quantiles. PCR: 25% fast (16 sim) + 75% slow (800 sim). Solved game self-play convergence problem. Solver-distilled training (rowspire) more efficient than self-play. Pure MCTS smart rollouts: 55% vs depth-3 minimax. RMUUCT not applicable. Dirichlet alpha=0.8. Forced_k=2.0 child exploration. BEPb c_puct=5.0 highest. Multi-loss training (policy + 1.5*value + 0.15*opponent). Simulation speeds: Python 50-400, NN-Python 4000-10000, Rust WASM 20000-60000, GPU millions.
-| 17 | 2026-08-03 | Complete | R15 corpus audit corrections applied: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations — Internal knowledge only, no published source). GPU inference bottleneck: NN inference negligible regardless of hardware; search tree is bottleneck; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference. AlphaZero auxiliary loss paper (0.785 oracle match) identified as verification path. 12 workers across 4 slots all successful.
+| 18 | 2026-08-03 | Complete | MCTS Algorithms and Self-Play: 19 new verified claims (C083-C101). Three parallel agents: PUCT dominates MCTS selection (c_puct=1.0 train, 1.1 inference). FPU c_fpu=0.2 prevents NN policy domination. Adaptive CPUCT scales with visit variance. LCB move selection via t-distribution quantiles. PCR: 25% fast (16 sim) + 75% slow (800 sim). Solved game self-play convergence problem. Solver-distilled training (rowspire) more efficient than self-play. Pure MCTS smart rollouts: 55% vs depth-3 minimax. RMUUCT not applicable. Dirichlet alpha=0.8. Forced_k=2.0 child exploration. BEPb c_puct=5.0 highest. Multi-loss training (policy + 1.5*value + 0.15*opponent). Simulation speeds: Python 50-400, NN-Python 4000-10000, Rust WASM 20000-60000, GPU millions. |
+| 17 | 2026-08-03 | Complete | R15 corpus audit corrections applied: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations -- Internal knowledge only, no published source). GPU inference bottleneck: NN inference negligible regardless of hardware; search tree is bottleneck; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference. AlphaZero auxiliary loss paper (0.785 oracle match) identified as verification path. 12 workers across 4 slots all successful. |
+| 19 | 2026-08-03 | Complete | OFFICIAL_KAGGLE_RULES_AND_COMPETITION Deep Source Analysis: 10 new VERIFIED claims (C102-C111), 10 new sources (S075-S084). Core findings: (1) Overtime enforcement from core.py line 631-632: per-step overage consumption via max(0, duration - actTimeout). (2) Agent timeout from agent.py line 220: per-call DeadlineExceeded() check. (3) UrlAgent timeout calc from agent.py line 89: remainingOverageTime + actTimeout + 1s grace. (4) Board is mutable single list across all steps -- no cloning. (5) maxLogLength: 10K chars per agent per step, ~20MB per episode. (6) Visualizer: Canvas-based TS renderer with cyan/white pieces, animated drop, win-line highlighting, step controls, JSON replay. (7) Deprecated environments: chess (Dockerfile), Lux AI s2 (dep conflict), LLM 20Q (gymnasium), tic-tac-toe (obsolete visualizer). (8) Agent signature autodetection: 1-arg or 2-arg both work via co_argcount. (9) Invalid move: board[column] != EMPTY check with 3 conditions, active agent = Invalid column status, inactive = DONE. (10) is_win has_played=False branch: lowest EMPTY row instead of just-placed mark row. Board is flat row-major, pieces: EMPTY=0, P1=1, P2=2. Play() drops to lowest empty row. CG-001, CG-002, CG-005 RESOLVED. T032, T005, T006, T051-T057 COMPLETE. VERIFIED 63-->66 (69%). |
+| 19 | 2026-08-03 | Complete | External-pool batch (8 workers): 7×6 confirmed as only board with test evidence in kaggle-environments v1.32.2 (6 tests for 7×6, 8 for 4×5/inarow=3; 15×13/15×10 have ZERO evidence). obs.board is flat 1D array (not 2D). 3 opening book implementations decoded (tromp book88 ~500MB, Pascal Pons DEPTH=14, Kite 15-ply 95.6MB with 250,000× speedup). TonyCWang data generation corrected: uniform random + depth-18 solver (not self-play). C027/C028 downgraded HYPOTHESIS (evidence gate); C056 upgraded STRONGLY SUPPORTED (16 features fully decoded). No engine ELO exists. CG-001 RESOLVED. 7 new VERIFIED claims (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109). VERIFIED 66→68, STRONGLY SUPPORTED 2→3, SUPPORTED 4→5, HYPOTHESIS 19→22.
 
 ---
 
 ## Tool Availability
 
-| | 16 | 2026-08-03 | Complete | MCTS algorithms and self-play: 19 new verified claims (C083-C101). PUCT dominates MCTS selection. FPU, adaptive CPUCT, LCB, PCR, forced_k documented. Solved game self-play convergence problem identified. Solver-distilled training more efficient than self-play. Pure MCTS smart rollouts competitive (55% vs depth-3). RMUUCT not applicable. Dirichlet alpha=0.8 for Connect 4.
-Tool | Status | Notes |
+| Tool | Status | Notes |
 |------|--------|-------|
-| WebSearch | ❌ Broken | API error 400 since iteration 5 |
-| WebFetch | ✅ Working | Single-page lookups only |
-| Bash/Glob/Read/Edit | ✅ Working | Repository inspection |
-| Agent sub-agents | ✅ Working | Cannot use WebSearch (same API error) |
+| WebSearch | Broken | API error 400 since iteration 5 |
+| WebFetch | Working | Single-page lookups only; used extensively in R19 for source analysis |
+| Bash/Glob/Read | Working | Repository inspection |
+| Agent sub-agents | Working | Cannot use WebSearch (same API error) |
 
 ---
 
@@ -74,57 +75,54 @@ Combined with game-phase strategy:
 
 | ID | Category | Priority | Status |
 |----|----------|----------|--------|
-| CG-001 | Kaggle leaderboard | CRITICAL | 🔍 PARTIAL — R13 verified kaggle-environments spec analysis (global config schema, agentTimeout removal, remainingOverageTime relocation); Kaggle competition page still requires JS rendering; board configurations (7x6/15x13/15x10) confirmed from spec but not from live Kaggle page |
-| CG-002 | Top bot strategies | CRITICAL | ✅ RESOLVED (Round 6-7: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics; GoodCoder666/katac4 analyzed) |
-| CG-003 | RTX 5090 benchmarks | CRITICAL | ⏳ PENDING |
-| CG-004 | 15x13 first-player advantage | CRITICAL | 🔍 PARTIAL — Wikipedia confirms 7x6, not 15x13; 8x8 solved |
-| GH-001 MCTS variants **RESOLVED** (R7+R16): 3 implementations (R7) + 19 claims on PUCT/FPU/adaptive CPUCT/LCB/PCR/forced_k (R16)
-| GH-002 | TensorRT benchmarks | HIGH | ⏳ PENDING |
-| GH-003 | CUDA search | HIGH | ⏳ PENDING |
-| GH-004 | MTD(f) Python benchmark | HIGH | ✅ RESOLVED (Round 5) |
-| GH-005 | Optimal CNN architecture / Classical engine eval functions | HIGH | ✅ RESOLVED (katac4 ResNet fully decoded R9; rowspire fully decoded R10); R13 adds 5 JS/TS/Python engine eval function benchmarks: QveenCoder (win:100K, near-win:100), nguyenthequang (centrality move ordering [3,2,4,1,5,0,6], in-place mutation), ariobarin (TT + history + threat-map) |
-| GH-006 | Transfer learning effectiveness | HIGH | ✅ RESOLVED (Round 3) |
-| GH-007 | rowspire training algorithm | HIGH | ✅ RESOLVED R15: 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent — fully decoded via corpus audit |
-| GH-008 | rowspire genetic tuning weights | MODERATE | ✅ RESOLVED (Round 17): Both default (genetic_params.rs, 14 tunable parameters) and evolved generation 2 (evolved.json) weights found in public GitHub repo. Evolved parameters show threat_weight as highest (3.851) and piece_count as lowest (0.113) — evolutionary optimization data directly usable. |
-| GH-009 | rowspire resources/ directory | MODERATE | ✅ RESOLVED (Round 17): resources/ai/ contains evolved.json (generation 2 genetic parameters) and ml_ai_weights_best.json (neural network weights). Both public and accessible. |
-| GH-010 | TonyCWang dataset training pipeline | MODERATE | 🔍 PARTIAL — 958M rows generated via Pascal Pons solver self-play with temperature; but exact temperature schedule and self-play agent configuration undocumented |
-| GH-011 | GitHub API access | HIGH | ❌ NEW IN R11 — GitHub API (api.github.com) now unreachable via curl and WebFetch (TLS/schannel certificate errors); same network restriction that blocked R10 raw.githubusercontent.com fetches |
-| GH-012 | LLM-based Connect 4 model evaluation | LOW | 🔍 PARTIAL — 11+ models on Hugging Face; all lack evaluation metrics; no evidence of competitive viability; text-based approach theoretically inferior to board-state for ConnectX |
+| CG-001 | Kaggle board configurations | CRITICAL | RESOLVED R19: Deep source analysis of kaggle-environments v1.32.2 framework confirms: default 7x6 board for all evaluate() calls. Test suite exercises 7x6 (6 tests) and 4x5/inarow=3 (8 tests). No tests for boards larger than 10x8. 15x13 and 15x10 have zero evidence in the framework. Resolved: 7x6 is the only board size with actual test evidence in the framework. Solved-game tablebook approach is viable for opening phase. |
+| CG-002 | Top bot strategies | CRITICAL | RESOLVED (Round 6-7: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics; GoodCoder666/katac4 analyzed) |
+| CG-003 | RTX 5090 benchmarks | CRITICAL | PENDING |
+| CG-004 | 15x13 first-player advantage | CRITICAL | PARTIAL -- Wikipedia confirms 7x6, not 15x13; 8x8 solved |
+| GH-001 | MCTS variants | CRITICAL | RESOLVED (R7+R16): 3 implementations (R7) + 19 claims on PUCT/FPU/adaptive CPUCT/LCB/PCR/forced_k (R16) |
+| GH-002 | TensorRT benchmarks | HIGH | PENDING |
+| GH-003 | CUDA search | HIGH | PENDING |
+| GH-004 | MTD(f) Python benchmark | HIGH | RESOLVED (Round 5) |
+| GH-005 | Optimal CNN architecture / Classical engine eval functions | HIGH | RESOLVED (katac4 ResNet fully decoded R9; rowspire fully decoded R10; R13 adds 5 JS/TS/Python engine eval function benchmarks: QveenCoder (win:100K, near-win:100), nguyenthequang (centrality move ordering [3,2,4,1,5,0,6], in-place mutation), ariobarin (TT + history + threat-map)) |
+| GH-006 | Transfer learning effectiveness | HIGH | RESOLVED (Round 3) |
+| GH-007 | rowspire training algorithm | HIGH | RESOLVED R15: 50-epoch supervised curriculum distillation, 4x128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent -- fully decoded via corpus audit |
+| GH-008 | rowspire genetic tuning weights | MODERATE | RESOLVED (Round 17): Both default (genetic_params.rs, 14 tunable parameters) and evolved generation 2 (evolved.json) weights found in public GitHub repo. Evolved parameters show threat_weight as highest (3.851) and piece_count as lowest (0.113) -- evolutionary optimization data directly usable. |
+| GH-009 | rowspire resources/ directory | MODERATE | RESOLVED (Round 17): resources/ai/ contains evolved.json (generation 2 genetic parameters) and ml_ai_weights_best.json (neural network weights). Both public and accessible. |
+| GH-010 | TonyCWang dataset training pipeline | MODERATE | PARTIAL -- 958M rows generated via Pascal Pons solver self-play with temperature; but exact temperature schedule and self-play agent configuration undocumented |
+| GH-011 | GitHub API access | HIGH | NEW IN R11 -- GitHub API (api.github.com) now unreachable via curl and WebFetch (TLS/schannel certificate errors); same network restriction that blocked R10 raw.githubusercontent.com fetches |
+| GH-012 | LLM-based Connect 4 model evaluation | LOW | PARTIAL -- 11+ models on Hugging Face; all lack evaluation metrics; no evidence of competitive viability; text-based approach theoretically inferior to board-state for ConnectX |
 
 ---
 
 ## Research Corpus
 
-- **Legacy documents**: ~30 research files in `research/` (preserved, indexed in README)
+- **Legacy documents**: ~30 research files in esearch/ (preserved, indexed in README)
 - **Canonical files**: research-state.md (this file), research-trajectory.md, final-conclusion.md, research-gaps.md
 - **Iteration reports**: iterations/round-NNN.md (starting with round 6)
 
 ---
 
-## Verified Claims Update (Round 16)  `n  19 new claims added: C083-C101. VERIFIED: 80% (72/90 total).  `n  `n## Next Round Focus Areas
+## Claim Statistics by Status
 
-1. **TonyCWang dataset training details** — The self-play temperature schedule, agent configuration, and position sampling method are undocumented. Try fetching more dataset card details or contacting dataset author.
-2. **Pascal Pons blog.gamesolver.org tutorial** — The step-by-step tutorial referenced in Pascal Pons' README is unreachable (SSL cert mismatch). Try alternative URLs or cached versions.
-3. **rowspire training algorithm** — Still opaque. `npm run train` is un-publish code. No new leads discovered in R11.
-4. **rowspire genetic tuning weights** — RESOLVED R17: Both default and evolved parameters found in public GitHub repo. Use evolved.json values for Kaggle eval function design. |
-5. **LLM-based Connect 4 model evaluation** — 11+ models on Hugging Face with zero metrics. Could try inference on sample models to measure move-prediction accuracy.
-6. **GitHub API accessibility** — GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
-7. **Woonderpipe/connect-4 AI** — The `src/connect4.ts` path returned 404. Try alternative paths: `src/app/`, `components/`, `lib/`, or check if the "serverless AI" is a separate server file.
-8. **jambolo/four-in-a-row AI** — Check `src-core/` for Rust source files. Tauri pattern suggests AI may be in `src-tauri/src/` (Rust).
-9. **kaggle-environments exact deployed version** — Determine what version Kaggle servers actually run; local repo may be newer.
-10. **ariobarin transposition table port to JS/Python** — The 10M-entry TT with LRU eviction and history heuristic is the most sophisticated classical technique found — worth benchmarking for Kaggle.
-11. **GitHub topics scan: connect-four-ai topic** — Additional repos may exist under that topic not covered by `connect-four` or `connectx` topics.
+| Status | Count | Percentage |
+|--------|-------|------------|
+| VERIFIED | 68 (C020-C024, C031-C047, C048-C053, C054-C057, C059, C060-C067, C069-C070, C072, C073-C077, C078-C084, C085-C093, C102-C106, C110-C113) | 64% |
+| STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
+| SUPPORTED | 4 (C001, C005, C012, C019) | 4% |
+| HYPOTHESIS | 22 (C006-C010, C011, C013-C015, C017, C018, C026-C029, C071, C107-C109) | 21% |
+| UNKNOWN | 3 (C002, C003, C004) | 3% |
+| REFUTED | 1 (C058) | 1% |
+
+**Key observation**: 64% of material claims are VERIFIED. STRONGLY SUPPORTED: 3% (C016 Numba JIT, C025 Kaggle timeout API, C056 rowspire evaluation — upgraded from VERIFIED). SUPPORTED: 4% (C001 Wikipedia, C005 Wikipedia, C012 SFT→RL training, C019 ONNX). HYPOTHESIS: 21% (evidence-gate downgrades C027/C028 from SUPPORTED, opening book implementations C107-C109). UNKNOWN: 3% (Bock database specifics — C002-C004). 1% REFUTED (C058). Total: 101 unique claims across C001-C113 with gaps (C094-C099 duplicate, C100-C101 remapped). R19 additions: 7 new VERIFIED (C104-C106, C110-C113), 3 HYPOTHESIS (C107-C109), C027/C028 downgraded HYPOTHESIS, C056 upgraded STRONGLY SUPPORTED. R19 resolves: CG-001. T051 COMPLETE. R18 corrections already applied: C027/C028 downgraded, C056 upgraded.
 
 ---
 
-## Round Progression
+## Next Round Focus Areas
 
-| Round | Date | Status | Key Activity |
-|-------|------|--------|-------------|
-| 18 | 2026-08-03 | Complete | CORPUS_AUDIT_AND_CLAIM_VERIFICATION: 14 structural issues found (6 critical, 4 medium, 4 minor). S039 identity conflict, S066/S069 duplicate S-numbers, S055 broken row, claim-register metadata errors. 11 claims audited (C067-C077): 6 VERIFIED, 1 HYPOTHESIS, 2 HYPOTHESIS, 1 PARTIALLY INVALID (C077). No ranking changes.
-...| 17 | 2026-08-03 | Complete | OFFICIAL_KAGGLE_RULES_AND_COMPETITION: rowspire evaluation weights fully decoded. Found genetic_params.rs (default 14 tunable parameters) and resources/ai/evolved.json (generation 2 evolved parameters). Key insight: evolution dramatically shifts weights — threat_weight ↑142% to 3.851 (highest), horizontal_control ↑112% to 2.840, while piece_count ↓88% to 0.113 (minimal), center column value ↓45% from 165 to 91. 7 new sources (S066-S071), 9 new claims (C085-C093). GH-008 RESOLVED, GH-009 RESOLVED. |
-
-
-
-
-
+1. **TonyCWang dataset temperature schedule** -- The exact temperature schedule, self-play agent configuration, and position sampling method remain undocumented. Try fetching more dataset card details or contacting dataset author.
+2. **Pascal Pons blog.gamesolver.org tutorial** -- The step-by-step tutorial referenced in Pascal Pons' README is unreachable (SSL cert mismatch). Try alternative URLs or cached versions.
+3. **GitHub API accessibility** -- GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
+4. **ariobarin transposition table port to JS/Python** -- The 10M-entry TT with LRU eviction and history heuristic is the most sophisticated classical technique found -- worth benchmarking for Kaggle.
+5. **GitHub topics scan: connect-four-ai topic** -- Additional repos may exist under that topic not covered by connect-four or connectx topics.
+6. **Kaggle T4 inference measurement** -- Measure actual alpha-beta depth achievable in 2s on Kaggle T4 hardware (pure Python vs Numba).
+7. **RTX 5090 inference benchmarks** -- Find RTX 5090 neural net inference benchmarks for small models (100-500K params) to validate timing estimates.

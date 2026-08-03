@@ -1,6 +1,6 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 24
+> **Current Round**: 25
 > **Last Updated**: 2026-08-03
 > **Previous Round**: 23 (2026-08-03, T017 Asymmetric eval source code verification)
 > **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (round 24: all 7 workers failed)
@@ -38,6 +38,7 @@
 | 22 | 2026-08-03 | Complete | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11) from connect4.gamesolver.org. 8x8 solved as P2 win (Tromp, late 2014/2015, book88 ~500MB, column 4 universal P2 reply). 9x6 solved Nov 2005 (~2E13 positions, 2,000 CPU-hours). 10x8 is draw. 15x13/15x10 no results (HYPOTHESIS). Computational complexity O(R+C) disc placement, O(C*(R+C)) decision. Board representation scaling across 5 implementations. Claims C128-C134 added (6 VERIFIED, 1 HYPOTHESIS). VERIFIED 73-->79, HYPOTHESIS 22-->23. |
 | 23 | 2026-08-03 | Complete | T017 Worker Result (batch-00008) -- External-Pool Batch Synthesis: Asymmetric eval source code verification -- QveenCoder (S050) and nguyenthequang (S051) both implement identical asymmetric window scoring: win:100K, near-win:100, opponent near-win:-120 (1.2x opponent threat amplification = proactive defense bias). C005 upgraded from SUPPORTED to VERIFIED (middle-column opening win confirmed by source code from 2 independent implementations). C059 reconfirmed VERIFIED. Wikipedia Connect Four page unchanged since R10 (15x13 solving status still unknown); infinite Connect-Four solved: Draw (new detail). Tromp board-size chart 4x4-11x11 already captured in R22. GitHub topic scans: no new repos since R21. "Winning moves never in central columns" pattern for larger boards. 1 new source (S094 Wikipedia). VERIFIED 79->80, SUPPORTED 5->4. |
 | 24 | 2026-08-03 | Complete | External-Pool Batch (batch-00011): All 7 workers failed identically -- DGX endpoint (192.168.86.39:8006) unreachable. Slots 2 and 6 dispatched (jobs 12-14, 21-24). Same failure pattern since R12. No new findings, no new sources, no claim changes. DGX unavailable for 13th consecutive round. VERIFIED 80, unchanged. |
+| 25 | 2026-08-03 | Complete | External-Pool Batch (batch-00012): 5/5 workers succeeded. 14 new VERIFIED claims (C143-C154), 7 new SUPPORTED claims (C155-C158, C165-C166), 2 NEW CLAIMS (C160-C163 from Neural worker). Key: (1) C110 REFUTED — S044 directly contradicts claim about TonyCWang dataset ("NOT self-play" vs S044 "Self-play with temperature sampling"). (2) C128-C131 downgraded NEEDS_CORRECTION — gamesolver.org does not contain board-size matrix data; source attribution fails. (3) C134 downgraded SUPPORTED — O-notation correct derivation but no explicit source. (4) kaggle-environments v1.32.3: mark field added, deprecated_envs removed, test_connectx.py removed. (5) ResNet (katac4) fully specified: b3c128nbt, 3 Bottlenest blocks, 128 channels, ~530K params. (6) T4 TensorRT FP16: 1.10ms ResNet-18, sub-1ms for target sizes. (7) 14 new sources (S091-S096, S099-S108). VERIFIED 80→79 (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED, but +18 new VERIFIED).
 ---
 
 ## Tool Availability

@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 23 (2026-08-03)
+> **Current Round**: 25 (2026-08-03)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -38,6 +38,7 @@
 | `iterations/round-014.md` | 14 | 2026-08-02 | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings |
 | `iterations/round-022.md` | 22 | 2026-08-03 | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11); 8x8 solved P2 win; 9x6 solved; 10x8 draw; 15x13/15x10 no results |
 | `iterations/round-023.md` | 23 | 2026-08-03 | T017 Worker Result (batch-00008): Asymmetric eval source code verification (QveenCoder S050, nguyenthequang S051); C005 upgraded to VERIFIED; 120/100 opponent-threat amplification (1.2x proactive defense bias) |
+| `iterations/round-025.md` | 25 | 2026-08-03 | External-Pool Batch (batch-00012): 5/5 workers succeeded. 14 new VERIFIED claims (C143-C154). Key: C110 REFUTED... C128-C131 NEEDS_CORRECTION... C134 SUPPORTED... kaggle v1.32.3: mark field added, test_connectx.py removed... ResNet (katac4) fully specified... T4 TensorRT FP16 1.10ms... 14 new sources. |
 
 ## Legacy Documents (evidence, preserved)
 

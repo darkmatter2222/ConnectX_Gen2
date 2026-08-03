@@ -1,7 +1,7 @@
 # Decision Log — ConnectX Bot Research
 
-> **Current Round**: 15
-> **Last Updated**: 2026-08-02
+> **Current Round**: 17
+> **Last Updated**: 2026-08-03
 
 ---
 
@@ -41,6 +41,12 @@
 | rowspire training algorithm decoded | 15 | 50-epoch supervised curriculum distillation, 4×128 MLP, 250K samples + mirroring, BitboardSolver depth 18, rayon parallel gradient descent | Training was previously OPAQUE (npm run train = un-publish code); corpus audit R15 found train.rs/data.rs/training.rs in public GitHub repo | Training remains opaque | No — now decoded |
 | rowspire input is 84-cell not 64-cell | 15 | 12×7 board = 84 cells (16 padding); root noise is uniform random not Dirichlet | Prior R10 analysis assumed 64-cell + Dirichlet based on sparse documentation; full source audit corrects both | Rowsire design unchanged — our understanding was wrong | No — factual correction |
 | Supervised Pre-training downgraded to LOW | 15 | Dataset strictly 7×6; no transfer learning to 15×13 proven; board-size lock-in | R11 introduced as MEDIUM confidence; R15 evidence shows no 15×13 transfer possible | Use as component of Hybrid NN+Search | Yes — can be re-evaluated if 15×13 transfer data found |
+| Pascal Pons solver uses alpha-beta, not PVS | 16 | C++ negamax+alpha-beta (no PVS); static constexpr board sizes not template parameters | Prior R11 analysis incorrectly described PVS and template WIDTH/HEIGHT | Alpha-beta is standard in competitive Connect 4 solvers | No — solver source code verified |
+| Pascal Pons generator creates book at build time | 16 | No binary book file distributed; generator.cpp creates book from source at build time | Prior R11 assumed binary book like BitBully | Build-time generation is simpler for open-source distribution | No — build-time approach is fixed |
+| GPU inference acceleration is not recommended as primary strategy | 16 | NN inference is negligible compared to search tree traversal regardless of hardware; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference acceleration | GPU search acceleration (Liang Li et al.) is viable for search tree, not NN inference | GPU inference acceleration via TensorRT is marginal benefit | Yes — can revisit if NN becomes bottleneck |
+| AlphaZero auxiliary loss paper as verification path | 16 | 0.785 oracle match rate provides benchmark for Connect 4 NN quality; if Kaggle top-bots exceed this, AlphaZero-style training may help | No formal multi-engine ELO exists; this provides an alternative quality metric | AlphaZero auxiliary loss is not a direct benchmark | Yes — paper may have limitations |
+| Opening book implementations are viable for 7x6 Kaggle | 17 | 3 open-source implementations found: tromp book88 (8x8, ~500MB), Pascal Pons (7x6, DEPTH=14), Kite (15-ply compiled cache, 95.6MB) | Prior assumption was that opening books only exist as closed-source binaries | Kite's 6-bit packed score format is most space-efficient approach | Yes — can test different book formats |
+| Kite multi-hash scheme adopted as reference | 17 | Three-key mixed hash (0x9E3779B97F4A7C15L, 0xBF58476D1CE4E5B9L, 0x94D049BB133111EBL) outperforms single-key hashing; port to Python for Kaggle implementation | Prior R13 ariobarin TT uses simple hash; multi-hash may improve TT hit rate | Simple hash is easier to implement | Yes — multi-hash adds complexity |
 
 ---
 

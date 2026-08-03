@@ -262,11 +262,11 @@ Each hypothesis should be tested in a future iteration:
 | `research/06-package-api-deep-dive.md` | Kaggle API deep dive | ✅ Complete |
 | `research/alpha_beta_optimizations_connect4.md` | Alpha-beta optimizations | ✅ Complete |
 | `research/research-trajectory.md` | This file — research plan | ✅ Complete |
-| `research/research-state.md` | Round tracking, tool availability, active gaps | ✅ Complete (Round 6) |
-| `research/source-ledger.md` | All research sources with verification status | ✅ Complete (Round 6) |
-| `research/claim-register.md` | Material claims with evidence grade and status | ✅ Complete (Round 6) |
-| `research/decision-log.md` | Architecture/tool/strategy decisions | ✅ Complete (Round 6) |
-| `research/architecture-rankings.md` | Ranked approaches with confidence scores | ✅ Complete (Round 6) |
+| `research/research-state.md` | Round tracking, tool availability, active gaps | ✅ Complete (Round 17) |
+| `research/source-ledger.md` | All research sources with verification status | ✅ Complete (Round 17) |
+| `research/claim-register.md` | Material claims with evidence grade and status | ✅ Complete (Round 17) |
+| `research/decision-log.md` | Architecture/tool/strategy decisions | ✅ Complete (Round 17) |
+| `research/architecture-rankings.md` | Ranked approaches with confidence scores | ✅ Complete (Round 17) |
 | `research/final-conclusion.md` | Evolving final conclusion | ✅ Complete |
 | `research/research-gaps.md` | Knowledge gap catalog | ✅ Complete |
 | `research/iterations/round-NNN.md` | Round reports | ✅ Complete (Round 6) |
@@ -371,3 +371,5 @@ Specific tasks:
 | 13 | 2026-08-02 | Kaggle spec analysis + JS engine eval benchmarks | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval benchmarks: QveenCoder (minimax+alpha-beta, asymmetric weights 100K win), nguyenthequang (centrality move ordering [3,2,4,1,5,0,6], in-place mutation), ariobarin (TT + history + threat-map); VERIFIED claims 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); C025 → STRONGLY SUPPORTED; No ranking changes |
 | 14 | 2026-08-02 | Batch-00002 reconciliation | Both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified; all canonical state files consistent through R13 |
 | 15 | 2026-08-02 | External-pool batch — 3/7 succeed | Worker-06 job-00003: Kaggle kaggle-environments spec deep analysis (schemas.json, connectx.json, core.py) — overtime tracking, global config, agent enum, version v1.32.2; Worker-07 job-00004: JS/TS/Python engine eval benchmarks; Worker-07 job-00005: rowspire full source audit; 4/7 fail (DGX timeout ×2, model-selection ×2); C058 REFUTED (rowspire training fully decoded: 50-epoch curriculum distillation); C057 corrected (84-cell binary, uniform random noise); C013 downgraded HYPOTHESIS (non-standard label); Supervised Pre-training MEDIUM→LOW (board-size lock-in); C073-C077 VERIFIED; VERIFIED 67%→64% (recount); 0 new sources |
+| 16 | 2026-08-03 | GPU/Parallel Search + Corpus Audit | 7 sources (S059-S065): Liang Li et al. 2012 GPU search (70.8x speedup Connect 6), MCTS-NC Klęsk four GPU MCTS variants (75%+ avg score), Navade788 gpu-connect4-cuda, Project-Artetra, AlphaZero auxiliary loss 0.785 oracle match; 7 claims (C078-C084); T014 NEGATIVE RESULT — no formal multi-engine tournament ELO exists; Pascal Pons solver corrections (no PVS, static constexpr board sizes); rowspire training completeness verified (bin/train.rs entry point, core loop in external crate); Corpus audit: R15 stat table recount fixed (VERIFIED 48→51, SUPPORTED 8→9, VERIFIED% 64%→66%); No ranking changes |
+| 17 | 2026-08-03 | Corpus audit corrections + Opening Book survey | Corpus audit: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations — Internal knowledge only, no published external source); VERIFIED 56/68%, SUPPORTED 9→3/4%, HYPOTHESIS 13→19/23%; Opening Book survey: 3 implementations found — tromp/fhourstones88 (8x8, book88 binary, ~500MB), Pascal Pons/connect4 (7x6, DEPTH=14, source-generated), tristan852/kite (15-ply compiled cache, 95.6MB, multi-hash scheme); Kite outperforms Fhourstones and Pascal Pons on Pascal Pons benchmark; GPU inference bottleneck analysis — NN inference negligible regardless of hardware; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference acceleration; AlphaZero auxiliary loss paper (0.785 oracle match) identified as verification path; No ranking changes |

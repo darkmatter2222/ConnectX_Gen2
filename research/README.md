@@ -35,6 +35,7 @@
 | `iterations/round-011.md` | 11 | 2026-08-02 | Pascal Pons C++ solver fully decoded (negamax+PVS+TT+book); TonyCWang 958M-row training dataset (board-state, exact solver targets); Hugging Face LLM catalog (11+ models); evidence audit (17 fixes: duplicates, stale headers); Supervised Pre-training + Search approach added; VERIFIED 60%→66% |
 | `iterations/round-012.md` | 12 | 2026-08-02 | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings |
 | `iterations/round-013.md` | 13 | 2026-08-02 | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal); 5 new JS/TS/Python engine eval benchmarks decoded; VERIFIED 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); C025 → STRONGLY SUPPORTED |
+| `iterations/round-014.md` | 14 | 2026-08-02 | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings |
 
 ## Legacy Documents (evidence, preserved)
 

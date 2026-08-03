@@ -137,6 +137,7 @@ After one iteration of deep research, the analysis points to a **hybrid architec
 | 11 | 2026-08-02 | Hybrid NN + Search | High | Pascal Pons/connect4 C++ solver fully decoded (negamax+PVS+TT+opening book; iterative null-window binary search; template WIDTH/HEIGHT; DEPTH=14 book); TonyCWang/ConnectFour dataset discovered (958M rows, 14.8 GB, 2×6×7 binary observations + 7-element exact solver targets, self-play with temperature); Hugging Face LLM-based Connect 4 model catalog (11+ models, all lacking evaluation metrics); Evidence audit: 17 structural issues fixed (duplicate claim section removed, duplicate sources merged S026-28, stale headers updated); NEW approach: Supervised Pre-training + Search (board-state dataset); GitHub API unreachable (TLS errors); VERIFIED claims 60%→66%; NEW claims C060-C068; 8 new sources (S042-S049); No ranking changes |
 | 12 | 2026-08-02 | Hybrid NN + Search | High | External-pool batch: 7/7 workers failed (DGX endpoint timeout, model-selection failure); no findings; DGX at 192.168.86.39:8006 unavailable since this round |
 | 13 | 2026-08-02 | Hybrid NN + Search | High | Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval benchmarks decoded; VERIFIED 67%; 5 new sources (S049–S055), 4 new claims (C069–C072); No ranking changes |
+| 14 | 2026-08-02 | Hybrid NN + Search | High | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified; all canonical state files consistent through R13 |
 
 ---
 
@@ -169,3 +170,5 @@ This conclusion should be updated when:
 - [x] After PUCT MCTS benchmark, rowspire neural MCTS + bitboard solver, Java solver analysis (ITERATION 8 - round-008.md created)
 - [x] After Tromp Fhourstones benchmark, katac4 full training pipeline, 8x8 solving, alpha-beta+MCTS hybrid, NN architecture deep-dive (ITERATION 9 - round-009.md created)
 - [x] After rowspire full source code decoding, eSlams discovery, kenrick95/c4 catalog, Wikipedia opening theory (ITERATION 10 - round-010.md created)
+- [x] After external-pool batch: Kaggle spec analysis + JS engine eval benchmarks (ITERATION 13 - round-013.md created)
+- [x] After batch-00002 reconciliation: both workers already consumed in R13 (ITERATION 14 - round-014.md created)

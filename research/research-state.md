@@ -2,7 +2,7 @@
 
 > **Current Round**: 18
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 16 (2026-08-03, GPU/Parallel Search + Corpus Audit)
+> **Previous Round**: 17 (2026-08-03, GPU/Parallel Search + Corpus Audit)
 > **Status**: Active — deep research phase; external-pool DGX unavailable since round 12
 
 ---
@@ -26,6 +26,7 @@
 | 14 | 2026-08-02 | Complete | Batch-00002 reconciliation: both workers (worker-01, worker-05) already consumed in R13; no new findings; evidence gate verified |
 | 15 | 2026-08-02 | Complete | External-pool batch: 7 worker results consumed
 | 16 | 2026-08-03 | Complete | GPU/Parallel Search + Corpus Audit: 7 sources (S059-S065), 7 claims (C078-C084). T011 VERIFIED. Key: Liang Li et al. 2012 Connect 6 GPU search 70.8x speedup; MCTS-NC Klęsk four GPU MCTS variants 75% avg score; Pascal Pons solver corrections (no PVS, static constexpr board sizes); rowspire training completeness verified (bin/train.rs entry point, core loop in rowspire_ai_core external crate); T014 Connect 4 engine ELO — NEGATIVE RESULT (no formal multi-engine tournament ELO exists); Partial data: katac4 b3c128_v1 ~1080→~1178 (self-comparison only). Corpus audit: R15 stat table recount fixed (VERIFIED 48→51, SUPPORTED 8→9, VERIFIED% 64%→66%). R15 evidence gate violations (C006-C010, C026 — Internal knowledge only) deferred to R17.
+| 16 | 2026-08-03 | Complete | Repository and Source Code Analysis (Slot 5): 5 new sources (S070-S074: BitBully MTD(f), ecc521 NNUE, neurofour benchmark, pyvezi bitboard, Karthick-Flutter). 11 new repos found via topic scan. 5 deep source code analyses. Zero-byte champion (search beats NN on tight budgets). Center-first ordering universal. C085-C089 (3 VERIFIED, 2 SUPPORTED). Classical Engine MEDIUM to MEDIUM-HIGH (Python bindings eliminate C++ binding complexity). |
 | 18 | 2026-08-03 | Complete | MCTS Algorithms and Self-Play: 19 new verified claims (C083-C101). Three parallel agents: PUCT dominates MCTS selection (c_puct=1.0 train, 1.1 inference). FPU c_fpu=0.2 prevents NN policy domination. Adaptive CPUCT scales with visit variance. LCB move selection via t-distribution quantiles. PCR: 25% fast (16 sim) + 75% slow (800 sim). Solved game self-play convergence problem. Solver-distilled training (rowspire) more efficient than self-play. Pure MCTS smart rollouts: 55% vs depth-3 minimax. RMUUCT not applicable. Dirichlet alpha=0.8. Forced_k=2.0 child exploration. BEPb c_puct=5.0 highest. Multi-loss training (policy + 1.5*value + 0.15*opponent). Simulation speeds: Python 50-400, NN-Python 4000-10000, Rust WASM 20000-60000, GPU millions.
 | 17 | 2026-08-03 | Complete | R15 corpus audit corrections applied: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations — Internal knowledge only, no published source). GPU inference bottleneck: NN inference negligible regardless of hardware; search tree is bottleneck; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference. AlphaZero auxiliary loss paper (0.785 oracle match) identified as verification path. 12 workers across 4 slots all successful.
 
@@ -77,7 +78,7 @@ Combined with game-phase strategy:
 | CG-002 | Top bot strategies | CRITICAL | ✅ RESOLVED (Round 6-7: 5 ConnectX repos + 10 Connect 4 repos via GitHub topics; GoodCoder666/katac4 analyzed) |
 | CG-003 | RTX 5090 benchmarks | CRITICAL | ⏳ PENDING |
 | CG-004 | 15x13 first-player advantage | CRITICAL | 🔍 PARTIAL — Wikipedia confirms 7x6, not 15x13; 8x8 solved |
-| GH-001 | MCTS variants | HIGH | ✅ RESOLVED (Round 7: 3 MCTS implementations analyzed, including katac4 with FPU/adaptive CPUCT) |
+| GH-001 MCTS variants **RESOLVED** (R7+R16): 3 implementations (R7) + 19 claims on PUCT/FPU/adaptive CPUCT/LCB/PCR/forced_k (R16)
 | GH-002 | TensorRT benchmarks | HIGH | ⏳ PENDING |
 | GH-003 | CUDA search | HIGH | ⏳ PENDING |
 | GH-004 | MTD(f) Python benchmark | HIGH | ✅ RESOLVED (Round 5) |
@@ -120,7 +121,9 @@ Combined with game-phase strategy:
 
 | Round | Date | Status | Key Activity |
 |-------|------|--------|-------------|
+| 18 | 2026-08-03 | Complete | CORPUS_AUDIT_AND_CLAIM_VERIFICATION: 14 structural issues found (6 critical, 4 medium, 4 minor). S039 identity conflict, S066/S069 duplicate S-numbers, S055 broken row, claim-register metadata errors. 11 claims audited (C067-C077): 6 VERIFIED, 1 HYPOTHESIS, 2 HYPOTHESIS, 1 PARTIALLY INVALID (C077). No ranking changes.
 ...| 17 | 2026-08-03 | Complete | OFFICIAL_KAGGLE_RULES_AND_COMPETITION: rowspire evaluation weights fully decoded. Found genetic_params.rs (default 14 tunable parameters) and resources/ai/evolved.json (generation 2 evolved parameters). Key insight: evolution dramatically shifts weights — threat_weight ↑142% to 3.851 (highest), horizontal_control ↑112% to 2.840, while piece_count ↓88% to 0.113 (minimal), center column value ↓45% from 165 to 91. 7 new sources (S066-S071), 9 new claims (C085-C093). GH-008 RESOLVED, GH-009 RESOLVED. |
+
 
 
 

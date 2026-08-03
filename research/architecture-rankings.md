@@ -1,17 +1,17 @@
 # Architecture Rankings — ConnectX Bot
 
-> **Current Round**: 17
+> **Current Round**: 18
 > **Last Updated**: 2026-08-03
 
 ---
 
-## Current Rankings (Post Round 11)
+## Current Rankings (Post Round 18)
 
 | Rank | Approach | Confidence | 7x6 Strength | 15x13 Strength | Evidence Grade | Major Unknowns |
 |------|----------|------------|-------------|----------------|---------------|----------------|
 | 1 | Hybrid NN + Search | HIGH | ★★★★★ | ★★★★☆ | SUPPORTED | NN quality on 15x13, transfer learning effectiveness |
-| 2 | MCTS + NN (AlphaZero) | MEDIUM-HIGH | ★★★★☆ | ★★★★★ | SUPPORTED | MCTS convergence speed, self-play cost, Kaggle feasibility |
-| 3 | Classical Engine (MTD(f) + Python/C++) | MEDIUM | ★★★★★ | ★★☆☆☆ | SUPPORTED | C++ binding complexity on Kaggle, 15x13 depth |
+| 2 | MCTS + NN (AlphaZero) | HIGH | ★★★★☆ | ★★★★★ | SUPPORTED | MCTS convergence speed, self-play cost, Kaggle feasibility |
+| 3 | Classical Engine (MTD(f) + Python/C++) | MEDIUM-HIGH | ★★★★★ | ★★☆☆☆ | SUPPORTED | C++ binding complexity on Kaggle, 15x13 depth |
 | 4 | Pure Search (Python alpha-beta + heuristics) | MEDIUM | ★★★★☆ | ★★☆☆☆ | SUPPORTED | Depth limits on 15x13, eval function quality |
 | 5 | Pure Neural Network | LOW | ★★★☆☆ | ★★★☆☆ | HYPOTHESIS | NN precision without search, generalization |
 | 6 | Supervised Pre-training + Search | LOW | ★★★★☆ | ★★☆☆☆ | VERIFIED | Board-size lock-in (7×6 only); transfer to 15×13 unverified |
@@ -172,7 +172,9 @@
 | 12 | Hybrid NN+Search | No change — but external-pool batch 7/7 workers failed; no findings |
 | 13 | Hybrid NN+Search | No change — but Kaggle kaggle-environments spec fully analyzed (global config schema, agentTimeout removal, remainingOverageTime relocation); 5 new JS/TS/Python engine eval benchmarks decoded: QveenCoder (minimax+alpha-beta, asymmetric weights), nguyenthequang (centrality move ordering, in-place mutation), ariobarin (TT+history+threat-map). VERIFIED claims 67%. 5 new sources (S049–S055), 4 new claims (C069–C072). |
 | 15 | Hybrid NN+Search | No change — but C058 REFUTED (rowspire training fully decoded); C057 corrected (84-cell binary, uniform random noise); Supervised Pre-training downgraded MEDIUM→LOW (board-size lock-in 7×6 only, no 15×13 transfer evidence); VERIFIED claims 66% → 64% (recount: C013 downgraded to HYPOTHESIS, C002-C004 reclassified as UNKNOWN); 5 new claims (C073-C077) from Kaggle kaggle-environments spec deep analysis |
+| 16 | Hybrid NN+Search | No change — but 11 new repos found via topic scan; MarkusThill/BitBully (MTD(f) with Python bindings) validates MTD(f) for Kaggle; ecc521 NNUE confirms NN leaf evaluation production-ready; neurofour zero-byte champion shows search beats NN on tight 5M FLOP budgets; center-first ordering universally adopted across 4+ languages. 5 new sources (S070-S074), 5 new claims (C085-C089: 3 VERIFIED, 2 SUPPORTED). |
 | 16 | Hybrid NN+Search | No change — but GPU/Parallel Search: 7 new sources (S059-S065), 7 new VERIFIED claims (C078-C084); Liang Li et al. 2012 (70.8x GPU speedup), MCTS-NC Klęsk (four GPU MCTS variants, 75%+ avg score), Navade788 gpu-connect4-cuda, Project-Artetra CUDA target; AlphaZero auxiliary loss 0.785 oracle match as verification path; T014 NEGATIVE RESULT (no formal multi-engine ELO); Pascal Pons solver corrections (no PVS, static constexpr board sizes); Corpus audit: R15 stat table recount fixed (VERIFIED 48→51, SUPPORTED 8→9); C006-C010 and C026 downgraded HYPOTHESIS per evidence gate (see R17) |
+| 18 | Hybrid NN+Search | No change — corpus audit: 14 structural issues found (S039 identity conflict, S066/S069 duplicate S-numbers, S055 broken row, claim-register metadata errors). 11 claims audited (C067-C077): 6 VERIFIED, 1 HYPOTHESIS, 1 PARTIALLY INVALID (C077). No substantive architecture changes.
 | 17 | Hybrid NN+Search | No change — but corpus audit corrections: C006-C010 and C026 downgraded from SUPPORTED to HYPOTHESIS (evidence gate violations — Internal knowledge only, no published external source); VERIFIED 56/68%, SUPPORTED 9→3/4%, HYPOTHESIS 13→19/23%; Opening book survey: 3 implementations found (tromp book88 8x8 binary, Pascal Pons DEPTH=14 source-generated, Kite 15-ply compiled cache); Kite outperforms Fhourstones and Pascal Pons on Pascal Pons benchmark; GPU inference bottleneck: NN inference negligible regardless of hardware tier; Numba JIT/bitboard optimization yields orders of magnitude more ROI than GPU inference acceleration; AlphaZero auxiliary loss paper (0.785 oracle match rate) identified as verification path |
 
 ---

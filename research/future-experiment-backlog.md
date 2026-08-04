@@ -2,7 +2,7 @@
 
 > **Created**: 2026-08-03 (Round 27)
 > **Purpose**: Records all future empirical work. No experiments executed during research-only phase.
-> **Total experiments**: 25 (8 from R27 + 7 from R28: EXP-009 through EXP-015 + 3 from R30: EXP-016 through EXP-018 + 7 from R32: EXP-019 through EXP-025)
+> **Total experiments**: 32 (25 + 7 from R33: EXP-026 through EXP-032)
 > **All statuses**: DEFERRED or SPECIFIED — no experiment may be marked completed in research-only phase.
 
 ---
@@ -48,6 +48,13 @@
 | 23 | EXP-023 | — | ENS-013 | Board-size-adaptive ensemble routing protocol validation | SPECIFIED | P1 |
 | 24 | EXP-024 | — | — | Kamide Web Worker deployment constraints study | SPECIFIED | P2 |
 | 25 | EXP-025 | — | — | Corpus governance audit automation (round fragmentation, claim-count reconciliation) | SPECIFIED | P1 |
+| 26 | EXP-026 | HYP-020 | — | Fabricated data detection benchmark (S117, S120) | SPECIFIED | P1 |
+| 27 | EXP-027 | — | — | Benchmark suite coverage audit (BMS-001 through BMS-012 cross-reference) | SPECIFIED | P1 |
+| 28 | EXP-028 | HYP-018 | — | TonyCWang temperature schedule replication audit | SPECIFIED | P1 |
+| 29 | EXP-029 | HYP-018 | — | TonyCWang dataset claim verification | SPECIFIED | P1 |
+| 30 | EXP-030 | HYP-019 | — | MCP theorem citation verification (arXiv:1203.2285) | SPECIFIED | P1 |
+| 31 | EXP-031 | HYP-019 | — | Source ID collision detection automation (4 clusters) | SPECIFIED | P1 |
+| 32 | EXP-032 | HYP-018, HYP-019, HYP-020 | — | Adversarial hypothesis stress test | SPECIFIED | P1 |
 
 ---
 
@@ -639,6 +646,174 @@
 
 ---
 
+### EXP-026: Fabricated Data Detection Benchmark
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-020 (Fabricated Data Detection in Corpus) |
+| **Ensemble** | — |
+| **Purpose** | Validate that automated fabrication detection (phase-distribution analysis, source-methodology cross-referencing, claim-evidence alignment) identifies known-fabricated entries (S117, S120) |
+| **Independent variable** | Detection method: phase-distribution analysis, source-methodology cross-ref, claim-evidence alignment, combined |
+| **Dependent variables** | True positive rate, false positive rate, detection latency |
+| **Fixed controls** | Known corpus with injected fabrication (S117, S120, 3 clean sources) |
+| **Contenders** | N/A (research tool evaluation) |
+| **Benchmark suites** | BMS-012 (reproducibility) — corpus verification |
+| **Board configs** | N/A |
+| **Sample size** | 20 known-source audit targets |
+| **Metrics** | True positive rate, false positive rate, detection latency |
+| **Expected outcomes** | Combined detection achieves ≥95% true positive rate on known fabrications; ≤2% false positive on clean sources |
+| **Falsification** | If detection achieves <95% true positive on S117/S120, fabrication detection framework insufficient |
+| **Compute** | CPU; ~30 minutes |
+| **Reproducibility** | All detection rules and corpus sources deterministic |
+| **Prerequisite research** | R33 fabricated data findings (S117, S120), source ID collision catalog (4 clusters) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-027: Benchmark Suite Coverage Audit
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Audit that all 12 benchmark suites (BMS-001 through BMS-012) are cross-referenced by at least one experiment in the future experiment backlog |
+| **Independent variable** | Audit tool: manual, automated |
+| **Dependent variables** | Number of BMS-### with ≥1 referencing experiment, audit speed |
+| **Fixed controls** | All benchmark-blueprint.md and future-experiment-backlog.md files |
+| **Contenders** | N/A |
+| **Benchmark suites** | N/A (research-only) |
+| **Board configs** | N/A |
+| **Sample size** | 12 benchmark suite entries |
+| **Metrics** | Cross-reference coverage rate, audit time |
+| **Expected outcomes** | All 12 BMS-### have ≥1 experiment reference |
+| **Falsification** | If >2 BMS suites lack experiment references, benchmark-experiment coupling is incomplete |
+| **Compute** | CPU; ~10 minutes |
+| **Reproducibility** | Markdown parser reads both files deterministically |
+| **Prerequisite research** | R33 benchmark blueprint completion (BMS-007 through BMS-012) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-028: TonyCWang Temperature Schedule Replication Audit
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-018 (Phase-Bias in Self-Play Data Generation) |
+| **Ensemble** | — |
+| **Purpose** | Independently replicate TonyCWang's temperature schedule (T=1.0→T=0.5) and verify claimed phase distribution (40-40-20 opening-midgame-endgame) against actual self-play output |
+| **Independent variable** | Temperature schedule: TonyCWang (T=1.0→T=0.5), pure random (T=∞), fixed temperature (T=1.0), fixed temperature (T=0.5) |
+| **Dependent variables** | Phase distribution (opening/midgame/endgame move counts), position diversity, game length |
+| **Fixed controls** | Same starting position, same board size (7×6), same number of games (1000) |
+| **Contenders** | TonyCWang (temperature schedule), random-playout baseline |
+| **Benchmark suites** | BMS-002 (tactical position suite) |
+| **Board configs** | 7×6 |
+| **Sample size** | 1000 games per temperature schedule |
+| **Metrics** | Phase distribution percentages, position entropy, average game length |
+| **Expected outcomes** | TonyCWang schedule produces non-uniform phase distribution; pure random over-represents endgame positions |
+| **Falsification** | If TonyCWang schedule produces uniform phase distribution, temperature schedule does not create phase bias |
+| **Compute** | Kaggle notebook; ~4 hours |
+| **Reproducibility** | All random seeds fixed; game logs saved |
+| **Prerequisite research** | R33 TonyCWang verification (S120, fabricated data, temperature schedule vs uniform random) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-029: TonyCWang Dataset Claim Verification
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-018 (Phase-Bias in Self-Play Data Generation) |
+| **Ensemble** | — |
+| **Purpose** | Verify TonyCWang's reported model accuracy improvements across board sizes and temperature schedules against independent re-measurement |
+| **Independent variable** | Board size (5×4, 6×5, 7×6), temperature schedule step |
+| **Dependent variables** | Model accuracy, phase distribution, self-play agreement rate |
+| **Fixed controls** | Same architecture (ResNet-19 equivalent), same dataset split |
+| **Contenders** | TonyCWang reported values, re-measured values |
+| **Benchmark suites** | BMS-001 (API, legality), BMS-007 (board-size generalization) |
+| **Board configs** | 5×4, 6×5, 7×6 |
+| **Sample size** | 1000 test positions per board size |
+| **Metrics** | Model accuracy, claim agreement rate, phase distribution |
+| **Expected outcomes** | Re-measured accuracy within ±5% of TonyCWang reported values on 7×6; larger deviations on smaller boards |
+| **Falsification** | If re-measured accuracy deviates >10% from TonyCWang on any board size, claimed accuracy values unreliable |
+| **Compute** | Kaggle notebook; ~8 hours |
+| **Reproducibility** | TonyCWang dataset available; deterministic evaluation on fixed test set |
+| **Prerequisite research** | R33 TonyCWang verification, S120 methodology review |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-030: MCP Theorem Citation Verification
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-019 (Source Attribution Integrity) |
+| **Ensemble** | — |
+| **Purpose** | Verify arXiv:1203.2285 citation used in MCP theorem claim (C136). Confirm actual paper topic (astrophysics per R33 finding) vs claimed topic (game theory/MCTS convergence) |
+| **Independent variable** | Citation source: arXiv:1203.2285, actual game-theory MCP theorem sources |
+| **Dependent variables** | Citation accuracy, claim validity, MCP theorem statement correctness |
+| **Fixed controls** | arXiv API, MCP theorem literature |
+| **Contenders** | N/A |
+| **Benchmark suites** | N/A (research-only) |
+| **Board configs** | N/A |
+| **Sample size** | 1 arXiv paper + 3 verified MCP theorem sources |
+| **Metrics** | Citation accuracy (correct/incorrect), topic match rate |
+| **Expected outcomes** | arXiv:1203.2285 confirmed as astrophysics; no game-theory MCP theorem in that paper |
+| **Falsification** | If arXiv:1203.2285 actually discusses MCP theorem, R33 finding is incorrect |
+| **Compute** | CPU; ~5 minutes |
+| **Reproducibility** | arXiv API query; deterministic paper metadata extraction |
+| **Prerequisite research** | R33 finding (SF-001: arXiv:1203.2285 = astrophysics paper) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-031: Source ID Collision Detection Automation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-019 (Source Attribution Integrity) |
+| **Ensemble** | — |
+| **Purpose** | Build and test automated source ID collision detection: verify all 4 collision clusters (S091-S093, S094-S097, S109-S117, S118-S120) are detected without manual inspection |
+| **Independent variable** | Detection scope: intra-round, cross-round, global sequential |
+| **Dependent variables** | Collision clusters detected, false positive rate, detection time |
+| **Fixed controls** | All source ledger entries, all round reports |
+| **Contenders** | N/A |
+| **Benchmark suites** | N/A (research-only) |
+| **Board configs** | N/A |
+| **Sample size** | All source IDs in source-ledger.md |
+| **Metrics** | Collision clusters found, detection accuracy, audit speed |
+| **Expected outcomes** | Automated detection finds all 4 known collision clusters with 0 false positives |
+| **Falsification** | If automated detection misses ≥1 known cluster, detection tool is incomplete |
+| **Compute** | CPU; ~5 minutes |
+| **Reproducibility** | Source ledger is structured Markdown; deterministic parsing |
+| **Prerequisite research** | R33 source ID collision audit (4 clusters, 27+ colliding IDs) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-032: Adversarial Hypothesis Stress Test
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-018 (Phase-Bias), HYP-019 (Source Attribution), HYP-020 (Fabricated Data) |
+| **Ensemble** | — |
+| **Purpose** | Design and run adversarial stress tests: attempt to falsify each R33 hypothesis with alternative explanations, verify evidence is sufficient and not merely suggestive |
+| **Independent variable** | Hypothesis under test: HYP-018, HYP-019, HYP-020 |
+| **Dependent variables** | Alternative explanations proposed, evidence gaps identified, hypothesis status (PROPOSED→RESEARCHING, etc.) |
+| **Fixed controls** | Existing evidence catalog, claim register, source ledger |
+| **Contenders** | N/A (research-only adversarial review) |
+| **Benchmark suites** | N/A (research-only) |
+| **Board configs** | N/A |
+| **Sample size** | 3 hypotheses × N alternative explanations each |
+| **Metrics** | Alternative explanations per hypothesis, evidence confidence changes |
+| **Expected outcomes** | Each hypothesis survives ≥1 adversarial pass without status downgrade |
+| **Falsification** | If any R33 hypothesis fails adversarial stress test, its evidence is insufficient for current status |
+| **Compute** | Research-only (no code execution) |
+| **Reproducibility** | Adversarial review protocol documented; deterministic evidence evaluation |
+| **Prerequisite research** | R33 hypothesis entries (HYP-018, HYP-019, HYP-020), R33 corpus corrections |
+| **Status** | SPECIFIED |
+
+---
+
 ## Priority Classification
 
 | Priority | Criteria |
@@ -657,22 +832,4 @@
 
 ---
 
-*Backlog created: Round 27. Total experiments: 25 (EXP-001 through EXP-025). SPECIFIED: 23, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04). R32 added EXP-019 through EXP-025 (7 new experiments: Kamide benchmark, Tromp validation, MTD(f)/PVS gap, board representation comparison, ENS-013 routing, Web Worker constraints, corpus governance automation).*
-
-| Priority | Criteria |
-|----------|----------|
-| **P0** | Critical for ensemble validation; gates future experiments |
-| **P1** | Important for research progress; does not gate other experiments |
-| **P2** | Valuable but not urgent; can be deferred if needed |
-
-## Notes
-
-- No experiment is executed during the research-only phase
-- EXP-006 and EXP-007/008 are research-only (literature review, corpus hygiene)
-- EXP-001/002/003/004/005 require implementation phase to execute
-- All experiments reference specific benchmark suites (BMS-###) from benchmark-blueprint.md
-- All experiments reference specific hypotheses (HYP-###) from hypothesis-register.md
-
----
-
-*Backlog created: Round 27. Total experiments: 18 (EXP-001 through EXP-018). SPECIFIED: 16, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04).*
+*Backlog created: Round 27. Total experiments: 32 (EXP-001 through EXP-032). SPECIFIED: 30, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04). R32 added EXP-019 through EXP-025 (7 new experiments: Kamide benchmark, Tromp validation, MTD(f)/PVS gap, board representation comparison, ENS-013 routing, Web Worker constraints, corpus governance automation). R33 added EXP-026 through EXP-032 (7 new experiments: fabrication detection, benchmark coverage audit, TonyCWang replication/verification, MCP theorem citation verification, source ID collision detection, adversarial hypothesis stress test).*

@@ -1,7 +1,7 @@
 ﻿# Idea Leaderboard — ConnectX Bot Research
 
 > **Created**: 2026-08-03 (Round 26)
-> **Last Updated**: 2026-08-04 (Round 32)
+> **Last Updated**: 2026-08-04 (Round 33)
 > **Purpose**: Ranked list of research ideas, components, and approaches by expected impact on Kaggle bot strength
 > **Status**: DRAFT — all rankings are theoretical; empirical validation required via benchmark-blueprint.md experiments
 

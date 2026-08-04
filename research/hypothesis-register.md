@@ -1,9 +1,9 @@
 # ConnectX Research Program -- Hypothesis Register
 
 **Version:** 1.0
-**Last reviewed:** Round 31
+**Last reviewed:** Round 33
 **Synthesis agent:** ConnectX Research v9
-**Total hypotheses:** 17
+**Total hypotheses:** 20
 **Falsifiability:** All hypotheses are falsifiable by design
 **Component reference:** See `component-catalog.md` for CMP-### definitions
 
@@ -30,13 +30,16 @@
 | HYP-015 | MCTS GPU-Acceleration Requirement for Inference-Time Ensembles | PROPOSED | HIGH | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
 | HYP-016 | CPU Fallback Degradation in Timing-Gated MCTS | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
 | HYP-017 | TT-MCTS Shared Cache Improvement | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-018 | Phase-Bias in Self-Play Data Generation | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-019 | Source Attribution Integrity Requirement | PROPOSED | HIGH | STRUCTURAL GOVERNANCE ISSUE |
+| HYP-020 | Fabricated Data Detection in Corpus | PROPOSED | HIGH | COMPONENTS: VERIFIED / STRUCTURAL: PROPOSED |
 
 ### Status Distribution
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| PROPOSED | 16 | 94% |
-| RESEARCHING | 1 | 6% |
+| PROPOSED | 19 | 95% |
+| RESEARCHING | 1 | 5% |
 | EVIDENCE_SUPPORTED | 0 | 0% |
 | PLAUSIBLE | 0 | 0% |
 | CONTESTED | 0 | 0% |
@@ -1333,6 +1336,180 @@ MEDIUM - Standard in Go/Chess but untested on ConnectX.
 
 #### Last Reviewed Round
 31
+
+---
+
+### HYP-018: Phase-Bias in Self-Play Data Generation
+
+**Status:** PROPOSED
+**Architecture family:** Data Generation / Training
+
+#### Components
+- CMP-009: Self-play data generation
+- CMP-010: Phase bucketing
+
+#### Exact Mechanism
+Self-play with temperature sampling (T=1.0 for first 10 moves → T=0.5 for remaining) produces non-uniform phase distribution:
+- Early game (0-8 moves, T=1.0): generates more diverse positions
+- Late game (17+ moves, T=0.5): generates more deterministic positions
+- Training data may be over-represented in early-game positions
+- This creates phase-bias: model performs better on early positions than late positions
+
+#### Scope
+- **Board size:** All board sizes
+- **Training phase:** Self-play data generation
+
+#### Evidence For
+- S044: Temperature schedule (T=1.0 for first 10 moves → T=0.5 for rest) verified from TonyCWang dataset card
+- S117: "40-40-20" phase distribution was fabricated — confirms phase distribution matters but the specific number is wrong
+- AlphaZero literature: temperature affects policy diversity
+
+#### Evidence Against
+- None identified — this is a plausible concern needing empirical testing
+
+#### Source and Claim IDs
+S044, S042 (Pascal Pons temperature schedule)
+
+#### Unsupported Assumptions
+- Temperature schedule produces measurable phase bias in training data
+- Phase bias affects final model performance
+- 958M row dataset has non-uniform phase distribution
+
+#### Kaggle Constraints
+Training must fit within Kaggle compute limits. Phase-bias mitigation requires either rebalancing training data or adjusting architecture.
+
+#### Failure Modes
+- Phase-bias causes model to overfit early-game patterns
+- Late-game positions under-represented in training data
+- Model performs well on openings but poorly in endgames
+
+#### Research-Validation Method
+Measure evaluation accuracy by game phase (piece count) on held-out test set from TonyCWang 958M dataset.
+
+#### Falsification Condition
+If training on 7×6 self-play data produces uniform performance across game phases, hypothesis is falsified.
+
+#### Confidence
+MEDIUM — plausible mechanism, no empirical measurement exists
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PROPOSED — no empirical phase-bias measurement exists
+
+#### Last Reviewed Round
+33
+
+---
+
+### HYP-019: Source Attribution Integrity Requirement
+
+**Status:** PROPOSED
+**Architecture family:** Corpus Governance
+
+#### Components
+N/A — governance hypothesis
+
+#### Exact Mechanism
+Source ID collision in the ledger creates ambiguous evidence chains:
+- Any claim referencing a colliding source ID has its evidence chain weakened
+- A reviewer checking S094 might see marcpaulo15 (R25) instead of Tromp solver (R23)
+- The evidence gate requires unambiguous source attribution
+- Corpus integrity depends on global unique IDs and no per-round ID pools
+
+#### Scope
+All corpus documents
+
+#### Evidence For
+- 4 collision clusters identified: S091-S093 (R16↔R25), S094-S097 (R23↔R25), S109-S117 (R25↔R30), S118-S120 (R30 self-duplicate)
+- 27+ colliding source IDs across R16-R30
+- Multiple claims have ambiguous evidence chains (C094, C136, C150, C171)
+
+#### Evidence Against
+- Claims include enough context to disambiguate (optimistic view)
+
+#### Falsification Condition
+No material claim depends on resolving source ID ambiguity.
+
+#### Source and Claim IDs
+Worker-04 Job 18, Worker-01 Job 30, Worker-07 Job 033
+
+#### Unsupported Assumptions
+- All claims with colliding IDs are independently verifiable
+- Context in claim text is sufficient for disambiguation
+
+#### Kaggle Constraints
+N/A — internal governance concern
+
+#### Failure Modes
+- Evidence chains are ambiguous; a reviewer cannot determine which source a claim actually references
+- Corpus integrity degrades as rounds accumulate more collisions
+- Future rounds propagate ambiguous citations
+
+#### Research-Validation Method
+Audit all claims with colliding source IDs to verify they are independently verifiable without source resolution.
+
+#### Confidence
+HIGH — this is a structural fact about the corpus
+
+#### Evidence Maturity
+PROPOSED — structural governance issue, not empirical
+
+#### Last Reviewed Round
+33
+
+---
+
+### HYP-020: Fabricated Data Detection in Corpus
+
+**Status:** PROPOSED
+**Architecture family:** Corpus Governance
+
+#### Components
+N/A — governance hypothesis
+
+#### Exact Mechanism
+Fabricated data in source entries (S117: 40-40-20 phase distribution, S120: "uniform random" methodology) was never verified against primary sources before citation. A systematic verification protocol can detect and prevent future fabricated data.
+
+#### Scope
+All source entries that have been cited in claims
+
+#### Evidence For
+- S117 "40-40-20" phase distribution: NOT in TonyCWang dataset card
+- S120 "uniform random" methodology: contradicted by "self-play with temperature sampling" in dataset card
+- Both fabricated data points were used as sources in other claims without primary-source verification
+
+#### Evidence Against
+- No evidence against — these are confirmed fabrications
+
+#### Falsification Condition
+No other fabricated data is found in the corpus when all source entries are verified against primary sources.
+
+#### Source and Claim IDs
+Worker-06 Job 19 (TonyCWang verification), Worker-04 Job 18
+
+#### Unsupported Assumptions
+- Only S117 and S120 are fabricated; other sources may also be fabricated
+- Fabricated data can be detected through primary-source comparison
+
+#### Kaggle Constraints
+N/A — internal governance concern
+
+#### Failure Modes
+- Undetected fabricated data propagates through the corpus
+- Claims built on fabricated data appear supported but are actually unsupported
+- Corpus credibility is undermined
+
+#### Research-Validation Method
+Systematic audit: verify all source entries against their primary sources. Flag any entry that cannot be confirmed as present in the primary source.
+
+#### Confidence
+HIGH — S117 and S120 are confirmed fabrications; protocol exists to prevent future ones
+
+#### Evidence Maturity
+PROPOSED — 2 confirmed fabrications, protocol not yet designed
+
+#### Last Reviewed Round
+33
 
 ---
 

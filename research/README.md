@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 32 (2026-08-04)
+> **Current Round**: 33 (2026-08-04)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -18,12 +18,12 @@
 | `source-ledger.md` | All research sources: primary, secondary, verified, unverified |
 | `research-gaps.md` | Knowledge gap catalog with priority and resolution status |
 | `research-program.md` | Research program framework, evidence hierarchy, hypothesis lifecycle, ensemble protocol |
-| `hypothesis-register.md` | All hypotheses with full lifecycle records (HYP-001 through HYP-017) |
+| `hypothesis-register.md` | All hypotheses with full lifecycle records (HYP-001 through HYP-020) |
 | `idea-leaderboard.md` | Research-priority leaderboard with 0-5 scoring system |
 | `component-catalog.md` | Reusable component catalog with compatibility matrix (CMP-001 through CMP-010) |
 | `ensemble-catalog.md` | Ensemble catalog with comparison table (ENS-001 through ENS-018) |
 | `contender-roster.md` | Contender roster with classification (BOT-001 through BOT-014) |
-| `benchmark-blueprint.md` | Benchmark design with 6 specified suites (BMS-001 through BMS-006); planned: BMS-007 through BMS-012) |
+| `benchmark-blueprint.md` | Benchmark design with 12 specified suites (BMS-001 through BMS-012) |
 | `future-experiment-backlog.md` | Future experiment backlog with full specifications (EXP-001 through EXP-025) |
 
 ## Round Reports
@@ -53,6 +53,7 @@
 | `iterations/round-030.md` | 30 | 2026-08-04 | External-Pool Batch (batch-00016): 5 workers (MCTS consistency, adversarial audit, ensemble hypotheses, corpus governance). C139 VERIFIED (adjacent opening draw unidentifiable by MCTS). 3 new sources (S118-S120), 1 new hypothesis (HYP-014 timing governance), 3 new ensembles (ENS-013/014/015), 2 new benchmarks (BMS-005 MCTS consistency, BMS-006 board-size coverage), 3 new experiments (EXP-016/017/018), 1 new contender (BOT-010), 8 source ID collisions identified (R23/R24 vs R25). Experiment count: 15→18. |
 | `iterations/round-031.md` | 31 | 2026-08-04 | MCTS timing budget audit + ensemble arbitration. C177-C181 added (MCTS timing). HYP-015/016/017 added (GPU acceleration, CPU fallback, TT-MCTS). ENS-018 added (TT-MCTS shared cache). |
 | `iterations/round-032.md` | 32 | 2026-08-04 | External-Pool Batch (batch-00017): 13/13 workers. C139 VERIFIED (adjacent opening draw, 3 independent sources). C184-C199 VERIFIED (Kamide engine, Tromp search system). C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS). HYP-003 → MEDIUM. New sources S123-S126. New contenders BOT-013/BOT-014. Benchmark: 19 opponents, 6 tiers. 5 adversarial reviews confirm source ID collision. |
+| `iterations/round-033.md` | 33 | 2026-08-04 | External-Pool Batch (batch-00018): 9/9 workers. Source ID collision audit (4 clusters, 27+ IDs). Fabricated data: S117 (40-40-20 phase distribution), S120 ("uniform random" fabricated). arXiv:1203.2285 = astrophysics (not MCP theorem). Benchmark blueprint: 12 suites (BMS-001-BMS-012). 3 new hypotheses: HYP-018 (phase-bias), HYP-019 (source attribution), HYP-020 (fabrication detection). C151→NEEDS_CORRECTION, C172→NEEDS_CORRECTION. 7 new experiments EXP-026-EXP-032. |
 
 ## Legacy Documents (evidence, preserved)
 

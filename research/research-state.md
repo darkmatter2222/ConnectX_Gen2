@@ -1,8 +1,8 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 32
+> **Current Round**: 33
 > **Last Updated**: 2026-08-04
-> **Previous Round**: 31 (2026-08-04, MCTS timing budget audit, ensemble arbitration)
+> **Previous Round**: 32 (2026-08-04, Kamide/Kaggle opponent analysis, benchmark specification, corpus audit)
 > **Status**: Active -- deep research phase; v9 canonical corpus established (batch-00001)
 
 ---
@@ -43,6 +43,7 @@
 | 31 | 2026-08-04 | Complete | External-Pool Batch (ENS/HYBRID lane): Timing budget audit for all MCTS-containing ensembles. C177-VERIFIED (MCTS-NC ~2.5M playouts/s on T4 GPU). C178-VERIFIED (CPU MCTS 1600-4000 sims overflow 2s budget). C179-VERIFIED (all inference-time MCTS ensembles require GPU). C180-HYPOTHESIS (ensemble arbitration protocol required for 3+ component ensembles). C181-VERIFIED (ENS-013/015 alpha-beta-only are timing-safe on CPU). HYP-015 (MCTS GPU acceleration requirement). HYP-016 (CPU fallback degradation). HYP-017 (TT-MCTS shared cache). Total claims: 181 (C001-C181). Total hypotheses: 17 (HYP-001-HYP-017). VERIFIED: 73 (63%). NEEDS_CORRECTION: 18 (17%). |
 | 31 | 2026-08-04 | Complete | Ensemble & Hybrid Audit: MCTS timing budget analysis confirmed all MCTS-enabling ensembles require GPU acceleration on Kaggle T4. Added ENS-018 (TT-MCTS shared cache). Formalized ensemble arbitration protocol. Key claims: C177-C181 (4 VERIFIED, 1 HYPOTHESIS). Key hypotheses: HYP-015 through HYP-017 (3 new). GPU acceleration is now a hard architectural constraint for all MCTS ensembles.
 | 32 | 2026-08-04 | Complete | External-Pool Batch (batch-00017): 13/13 workers succeeded across all 7 lanes. Key: (1) C139 HYPOTHESIS→VERIFIED (adjacent opening draw, 3 independent sources). (2) HYP-003 LOW→MEDIUM confidence. (3) Tromp fhourstones88 complete search system fully analyzed: NO MTD(f), NO PVS, standard full-window alpha-beta (C006/C007 NEEDS_CORRECTION). (4) Kamide/connect-n new engine: adaptive scoring minimax in Web Worker. (5) miksipiksic/pyvezi: bitmask board representation. (6) 5 adversarial review workers confirm source ID namespace collision (8+ IDs). (7) Benchmark specification: 19 opponents, 6 tiers, Elo 0–1900. (8) Corpus hygiene: 5 structural defects found. C184–C199 added (VERIFIED). New sources S123–S126. New contenders BOT-013/BOT-014. Total claims: ~195. Total hypotheses: 17. VERIFIED: 79 (64%). NEEDS_CORRECTION: 20.
+| 33 | 2026-08-04 | Complete | External-Pool Batch (batch-00018): 9/9 workers succeeded across 3 lanes (corpus governance, timing audit, benchmark science). Key: (1) Source ID collision audit: 4 clusters (S091-S093 R16/R25, S094-S097 R23/R25, S109-S117 R25/R30, S118-S120 R30 self-duplicate). (2) Fabricated data: S117 (40-40-20 phase distribution invented), S120 ("uniform random" methodology fabricated — actual: self-play with temperature schedule). (3) arXiv:1203.2285 verified as astrophysics paper (not game theory MCP theorem). (4) Benchmark blueprint completed: 12 suites (BMS-001 through BMS-012). (5) 3 new hypotheses: HYP-018 (phase-bias in self-play), HYP-019 (source attribution integrity), HYP-020 (fabricated data detection). (6) C151→NEEDS_CORRECTION, C172→NEEDS_CORRECTION, C136 updated. (7) 7 new experiments EXP-026 through EXP-032. Total claims: ~200. Total hypotheses: 20 (HYP-001 through HYP-020). VERIFIED: ~74. NEEDS_CORRECTION: 22.
 ---
 
 ## Tool Availability

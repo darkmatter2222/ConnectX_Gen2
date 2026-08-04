@@ -1,8 +1,12 @@
 ﻿# Benchmark Blueprint - ConnectX Bot
 
+> **Last Updated**: 2026-08-04 (Round 33)
 > **Created**: 2026-08-03 (Round 26)
+> **Status**: BMS-001 through BMS-012 fully designed; R33 added BMS-007 through BMS-012 specifications
+> **Last Updated**: 2026-08-04 (Round 33)
 > **Purpose**: Rigorous benchmark methodology and tournament design for ConnectX bot evaluation
 > **Status**: DRAFT - design only, no execution required
+> **Suite count**: 12 benchmark suites (BMS-001 through BMS-012), all designed
 
 ---
 
@@ -474,6 +478,62 @@ Results should be reported per hardware tier.
 - Document the coverage gap: current test suite exercises 7x6 (6 tests) and 4x5/inarow=3 (8 tests); 15x13 and 15x10 have ZERO test evidence despite being supported by the environment spec
 
 **Governance risk**: Bots optimized for 7x6 will pass Kaggle evaluation but may fail on 15x13 if the competition ever expands to include those boards.
+
+---
+
+### BMS-007: Board-Size Benchmark Suite
+
+**Purpose**: Measure how a 7×6-optimized bot performs on larger board sizes. Fills the gap identified by BMS-006 (board-size coverage audit).
+
+**Test specification**:
+- Board sizes: 6×5 (inarow=3), 8×8, 10×8, 12×10
+- Opponent: classical engine at each board size (depth-limited alpha-beta)
+- Metric: win rate, draw rate, loss rate, average game length, per-move latency
+
+### BMS-008: GPU Latency Profiling
+
+**Purpose**: Profile NN inference + MCTS latency on T4 GPU. Measures actual compute budget utilization.
+
+**Test specification**:
+- Hardware: Kaggle T4 GPU
+- Profile points: NN inference, TT lookup, MCTS node expansion, leaf evaluation
+- Metric: p50/p95/p99 latency per operation, total latency per move
+
+### BMS-009: Ablation Study Design
+
+**Purpose**: Remove one component at a time and measure delta. Isolates component contributions.
+
+**Test specification**:
+- Components to ablate: TT, move ordering, fork detection, NN policy prior, MCTS
+- Metric: win rate delta, search speedup, node throughput delta
+- Method: run full ensemble vs. ensemble minus each component
+
+### BMS-010: GPU vs CPU MCTS Ablation
+
+**Purpose**: Compare identical MCTS on GPU vs CPU. Measures GPU acceleration benefit.
+
+**Test specification**:
+- Identical MCTS parameters, hardware comparison (T4 GPU vs CPU)
+- Metric: simulation throughput (sims/sec), latency per simulation
+- Control: same MCTS algorithm, same board positions
+
+### BMS-011: Adversarial Opponent Testing
+
+**Purpose**: Test bots against exploit-specific opponents. Measures robustness to adversarial strategies.
+
+**Test specification**:
+- Adversarial opponents: always-play-first-move, never-block, random-evasion
+- Metric: win rate against each adversary, pattern exploitation detection rate
+
+### BMS-012: Reproducibility Protocol
+
+**Purpose**: Seed control, deterministic replay, TT clear. Ensures experiments are reproducible.
+
+**Test specification**:
+- Seed all random operations
+- Clear TT between games
+- Log all positions and moves
+- Metric: bitwise identical results across runs
 
 ---
 

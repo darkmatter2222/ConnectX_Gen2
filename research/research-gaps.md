@@ -146,3 +146,4 @@ IMPACT ◄───────────────┼───────�
 | GH-### | High Priority Gap |
 | GM-### | Medium Priority Gap |
 | GL-### | Low Priority Gap |
+| GH-025 | Numba JIT flat 1D array vs bitboard benchmark on Kaggle | Missing empirical benchmark for Kaggle deployment

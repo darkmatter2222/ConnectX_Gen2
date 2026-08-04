@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 25
+> **Current Round**: 27
 > **Last Updated**: 2026-08-03
-> **Previous Round**: 23 (2026-08-03, T017 Asymmetric eval source code verification)
-> **Status**: Active -- deep research phase; external-pool DGX unavailable since round 12 (round 24: all 7 workers failed)
+> **Previous Round**: 26 (2026-08-03, corpus audit and claim verification)
+> **Status**: Active -- deep research phase; v9 canonical corpus established (batch-00001)
 
 ---
 
@@ -143,3 +143,6 @@ esearch/ (preserved, indexed in README)
 
 
 
+
+| 26 | 2026-08-03 | Complete | Corpus Audit and Claim Verification: Systematic corpus audit (Worker 7). Key findings: (1) C001 upgraded SUPPORTED→VERIFIED (Wikipedia independently confirms solved game, first-player win, middle column opening). (2) C006,C007,C010 downgraded NEEDS_CORRECTION (evidence gate violations — internal knowledge only, no published source). (3) C144-C145,C150,C151,C154,C162 downgraded NEEDS_CORRECTION (R25 claims need source verification). (4) Systematic source ID mismatch in R25 — S094-S098,S101-S102 overwritten by R23/R24. VERIFIED 79→73 net (C001→VERIFIED +1, downgraded 9). (5) R26 header/body count discrepancies identified in claim-register (73V vs detail rows). VERIFIED 73. | 
+| 27 | 2026-08-03 | Complete | v9 Corpus Migration and Governance Deep Dive: (1) 7 new v9 canonical files created (research-program.md, hypothesis-register.md, idea-leaderboard.md, component-catalog.md, ensemble-catalog.md, contender-roster.md, future-experiment-backlog.md). (2) benchmark-blueprint.md updated from placeholder to comprehensive 12-suite design (478 lines). (3) C167-C170: Board representation taxonomy — 9 families documented, flat 1D array advantage on Kaggle, bitboard performance implementation-dependent, 7x6-only Kaggle test coverage. (4) C171: agentTimeout explicit deprecation confirmed in connectx.json. (5) T121 VERIFIED — remainingOverageTime uses connectx.json override of 60 (not global 12), per-step consumption via max(0,duration-actTimeout), two-layer enforcement. VERIFIED 74 (+1 from C171; -1 from C143 NEEDS_CORRECTION; C172 added as NEEDS_CORRECTION). | 

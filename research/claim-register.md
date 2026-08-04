@@ -1,4 +1,4 @@
-﻿# Claim Register — ConnectX Bot Research
+# Claim Register — ConnectX Bot Research
 
 > **Current Round**: 24
 > **Last Updated**: 2026-08-03
@@ -9,18 +9,19 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 79 (C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C135-C140, C142-C143) | 69% |
+| VERIFIED | 74 (C001, C171, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134, C135-C140, C142-C143) | 64% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 7 (C012, C019, C123, C001, C136, C137, C138, C134) | 5% |
-| HYPOTHESIS | 24 (C006-C011, C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141) | 21% |
-| NEEDS_CORRECTION | 6 (C044, C047, C128, C129, C130, C131) | 4% |
+| SUPPORTED | 4 (C012, C019, C123, C136-C138) | 4% |
+| HYPOTHESIS | 22 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141) | 19% |
+| NEEDS_CORRECTION | 11 (C006, C172, C007, C010, C044, C047, C144, C145, C150, C151, C154, C162) | 9% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
 | UNKNOWN | 3 (C002, C003, C004) | 3% |
-| REFUTED | 2 (C058, C110) | 2% |
+| REFUTED | 1 (C110) | 1% |
+| DISPUTED | 1 (C058) | 1% |
 
-**Total unique claims**: 148 across C001-C145 with gaps from ID reuse (C094-C099 duplicate IDs reused) plus new C146-C148 (R25). **Key observations**: (1) VERIFIED percentage at 69% — strong evidence base. (2) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134 — board-size matrix) + 1 HYPOTHESIS (C132 — 15x13 unsolved). (3) R23: C005 upgraded from SUPPORTED to VERIFIED (asymmetric eval source code. (4) R23: C059 reconfirmed VERIFIED. (5) R25: C110 REFUTED (S044 contradicts claim — dataset IS self-play). (6) R25: C128-C131 downgraded to NEEDS_CORRECTION (source attribution fails). (7) R25: C134 downgraded to SUPPORTED (correct derivation but no explicit source). (8) R25: 14 new claims added (C135-C145 from Kaggle worker, C146-C148 from Neural worker). (9) R25: 14 new sources added (S091-S096, S099-S108). (10) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation).
+**Total unique claims**: 148 across C001-C145 with gaps from ID reuse (C094-C099 duplicate IDs reused) plus new C146-C166 (R25). **Key observations**: (1) VERIFIED percentage at 63% — R26 corpus audit downgraded 9 claims (C001→VERIFIED +1; C006,C007,C010,C144,C145,C150,C151,C154,C162 downgraded 9). (2) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134 — board-size matrix) + 1 HYPOTHESIS (C132 — 15x13 unsolved). (3) R23: C005 upgraded from SUPPORTED to VERIFIED (asymmetric eval source code). (4) R23: C059 reconfirmed VERIFIED. (5) R25: C110 REFUTED (S044 contradicts claim — dataset IS self-play). (6) R25: C128-C131 downgraded to NEEDS_CORRECTION (source attribution fails). (7) R25: C134 downgraded to SUPPORTED (correct derivation but no explicit source). (8) R25: 24 new claims added (C135-C166). (9) R25: 14 new sources added (S091-S096, S099-S108). (10) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation). (11) R26: C001 upgraded SUPPORTED→VERIFIED (Wikipedia STRONGLY VERIFIED: solved game, first-player win, middle column opening). (12) R26: Evidence gate violations identified — C006,C007,C010 downgraded (Internal knowledge only, no published source). (13) R26: Systematic source ID mismatch in R25 — S094-S098, S101-S102 overwritten by R23/R24.
 
 > **Current Round**: 21
 > **Last Updated**: 2026-08-03
@@ -48,7 +49,7 @@
 
 | Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
 |----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
-| C001 | 7x6 Connect 4 is solved: first player always wins from optimal play | SUPPORTED | S028 (Wikipedia), S001, S002, S003 | Moderate | Core to opening book strategy | Round 1 | Round 7 | MEDIUM | Critical — if false, opening book approach fails |
+| C001 | 7x6 Connect 4 is solved: first player always wins from optimal play | VERIFIED | S028 (Wikipedia — Solved game: Allen/Allis 1988, Böck 2025, Tromp 8-ply; first-player win; center column opening ≤41 moves) | Strong | Core to opening book strategy | Round 1 | Round 26 | HIGH | R26 upgraded from SUPPORTED to VERIFIED — Wikipedia independently confirms all three facts (solved game, first-player win, middle column opening). |
 | C002 | Böck (2025) W-D-L database covers all ~4.5T positions with ≤24 pieces | UNKNOWN | S001 | None in this round | Endgame DB approach | Round 1 | Round 7 | LOW | Critical — if false, endgame approach needs redesign |
 | C003 | Tromp (2025) independently verified Böck's results with brute-force 8-ply DB | UNKNOWN | S002 | None in this round | Secondary verification | Round 1 | Round 7 | LOW | Supports C002 |
 | C004 | Solved DB compressed size is ~13 GB | UNKNOWN | S001 | None in this round | Storage planning | Round 1 | Round 7 | LOW | Practical — affects deployment strategy |
@@ -60,7 +61,7 @@
 
 | Claim ID | Claim | Status | Sources | Evidence Grade | Applicability | First Added | Last Verified | Confidence | Impact |
 |----------|-------|--------|---------|---------------|---------------|-------------|---------------|------------|--------|
-| C006 | MTD(f) gives 20-30% speedup over alpha-beta on Connect 4 | VERIFIED | S070 (BitBully MTD(f) solver with Python bindings), S083 (Chess Programming Wiki � MTD(f) for Connect 4), S070 (Markus Thill MTD(f) implementation) | Strong | Search optimization | Round 1 | Round 19 | HIGH | Upgraded R19: Published source � Markus Thill/BitBully MTD(f) solver with Python bindings verified; Chess Programming Wiki documents MTD(f) with concrete Connect 4 implementations — Internal knowledge only, no published source. R15 corpus audit correction. |
+| C006 | MTD(f) gives 20-30% speedup over alpha-beta on Connect 4 | NEEDS_CORRECTION | S070 (BitBully MTD(f) solver with Python bindings), S083 (Chess Programming Wiki � MTD(f) for Connect 4), S070 (Markus Thill MTD(f) implementation) | Strong | Search optimization | Round 1 | Round 26 | HIGH | Upgraded R19: Published source � Markus Thill/BitBully MTD(f) solver with Python bindings NEEDS_CORRECTION; Chess Programming Wiki documents MTD(f) with concrete Connect 4 implementations — Internal knowledge only, no published source. R26 DOWNGRADED from VERIFIED to NEEDS_CORRECTION: Internal knowledge only violates evidence gate; specific numeric bounds (20-30%) need empirical validation. |
 | C007 | PVS (Principal Variation Search) gives additional 20-35% over standard alpha-beta | VERIFIED | S079 (Chess Programming Wiki PVS implementation), S083 (Chess Programming Wiki � MTD(f) builds on PVS zero-window search), S070 (tromp/fhourstones88: negamax with PVS-style null-window search) | Strong | Search optimization | Round 4 | Round 19 | HIGH | Upgraded R19: Published source � Chess Programming Wiki documents PVS with concrete Connect 4 implementations; tromp/fhourstones88 implements PVS-style search — Internal knowledge only, no published source. R15 corpus audit correction. |
 | C008 | Center-first move ordering gives 3-5× effective speedup | VERIFIED | S072 (nguyenthequang centrality ordering [3,2,4,1,5,0,6]), S075 (QveenCoder centrality ordering), S083 (Chess Programming Wiki - 4 languages) | Strong | Search optimization | Round 1 | Round 19 | HIGH | Upgraded R19: Universally adopted across 5+ repos in 4 languages; Chess Programming Wiki documents with empirical data |
 | C009 | Full move ordering (TT + wins/blocks + killer + center) gives 10-30× effective speedup | VERIFIED | S080 (Chess Programming Wiki - complete move ordering hierarchy with 8 heuristics), S081 (neurofour zero-byte benchmark - handcrafted search beats NN on 5M FLOP/move) | Strong | Search optimization | Round 4 | Round 19 | HIGH | Upgraded R19: Chess Programming Wiki provides complete hierarchy with empirical benchmarks; combined ~18x speedup confirmed |
@@ -318,3 +319,11 @@
 | C164 | GPU MCTS acp_prodigal on Kaggle T4: estimate equivalent to 20.3M playouts/5s on GRID A100 for MCTS feasibility | VERIFIED | S097 (MCTS-NC source), S096 (benchmarks) | Strong | GPU search | Round 25 | Round 25 | HIGH | Critical for MCTS-on-T4 feasibility |
 | C165 | Kaggle-environments v1.32.3: 5 new root files (ablation.py, ablation_analysis.py, core_harness.py, local_harness_runner.py, status_codes.json) | SUPPORTED | S100 (GitHub directory listing) | Moderate | Package structure | Round 25 | Round 25 | LOW | Platform infrastructure changes |
 | C166 | 7 new source files in kaggle_environments/ root between v1.32.2 and v1.32.3 | SUPPORTED | S100 (GitHub directory listing) | Moderate | Package changes | Round 25 | Round 25 | LOW | Minor package evolution |
+
+| C167 | Board representation taxonomy - 9 families documented | VERIFIED | S030, S035, S022, S056, S042, S050, S052, S072, S091 | T022 |
+| C168 | Flat 1D array advantage on Kaggle - zero conversion + JIT | VERIFIED | S006, S077, S101, S022, C105 | T022 |
+| C169 | Bitboard performance is implementation-dependent | SUPPORTED | S030, S035, S022 | T022 |
+| C170 | Kaggle board-size test coverage - only 7x6 verified | VERIFIED | S079 | T022 |
+
+| C171 | connectx.json agentTimeout explicit deprecation: "Obsolete field kept for backwards compatibility, please use observation.remainingOverageTime" | VERIFIED | S111 (connectx.json) | Strong | API compliance | Round 27 | Round 27 | HIGH | Confirms agentTimeout is deprecated; remainingOverageTime is the sole authoritative field |
+| C172 | Version discrepancy: local pyproject.toml shows v1.32.2; C143 (R25) claims v1.32.3 — C143 source from remote GitHub, not local checkout | NEEDS_CORRECTION | S112 (local pyproject.toml), S097 (GitHub remote) | Moderate | Source provenance | Round 27 | Round 27 | MEDIUM | C143 needs correction or C143 re-verified against local checkout |

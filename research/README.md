@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 25 (2026-08-03)
+> **Current Round**: 27 (2026-08-03)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -17,6 +17,14 @@
 | `decision-log.md` | Architecture, tool, and strategy decisions with evolution |
 | `source-ledger.md` | All research sources: primary, secondary, verified, unverified |
 | `research-gaps.md` | Knowledge gap catalog with priority and resolution status |
+| `research-program.md` | Research program framework, evidence hierarchy, hypothesis lifecycle, ensemble protocol |
+| `hypothesis-register.md` | All hypotheses with full lifecycle records (HYP-001 through HYP-008) |
+| `idea-leaderboard.md` | Research-priority leaderboard with 0-5 scoring system |
+| `component-catalog.md` | Reusable component catalog with compatibility matrix (CMP-001 through CMP-010) |
+| `ensemble-catalog.md` | Ensemble catalog with comparison table (ENS-001 through ENS-006) |
+| `contender-roster.md` | Contender roster with classification (BOT-001 through BOT-009) |
+| `benchmark-blueprint.md` | Benchmark design with 12 suites (BMS-001 through BMS-012) |
+| `future-experiment-backlog.md` | Future experiment backlog with full specifications (EXP-001 through EXP-008) |
 
 ## Round Reports
 
@@ -39,6 +47,9 @@
 | `iterations/round-022.md` | 22 | 2026-08-03 | T029 Connect 4 Engine Performance on Non-7x6 Boards: Complete board size matrix (4x4 to 11x11); 8x8 solved P2 win; 9x6 solved; 10x8 draw; 15x13/15x10 no results |
 | `iterations/round-023.md` | 23 | 2026-08-03 | T017 Worker Result (batch-00008): Asymmetric eval source code verification (QveenCoder S050, nguyenthequang S051); C005 upgraded to VERIFIED; 120/100 opponent-threat amplification (1.2x proactive defense bias) |
 | `iterations/round-025.md` | 25 | 2026-08-03 | External-Pool Batch (batch-00012): 5/5 workers succeeded. 14 new VERIFIED claims (C143-C154). Key: C110 REFUTED... C128-C131 NEEDS_CORRECTION... C134 SUPPORTED... kaggle v1.32.3: mark field added, test_connectx.py removed... ResNet (katac4) fully specified... T4 TensorRT FP16 1.10ms... 14 new sources. |
+| `iterations/round-026.md` | 26 | 2026-08-03 | Corpus audit: R25 source ID mismatch (S094-S098, S101-S102 overwritten), claim status inconsistencies, C001 upgraded to VERIFIED, C006-C010/C144-C162 downgraded to NEEDS_CORRECTION |
+| `iterations/round-027.md` | 27 | 2026-08-03 | v9 corpus migration: 7 new canonical files; governance deep-dive: C171 agentTimeout deprecation, C172 version discrepancy, T121 remainingOverageTime behavior verified; 3 worker results (ensemble hypotheses, corpus audit, governance)
+| `iterations/round-028.md` | 28 | 2026-08-04 | [Planned] Corpus hygiene: apply R27-R28 corrections, source ID namespace isolation, C143 re-verification, HYP-005 validation |
 
 ## Legacy Documents (evidence, preserved)
 

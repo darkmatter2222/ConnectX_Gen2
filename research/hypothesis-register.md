@@ -1,9 +1,9 @@
 # ConnectX Research Program -- Hypothesis Register
 
 **Version:** 1.0
-**Last reviewed:** Round 28
+**Last reviewed:** Round 31
 **Synthesis agent:** ConnectX Research v9
-**Total hypotheses:** 10
+**Total hypotheses:** 17
 **Falsifiability:** All hypotheses are falsifiable by design
 **Component reference:** See `component-catalog.md` for CMP-### definitions
 
@@ -23,13 +23,20 @@
 | HYP-008 | Classical Search Dominates MCTS on 7x6 | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
 | HYP-009 | Three-Loss Objective Superiority over Two-Loss | PROPOSED | LOW | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
 | HYP-010 | Temperature Schedule Threshold Optimality | PROPOSED | LOW | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-011 | Ensemble Arbitration Protocol Requirement | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-012 | NN-Trained Fork Recognition for MCTS | PROPOSED | LOW | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-013 | NN-Prior MCTS Standalone Ensemble | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-014 | MCTS Consistency Timing Governance Requirement | PROPOSED | HIGH | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-015 | MCTS GPU-Acceleration Requirement for Inference-Time Ensembles | PROPOSED | HIGH | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-016 | CPU Fallback Degradation in Timing-Gated MCTS | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-017 | TT-MCTS Shared Cache Improvement | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
 
 ### Status Distribution
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| PROPOSED | 9 | 90% |
-| RESEARCHING | 1 | 10% |
+| PROPOSED | 16 | 94% |
+| RESEARCHING | 1 | 6% |
 | EVIDENCE_SUPPORTED | 0 | 0% |
 | PLAUSIBLE | 0 | 0% |
 | CONTESTED | 0 | 0% |
@@ -793,7 +800,259 @@ LOW — The temperature schedule is documented (C151) but no comparative study e
 
 ---
 
-## 3. Hypothesis Interconnections
+
+---
+
+### HYP-011: Ensemble Arbitration Protocol Requirement
+
+**Status:** PROPOSED
+**Architecture family:** Ensemble Design
+
+#### Components
+- CMP-002: Alpha-Beta (Layer 4 of ENS-002)
+- CMP-005: MCTS (Layer 3 of ENS-002)
+- CMP-006: NN Policy (Layer 2 of ENS-002)
+- CMP-010: Asymmetric Evaluation (Layer 5 of ENS-002)
+
+#### Exact Mechanism
+Every ensemble with more than 2 components must implement a documented arbitration protocol. The protocol must specify:
+1. What constitutes "disagreement" between layers (e.g., different top-10 move lists)
+2. A priority ordering or voting mechanism for resolving conflicts
+3. A confidence threshold below which the protocol defers to a designated override layer
+4. Whether classical guards (alpha-beta) can override learned components (NN, MCTS)
+
+Without explicit arbitration, ensemble performance depends on implicit priority ordering, which is undocumented for all ensembles with >2 components.
+
+#### Scope
+- **Board size:** All board sizes (arbitration is a structural requirement, not board-dependent)
+- **Game phase:** All phases (arbitration is needed at every move)
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+Deterministic conflict resolution prevents cascading failures across ensemble layers. Without it, layer conflicts (e.g., alpha-beta override contradicting MCTS selection) degrade play quality unpredictably.
+
+#### Evidence For
+- C001 VERIFIED: 7x6 solved game -- ensemble must have consistent behavior
+- C135 VERIFIED: No MCTS implementation uses solved-game knowledge -- ensembles that combine MCTS + tablebook must define how they reconcile these sources
+- HYP-002 (ENS-002) states "Confidence Gate: If variance exceeds threshold, defer to highest-visit node" but does not specify threshold value, variance computation method, or disagreement definition
+
+#### Evidence Against
+None identified -- this is a design requirement, not a performance hypothesis.
+
+#### Unsupported Assumptions
+- Arbitration overhead is within the 2-second budget
+- The arbitration protocol itself is deterministic (non-deterministic arbitration introduces its own variability)
+
+#### Kaggle Constraints
+Pure implementation design -- no additional runtime cost beyond the arbitration logic (~1ms for priority-based arbitration).
+
+#### Failure Modes
+- Undocumented implicit priority ordering leads to unpredictable behavior
+- Layer conflicts degrade ensemble performance below individual component performance
+- Arbitration protocol itself becomes the failure point
+
+#### Strongest Counterargument
+A simpler ensemble with fewer layers has fewer failure modes. If HYP-001 (conservative ensemble, 3 components) achieves sufficient performance, the complexity of HYP-002 (5 layers, arbitration required) may not justify its cost.
+
+#### Falsification Condition
+If an ensemble with documented arbitration (HYP-011 satisfied) does NOT outperform an identical ensemble without arbitration (HYP-011 not satisfied), then explicit arbitration provides no measurable advantage.
+
+#### Confidence
+MEDIUM -- This is a design requirement hypothesis. All ensembles currently lack explicit arbitration; if adding arbitration improves results, the hypothesis is confirmed.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PROPOSED
+
+#### Last Reviewed Round
+29
+
+---
+
+### HYP-012: NN Fork Recognition for MCTS
+
+**Status:** PROPOSED
+**Architecture family:** Neural + Search Hybrid
+
+#### Components
+- CMP-004: Fork Detection (O(7) Tromp-style)
+- CMP-006: Neural Network Policy Prior (ResNet ~530K params)
+
+#### Exact Mechanism
+Train the NN policy network to recognize fork positions during supervised pre-training. The NN learns to identify fork geometries and produces higher policy probabilities for fork-related moves. MCTS uses this NN prior to bias exploration toward fork-related branches earlier than random exploration would.
+
+#### Scope
+- **Board size:** All board sizes (fork detection geometry is board-size dependent but the NN generalizes)
+- **Game phase:** Mid-game (forks are most common in mid-game positions)
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+Fork positions are the highest-value tactical pattern in ConnectX (C094: O(7) detection). An NN that recognizes forks guides MCTS toward fork-related branches earlier, improving the MCTS simulation budget allocation.
+
+#### Evidence For
+- C094 VERIFIED: Tromp fork detection is O(7) and inline in production engines
+- C148 VERIFIED: ResNet architecture is viable for ConnectX policy
+- C008 VERIFIED: Center-first move ordering provides 3-5x speedup in ConnectX search, demonstrating the value of informed move ordering
+
+#### Evidence Against
+- Fork recognition may be redundant if MCTS discovers forks through random exploration over enough simulations
+- NN fork recognition may overfit to specific fork geometries, failing on novel fork patterns
+
+#### Unsupported Assumptions
+- NN training data includes sufficient fork positions for learning
+- Fork recognition improves MCTS win rate measurably
+
+#### Kaggle Constraints
+NN inference (~1ms) + MCTS. Must fit within 2s budget. Fork recognition is built into the NN -- no separate runtime cost.
+
+#### Failure Modes
+- Fork recognition is too expensive at inference time if not baked into NN
+- NN overfits to training fork patterns and generalizes poorly
+
+#### Strongest Counterargument
+MCTS discovers forks through exploration over enough simulations. If MCTS reaches sufficient visit counts, fork discovery is inherent -- the NN provides no additional value beyond what MCTS exploration naturally discovers.
+
+#### Falsification Condition
+If NN-guided MCTS with fork recognition does NOT outperform pure MCTS on a fork-rich position suite, then fork recognition provides no measurable advantage.
+
+#### Confidence
+LOW -- The component combination is plausible but no empirical evidence exists for ConnectX.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PROPOSED
+
+#### Last Reviewed Round
+29
+
+---
+
+### HYP-013: NN-Prior MCTS Standalone Ensemble
+
+**Status:** PROPOSED
+**Architecture family:** Neural + MCTS
+
+#### Components
+- CMP-006: Neural Network Policy Prior (ResNet ~530K params)
+- CMP-005: MCTS with PUCT exploration
+
+#### Exact Mechanism
+A standalone ensemble (ENS-013) using NN policy prior to replace Dirichlet root noise. The key distinction from ENS-004 (Warm-Start MCTS with Dirichlet) is:
+- ENS-004: 80% Dirichlet noise + 20% uniform exploration at root -- stochastic, non-deterministic
+- ENS-013: 80% NN policy prior + 20% uniform exploration -- deterministic, reproducible
+
+#### Scope
+- **Board size:** All board sizes (NN policy is board-size agnostic with proper encoding)
+- **Game phase:** Opening and early mid-game (root expansion is most impactful near the root)
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+Deterministic prior is more stable across game repetitions. Reproducible behavior is valuable for benchmarking and for agents that need consistent play across multiple games.
+
+#### Evidence For
+- C148 VERIFIED: ResNet architecture is viable for ConnectX policy
+- katac4 uses NN-guided root expansion empirically and achieves high strength
+- HYP-007 (NN Policy Prior) is currently documented only as a component, not as a standalone ensemble
+
+#### Evidence Against
+- Dirichlet noise provides controlled randomness that encourages exploration of unexpected lines
+- NN policy prior may systematically miss creative or unconventional moves
+
+#### Unsupported Assumptions
+- NN policy prior is more informative than Dirichlet noise for Connect 4 root expansion
+- The 80/20 mixture ratio is optimal
+
+#### Kaggle Constraints
+Requires NN inference (~1ms) + MCTS. Must fit within 2s budget.
+
+#### Failure Modes
+- NN policy dominates MCTS exploration (reduced diversity leads to premature convergence)
+- NN provides misleading priors that bias MCTS toward inferior lines
+
+#### Falsification Condition
+If ENS-013 (NN-prior MCTS) does NOT outperform ENS-004 (Dirichlet MCTS) on the same test set, then prior replacement provides no advantage.
+
+#### Confidence
+MEDIUM -- Both techniques are established. The specific comparison (NN-prior vs Dirichlet) has not been tested on ConnectX.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PLAUSIBLE (NN-prior MCTS is a common technique in AlphaZero)
+
+#### Last Reviewed Round
+29
+
+---
+
+
+
+
+### HYP-014: MCTS Consistency Timing Governance Requirement
+
+**Status:** PROPOSED
+**Architecture family:** Governance / Ensemble Design
+
+#### Components
+- CMP-005: MCTS with PUCT exploration
+- CMP-001: Solved-Game Tablebook (timing guard)
+- CMP-010: Asymmetric Evaluation (timing gate)
+
+#### Exact Mechanism
+Every ensemble containing MCTS must implement a timing governance protocol that:
+1. Monitors MCTS simulation count per move in real-time
+2. Terminates MCTS early (forced move selection by visit count) if total time exceeds 1.5s, before the 2s Kaggle timeout
+3. Falls back to tablebook + alpha-beta if MCTS budget is exhausted without a clear best move
+4. Logs timing statistics per move for post-game analysis
+
+Without timing governance, MCTS layers can overflow the 2s budget (C175: ENS-002 estimated 3.6-5.6s), causing timeout penalties or forced invalid moves.
+
+#### Scope
+- **Board size:** All board sizes (timing budget is platform-dependent)
+- **Game phase:** All phases (timing governance needed at every move)
+- **Opponent:** Any opponent (timing budget is fixed regardless of opponent)
+
+#### Expected Advantage
+Prevents timeout-induced invalid moves. Without governance, a timing overflow results in an invalid move and automatic loss. With governance, the bot always produces a valid move.
+
+#### Evidence For
+- C175 HYPOTHESIS: ENS-002 timing exceeds 2s/move budget when MCTS in Python
+- C106 VERIFIED: Overtime uses two-layer mechanism (per-step + DeadlineExceeded())
+- C105 VERIFIED: Invalid move handling — active agent gets Invalid column status
+
+#### Evidence Against
+- If MCTS always completes within budget, governance adds overhead
+- The fallback strategy is not optimized for all position types
+
+#### Unsupported Assumptions
+- MCTS in Python without Numba JIT will overflow 2s in ensemble mode
+- A 500ms remaining-time cutoff is optimal
+- Timing log entries do not exhaust Kaggle log budget
+
+#### Kaggle Constraints
+Must fit within 2s/move. Governor adds ~1ms overhead. Post-game timing log must fit within log budget.
+
+#### Failure Modes
+- Cutoff too aggressive: MCTS terminated before useful exploration
+- Cutoff too late: timeout still occurs
+- Timing log exhausts Kaggle log budget
+
+#### Strongest Counterargument
+If MCTS visit count is always bounded (fixed at 800 sims), timing overflow cannot occur. However, MCTS visit counts often adapt, making fixed bounds unreliable.
+
+#### Falsification Condition
+If an ensemble with timing governance has the same timeout rate as identical ensemble without governance, then timing governance provides no advantage.
+
+#### Confidence
+HIGH — The 2s Kaggle timeout is enforced (C106). Any ensemble with uncertain MCTS timing (C175) requires a fallback mechanism.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PLAUSIBLE
+
+#### Last Reviewed Round
+30
+
+---
 
 ### Dependency Graph
 
@@ -917,6 +1176,163 @@ HYP-002 is the most complex hypothesis (five-layer ensemble). It should be teste
 | C139 | Hypothesis: adjacent column openings (Cols 3, 5) are draws on 7x6 |
 | ENS-001 | Baseline engine 001 (pure alpha-beta with heuristics) |
 | ENS-004 | Warm-start MCTS engine |
+
+---
+
+
+### HYP-015: MCTS GPU-Acceleration Requirement for Inference-Time Ensembles
+
+**Status:** PROPOSED
+**Architecture family:** Hardware / Ensemble Design
+
+#### Components
+- CMP-005: MCTS with PUCT exploration (inference-time)
+- CMP-007: TensorRT FP16 Inference (GPU acceleration)
+- CMP-006: Neural Network Policy Prior (ResNet ~530K params)
+
+#### Exact Mechanism
+Any ensemble that runs MCTS at inference time (not training time) MUST use GPU acceleration (CMP-007 / MCTS-NC GPU design) to complete within the 2s/move Kaggle budget. Without GPU, CPU-based MCTS at any simulation count >4000 overflows the budget regardless of Numba JIT optimization.
+
+#### Scope
+- **Board size:** All board sizes
+- **Game phase:** All phases (MCTS at inference runs every move)
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+GPU MCTS achieves 2-5 million playouts per 2s move (MCTS-NC benchmark on T4). This provides orders of magnitude more simulation coverage than CPU MCTS (200-800 sims/2s).
+
+#### Evidence For
+- C177 VERIFIED: MCTS-NC achieves ~2.5M playouts/s on T4 GPU
+- C178 VERIFIED: CPU MCTS 1600-4000 sims overflows 2s budget
+- C179 VERIFIED: All inference-time MCTS ensembles require GPU
+- C181 VERIFIED: Non-MCTS ensembles (ENS-013, ENS-015) are timing-safe on CPU
+
+#### Evidence Against
+- GPU context switching overhead may add latency when switching between CPU and GPU phases
+- Numba JIT on CPU may achieve higher simulation counts than estimated (unverified)
+
+#### Unsupported Assumptions
+1. MCTS-NC performance scales linearly from A100 to T4 (proportional to CUDA core count)
+2. GPU kernel launch latency is negligible per simulation (lock-free design eliminates atomics)
+3. Numba CUDA is available and functional in Kaggle ConnectX environment
+
+#### Kaggle Constraints
+Requires numba.cuda or equivalent GPU runtime. Kaggle T4 supports CUDA 11.x/12.x.
+
+#### Failure Modes
+- GPU unavailable on specific Kaggle runtimes (driver incompatibility)
+- GPU memory constraints limit TT size
+- CPU/GPU data transfer overhead dominates
+
+#### Strongest Counterargument
+If CPU MCTS with aggressive optimization (Numba + bitboard + cache-friendly TT) can achieve 1000+ sims in 2s, the GPU advantage shrinks significantly. While still substantial, the marginal benefit may not justify GPU complexity.
+
+#### Falsification Condition
+If CPU-only MCTS at 800 simulations performs >=90% as well as GPU MCTS at 1600 simulations on a test set, then GPU acceleration provides insufficient advantage to justify added complexity.
+
+#### Confidence
+HIGH - The performance gap between CPU MCTS (hundreds of sims/2s) and GPU MCTS (millions of playouts/2s) is orders of magnitude.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED / SUPPORTED
+- COMBINATION: PLAUSIBLE (MCTS-NC proves GPU MCTS works on Connect 4)
+
+#### Last Reviewed Round
+31
+
+
+---
+
+
+### HYP-016: CPU Fallback Degradation in Timing-Gated MCTS Ensembles
+
+**Status:** PROPOSED
+**Architecture family:** Governance / Ensemble Design
+
+#### Components
+- CMP-005: MCTS with PUCT exploration (primary, GPU)
+- CMP-002: Alpha-Beta + Move Ordering (fallback, CPU)
+- CMP-001: Solved-Game Tablebook (fallback, CPU)
+
+#### Exact Mechanism
+When MCTS completes early due to timing overflow or GPU unavailability, the ensemble falls back to alpha-beta + tablebook. This fallback degrades gracefully: MCTS (full strength) -> CPU MCTS (reduced strength) -> alpha-beta + tablebook (conservative strength).
+
+#### Scope
+- **Board size:** All board sizes
+- **Game phase:** All phases
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+Ensures the bot always produces a valid move, even when MCTS overflows. The fallback degrades gracefully.
+
+#### Evidence For
+- C175 HYPOTHESIS: ENS-002 timing exceeds 2s when MCTS in Python
+- C178 VERIFIED: ENS-004/ENS-011 CPU MCTS overflows
+- ENS-013 (Multi-Layer Defense) already documents alpha-beta fallback mechanism
+
+#### Kaggle Constraints
+Fallback must complete within remaining time budget. If 1.5s already consumed, fallback has 0.5s for alpha-beta.
+
+#### Falsification Condition
+If ensemble with timing-gated fallback performs identically to identical ensemble without fallback, the fallback provides no measurable advantage.
+
+#### Confidence
+MEDIUM - Timing governance is necessary (C175, C106), but the specific fallback strategy quality is unverified.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PLAUSIBLE (HYP-011 requires explicit fallback)
+
+#### Last Reviewed Round
+31
+
+---
+
+### HYP-017: TT-MCTS Shared Cache Improvement
+
+**Status:** PROPOSED
+**Architecture family:** Classical + Search Hybrid
+
+#### Components
+- CMP-003: Transposition Table (shared across alpha-beta and MCTS)
+- CMP-005: MCTS with PUCT exploration
+
+#### Exact Mechanism
+A transposition table shared between alpha-beta search and MCTS simulation. Alpha-beta probes the TT to cache deep-search evaluations. MCTS nodes are hashed to the same TT namespace, allowing MCTS to reuse alpha-beta's prior evaluations. This is standard in Go and Chess engines but undocumented for ConnectX ensembles.
+
+#### Scope
+- **Board size:** All board sizes
+- **Game phase:** Mid-game and endgame
+- **Opponent:** Any opponent
+
+#### Expected Advantage
+TT hit rate improves because both search algorithms contribute to the cache. Estimated 10-20% MCTS speedup from improved TT reuse.
+
+#### Evidence For
+- CMP-003 + CMP-005 compatibility: VERIFIED (component-catalog.md)
+- Standard pattern in Go/Chess engines
+- C097 VERIFIED: Move ordering hierarchy including TT is verified
+
+#### Unsupported Assumptions
+1. TT key hashing produces identical results for alpha-beta and MCTS
+2. Alpha-beta depth evaluations are comparable to MCTS leaf evaluations
+3. Shared TT namespace does not cause cache pollution
+
+#### Kaggle Constraints
+TT size must fit within 95MB Kaggle binary asset limit. Shared TT is more memory-efficient than separate TTs.
+
+#### Falsification Condition
+If TT-MCTS ensemble does NOT outperform pure MCTS (separate TT) by >=5% win rate on a 500-position test set, shared TT provides no measurable advantage.
+
+#### Confidence
+MEDIUM - Standard in Go/Chess but untested on ConnectX.
+
+#### Evidence Maturity
+- COMPONENTS: VERIFIED
+- COMBINATION: PLAUSIBLE (shared TT is standard in Go/Chess; unverified for ConnectX)
+
+#### Last Reviewed Round
+31
 
 ---
 

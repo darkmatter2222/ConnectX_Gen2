@@ -38,6 +38,9 @@
 | 13 | EXP-013 | HYP-009 | — | NeuralConnect4 vs katac4 training comparison | SPECIFIED | P2 |
 | 14 | EXP-014 | — | — | Gemu03 Search+RL hybrid validation | SPECIFIED | P2 |
 | 15 | EXP-015 | HYP-005, HYP-003 | — | MCTS consistency budget analysis | SPECIFIED | P1 |
+| 16 | EXP-016 | HYP-003 | — | Adjacent-opening MCTS consistency measurement | SPECIFIED | P1 |
+| 17 | EXP-017 | HYP-003 | ENS-003 | Adjacent-opening draw detection ensemble validation | SPECIFIED | P1 |
+| 18 | EXP-018 | HYP-005 | — | NN-guided vs random-playout MCTS on adjacent openings | SPECIFIED | P1 |
 
 ---
 
@@ -389,6 +392,78 @@
 
 ---
 
+### EXP-016: Adjacent-Opening MCTS Consistency Measurement
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-003 (Adjacent-Opening Draw Detection), HYP-014 (MCTS Simulation Budget Threshold) |
+| **Ensemble** | — |
+| **Purpose** | Measure MCTS performance on adjacent-opening positions (Col 3, 5) where optimal play is a draw. Test whether different MCTS implementations can identify draw positions. |
+| **Independent variable** | MCTS implementation (connectpuct 80 sims, rowspire 4000 sims + NN, katac4 1600 sims + NN), simulation count |
+| **Dependent variables** | Win rate vs optimal play, draw rate, oracle agreement rate, MCTS visit distribution |
+| **Fixed controls** | 7x6 board, adjacent opening positions (Col 3 or 5 for P1's first move), Pascal Pons solver as oracle, 200 positions |
+| **Contenders** | connectpuct (pure MCTS, 80 sims), rowspire (NN-guided MCTS, 4000 sims), katac4 (NN-guided MCTS, 1600 sims) |
+| **Benchmark suites** | BMS-003 (solver-oracle agreement), BMS-005 (MCTS consistency on solved positions) |
+| **Board configs** | 7x6 (default) |
+| **Sample size** | 200 adjacent-opening positions |
+| **Metrics** | Win rate, draw rate, loss rate, oracle agreement rate, visit distribution on optimal move |
+| **Expected outcomes** | connectpuct <30% draw rate, rowspire ~50%, katac4 ~60%. Pure MCTS significantly underperforms NN-guided MCTS. |
+| **Falsification criteria** | Any MCTS variant achieves ≥80% draw rate on adjacent openings (would contradict MCP theorem implications) |
+| **Compute** | T4 GPU or equivalent; ~1 hour per MCTS variant |
+| **Reproducibility** | connectpuct source (S118), rowspire source (S030), katac4 source (S091-S092) |
+| **Prerequisite research** | C139 VERIFIED (adjacent opening = draw), C136-C142 (MCTS consistency problem), S118 (connectpuct benchmark) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-017: Adjacent-Opening Draw Detection Ensemble Validation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-003 (Adjacent-Opening Draw Detection) |
+| **Ensemble** | ENS-003 (Draw Detection Ensemble) |
+| **Purpose** | Compare draw-detection ensemble (classify adjacent opening → enter draw-preserving alpha-beta) vs pure MCTS on adjacent-opening positions. |
+| **Independent variable** | Strategy: ENS-003 draw-detection ensemble vs pure MCTS baseline |
+| **Dependent variables** | Draw rate, win rate, game length, per-move latency |
+| **Fixed controls** | 7x6 board, adjacent opening positions, 200 positions, 2s/move budget |
+| **Contenders** | ENS-003 (draw detection: alpha-beta in draw-preserving mode), connectpuct (pure MCTS baseline) |
+| **Benchmark suites** | BMS-004 (fixed-opponent paired) |
+| **Board configs** | 7x6 (default) |
+| **Sample size** | 200 adjacent-opening positions |
+| **Metrics** | Draw rate, win rate, average game length, per-move latency |
+| **Expected outcomes** | ENS-003 achieves ≥70% draw rate; pure MCTS <30% draw rate |
+| **Falsification criteria** | ENS-003 draw rate <30% (would indicate draw-detection ensemble provides no advantage over pure MCTS) |
+| **Compute** | T4 GPU or equivalent; ~1 hour |
+| **Reproducibility** | ENS-003 design documented in ensemble-catalog.md; connectpuct source available |
+| **Prerequisite research** | C139 VERIFIED (adjacent opening = draw), HYP-003 (Adjacent-Opening Draw Detection) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-018: NN-Guided vs Random-Playout MCTS on Adjacent Openings
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-005 (MCP Theorem), HYP-014 (MCTS Simulation Budget Threshold) |
+| **Ensemble** | — |
+| **Purpose** | Controlled comparison to test whether NN-guided playouts (rowspire, katac4) escape the MCP consistency constraint compared to vanilla MCTS (connectpuct). |
+| **Independent variable** | MCTS playout quality: random (connectpuct), NN-guided (rowspire, katac4) |
+| **Dependent variables** | Draw rate on adjacent openings, oracle agreement rate, visit distribution on draw-identifying moves |
+| **Fixed controls** | 7x6 board, adjacent opening positions, comparable simulation counts, 200 positions |
+| **Contenders** | connectpuct (random playouts, 80 sims), rowspire (NN-guided, 4000 sims), katac4 (NN-guided, 1600 sims) |
+| **Benchmark suites** | BMS-003 (solver-oracle agreement), BMS-005 (MCTS consistency) |
+| **Board configs** | 7x6 (default) |
+| **Sample size** | 200 adjacent-opening positions |
+| **Metrics** | Draw rate, oracle agreement rate, MCTS visit distribution, policy accuracy at root |
+| **Expected outcomes** | NN-guided MCTS achieves ≥20% higher draw rate than vanilla MCTS on adjacent openings. Supports hypothesis that MCP theorem's assumption of random playouts is key to the consistency problem. |
+| **Falsification criteria** | NN-guided MCTS does not significantly outperform vanilla MCTS on adjacent openings (would suggest consistency problem is not driven by playout quality) |
+| **Compute** | T4 GPU or equivalent; ~2 hours total |
+| **Reproducibility** | All sources available: connectpuct (S118), rowspire (S030), katac4 (S091-S092) |
+| **Prerequisite research** | C136 (MCP theorem), C139 (adjacent opening = draw), S118 (connectpuct benchmark) |
+| **Status** | SPECIFIED |
+
+---
+
 ## Priority Classification
 
 | Priority | Criteria |
@@ -407,4 +482,4 @@
 
 ---
 
-*Backlog created: Round 27. Total experiments: 15 (EXP-001 through EXP-015). SPECIFIED: 13, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research).*
+*Backlog created: Round 27. Total experiments: 18 (EXP-001 through EXP-018). SPECIFIED: 16, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04).*

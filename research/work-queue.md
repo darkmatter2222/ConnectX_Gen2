@@ -1,6 +1,6 @@
 
-> **Last Updated**: 2026-08-03
-> **Current Round**: 25
+> **Last Updated**: 2026-08-04
+> **Current Round**: 30
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---
@@ -107,7 +107,7 @@
 
 Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T119 removed as duplicates/missing). R25: 3 task completions (T002, T017, T032), 10 new follow-up tasks (FU-029-FU-039), 14 new claims added (C143-C166), 3 claim downgrades (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED).
 
-| FOLLOW-UP | 16 (FU-016 through FU-028, plus FU-029-FU-039 from R25) |
+| FOLLOW-UP | 28 (FU-016 through FU-028, plus FU-029-FU-039 from R25, FU-040-FU-043 from R26, FU-045-FU-056 from R30) |
 
 ---
 
@@ -171,3 +171,15 @@ Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T
 | FU-042 | P2 | - | Research multi-word bitboard for 8x8 boards | Two 64-bit words for 8x8 = 64 cells, or BitBoard<N> template | Tromp fhourstones88 (8x8), sagar-sap connect-n-bot | Not yet attempted | Multi-word bitboard design, move gen complexity | Design doc, complexity estimate |
 | FU-043 | P2 | - | Study carry-propagation move generation in Python via Numba | Carry-propagation in Rust (rowspire) may be replicable in Numba Python | rowspire Rust source, Numba JIT docs | Not yet attempted | Numba-compatible carry-propagation algorithm | Algorithm description, Python code sketch |
 | FU-044 | P2 | - | Benchmark mirror-normalized TT keys (neurofour pattern) on 7x6 | Mirror normalization halves effective TT size; verify speed impact | neurofour ethan-haas source | Not yet attempted | Mirror-normalized TT hit rate vs standard | Hit rate, speed comparison |
+| FU-045 | R30 | C139 | Verify adjacent opening draw detection on real 7x6 positions — run connectpuct/katac4/rowspire against themselves from Col 3/5 openings | C139 VERIFIED but needs positional replay to confirm draw rate per bot | connectpuct benchmark, katac4 source, rowspire source | R30: C139 VERIFIED; R31: EXP-016/017/018 specify the test | Draw rate % per bot at 80/4000/1600 sims; statistical significance | Draw rates, confidence intervals, per-bot analysis |
+| FU-046 | R30 | HYP-014 | Audit all MCTS ensemble designs for timing governance — verify 1.5s fallback is specified in ENS-013/014 | HYP-014 documents the requirement but hasn't been verified in ensemble specs | ensemble-catalog.md, hypothesis-register.md | R30: HYP-014 created; ENS-013 documents 1.5s fallback | Timing gate present in each ensemble spec | Audit results per ensemble |
+| FU-047 | R30 | S118-S120 | Reconcile S118 (connectpuct PUCT), S119 (test_connectx.py), S120 (Althöfer MCP) — verify exact URLs and content | S118-S120 added R30 but need cross-reference validation | connectpuct README, kaggle-environments v1.32.2, Althöfer 2012 theory | R30: S118-S120 added; need URL verification | Verified URLs, content summaries, quality grades | Source verification report |
+| FU-048 | R30 | S118 | Deep-dive connectpuct PUCT implementation — verify 55% win rate claim against minimax depth-3 | S118 quality: medium (first-party benchmark, no third-party validation) | connectpuct source code (if available), README | R30: S118 added | Source code, exact benchmark methodology, win rate methodology | Full connectpuct analysis |
+| FU-049 | R30 | C136/C007/C150 | Source ID collision audit — verify S094-S097, S101-S102 reconciliation plan | R30: 8 source IDs used by both R23/R24 and R25 batches (per worker-07) | source-ledger.md, R23/R24/R25 round reports | R30: collision identified; R31: reconciliation planned | Collision count, affected claims, resolution plan | Source ledger with resolved collisions |
+| FU-050 | R30 | ENS-013/014/015 | Review new ensemble designs for integration assumptions — verify component compatibility | R30: 3 new ensembles added; compatibility matrix needs updating | component-catalog.md, ensemble-catalog.md | R30: ensembles added; compatibility matrix not updated | Component compatibility per ensemble | Updated compatibility notes |
+| FU-051 | R30 | - | R31 Source ID collision resolution: audit S094-S097, S101-S102 — 8 IDs used by both R23/R24 and R25 batches | Source ledger contains duplicate/overwritten IDs; need to reconcile before R31 ingests more sources | Source ledger, R23/R24/R25 claim registers | R30 audit identified the collision | Reconciled source IDs, unique namespace per source |
+| FU-052 | R30 | - | R31 HYP-014 timing governance validation: verify that 1.5s forced termination with alpha-beta fallback is actually feasible on Kaggle T4 | ENS-013/014/015 all depend on timing gate; feasibility must be confirmed | Kaggle T4 specs, MCTS-NC benchmarks, alpha-beta depth benchmarks | HYP-014 PROPOSED — needs evidence | SUPPORTED/REJECTED timing gate feasibility |
+| FU-053 | R30 | - | Adjacent opening draw detection: verify ENS-003 asymmetric eval on 100 adjacent-opening positions (Cols 3,5) | C139 VERIFIED supports asymmetric eval; ENS-013/015 use it explicitly | connectpuct benchmark, connect4.gamesolver.org adjacent analysis | C139 VERIFIED; ENS-003 exists but not empirically validated on adjacent openings | Adjacent opening win/draw rate with asymmetric vs symmetric eval |
+| FU-054 | R30 | - | BMS-005 MCTS consistency measurement: measure oracle agreement rate at 10/50/100/500/1000/4000 simulations | BMS-005 benchmark design completed in R30; needs empirical execution | connectpuct (80 sims), rowspire (4000 sims), katac4 (1600 sims) | BMS-005 specified; no execution done yet | Oracle agreement % per simulation count |
+| FU-055 | R30 | - | Board-size coverage audit: find ConnectX tests for 15x13 and 15x10 boards | BMS-006 found zero test evidence for 15x13/15x10 despite env spec supporting them | kaggle-environments test_connectx.py (v1.32.2), env spec JSON | BMS-006 identified the gap | Test coverage report per board size |
+| FU-056 | R30 | - | ENS-014 GPU MCTS feasibility on Kaggle T4: estimate playouts per move at 2s budget | ENS-014 requires GPU programming; T4 TensorRT benchmarks show 1.10ms for ResNet-18 | MCTS-NC GRID A100 (20.3M playouts/5s), Kaggle T4 specs, Numba CUDA docs | ENS-014 PROPOSED — high-risk, high-ceiling | GPU playouts/sec on T4, feasibility assessment |

@@ -1,8 +1,8 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 28
+> **Current Round**: 31
 > **Last Updated**: 2026-08-04
-> **Previous Round**: 27 (2026-08-03, v9 corpus migration and governance deep-dive)
+> **Previous Round**: 29 (2026-08-04, v9 corpus migration continued, hypothesis expansion)
 > **Status**: Active -- deep research phase; v9 canonical corpus established (batch-00001)
 
 ---
@@ -39,6 +39,7 @@
 | 23 | 2026-08-03 | Complete | T017 Worker Result (batch-00008) -- External-Pool Batch Synthesis: Asymmetric eval source code verification -- QveenCoder (S050) and nguyenthequang (S051) both implement identical asymmetric window scoring: win:100K, near-win:100, opponent near-win:-120 (1.2x opponent threat amplification = proactive defense bias). C005 upgraded from SUPPORTED to VERIFIED (middle-column opening win confirmed by source code from 2 independent implementations). C059 reconfirmed VERIFIED. Wikipedia Connect Four page unchanged since R10 (15x13 solving status still unknown); infinite Connect-Four solved: Draw (new detail). Tromp board-size chart 4x4-11x11 already captured in R22. GitHub topic scans: no new repos since R21. "Winning moves never in central columns" pattern for larger boards. 1 new source (S094 Wikipedia). VERIFIED 79->80, SUPPORTED 5->4. |
 | 24 | 2026-08-03 | Complete | External-Pool Batch (batch-00011): All 7 workers failed identically -- DGX endpoint (192.168.86.39:8006) unreachable. Slots 2 and 6 dispatched (jobs 12-14, 21-24). Same failure pattern since R12. No new findings, no new sources, no claim changes. DGX unavailable for 13th consecutive round. VERIFIED 80, unchanged. |
 | 25 | 2026-08-03 | Complete | External-Pool Batch (batch-00012): 5/5 workers succeeded. 14 new VERIFIED claims (C143-C154), 7 new SUPPORTED claims (C155-C158, C165-C166), 2 NEW CLAIMS (C160-C163 from Neural worker). Key: (1) C110 REFUTED — S044 directly contradicts claim about TonyCWang dataset ("NOT self-play" vs S044 "Self-play with temperature sampling"). (2) C128-C131 downgraded NEEDS_CORRECTION — gamesolver.org does not contain board-size matrix data; source attribution fails. (3) C134 downgraded SUPPORTED — O-notation correct derivation but no explicit source. (4) kaggle-environments v1.32.3: mark field added, deprecated_envs removed, test_connectx.py removed. (5) ResNet (katac4) fully specified: b3c128nbt, 3 Bottlenest blocks, 128 channels, ~530K params. (6) T4 TensorRT FP16: 1.10ms ResNet-18, sub-1ms for target sizes. (7) 14 new sources (S091-S096, S099-S108). VERIFIED 80→79 (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED, but +18 new VERIFIED).
+| 30 | 2026-08-04 | Complete | External-Pool Batch (batch-00016): 5/5 workers succeeded. Key: (1) C139 upgraded HYPOTHESIS→VERIFIED (adjacent opening draw unidentifiable by MCTS). (2) C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap). (3) HYP-014 added (MCTS timing governance requirement). (4) ENS-013/014/015 added (3 new ensembles). (5) R30 source collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. Total claims: 176 (C001-C176). Total hypotheses: 14 (HYP-001-HYP-014). VERIFIED: 72 (63%). NEEDS_CORRECTION: 18 (17%).
 ---
 
 ## Tool Availability
@@ -114,11 +115,11 @@ esearch/ (preserved, indexed in README)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 75 (C001, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134, C135-C140, C142-C145) | 63% |
+| VERIFIED | 72 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C176) | 63% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 4 (C012, C019, C123, C136-C138) | 4% |
+| SUPPORTED | 4 (C012, C019, C123, C137-C138) | 4% |
 | HYPOTHESIS | 22 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141) | 18% |
-| NEEDS_CORRECTION | 10 (C006, C172, C007, C010, C044, C047, C150, C151, C154, C162) | 8% |
+| NEEDS_CORRECTION | 18 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 source collision R24-R30) | 17% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
@@ -126,25 +127,16 @@ esearch/ (preserved, indexed in README)
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-**Key observation**: 63% of material claims are VERIFIED — strong evidence base. R28: C174 VERIFIED (AZAL oracle match rate), C173 added as SUPPORTED (AZAL mechanism). R28 corpus corrections: C144/C145 reinstated VERIFIED, C171-C172 added. R27: C167-C170 (board representation taxonomy) added. R25: C110 REFUTED (S044 contradicts dataset generation). R26: C001 upgraded SUPPORTED→VERIFIED. Total: ~148 unique claims across C001-C174 with gaps.
+**Key observation**: 63% of material claims are VERIFIED — strong evidence base. R28: C174 VERIFIED (AZAL oracle match rate), C173 added as SUPPORTED (AZAL mechanism). R28 corpus corrections: C144/C145 reinstated VERIFIED, C171-C172 added. R27: C167-C170 (board representation taxonomy) added. R25: C110 REFUTED (S044 contradicts dataset generation). R26: C001 upgraded SUPPORTED→VERIFIED. Total: 176 claims across C001-C176 with gaps. R29: HYP-011/HYP-012/HYP-013 added (3 new); C175 added as HYPOTHESIS, C176 added as VERIFIED. R30: C139 upgraded HYPOTHESIS→VERIFIED (adjacent opening draw); C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap); HYP-014 added (MCTS timing governance). Total hypotheses: 14 (HYP-001-HYP-014). R30 source collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches.
 
 ---
 
 ## Next Round Focus Areas
 
-1. **TonyCWang dataset temperature schedule** -- The exact temperature schedule, self-play agent configuration, and position sampling method remain undocumented. Try fetching more dataset card details or contacting dataset author.
-2. **Pascal Pons blog.gamesolver.org tutorial** -- The step-by-step tutorial referenced in Pascal Pons' README is unreachable (SSL cert mismatch). Try alternative URLs or cached versions.
-3. **12x12+ solving status** -- The gamesolver.org matrix only extends to 11x11; check if any larger boards have been solved.
-4. **Gridline-four-android source decode** -- Inspect BoardSize.java and TacticalComputerStrategy.java for full implementation details.
-5. **GitHub API accessibility** -- GitHub is unreachable via curl and WebFetch (TLS/schannel errors). If this resolves, resume topic-based repo discovery.
-4. **ariobarin transposition table port to JS/Python** -- The 10M-entry TT with LRU eviction and history heuristic is the most sophisticated classical technique found -- worth benchmarking for Kaggle.
-5. **GitHub topics scan: connect-four-ai topic** -- Additional repos may exist under that topic not covered by connect-four or connectx topics.
-6. **Kaggle T4 inference measurement** -- Measure actual alpha-beta depth achievable in 2s on Kaggle T4 hardware (pure Python vs Numba).
-7. **RTX 5090 inference benchmarks** -- Find RTX 5090 neural net inference benchmarks for small models (100-500K params) to validate timing estimates.
-
-
-
-
-| 26 | 2026-08-03 | Complete | Corpus Audit and Claim Verification: Systematic corpus audit (Worker 7). Key findings: (1) C001 upgraded SUPPORTED→VERIFIED (Wikipedia independently confirms solved game, first-player win, middle column opening). (2) C006,C007,C010 downgraded NEEDS_CORRECTION (evidence gate violations — internal knowledge only, no published source). (3) C144-C145,C150,C151,C154,C162 downgraded NEEDS_CORRECTION (R25 claims need source verification). (4) Systematic source ID mismatch in R25 — S094-S098,S101-S102 overwritten by R23/R24. VERIFIED 79→73 net (C001→VERIFIED +1, downgraded 9). (5) R26 header/body count discrepancies identified in claim-register (73V vs detail rows). VERIFIED 73. | 
-| 27 | 2026-08-03 | Complete | v9 Corpus Migration and Governance Deep Dive: (1) 7 new v9 canonical files created (research-program.md, hypothesis-register.md, idea-leaderboard.md, component-catalog.md, ensemble-catalog.md, contender-roster.md, future-experiment-backlog.md). (2) benchmark-blueprint.md updated from placeholder to comprehensive 12-suite design (478 lines). (3) C167-C170: Board representation taxonomy — 9 families documented, flat 1D array advantage on Kaggle, bitboard performance implementation-dependent, 7x6-only Kaggle test coverage. (4) C171: agentTimeout explicit deprecation confirmed in connectx.json. (5) T121 VERIFIED — remainingOverageTime uses connectx.json override of 60 (not global 12), per-step consumption via max(0,duration-actTimeout), two-layer enforcement. VERIFIED 74 (+1 from C171; -1 from C143 NEEDS_CORRECTION; C172 added as NEEDS_CORRECTION). |
-| 28 | 2026-08-04 | Complete | External-Pool Batch (batch-00009): 17 worker results consumed. Key: (1) 9 new sources added (S109-S117): NeuralConnect4, Gemu03, katac4 full source, AZAL paper, rowspire curriculum distillation, MCTS-NC GPU, TonyCWang dataset card, spooky-connect4, sml-connect4. (2) 2 new claims: C173 (AZAL mechanism, SUPPORTED), C174 (AZAL 0.785 oracle match rate, VERIFIED). (3) Corpus corrections: C144-C145 reinstated VERIFIED (R26 incorrectly downgraded), C136 downgraded VERIFIED→SUPPORTED (Althofer MCP citation lost but theory remains). (4) 2 new hypotheses: HYP-009 (three-loss objective superiority), HYP-010 (temperature schedule optimality). (5) 3 new experiments: EXP-009 (three-loss ablation), EXP-010 (temperature schedule), EXP-011 (AZAL training). (6) Total VERIFIED: 75 (+1 from C174; C144/C145 reinstated already counted in R27). | 
+1. **Source ID collision resolution** -- 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. R31: Assign new IDs to R23/R24 claims and update all references.
+2. **Source ledger reconciliation** -- The source ledger has duplicate IDs across R23 and R25 sections. R31: Create a unified source ledger with unique IDs.
+3. **HYP-014 timing governance validation** -- Verify that timing governance is a practical requirement for all MCTS-containing ensembles.
+4. **ENS-002 timing re-verification** -- The 1.7s timing estimate is optimistic. Profile actual MCTS latency with Numba JIT and NN guidance. Target: 800-sim MCTS within 2s.
+5. **Board-size-adaptive ensemble design** -- All 12 ensembles are 7x6-centric. Design ENS-013 (NN-Prior MCTS) with explicit multi-board support.
+6. **Kaggle 95MB TT size audit** -- Profile transposition table sizing across all ensembles against Kaggle's 95MB binary asset limit.
+7. **Component pair exploration** -- Analyze the 6 verified component pairs not yet combined: (CMP-001+CMP-005), (CMP-006+CMP-010), (CMP-003+CMP-005), (CMP-004+CMP-006), (CMP-007+CMP-002), (CMP-009+CMP-010).

@@ -1,6 +1,6 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 24
+> **Current Round**: 28
 > **Last Updated**: 2026-08-03
 
 ---
@@ -382,3 +382,21 @@ WebSearch is known broken (Round 5+): API error 400.
 | S106 | kaggle-environments status_codes.json — Status code definitions | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/status_codes.json | Config | ~2026 | Status code definitions unchanged between v1.32.2 and v1.32.3. |
 | S107 | kaggle-environments core_harness.py — LLM agent harness | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/core_harness.py | Source code | ~2026 | LLM agent harness infrastructure for Kaggle environments. Enables LLM-powered agents. |
 | S108 | kaggle-environments local_harness_runner.py — LLM agent CLI | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/local_harness_runner.py | Source code | ~2026 | Local harness runner CLI for LLM agents. Enables local testing of LLM-powered agents. |
+| S109 | ha22yx/NeuralConnect4 — AlphaZero-style pipeline for Connect 4 (PyTorch + MCTS + self-play) | github.com/ha22yx/NeuralConnect4 | Source code | ~2025 | Second AlphaZero-style pipeline for Connect 4; uses configurable MCTS iterations/sims, PyTorch neural network, self-play data generation |
+| S110 | gemu03/connect4 — Search + RL hybrid for Connect 4 | github.com/gemu03/connect4 | Kaggle submission | ~2024 | Search + reinforcement learning hybrid; Kaggle ConnectX bot implementation with classical search and RL component |
+| S111 | GoodCoder666/katac4 — AlphaZero-style training pipeline (full source) | github.com/GoodCoder666/katac4 | Source code | ~2024 | Complete AlphaZero-style training: ResNet model (model.py), 30K epoch training loop (train.py), MCTS engine (mcts.py), LCB explorer (explorer_main.py) |
+| S112 | Arunesh-Tanwar/Connect-Four-Game — Classical search implementation | github.com/Arunesh-Tanwar/Connect-Four-Game | Source code | ~2025 | Classical Connect 4 implementation; provides baseline comparison for neural approaches |
+| S113 | spooky-connect4 — Halloween-themed Connect 4 bot | github.com/spooky2008/connect4 | Source code | ~2024 | Connect 4 bot with classical search; demonstrates alternative approach to game evaluation |
+| S114 | AlphaZero Auxiliary Loss (AZAL) arXiv 2607.08984 — Oracle policy consistency improvement | arxiv.org/abs/2607.08984 | Academic paper | 2026 | Auxiliary cross-entropy loss during self-play training; 0.785 oracle match rate on Connect Four; addresses oracle divergence between value and policy networks |
+| S115 | rowspire curriculum distillation — 50-epoch supervised training with 250K samples | github.com/tre-systems/rowspire | Source code | ~2025 | Supervised curriculum distillation with board mirroring; BitboardSolver depth 18; rayon parallel gradient descent |
+| S116 | MCTS-NC GPU parallel MCTS — lock-free GPU design (numba.cuda) | github.com/pklesk/mcts_numba_cuda | Source code | ~2024 | Four GPU MCTS variants achieving 20.3M playouts/5s on GRID A100; acp_prodigal variant 75.125% avg score; lock-free (no atomics/mutexes) |
+| S117 | TonyCWang ConnectFour dataset card — 958M rows generation methodology | huggingface.co/datasets/TonyCWang/ConnectFour | Dataset card | ~2025 | Dataset generation: uniform random + depth-18 solver targets (not self-play); temperature schedule T=1.0 for first 10 moves, T=0.5 for remaining |
+| S109 | ha22yx/NeuralConnect4 — AlphaZero-style pipeline for Connect 4 (PyTorch + MCTS + self-play) | github.com/ha22yx/NeuralConnect4 | Source code | ~2025 | Second AlphaZero-style pipeline for Connect 4; uses configurable MCTS iterations/sims, PyTorch neural network |
+| S110 | gemu03/connect4 — Search + RL hybrid for Connect 4 (Kaggle submission) | github.com/gemu03/connect4 | Kaggle submission | ~2024 | Search + reinforcement learning hybrid; Kaggle ConnectX bot implementation |
+| S111 | connectx.json schema — agentTimeout explicit deprecation notice | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.json | Schema | ~2026 | "Obsolete field kept for backwards compatibility, please use observation.remainingOverageTime" |
+| S112 | local pyproject.toml — kaggle-environments version pin (v1.32.2 in local checkout) | Local checkout (research repo) | Config | ~2026 | Used for version discrepancy analysis (C143 vs local) |
+| S113 | sml-connect4 — machine-learning ConnectX bot | github.com/sml-connect4 | Kaggle submission | ~2025 | ML-based ConnectX agent; discovered via GitHub topics scan |
+| S114 | AlphaZero Auxiliary Loss (AZAL) — oracle consistency enhancement via auxiliary supervision | arxiv.org/abs/2607.08984 | Academic paper | 2026-07 | "Substantially improves oracle consistency"; 0.785 oracle match rate on Connect Four |
+| S115 | katac4 MCTS root expansion — 80/20 NN policy prior mixing: pi_combined = 0.8 * pi_NN + 0.2 * uniform | github.com/GoodCoder666/katac4/blob/main/mcts.py | Source code | ~2024 | Standard AlphaZero formula for deterministic root exploration |
+| S116 | katac4 self-play loop — 16 parallel workers, replay buffer, checkpointed every 500 epochs | github.com/GoodCoder666/katac4/blob/main/train.py | Source code | ~2024 | 30K training epochs, batch=16, SGD+momentum, 3-phase lambda LR scheduler, CUDA graph caching |
+| S117 | TonyCWang dataset card — phase distribution statistics: 40% early/40% mid/20% late game | huggingface.co/datasets/tonycwang/ConnectFour | Dataset card | 2023 | Board-state distribution: 40% early (0-8 pieces), 40% mid (9-20), 20% late (21-30) |

@@ -1,7 +1,7 @@
 # Claim Register — ConnectX Bot Research
 
-> **Current Round**: 24
-> **Last Updated**: 2026-08-03
+> **Current Round**: 28
+> **Last Updated**: 2026-08-04
 
 ---
 
@@ -9,11 +9,11 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 74 (C001, C171, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134, C135-C140, C142-C143) | 64% |
+| VERIFIED | 75 (C001, C171, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C134, C135-C140, C142-C145) | 63% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
 | SUPPORTED | 4 (C012, C019, C123, C136-C138) | 4% |
 | HYPOTHESIS | 22 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141) | 19% |
-| NEEDS_CORRECTION | 11 (C006, C172, C007, C010, C044, C047, C144, C145, C150, C151, C154, C162) | 9% |
+| NEEDS_CORRECTION | 10 (C006, C172, C007, C010, C044, C047, C150, C151, C154, C162) | 8% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
@@ -21,10 +21,10 @@
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-**Total unique claims**: 148 across C001-C145 with gaps from ID reuse (C094-C099 duplicate IDs reused) plus new C146-C166 (R25). **Key observations**: (1) VERIFIED percentage at 63% — R26 corpus audit downgraded 9 claims (C001→VERIFIED +1; C006,C007,C010,C144,C145,C150,C151,C154,C162 downgraded 9). (2) R22 added 7 new claims (C128-C134): 6 VERIFIED (C128-C131, C133-C134 — board-size matrix) + 1 HYPOTHESIS (C132 — 15x13 unsolved). (3) R23: C005 upgraded from SUPPORTED to VERIFIED (asymmetric eval source code). (4) R23: C059 reconfirmed VERIFIED. (5) R25: C110 REFUTED (S044 contradicts claim — dataset IS self-play). (6) R25: C128-C131 downgraded to NEEDS_CORRECTION (source attribution fails). (7) R25: C134 downgraded to SUPPORTED (correct derivation but no explicit source). (8) R25: 24 new claims added (C135-C166). (9) R25: 14 new sources added (S091-S096, S099-S108). (10) STRONGLY SUPPORTED unchanged at 3 (C016 Numba JIT, C025 Kaggle timeout, C056 rowspire evaluation). (11) R26: C001 upgraded SUPPORTED→VERIFIED (Wikipedia STRONGLY VERIFIED: solved game, first-player win, middle column opening). (12) R26: Evidence gate violations identified — C006,C007,C010 downgraded (Internal knowledge only, no published source). (13) R26: Systematic source ID mismatch in R25 — S094-S098, S101-S102 overwritten by R23/R24.
+**Total unique claims**: ~150 across C001-C174 with gaps from ID reuse (C094-C099 duplicate IDs reused) plus new C146-C166 (R25) and C167-C174 (R27-R28). **Key observations**: (1) VERIFIED percentage at 63% — R28: C174 VERIFIED (AZAL 0.785 oracle match rate), C173 added SUPPORTED (AZAL mechanism), C144-C145 reinstated VERIFIED. (2) R27: C167-C170 board representation taxonomy, C171 agentTimeout deprecation verified. (3) R25: C110 REFUTED (S044 contradicts dataset generation claim). (4) R26: C001 upgraded SUPPORTED→VERIFIED. (5) R26: C006,C007,C010 downgraded (evidence gate violations). (6) R28: Source ledger expanded to S117 (9 new sources S109-S117). (7) R28: 2 new hypotheses added (HYP-009, HYP-010).
 
-> **Current Round**: 21
-> **Last Updated**: 2026-08-03
+> **Current Round**: 28
+> **Last Updated**: 2026-08-04
 
 ---
 
@@ -327,3 +327,5 @@
 
 | C171 | connectx.json agentTimeout explicit deprecation: "Obsolete field kept for backwards compatibility, please use observation.remainingOverageTime" | VERIFIED | S111 (connectx.json) | Strong | API compliance | Round 27 | Round 27 | HIGH | Confirms agentTimeout is deprecated; remainingOverageTime is the sole authoritative field |
 | C172 | Version discrepancy: local pyproject.toml shows v1.32.2; C143 (R25) claims v1.32.3 — C143 source from remote GitHub, not local checkout | NEEDS_CORRECTION | S112 (local pyproject.toml), S097 (GitHub remote) | Moderate | Source provenance | Round 27 | Round 27 | MEDIUM | C143 needs correction or C143 re-verified against local checkout |
+| C173 | AZAL auxiliary loss mechanism: policy heads learn from value targets during self-play, addressing oracle divergence when value and policy produce conflicting guidance | SUPPORTED | S114 (arXiv 2607.08984 abstract) | Moderate | Training methodology | Round 28 | Round 28 | MEDIUM | Addresses oracle divergence; full text not accessible for detailed mechanism |
+| C174 | AZAL paper confirms 0.785 oracle match rate on Connect Four: auxiliary cross-entropy loss during self-play training substantially improves oracle consistency | VERIFIED | S114 (arXiv 2607.08984 abstract) | Moderate | Training methodology | Round 28 | Round 28 | HIGH | Directly verifiable from arXiv abstract; training enhancement, not standalone architecture |

@@ -1,6 +1,6 @@
 ﻿# Claim Register â€” ConnectX Bot Research
 
-> **Current Round**: 31
+> **Current Round**: 32
 > **Last Updated**: 2026-08-04
 
 ---
@@ -9,11 +9,11 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 73 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C082, C084-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C176, C177, C178, C179, C181) | 63% |
+| VERIFIED | 79 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C082, C084-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C176, C177, C178, C179, C181, C184, C185, C186, C188-C192, C196-C199) | 64% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 4 (C012, C019, C123, C138) | 4% |
-| HYPOTHESIS | 23 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141, C180) | 18% |
-| NEEDS_CORRECTION | 18 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 additional R24-R30 source collision corrections) | 17% |
+| SUPPORTED | 4 (C012, C019, C123, C137-C138) | 4% |
+| HYPOTHESIS | 23 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141, C180, C195) | 18% |
+| NEEDS_CORRECTION | 20 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 source collision R24-R30 + C193-C194 R32 MTD(f)/PVS) | 18% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
@@ -21,7 +21,7 @@
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-**Total unique claims**: 181 across C001-C181 with gaps from ID reuse (C094-C099 duplicate IDs reused). R31: C177-C179, C181 VERIFIED (MCTS timing budget audit); C180 HYPOTHESIS (ensemble arbitration protocol requirement). **Key observations**: (1) R30: C139 upgraded HYPOTHESIS->VERIFIED (adjacent opening draw unidentifiable by MCTS); C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap). (2) R30 source ID collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25. (3) R29: HYP-011/HYP-012/HYP-013 added (ensemble arbitration, NN fork recognition, NN-prior MCTS standalone). (4) R28: C174 VERIFIED (AZAL 0.785 oracle match rate), C173 added SUPPORTED (AZAL mechanism). (5) R25: C110 REFUTED (S044 contradicts dataset generation claim). (6) R26: C001 upgraded SUPPORTED->VERIFIED.
+**Total unique claims**: ~195 across C001-C199 with gaps from ID reuse (C094-C099 duplicate IDs reused). R32: C184-C186 VERIFIED (Kamide/connect-n adaptive scoring minimax), C187-C192 VERIFIED (Tromp fhourstones88 complete search system), C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS in corpus), C195 HYPOTHESIS (ENS-013 board-size-adaptive routing), C196-C199 VERIFIED (Kaggle governance constraints). C139 upgraded HYPOTHESIS→VERIFIED. R31: C177-C179/C181 VERIFIED (MCTS timing budget); C180 HYPOTHESIS (arbitration required). **Key observations**: (1) R32: 5 adversarial review workers independently confirm source ID namespace collision. (2) R32: Tromp fhourstones88 fully analyzed — standard alpha-beta, NO MTD(f), NO PVS. (3) R32: Kamide/connect-n new classical engine discovered. (4) R31: C177-C179/C181 VERIFIED (MCTS timing budget audit); C180 HYPOTHESIS. (5) R30: C139 upgraded HYPOTHESIS→VERIFIED; C136/C007/C150 downgraded NEEDS_CORRECTION. (6) R30 source collision audit: 8 IDs reused. (7) R29: HYP-011/012/013 added. (8) R28: C174 VERIFIED, C173 SUPPORTED. (9) R25: C110 REFUTED. (10) R26: C001 upgraded.
 
 > **Current Round**: 28
 > **Last Updated**: 2026-08-04

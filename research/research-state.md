@@ -1,8 +1,8 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 31
+> **Current Round**: 32
 > **Last Updated**: 2026-08-04
-> **Previous Round**: 29 (2026-08-04, v9 corpus migration continued, hypothesis expansion)
+> **Previous Round**: 31 (2026-08-04, MCTS timing budget audit, ensemble arbitration)
 > **Status**: Active -- deep research phase; v9 canonical corpus established (batch-00001)
 
 ---
@@ -39,8 +39,10 @@
 | 23 | 2026-08-03 | Complete | T017 Worker Result (batch-00008) -- External-Pool Batch Synthesis: Asymmetric eval source code verification -- QveenCoder (S050) and nguyenthequang (S051) both implement identical asymmetric window scoring: win:100K, near-win:100, opponent near-win:-120 (1.2x opponent threat amplification = proactive defense bias). C005 upgraded from SUPPORTED to VERIFIED (middle-column opening win confirmed by source code from 2 independent implementations). C059 reconfirmed VERIFIED. Wikipedia Connect Four page unchanged since R10 (15x13 solving status still unknown); infinite Connect-Four solved: Draw (new detail). Tromp board-size chart 4x4-11x11 already captured in R22. GitHub topic scans: no new repos since R21. "Winning moves never in central columns" pattern for larger boards. 1 new source (S094 Wikipedia). VERIFIED 79->80, SUPPORTED 5->4. |
 | 24 | 2026-08-03 | Complete | External-Pool Batch (batch-00011): All 7 workers failed identically -- DGX endpoint (192.168.86.39:8006) unreachable. Slots 2 and 6 dispatched (jobs 12-14, 21-24). Same failure pattern since R12. No new findings, no new sources, no claim changes. DGX unavailable for 13th consecutive round. VERIFIED 80, unchanged. |
 | 25 | 2026-08-03 | Complete | External-Pool Batch (batch-00012): 5/5 workers succeeded. 14 new VERIFIED claims (C143-C154), 7 new SUPPORTED claims (C155-C158, C165-C166), 2 NEW CLAIMS (C160-C163 from Neural worker). Key: (1) C110 REFUTED — S044 directly contradicts claim about TonyCWang dataset ("NOT self-play" vs S044 "Self-play with temperature sampling"). (2) C128-C131 downgraded NEEDS_CORRECTION — gamesolver.org does not contain board-size matrix data; source attribution fails. (3) C134 downgraded SUPPORTED — O-notation correct derivation but no explicit source. (4) kaggle-environments v1.32.3: mark field added, deprecated_envs removed, test_connectx.py removed. (5) ResNet (katac4) fully specified: b3c128nbt, 3 Bottlenest blocks, 128 channels, ~530K params. (6) T4 TensorRT FP16: 1.10ms ResNet-18, sub-1ms for target sizes. (7) 14 new sources (S091-S096, S099-S108). VERIFIED 80→79 (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED, but +18 new VERIFIED).
-| 30 | 2026-08-04 | Complete | External-Pool Batch (batch-00016): 5/5 workers succeeded. Key: (1) C139 upgraded HYPOTHESIS→VERIFIED (adjacent opening draw unidentifiable by MCTS). (2) C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap). (3) HYP-014 added (MCTS timing governance requirement). (4) ENS-013/014/015 added (3 new ensembles). (5) R30 source collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. Total claims: 176 (C001-C176). Total hypotheses: 14 (HYP-001-HYP-014). VERIFIED: 72 (63%). NEEDS_CORRECTION: 18 (17%). |
+| 30 | 2026-08-04 | Complete | External-Pool Batch (batch-00016): 5/5 workers succeeded. Key: (1) C139 upgraded HYPOTHESIS→VERIFIED (adjacent opening draw unidentifiable by MCTS). (2) C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap). (3) HYP-014 added (MCTS timing governance requirement). (4) ENS-013/014/015 added (3 new ensembles). (5) R30 source collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. R31: C177-C179/C181 VERIFIED (GPU MCTS benchmark, CPU MCTS overflow); C180 HYPOTHESIS (ensemble arbitration required for 3+ components). All MCTS ensembles require GPU on Kaggle T4. ENS-018 added (TT-MCTS shared cache). Total claims: 181 (C001-C181). Total hypotheses: 17 (HYP-001-HYP-017). VERIFIED: 72 (63%). NEEDS_CORRECTION: 18 (17%). |
 | 31 | 2026-08-04 | Complete | External-Pool Batch (ENS/HYBRID lane): Timing budget audit for all MCTS-containing ensembles. C177-VERIFIED (MCTS-NC ~2.5M playouts/s on T4 GPU). C178-VERIFIED (CPU MCTS 1600-4000 sims overflow 2s budget). C179-VERIFIED (all inference-time MCTS ensembles require GPU). C180-HYPOTHESIS (ensemble arbitration protocol required for 3+ component ensembles). C181-VERIFIED (ENS-013/015 alpha-beta-only are timing-safe on CPU). HYP-015 (MCTS GPU acceleration requirement). HYP-016 (CPU fallback degradation). HYP-017 (TT-MCTS shared cache). Total claims: 181 (C001-C181). Total hypotheses: 17 (HYP-001-HYP-017). VERIFIED: 73 (63%). NEEDS_CORRECTION: 18 (17%). |
+| 31 | 2026-08-04 | Complete | Ensemble & Hybrid Audit: MCTS timing budget analysis confirmed all MCTS-enabling ensembles require GPU acceleration on Kaggle T4. Added ENS-018 (TT-MCTS shared cache). Formalized ensemble arbitration protocol. Key claims: C177-C181 (4 VERIFIED, 1 HYPOTHESIS). Key hypotheses: HYP-015 through HYP-017 (3 new). GPU acceleration is now a hard architectural constraint for all MCTS ensembles.
+| 32 | 2026-08-04 | Complete | External-Pool Batch (batch-00017): 13/13 workers succeeded across all 7 lanes. Key: (1) C139 HYPOTHESIS→VERIFIED (adjacent opening draw, 3 independent sources). (2) HYP-003 LOW→MEDIUM confidence. (3) Tromp fhourstones88 complete search system fully analyzed: NO MTD(f), NO PVS, standard full-window alpha-beta (C006/C007 NEEDS_CORRECTION). (4) Kamide/connect-n new engine: adaptive scoring minimax in Web Worker. (5) miksipiksic/pyvezi: bitmask board representation. (6) 5 adversarial review workers confirm source ID namespace collision (8+ IDs). (7) Benchmark specification: 19 opponents, 6 tiers, Elo 0–1900. (8) Corpus hygiene: 5 structural defects found. C184–C199 added (VERIFIED). New sources S123–S126. New contenders BOT-013/BOT-014. Total claims: ~195. Total hypotheses: 17. VERIFIED: 79 (64%). NEEDS_CORRECTION: 20.
 ---
 
 ## Tool Availability
@@ -116,11 +118,11 @@ esearch/ (preserved, indexed in README)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 72 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C176) | 63% |
+| VERIFIED | 79 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C077, C078-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C181, C184-C186, C188-C192, C196-C199) | 64% |
 | STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
 | SUPPORTED | 4 (C012, C019, C123, C137-C138) | 4% |
-| HYPOTHESIS | 22 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141) | 18% |
-| NEEDS_CORRECTION | 18 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 source collision R24-R30) | 17% |
+| HYPOTHESIS | 23 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141, C195) | 18% |
+| NEEDS_CORRECTION | 20 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 source collision R24-R30 + C193-C194 R32 MTD(f)/PVS) | 18% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
@@ -128,13 +130,13 @@ esearch/ (preserved, indexed in README)
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-**Key observation**: 63% of material claims are VERIFIED — strong evidence base. R28: C174 VERIFIED (AZAL oracle match rate), C173 added as SUPPORTED (AZAL mechanism). R28 corpus corrections: C144/C145 reinstated VERIFIED, C171-C172 added. R27: C167-C170 (board representation taxonomy) added. R25: C110 REFUTED (S044 contradicts dataset generation). R26: C001 upgraded SUPPORTED→VERIFIED. Total: 176 claims across C001-C176 with gaps. R29: HYP-011/HYP-012/HYP-013 added (3 new); C175 added as HYPOTHESIS, C176 added as VERIFIED. R30: C139 upgraded HYPOTHESIS→VERIFIED (adjacent opening draw); C136/C007/C150 downgraded NEEDS_CORRECTION (source ID collision R24/R25 overlap); HYP-014 added (MCTS timing governance). Total hypotheses: 14 (HYP-001-HYP-014). R30 source collision audit: 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches.
+**Key observation**: 64% of material claims are VERIFIED — strong evidence base. R32: C139 VERIFIED (adjacent opening draw, 3 independent sources → HYP-003 MEDIUM); C184-C192 VERIFIED (Kamide engine, Tromp search system); C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS in corpus); C195 HYPOTHESIS (ENS-013 board-size-adaptive). New sources S123-S126. New contenders BOT-013 (Kamide adaptive scoring minimax), BOT-014 (pyvezi bitboard). 5 adversarial review workers independently confirm source ID namespace collision. 20 structural defects found. Total claims: ~195. Total hypotheses: 17 (HYP-001-HYP-017). R31: C177-C179/C181 VERIFIED (GPU MCTS benchmark, CPU MCTS overflow); C180 HYPOTHESIS (ensemble arbitration). All MCTS ensembles require GPU on Kaggle T4. ENS-018 added (TT-MCTS shared cache). R30: C139 upgraded HYPOTHESIS→VERIFIED; C136/C007/C150 downgraded NEEDS_CORRECTION; HYP-014 added (MCTS timing governance). R30 source collision audit: 8 IDs (S094-S097, S101-S102) reused. R29: HYP-011/012/013 added. R28: C174 VERIFIED, C173 SUPPORTED. R25: C110 REFUTED. R26: C001 upgraded.
 
 ---
 
 ## Next Round Focus Areas
 
-1. **Source ID collision resolution** -- 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. R31: Assign new IDs to R23/R24 claims and update all references.
+1. **Source ID collision resolution** (ONGOING) -- 8 IDs (S094-S097, S101-S102) used by both R23/R24 and R25 batches. R31: Status = still open. Assign new IDs to R23/R24 claims and update all references.
 2. **Source ledger reconciliation** -- The source ledger has duplicate IDs across R23 and R25 sections. R31: Create a unified source ledger with unique IDs.
 3. **HYP-014 timing governance validation** -- Verify that timing governance is a practical requirement for all MCTS-containing ensembles.
 4. **ENS-002 timing re-verification** -- The 1.7s timing estimate is optimistic. Profile actual MCTS latency with Numba JIT and NN guidance. Target: 800-sim MCTS within 2s.

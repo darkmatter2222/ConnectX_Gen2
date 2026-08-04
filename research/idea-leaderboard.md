@@ -1,7 +1,7 @@
 ﻿# Idea Leaderboard — ConnectX Bot Research
 
 > **Created**: 2026-08-03 (Round 26)
-> **Last Updated**: 2026-08-04 (Round 30)
+> **Last Updated**: 2026-08-04 (Round 32)
 > **Purpose**: Ranked list of research ideas, components, and approaches by expected impact on Kaggle bot strength
 > **Status**: DRAFT — all rankings are theoretical; empirical validation required via benchmark-blueprint.md experiments
 
@@ -11,6 +11,17 @@
 - **Idea-007** (MCTS Consistency Check): Evidence strengthened by BMS-005 benchmark design (MCTS consistency on solved positions, ≥90% oracle agreement target at ≤1600 sims). HYP-003 confidence: LOW→MEDIUM per worker-04. New experiments (EXP-016/017/018) directly test MCTS consistency on adjacent openings.
 - **HYP-014** (Timing Governance): New hypothesis added after HYP-013. Documents that 1.5s forced termination with alpha-beta fallback is required for all MCTS ensembles. Linked to ENS-013 safety layer.
 - **ENSO-002 timing**: Per worker-05, 5-layer ensemble estimated 3.6-5.6s exceeds 2s Kaggle budget. Downgrade from SUPPORTED→HYPOTHESIS for timing feasibility. This does not affect the ensemble architecture, only the timing gate parameter.
+
+## R32 Updates
+
+- **Idea-001 (Hybrid NN + Classical Search)**: Unchanged — R32 confirms MCTS consistency problem persists across 4 implementations (connectpuct, rowspire, katac4, MCTS-NC). ENS-013 board-size-adaptive routing protocol designed as a mitigation: classical search on small boards, NN-guided MCTS on large boards.
+- **Idea-003 (Asymmetric Threat Evaluation)**: R32 adds Kamide/connect-n as a fourth independent implementation using "connection-length scoring + hole-count heuristic" (S123). Evidence strengthened: 4 implementations now agree on asymmetric scoring strategy.
+- **Idea-005 (Alpha-Beta + Transposition Table)**: R32 adds Tromp fhourstones88 — 8.3M-entry dual-lock TT with 16-byte Hashentry, 80x larger than Pascal Pons' TT. History-heuristic move ordering and inline fork detection O(7) further validate classical TT optimization.
+- **Idea-009 (Board Representation)**: R32 adds pyvezi (bitmask), Kamide (TypeScript 2D array), Tromp (64-bit), connectpuct (list of lists). Board representation comparison becomes EXP-022.
+- **New Idea-015 (Board-Size-Adaptive Ensemble Routing)**: ENS-013 introduces board-size-adaptive ensemble routing: classical search on 7×6 (solved game, draw-preserving), NN-guided MCTS on 8×8+. Validated by R32 MCTS consistency problem (all 4 implementations fail on solved positions).
+- **Idea-007 (MCTS Consistency Check)**: R32 confirms MCTS consistency problem across 4 independent implementations. MCP theorem (Althöfer 2012) and Kocsis UCT convergence theorem provide theoretical grounding. All MCTS variants fail to identify solved-game positions within practical simulation budgets.
+- **Idea-012 (Selective Search)**: R32 confirms MTD(f) and PVS are absent from all corpus implementations (C193-C194 NEEDS_CORRECTION). MTD(f) gap becomes EXP-021.
+- **Corpus Governance**: 5 adversarial review workers independently identify 8+ source ID collisions, 14-round gaps between file updates, and claim-count mathematical inconsistencies. Corpus hygiene becomes EXP-025.
 
 ## R30 Candidate Evidence Score Changes
 
@@ -244,6 +255,20 @@ Estimated improvement is measured in **ELO points** against:
 
 ---
 
+### Idea-015: Board-Size-Adaptive Ensemble Routing
+
+- **Rank**: 10 (new, co-ranked with Idea-010)
+- **Source**: ENS-013 (board-size-adaptive routing protocol), R32 MCTS consistency audit
+- **Evidence**: HYPOTHESIS — theoretical design based on MCTS consistency problem confirmed across 4 implementations. Classical search dominates on 7×6 (solved game); NN-guided MCTS scales better on 8×8+.
+- **Estimated Impact**: +30-100 ELO on 8×8+ boards; +0-50 ELO on 7×6 (draw-preserving routing avoids MCTS inconsistency)
+- **Confidence**: MEDIUM — MCTS consistency problem is VERIFIED; routing protocol is designed but untested
+- **Feasibility**: MEDIUM — requires game-phase and board-size detection + routing arbiter
+- **Key Risk**: Routing overhead may offset component benefits; board-size gate parameters unknown
+- **Related Components**: ENS-013 routing protocol, Kamide adaptive scoring (classical component), rowspire/katac4 NN-MCTS (scalable component)
+- **Tested In**: No empirical benchmark; EXP-023 specifies validation protocol
+
+---
+
 ## Ranking Summary Table
 
 | Rank | Idea | Source | Impact | Confidence | Feasibility | R30 Note |
@@ -259,9 +284,10 @@ Estimated improvement is measured in **ELO points** against:
 | 9 | Board Representation (Bitboard) | C-009, C-001 | +0-20 | MEDIUM | MEDIUM | ENS-015 bitboard-only design |
 | 10 | Multi-Board Generalization | N-001, S-005 | +50-100 | MEDIUM | MEDIUM | Unchanged |
 | 11 | GPU Massively-Parallel MCTS | M-001 | +100-300 | MEDIUM | LOW | ENS-014 GPU-MCTS high-ceiling |
-| 12 | Selective Search (MTD(f)) | S-004, C-004 | +20-60 | LOW | MEDIUM | Unchanged |
+| 12 | Selective Search (MTD(f)) | S-004, C-004 | +20-60 | LOW | MEDIUM | C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS in corpus); EXP-021 specifies investigation |
 | 13 | Text-Based LLM Fine-Tuning | D-002, D-003 | +0-30 | LOW | HIGH | Unchanged |
 | 14 | LLM as ConnectX Bot | Internal knowledge | +0-50 | VERY LOW | HIGH | Unchanged |
+| 15 | Board-Size-Adaptive Ensemble Routing | ENS-013, R32 MCTS audit | +30-100 | MEDIUM | MEDIUM | New R32: routing protocol designed; MCTS consistency problem validated across 4 implementations |
 
 ---
 

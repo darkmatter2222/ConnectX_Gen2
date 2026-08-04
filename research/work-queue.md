@@ -1,6 +1,6 @@
 
 > **Last Updated**: 2026-08-04
-> **Current Round**: 30
+> **Current Round**: 32
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---
@@ -95,7 +95,7 @@
 
 ---
 
-## Task Status Summary (Round 25 Updated)
+## Task Status Summary (Round 32 Updated)
 
 | Status | Count |
 |--------|--------|
@@ -105,9 +105,9 @@
 | BLOCKED | 0 |
 | REJECTED | 0 |
 
-Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T119 removed as duplicates/missing). R25: 3 task completions (T002, T017, T032), 10 new follow-up tasks (FU-029-FU-039), 14 new claims added (C143-C166), 3 claim downgrades (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED).
+Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T119 removed as duplicates/missing). R32: 7 new follow-ups (FU-057-FU-063 from R32). R30/R31: 6 follow-ups (FU-045-FU-056). R25: 10 follow-ups (FU-029-FU-039), 14 new claims added (C143-C166), 3 claim downgrades (C110→REFUTED, C128-C131→NEEDS_CORRECTION, C134→SUPPORTED).
 
-| FOLLOW-UP | 28 (FU-016 through FU-028, plus FU-029-FU-039 from R25, FU-040-FU-043 from R26, FU-045-FU-056 from R30) |
+| FOLLOW-UP | 33 (FU-016 through FU-028, plus FU-029-FU-039 from R25, FU-040-FU-043 from R26, FU-045-FU-056 from R30/R31, FU-057-FU-063 from R32) |
 
 ---
 
@@ -183,3 +183,10 @@ Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T
 | FU-054 | R30 | - | BMS-005 MCTS consistency measurement: measure oracle agreement rate at 10/50/100/500/1000/4000 simulations | BMS-005 benchmark design completed in R30; needs empirical execution | connectpuct (80 sims), rowspire (4000 sims), katac4 (1600 sims) | BMS-005 specified; no execution done yet | Oracle agreement % per simulation count |
 | FU-055 | R30 | - | Board-size coverage audit: find ConnectX tests for 15x13 and 15x10 boards | BMS-006 found zero test evidence for 15x13/15x10 despite env spec supporting them | kaggle-environments test_connectx.py (v1.32.2), env spec JSON | BMS-006 identified the gap | Test coverage report per board size |
 | FU-056 | R30 | - | ENS-014 GPU MCTS feasibility on Kaggle T4: estimate playouts per move at 2s budget | ENS-014 requires GPU programming; T4 TensorRT benchmarks show 1.10ms for ResNet-18 | MCTS-NC GRID A100 (20.3M playouts/5s), Kaggle T4 specs, Numba CUDA docs | ENS-014 PROPOSED — high-risk, high-ceiling | GPU playouts/sec on T4, feasibility assessment |
+| FU-057 | R32 | - | R32 Source ID collision resolution: audit S094-S097, S101-S102 — 8+ source IDs reused across rounds with conflicting descriptions; assign new unique IDs | Source ledger contains duplicate/overwritten IDs; need to reconcile before R33 ingests more sources | Source ledger, R23/R24/R25 claim registers | R32: collision independently verified by 5 adversarial review workers | Reconciled source IDs, unique namespace per source, updated downstream references |
+| FU-058 | R32 | - | R32 Corpus header reconciliation: all canonical file headers must agree on round number, claim counts, hypothesis counts | R32: claim-register header says 79 VERIFIED; research-state header says 79 VERIFIED; README says 79 — but R31 header said different. All must converge. | All canonical files under research/ | R32: 14-round gaps, 8+ source ID collisions, claim-count mismatches | Unified header across all canonical files |
+| FU-059 | R32 | - | R32 Kamide/connect-n source deep-dive: adaptive scoring function parameters, Web Worker deployment constraints | Kamide/connect-n discovered R32 as new contender; adaptive scoring minimax with configurable N×N boards | Kamide/connect-n GitHub source (S123), Web Worker docs (S125) | R32: BOT-013 added; Kamide uses connection-length scoring + hole-count heuristic | Adaptive scoring parameters, Web Worker compatibility, board size support | Source analysis report |
+| FU-060 | R32 | - | R32 Tromp fhourstones88 search system validation: 8.3M dual-lock TT, history-heuristic move ordering, 15-ply book88, inline fork detection O(7) | Tromp fhourstones88 discovered R32 as complete search system; uses standard full-window alpha-beta (NO MTD(f), NO PVS per C193-C194) | Tromp fhourstones88 source (S124), Pascal Pons search.cpp (S126) | R32: C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS found); Tromp uses standard full-window AB | Validation of Tromp search system components, performance benchmarks | Source analysis report |
+| FU-061 | R32 | - | R32 MTD(f) and PVS gap investigation across Connect 4 engines — C193-C194 confirmed none of the analyzed implementations use MTD(f) or PVS | MTD(f) and PVS are standard optimizations in chess engines; their absence from all corpus Connect 4 engines is notable | S-004 (BitBully MTD(f)), chess programming wiki, all corpus Connect 4 engine source | R32: C193-C194 NEEDS_CORRECTION; EXP-021 specifies investigation | Whether MTD(f)/PVS exist in any non-corpus Connect 4 engine; implementation notes | Investigation report |
+| FU-062 | R32 | - | R32 Board-size-adaptive ensemble routing protocol (ENS-013) detailed design: explicit game-phase and board-size gates, routing arbiter specification | ENS-013 refined from PROPOSED → DETAILED in R32; needs explicit routing protocol | ENS-013 ensemble design, MCTS consistency problem (R32 audit) | R32: ENS-013 status refined; board-size-adaptive routing designed | Complete routing protocol specification with gates and fallback | Design document |
+| FU-063 | R32 | - | R32 Corpus hygiene audit automation: build automated tool to detect round number fragmentation, claim-count inconsistencies, source ID collisions, stale metadata | R32: 5 adversarial review workers independently found 14 structural defects (SF-001 through SF-005) | All canonical files under research/ | R32: EXP-025 added; 14 critical findings from manual audit | Automated audit tool, detection rules, output format | Tool + detection report |

@@ -321,6 +321,56 @@
 
 ---
 
+### BOT-013: Kamide/connect-n (Adaptive Scoring Minimax)
+
+- **Canonical name:** Kamide/connect-n
+- **Exact URL:** https://github.com/Kamide/connect-n
+- **Project type:** Classical engine
+- **Version, commit, tag, or release:** Source as of R32
+- **License:** GitHub repo license (verify)
+- **Language and runtime:** TypeScript / JavaScript (Web Worker)
+- **Board and inarow support:** Configurable N×N boards; any N-in-a-row
+- **Algorithm and components:** Adaptive scoring minimax with alpha-beta; connection-length scoring + hole-count evaluation; configurable board sizes; Web Worker non-blocking inference
+- **Published result evidence:** None — discovered in R32 as new contender
+- **Availability:** Source code public
+- **Reproducibility:** TypeScript; runs in browser and Node.js; Web Worker deployment model documented
+- **Resource requirements:** Minimal — no GPU required; Web Worker compatible
+- **Known defects:**
+  - No published benchmarks or ELO ratings
+  - Adaptive scoring parameters not publicly documented
+  - Web Worker may be incompatible with Kaggle notebook sandbox
+- **Comparability limits:** TypeScript; not natively Python; Web Worker deployment model
+- **Proposed future benchmark role:** Tier 2–3 classical baseline; Web Worker deployment template for Kaggle
+- **Configuration that must eventually be pinned:** connection-length scoring parameters, hole-count weights, board size configuration, Web Worker timeout settings
+- **Source and claim IDs:** S123 (R32 worker-02), C184-C186 (R32)
+
+---
+
+### BOT-014: miksipiksic/pyvezi (Bitboard Minimax)
+
+- **Canonical name:** miksipiksic/pyvezi
+- **Exact URL:** https://github.com/miksipiksic/pyvezi
+- **Project type:** Academic minimax baseline
+- **Version, commit, tag, or release:** Source as of R32
+- **License:** GitHub repo license (verify)
+- **Language and runtime:** Python (minimax + alpha-beta)
+- **Board and inarow support:** 6×7 (Connect 4 standard); bitmask board representation
+- **Algorithm and components:** Bitmask board representation; open-line diff heuristic; depth-4 minimax with alpha-beta pruning
+- **Published result evidence:** None — discovered in R32 as new contender
+- **Availability:** Source code public
+- **Reproducibility:** Pure Python; no external dependencies beyond standard library
+- **Resource requirements:** Minimal — CPU only; no GPU required
+- **Known defects:**
+  - No published benchmarks or ELO ratings
+  - Depth-4 minimax is shallow; limited tactical depth
+  - Open-line diff heuristic may not generalize well
+- **Comparability limits:** Limited to 6×7 board size; shallow search
+- **Proposed future benchmark role:** Tier 3 lightweight classical baseline; bitmask representation reference
+- **Configuration that must eventually be pinned:** bitmask layout, depth parameter, open-line diff thresholds
+- **Source and claim IDs:** S125 (R32), C192 (R32)
+
+---
+
 ## Candidate Classification
 
 ### Candidates to Benchmark Against (top-strength tier)

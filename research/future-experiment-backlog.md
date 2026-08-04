@@ -2,7 +2,7 @@
 
 > **Created**: 2026-08-03 (Round 27)
 > **Purpose**: Records all future empirical work. No experiments executed during research-only phase.
-> **Total experiments**: 15 (8 from R27 + 7 from R28: EXP-009 through EXP-015 from W04/W05 neural MCTS and ensemble research)
+> **Total experiments**: 25 (8 from R27 + 7 from R28: EXP-009 through EXP-015 + 3 from R30: EXP-016 through EXP-018 + 7 from R32: EXP-019 through EXP-025)
 > **All statuses**: DEFERRED or SPECIFIED — no experiment may be marked completed in research-only phase.
 
 ---
@@ -41,6 +41,13 @@
 | 16 | EXP-016 | HYP-003 | — | Adjacent-opening MCTS consistency measurement | SPECIFIED | P1 |
 | 17 | EXP-017 | HYP-003 | ENS-003 | Adjacent-opening draw detection ensemble validation | SPECIFIED | P1 |
 | 18 | EXP-018 | HYP-005 | — | NN-guided vs random-playout MCTS on adjacent openings | SPECIFIED | P1 |
+| 19 | EXP-019 | — | — | Kamide/connect-n adaptive scoring minimax benchmark | SPECIFIED | P2 |
+| 20 | EXP-020 | — | — | Tromp fhourstones88 search system validation (8.3M TT, dual-lock, history heuristic) | SPECIFIED | P2 |
+| 21 | EXP-021 | — | — | MTD(f) and PVS gap investigation across Connect 4 engines | SPECIFIED | P1 |
+| 22 | EXP-022 | — | — | Board representation comparison across Kaggle implementations | SPECIFIED | P2 |
+| 23 | EXP-023 | — | ENS-013 | Board-size-adaptive ensemble routing protocol validation | SPECIFIED | P1 |
+| 24 | EXP-024 | — | — | Kamide Web Worker deployment constraints study | SPECIFIED | P2 |
+| 25 | EXP-025 | — | — | Corpus governance audit automation (round fragmentation, claim-count reconciliation) | SPECIFIED | P1 |
 
 ---
 
@@ -464,7 +471,193 @@
 
 ---
 
+### EXP-019: Kamide/connect-n Adaptive Scoring Minimax Benchmark
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Benchmark Kamide/connect-n adaptive scoring minimax engine against existing classical baselines on 7x6 and configurable N×N boards |
+| **Independent variable** | Board size (7×6, configurable N×N), connection-length scoring parameters, hole-count weights |
+| **Dependent variables** | Win rate vs opponent baselines, per-move latency, tactical accuracy |
+| **Fixed controls** | Same opponents, same time budget (2s/move Kaggle), same test positions |
+| **Contenders** | Kamide/connect-n (adaptive scoring minimax + alpha-beta, TypeScript Web Worker), Kamide/connect-n on 7×6, 8×8, 10×10 |
+| **Benchmark suites** | BMS-004 (fixed-opponent paired), BMS-006 (board-size coverage) |
+| **Board configs** | 7×6 (default), 8×8, configurable N×N |
+| **Sample size** | 300 paired games per board size |
+| **Metrics** | Win/draw/loss rates, per-move latency, fork detection accuracy, evaluation function variance |
+| **Expected outcomes** | Kamide competitive with classical baselines on 7×6; performance degrades gracefully on larger boards |
+| **Falsification criteria** | Kamide achieves <50% win rate vs classical baselines on 7×6 |
+| **Compute** | Kaggle T4 (Web Worker deployment); ~1 hour |
+| **Reproducibility** | Source available on GitHub (S123) |
+| **Prerequisite research** | Kamide source code analysis (S123), adaptive scoring function parameters |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-020: Tromp fhourstones88 Search System Validation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Validate Tromp fhourstones88 as a reference classical engine: standard full-window alpha-beta, 8.3M-entry dual-lock TT, history-heuristic move ordering, 15-ply book88 opening book |
+| **Independent variable** | TT size (8.3M entries), opening book depth (15 ply), history-heuristic parameters |
+| **Dependent variables** | Search speed, fork detection rate, book hit rate, oracle agreement |
+| **Fixed controls** | 8×8 board (fhourstones88 target), same test positions |
+| **Contenders** | Tromp fhourstones88 (C++ search system), Pascal Pons search.cpp (C++ negamax with alpha-beta) |
+| **Benchmark suites** | BMS-003 (solver-oracle agreement), BMS-004 (fixed-opponent paired) |
+| **Board configs** | 8×8 (default, fhourstones88 target), 7×6 (secondary) |
+| **Sample size** | 500 test positions |
+| **Metrics** | Oracle agreement rate, TT hit rate, book hit rate, fork detection accuracy, nodes per second |
+| **Expected outcomes** | Tromp achieves ≥90% oracle agreement on solved 8×8 positions; dual-lock TT reduces corruption rate below 1% |
+| **Falsification criteria** | Tromp achieves <70% oracle agreement without iterative deepening (would suggest dual-lock TT is insufficient) |
+| **Compute** | CPU; ~2 hours |
+| **Reproducibility** | Source available on GitHub (S124, S126) |
+| **Prerequisite research** | Tromp source code analysis (S124), Pascal Pons analysis (S126) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-021: MTD(f) and PVS Gap Investigation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Investigate whether MTD(f) and PVS exist in any non-corpus Connect 4 engines; C193-C194 confirmed no MTD(f)/PVS in Tromp, so search externally |
+| **Independent variable** | Alpha-beta variant: standard, PVS (null-window), MTD(f) (marginal) |
+| **Dependent variables** | Search speedup vs standard AB, node count reduction, depth reached in fixed time |
+| **Fixed controls** | Same board, same TT, same move ordering |
+| **Contenders** | N/A (implementation investigation) |
+| **Benchmark suites** | Informs BMS-008 (optimization comparison) |
+| **Board configs** | 7×6 (default) |
+| **Sample size** | 100 test positions |
+| **Metrics** | Nodes per second, depth reached, speedup ratio vs standard AB |
+| **Expected outcomes** | PVS provides 10–30% speedup; MTD(f) provides additional 15–50% speedup |
+| **Falsification criteria** | PVS or MTD(f) provides <5% speedup over standard alpha-beta in any Connect 4 engine |
+| **Compute** | CPU; ~1 hour |
+| **Reproducibility** | Implement all three variants with identical TT and move ordering |
+| **Prerequisite research** | C193 (no MTD(f) in Tromp), C194 (no PVS in Tromp), Tromp source analysis (S124) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-022: Board Representation Comparison Across Kaggle Implementations
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Compare board representations across documented Kaggle implementations: Tromp (64-bit), Kamide (TypeScript 2D array), pyvezi (bitmask), connectpuct (Python list of lists) |
+| **Independent variable** | Board representation: 64-bit integer, bitmask, 2D array, list of lists |
+| **Dependent variables** | Move generation speed, legal move check latency, fork detection overhead |
+| **Fixed controls** | 7×6 board, same move ordering, same evaluation function |
+| **Contenders** | Tromp (64-bit, S124), Kamide (TypeScript 2D array, S123), pyvezi (bitmask, S125), connectpuct (Python list of lists, S118) |
+| **Benchmark suites** | BMS-006 (board-size coverage) |
+| **Board configs** | 7×6 (default), 8×8 (secondary) |
+| **Sample size** | 1000 position evaluations per representation |
+| **Metrics** | Nodes per second, move generation time, legal move check time |
+| **Expected outcomes** | Bitmask/64-bit representations ≥2× faster than array-based on 7×6; TypeScript 2D array competitive with Python list of lists |
+| **Falsification criteria** | No representation shows statistically significant speed advantage |
+| **Compute** | CPU; ~30 minutes |
+| **Reproducibility** | All implementations available on GitHub |
+| **Prerequisite research** | Worker-03-job-00016 board representation comparison (R32) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-023: Board-Size-Adaptive Ensemble Routing Protocol Validation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-017 (TT-MCTS Cache Sharing) |
+| **Ensemble** | ENS-013 (NN-Prior MCTS, board-size-adaptive routing) |
+| **Purpose** | Test whether board-size-adaptive ensemble routing (classical on 7×6, NN-guided MCTS on 8×8+) outperforms fixed-strategy ensemble |
+| **Independent variable** | Routing protocol: fixed-classical, fixed-NN-MCTS, board-size-adaptive (ENS-013) |
+| **Dependent variables** | Win rate, oracle agreement, per-move latency, TT hit rate |
+| **Fixed controls** | Same components, same time budget, same opponents |
+| **Contenders** | ENS-013 (board-size-adaptive routing), classical baseline (Kamide, pyvezi), NN-MCTS baseline (rowspire, katac4) |
+| **Benchmark suites** | BMS-006 (board-size coverage), BMS-007 (hybrid tournament) |
+| **Board configs** | 7×6, 8×8, 10×10 |
+| **Sample size** | 200 positions per board size |
+| **Metrics** | Win rate, draw rate, oracle agreement, routing decision accuracy |
+| **Expected outcomes** | ENS-013 achieves ≥5% win rate advantage over fixed-classical on 8×8; ≥95% oracle agreement on 7×6 |
+| **Falsification criteria** | Board-size-adaptive routing provides <2% win rate advantage over fixed-classical |
+| **Compute** | T4 GPU or equivalent; ~2 hours |
+| **Reproducibility** | All components specified in ENS-013 |
+| **Prerequisite research** | ENS-013 detailed design (board-size-adaptive routing protocol), C139 (adjacent opening draw), C184-C192 (component specifications) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-024: Kamide Web Worker Deployment Constraints Study
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Study Kamide/connect-n's Web Worker non-blocking inference pattern and its applicability to Kaggle ConnectX environment |
+| **Independent variable** | Web Worker offloading strategy: synchronous, asynchronous with timeout, hybrid |
+| **Dependent variables** | Move latency, timeout rate, worker crash rate, Kaggle compatibility |
+| **Fixed controls** | Kamide engine, same board positions |
+| **Contenders** | Kamide (Web Worker, S123), Kamide (synchronous, non-Worker) |
+| **Benchmark suites** | BMS-008 (timeout/latency constraints), BMS-011 (Kaggle-environment emulation) |
+| **Board configs** | 7×6 (default) |
+| **Sample size** | 300 positions |
+| **Metrics** | Move latency, timeout rate, worker crash rate, Kaggle API compatibility |
+| **Expected outcomes** | Web Worker offloading reduces perceived latency by ≥50%; no Kaggle API conflicts |
+| **Falsification criteria** | Web Worker approach introduces ≥10% timeout rate in Kaggle environment |
+| **Compute** | Kaggle notebook environment; ~1 hour |
+| **Reproducibility** | Kamide source available on GitHub (S123, S125) |
+| **Prerequisite research** | Kamide source code analysis (S123), Web Worker deployment analysis (S125) |
+| **Status** | SPECIFIED |
+
+---
+
+### EXP-025: Corpus Governance Audit Automation
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Automate corpus governance audit: detect round number fragmentation, claim-count inconsistencies, source ID collisions, and stale metadata across canonical files |
+| **Independent variable** | Audit tool: manual (R27-R32), automated script (Python/PowerShell Markdown parser) |
+| **Dependent variables** | Number of structural defects found, false positive rate, audit speed |
+| **Fixed controls** | Same canonical files (all under research/) |
+| **Contenders** | N/A |
+| **Benchmark suites** | N/A (research-only) |
+| **Board configs** | N/A |
+| **Sample size** | All canonical files in research/ |
+| **Metrics** | Defect count, audit time, discrepancy match rate with manual audits |
+| **Expected outcomes** | Automated audit matches manual R32 findings on ≥95% of defects |
+| **Falsification criteria** | Automated audit disagrees with manual R32 audit on >10% of structural defects |
+| **Compute** | CPU; ~10 minutes |
+| **Reproducibility** | Audit script reads Markdown files directly; deterministic output |
+| **Prerequisite research** | R32 structural defect catalog (SF-001 through SF-005), source ID collision catalog |
+| **Status** | SPECIFIED |
+
+---
+
 ## Priority Classification
+
+| Priority | Criteria |
+|----------|----------|
+| **P0** | Critical for ensemble validation; gates future experiments |
+| **P1** | Important for research progress; does not gate other experiments |
+| **P2** | Valuable but not urgent; can be deferred if needed |
+
+## Notes
+
+- No experiment is executed during the research-only phase
+- EXP-006 and EXP-007/008 are research-only (literature review, corpus hygiene)
+- EXP-001/002/003/004/005 require implementation phase to execute
+- All experiments reference specific benchmark suites (BMS-###) from benchmark-blueprint.md
+- All experiments reference specific hypotheses (HYP-###) from hypothesis-register.md
+
+---
+
+*Backlog created: Round 27. Total experiments: 25 (EXP-001 through EXP-025). SPECIFIED: 23, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04). R32 added EXP-019 through EXP-025 (7 new experiments: Kamide benchmark, Tromp validation, MTD(f)/PVS gap, board representation comparison, ENS-013 routing, Web Worker constraints, corpus governance automation).*
 
 | Priority | Criteria |
 |----------|----------|

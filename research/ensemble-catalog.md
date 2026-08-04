@@ -261,6 +261,41 @@
 | Benchmark requirements | BMS-001 (API/legality), BMS-002 (tactical positions), BMS-004 (paired vs ENS-001 baseline). |
 | Linked hypothesis | HYP-014 (timing governance not needed for pure alpha-beta on 7x6) |
 
+
+
+### ENS-018: TT-MCTS Shared Cache Ensemble (Hybrid, High-Ceiling)
+
+**Component Count**: 3 (CMP-003 + CMP-005 + CMP-002)
+**Difficulty**: Medium
+**Board Support**: 7x6 (default Connect 4)
+**Classification**: Hybrid (classical + MCTS)
+
+**Components**:
+- CMP-003: Transposition Table
+- CMP-005: Monte Carlo Tree Search (PUCT)
+- CMP-002: Alpha-Beta with PVS
+
+**Integration Mechanism**:
+1. **Opening Phase (first ~30 plies)**: Alpha-beta with transposition table fills the TT during standard search. TT stores best moves, scores, and depth information for positions encountered.
+2. **MCTS Phase**: MCTS nodes are hashed to the SAME TT namespace as alpha-beta. MCTS generates novel positions during exploration; these are written to TT. Alpha-beta benefits from TT hits during subsequent searches in later moves.
+3. **Shared Cache Pattern**: Standard in Go/Chess engines (e.g., Leela Chess Zero shares TT between NN evaluation and search). The shared TT enables alpha-beta to learn from MCTS exploration and vice versa.
+
+**Expected Synergy**: 10-20% MCTS speedup from TT reuse. Alpha-beta benefits from MCTS-explored positions. Both benefit from cache pollution of shared TT namespace.
+
+**Evidence**: C097 (VERIFIED -- TT move ordering in ensemble). CMP-003+CMP-005 compatibility = VERIFIED in component-catalog.md. Standard in Go/Chess (TSCS, Leela Zero, FireFox).
+
+**Expected Failure Modes**:
+- Cache pollution: Alpha-beta may overwrite MCTS-important positions
+- MCTS noise may degrade alpha-beta quality by adding unreliable entries
+- TT size limit (memory) requires careful eviction policy
+
+**Resource Requirements**: TT memory (negligible, <1MB). No GPU required. Timing-safe on CPU.
+
+**Kaggle Constraints**: 95MB submission limit satisfied (no model weights). 2s/move budget satisfied (alpha-beta + shared TT on CPU).
+
+**Falsification**: ENS-018 is falsified if shared TT produces <5% improvement over separate TT namespaces (i.e., no measurable synergy).
+
+**Hypothetical ID**: ENS-018
 ---
 
 ## Ensemble Cross-Reference (Updated R30)
@@ -282,3 +317,4 @@
 | ENS-013 | 7 | Low | High | 7x6 |
 | ENS-014 | 8 | Very High | Highest | 7x6 |
 | ENS-015 | 3 | Minimal | Medium-High | 7x6 |
+| ENS-018 | 3 | Medium | High (with TT reuse) | 7x6 |

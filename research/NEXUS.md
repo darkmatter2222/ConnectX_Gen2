@@ -1,7 +1,7 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 37 (2026-08-05)
-> **Last Updated**: 2026-08-05
+> **Current Round**: 38 (2026-08-05)
+> **Last Updated**: 2026-08-05 10:07 ET (Round 38)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
@@ -10,7 +10,7 @@
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 225 | C001–C225 |
+| Claims | 222 | C001-C222 |
 | Verified | 100 | 44% |
 | Needs Correction | 22 | 10% |
 | Hypothesis | 24 | 11% |
@@ -21,7 +21,7 @@
 | Benchmark Suites | 12 | BMS-001 through BMS-012 |
 | Experiments | 37 | EXP-001 through EXP-037 |
 | Sources | 131 | S001 through S131 (with 4 collision clusters) |
-| Dossiers | 10 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, CS-003, D-034 |
+| Dossiers | 14 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, plus 1 thin (search-algorithm-comparison) |
 | Governance Findings | 29 | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) |
 
 ---
@@ -34,7 +34,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 10 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, CS-003, D-034 |
+| Dossiers | 14 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, plus 1 thin (search-algorithm-comparison) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -126,11 +126,12 @@
 |----|-------|--------|------|
 | BMS-DOC-001 | Benchmark Science and Tournament Design | VERIFIED | `dossiers/benchmarking/benchmark-science-and-tournament-design.md` |
 
-### Reference Implementations (1 dossier)
+### Reference Implementations (2 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | D-034 | New Source Repositories Discovered in GitHub Topic Scan | VERIFIED | `dossiers/reference-implementations/new-repo-sources-r34.md` |
+| RI-001 | katac4 Reference Implementation (AlphaZero + KataGo) | VERIFIED | dossiers/reference-implementations/katac4-reference-implementation.md |
 
 ### Contenders (1 dossier — shallow)
 
@@ -153,24 +154,28 @@
 ### Governance Chain
 GOV-001 (22 findings R34) → GOV-002 (remediation tracking R36) → GOV-003 (post-merger assessment R36) → GOV-004 (comprehensive audit R37, 55% remediation)
 
-### MCTS Chain
-MCTS-001 (consistency problem) → MCTS-002 (integration patterns) → BMS-DOC-001 (benchmark requirements)
+MCTS-001 (consistency problem) -> MCTS-002 (integration patterns) -> MCTS-003 (variant taxonomy) -> BMS-DOC-001 (benchmark requirements)
+MCTS-001 (consistency problem) -> MCTS-002 (integration patterns) -> MCTS-003 (variant taxonomy) -> BMS-DOC-001 (benchmark requirements) (benchmark requirements)
 
-### Classical Search Chain
+CS-001 (opening books) -> CS-002 (board rep) -> CS-003 (solver engineering) -> F-001 (foundations)
 CS-001 (opening books) → CS-003 (classical search and solver engineering) → F-001 (board representation)
 
-### Reference Chain
+RI-001 (katac4 reference) -> D-034 (new repos) -> D-CBL-001 (baseline contenders) -> BMS-DOC-001 (benchmarking)
 D-034 (new repos) → D-CBL-001 (baseline contenders) → BMS-DOC-001 (benchmarking)
 
 ---
 
 ## Recent Changes (Round 37)
 
-- **Added:** MCTS-002 (neural MCTS integration patterns, 6 sources, 5 patterns, feasibility matrix)
-- **Added:** D-034 (3 new GitHub repos from topic scan)
+- **Added:** MCTS-003 (MCTS variant taxonomy and parameter tuning, PROPOSED)
+- **Added:** RI-001 (katac4 reference implementation, AlphaZero + KataGo techniques)
 - **Added:** CS-003 (classical search and solver engineering, 8 sources)
 - **Added:** GOV-004 (comprehensive audit, 55% remediation rate)
 - **Rejected:** 3 thin worker outputs (worker-01-job-00534, worker-02-job-00070, worker-07-job-00556)
 - **Updated:** Source count from 127 to 131 (S128–S131)
-- **Updated:** Claim count from 215 to 225 (C216–C225)
-- **Updated:** Dossier count from 6 to 9
+- **Updated:** Claim count range from C001-C222 (222 unique claims with ID reuse gaps)
+- **Updated:** Dossier count from 9 to 14 (11 active directories, 3 empty)
+
+
+
+- **Fixed:** NEXUS.md dossier index — added MCTS-003, RI-001, corrected counts (9->14); cross-link map expanded with MCTS-003 and CS-002 chains

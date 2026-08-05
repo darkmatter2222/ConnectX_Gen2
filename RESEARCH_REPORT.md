@@ -1,9 +1,9 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> **Compiled from:** 225 claims (C001–C225), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16 contenders, 9 dossiers
+> Compiled from: 222 claims (C001–C222), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16 contenders, 14 dossiers
 > **Claims by status:** 100 VERIFIED (44%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 79 OTHER (35%)
-> **Last Updated:** 2026-08-05 09:00 ET (Round 37)
-> **Repository Evidence Health:** MODERATE+ — 3 new substantive dossiers (neural MCTS integration, reference sources, classical search), governance audit remediation at 55%
+> **Last Updated:** 2026-08-05 10:07 ET (Round 38)
+> **Repository Evidence Health:** MODERATE+ — 5 new substantive dossiers (MCTS-002, MCTS-003, D-034, RI-001, CS-003), governance remediation at 55%, 14 total dossiers across 11 directories (3 empty)
 
 ## Changes Since Last Synthesis (Round 36 → 37)
 
@@ -11,8 +11,16 @@
 - **New dossier: D-034** (`research/dossiers/reference-implementations/new-repo-sources-r34.md`) — 3 new Connect 4 / ConnectX repositories from GitHub topic scan: woctezuma/puissance4 (PyPI-distributed UCT MCTS), CogitoNTNU/AlphaZero (AlphaZero pipeline for 4-in-a-row), haoxiang-xu/connectX (web testing platform). 4 sources (S128–S131).
 - **New dossier: CS-003** (`research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md`) — Comprehensive classical search specification: board representations (4 types), search algorithms (minimax, negamax, alpha-beta, PVS, MTD(f)), transposition tables, move ordering, iterative deepening, pruning, fork detection, endgame solvers, Python performance optimization. 8 sources (S132–S139). Complements CS-001 (opening book engineering).
 - **Governance: GOV-004** (`research/dossiers/governance/GOV-004-R37-comprehensive-audit.md`) — Comprehensive audit of all 13 canonical files. 12 of 22 GOV-001 findings repaired (55%), 3 partially repaired (14%), 7 unaddressed (31%). Remaining defects: source ID collisions, fabricated data cross-references, empty dossier directories. 7 new findings (C216–C220).
-- **Rejected: 3 thin outputs rejected** — Worker-01-job-00534 (thinking-only), Worker-02-job-00070 (thin output), Worker-07-job-00556 (thin output).
-- **Accepted: 3 substantive dossiers** — MCTS-002 (17K bytes), D-034 (33K bytes), CS-003 (83K bytes).
+- **Rejected: 3 thin outputs rejected** + 1 thin (search-algorithm-comparison.md, no proper header)
+- **Accepted: 5 substantive dossiers** — MCTS-002 (neural integration patterns), MCTS-003 (variant taxonomy), D-034 (new reference sources), RI-001 (katac4 reference implementation), CS-003 (classical search/solver engineering). Total: 14 dossiers across 11 directories (3 empty: ensembles, neural, training-data).
+
+## Changes Since Last Synthesis (Round 37 → 38)
+
+- **Batch-00097 total rejection:** All 8 workers failed. 4 workers got "Write tool unavailable" error; 4 workers produced zero output. 0 new dossiers, 0 new claims, 0 new sources.
+- **Infrastructure failure:** Remote worker environment (192.168.86.39:8006) has tool configuration mismatch — Write tool schema present but handler not registered. This is the 15th consecutive batch with infrastructure failures.
+- **Governance gap repair (pre-commit R38 work):** NEXUS.md dossier index updated (9→14), RESEARCH_REPORT.md header corrected (225→222 claims, 9→14 dossiers), claim-register header corrected (C001-C215→C001-C222), benchmark-blueprint header updated. MCTS-003 and RI-001 added to NEXUS index. 6 remaining governance gaps identified.
+- **Dossiers:** 14 total (unchanged from pre-commit R38 changes), 11 directories (3 empty: ensembles, neural, training-data).
+- **Governance remediation:** 55% (unchanged).
 
 ---
 
@@ -30,13 +38,14 @@
 10. [Ensembles and Hypotheses](#10-ensembles-and-hypotheses)
 11. [Data Governance](#11-data-governance)
 12. [Refuted Claims — What NOT to Build](#12-refuted-claims--what-not-to-build)
-13. [Dossiers (9)](#13-dossiers)
+13. [Dossiers (14)](#13-dossiers)
 14. [Recommended Bot Architecture](#14-recommended-bot-architecture)
 15. [Open Questions](#15-open-questions)
 16. [Where to Look First](#16-where-to-look-first)
 17. [Technique Leaderboard](#17-technique-leaderboard)
 18. [Proven / Supported / Unproven / Refuted](#18-proven--supported--unproven--refuted)
-19. [Changes Since Last Synthesis](#19-changes-since-last-synthesis)
+19. [Changes Since Last Synthesis (Round 36 → 37)](#19-changes-since-last-synthesis-round-36--37)
+20. [Changes Since Last Synthesis (Round 37 → 38)](#changes-since-last-synthesis-round-37--38)
 
 ---
 
@@ -531,9 +540,9 @@ These claims were **adversarially refuted** (≥2/3 voters agreed they were fals
 
 ---
 
-## 13. Dossiers (9)
+## 13. Dossiers (14)
 
-The corpus now contains 9 substantive dossier files covering governance, MCTS, benchmarking, classical search, neural MCTS integration, and reference implementations:
+The corpus now contains 14 dossier files across 11 directories (3 directories remain empty: ensembles/, neural/, training-data/):
 
 ### MCTS-001: MCTS Consistency Problem for Solved Games
 
@@ -941,4 +950,4 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 09:00 ET (Round 37). It reflects the state of the corpus after batch-00096 synthesis: 3 new substantive dossiers (MCTS-002 neural MCTS integration, D-034 new reference sources, CS-003 classical search), 3 thin worker outputs rejected, governance remediation at 55%, 9 total dossiers across 9 directories.*
+*This report was last updated 2026-08-05 10:07 ET (Round 38). It reflects the state of the corpus after batch-00097 synthesis: total rejection (8/8 workers failed), 14 dossiers (unchanged, pre-commit governance repairs), governance remediation at 55%, 3 empty dossier directories remaining.*

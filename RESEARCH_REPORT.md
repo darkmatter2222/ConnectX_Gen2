@@ -2,8 +2,8 @@
 
 > Compiled from: 222 claims (C001–C222), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16 contenders, 14 dossiers
 > **Claims by status:** 100 VERIFIED (44%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 79 OTHER (35%)
-> **Last Updated:** 2026-08-05 10:07 ET (Round 38)
-> **Repository Evidence Health:** MODERATE+ — 5 new substantive dossiers (MCTS-002, MCTS-003, D-034, RI-001, CS-003), governance remediation at 55%, 14 total dossiers across 11 directories (3 empty)
+> **Last Updated:** 2026-08-05 11:30 ET (Round 39)
+> **Repository Evidence Health:** MODERATE+ — NN-001 substantive dossier created (neural directory no longer empty); governance remediation at 55%, 15 total dossiers across 12 directories (2 empty: ensembles, training-data)
 
 ## Changes Since Last Synthesis (Round 36 → 37)
 
@@ -13,6 +13,16 @@
 - **Governance: GOV-004** (`research/dossiers/governance/GOV-004-R37-comprehensive-audit.md`) — Comprehensive audit of all 13 canonical files. 12 of 22 GOV-001 findings repaired (55%), 3 partially repaired (14%), 7 unaddressed (31%). Remaining defects: source ID collisions, fabricated data cross-references, empty dossier directories. 7 new findings (C216–C220).
 - **Rejected: 3 thin outputs rejected** + 1 thin (search-algorithm-comparison.md, no proper header)
 - **Accepted: 5 substantive dossiers** — MCTS-002 (neural integration patterns), MCTS-003 (variant taxonomy), D-034 (new reference sources), RI-001 (katac4 reference implementation), CS-003 (classical search/solver engineering). Total: 14 dossiers across 11 directories (3 empty: ensembles, neural, training-data).
+
+## Changes Since Last Synthesis (Round 38 → 39)
+
+- **New dossier: NN-001** (`research/dossiers/neural/NN-001-neural-networks-architectures-training-pipelines-and-data.md`) — Comprehensive neural network architecture specification covering 5 architecture families (ResNet/katac4, MLP/rowspire, CNN/marcpaulo15, DQN, NNUE/ecc521), 3 training pipelines (AlphaZero self-play, supervised curriculum distillation, solver-distilled pre-training), TonyCWang 958M-row dataset, TensorRT INT8 inference optimization, board-size generalization analysis, pros/cons comparison, feasibility matrix, ensemble integration patterns, failure modes, and benchmark requirements. 18 sources (S026, S030 primary; S044 TonyCWang; S095 AZAL; S094, S025, S023, S028, S029, S071 secondary; S037-S038 katac4 source code; S041-S042, S066-S069 rowspire source code; S093 NVIDIA T4 spec). 5 adapted reference sketches + 3 conceptual pseudocode blocks. The neural dossier directory is now populated.
+- **Rejected: mcts-004** (1,480 bytes, executive summary only — no sources, no code samples, no feasibility matrix, no pros/cons — fails minimum dossier standard of 1,200+ words, 3+ sources, pros/cons, feasibility matrix)
+- **Accepted: 1 substantive dossier** (NN-001). Total dossiers: 15.
+- **Directory status:** 12 populated (neural now populated), 2 empty (ensembles, training-data).
+- **Batch-00098:** 13 workers dispatched. Workers produced event stream logs containing research content. NN-001 is the only output meeting the substantive dossier threshold. mcts-004 is a thin shell that requires expansion.
+- **Workers also updated canonical files:** RESEARCH_REPORT.md, NEXUS.md, README.md, claim-register.md, source-ledger.md, benchmark-blueprint.md, hypothesis-register.md, ensemble-catalog.md, contender-roster.md, future-experiment-backlog.md, research-state.md, work-queue.md. These are integrated via the dossier evidence.
+- **Root-level untracked research files** (neural_network_architectures_connectx.md, training-data-generation.md, transfer-learning-research.md, nn-architecture-research.md) from worker-03 remain uncommitted — these are partial drafts superseded by NN-001.
 
 ## Changes Since Last Synthesis (Round 37 → 38)
 
@@ -47,7 +57,34 @@
 19. [Changes Since Last Synthesis (Round 36 → 37)](#19-changes-since-last-synthesis-round-36--37)
 20. [Changes Since Last Synthesis (Round 37 → 38)](#changes-since-last-synthesis-round-37--38)
 
+
 ---
+
+## NN-001: Neural Network Architectures, Training Pipelines, and Data
+
+- **Status**: READY
+- **Dossier**: 
+- **Size**: 44,631 bytes (786 lines, 20 sections)
+- **Sources**: 18 (S026, S030, S044, S095, S094, S025, S023, S028, S029, S071, S037, S038, S041, S042, S066, S067, S068, S069, S093)
+- **Code samples**: 5 adapted reference sketches + 3 conceptual pseudocode blocks
+
+### Scope
+
+Five architecture families (ResNet, MLP, CNN, DQN, NNUE, Transformer), three training pipelines (self-play, curriculum SFT, solver-distilled), inference optimization (TensorRT INT8, Numba JIT, ONNX), board-size generalization, ensemble integration, benchmark requirements, failure modes, and open questions.
+
+### Key Findings
+
+- ResNet (katac4) is the most sophisticated documented architecture with ~530K params and KataGo-inspired design
+- MLP (rowspire) provides the fastest inference at ~100K params, deployable as WASM
+- DQN cannot solve forced-win sequences beyond 4 plies (C205 VERIFIED)
+- No neural architecture generalizes to 15x13 boards - the critical gap
+- AZAL three-loss objective achieves 0.785 oracle match rate (C201 VERIFIED)
+- TensorRT INT8 gives 3-5x latency reduction (C202 VERIFIED)
+- TonyCWang dataset (958M rows, 14.8 GB) is the largest available training corpus
+
+### Cross-Links
+
+See MCTS-002 (neural-guided MCTS), CS-003 (classical search complement), BMS-DOC-001 (benchmark framework)---
 
 ## 1. Competition Overview
 
@@ -762,6 +799,8 @@ These are areas where the research did not produce definitive answers:
 | 6 | NNUE evaluation | HYPOTHESIS HYP-024 | Classical eval function | 7×6 to 10×8 | YES (CPU) | HIGH | MEDIUM | — |
 | 7 | GPU MCTS (lock-free) | DOCUMENTED (MCTS-NC) | Search acceleration | All boards | YES (GPU) | HIGH | MEDIUM | — |
 | 8 | DQN pure | REFUTED C205 weakness | Baseline | All boards | YES (GPU) | LOW | HIGH | — |
+| 9 | ResNet (katac4) | VERIFIED (NN-001) | Value/policy network | 7×6 (trained 9×9–12×12) | YES (GPU, INT8) | HIGH | MEDIUM | NN-001 |
+| 10 | MLP (rowspire) | VERIFIED (NN-001) | Fast eval, configurable | Configurable (64-bit) | YES (CPU) | HIGH | LOW | NN-001 |
 
 ---
 
@@ -941,7 +980,7 @@ These are areas where the research did not produce definitive answers:
 |------|----------|---------------|------------|
 | Fabricated data propagation | CRITICAL | S117/S120 [RETRACTED] in R35 | RETRACTED flags; automated detection (EXP-035) |
 | Source ID collision attribution | CRITICAL | 4 clusters, 27+ IDs; GOV-004 confirms | Namespace isolation (R36), GOV-004 audit |
-| Missing dossier content | HIGH | Now 9 dossiers (up from 3 at R36) | Ongoing: populate with contender/technique dossiers |
+| Missing dossier content | HIGH | Now 15 dossiers (R38: 14, R39: NN-001); 12/14 dirs populated | Ongoing: populate ensembles/ and training-data/ |
 | Stale master report | HIGH | Now fixed (R35 rewrite, R37 update) | Ongoing: update each batch |
 | 15×13 first-player unknown | MEDIUM | LOW confidence since R1 | Requires board-size solving experiment |
 | No benchmark for 15×13 | MEDIUM | Zero test evidence | Kaggle live evaluation is the only benchmark |
@@ -950,4 +989,4 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 10:07 ET (Round 38). It reflects the state of the corpus after batch-00097 synthesis: total rejection (8/8 workers failed), 14 dossiers (unchanged, pre-commit governance repairs), governance remediation at 55%, 3 empty dossier directories remaining.*
+*This report was last updated 2026-08-05 11:30 ET (Round 39). It reflects the state of the corpus after batch-00098 synthesis: 1 substantive dossier accepted (NN-001, neural networks), 1 thin rejected (mcts-004), 15 total dossiers across 12 directories (2 empty: ensembles, training-data), governance remediation at 55%.*

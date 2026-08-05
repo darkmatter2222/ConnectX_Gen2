@@ -1,7 +1,7 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 38 (2026-08-05)
-> **Last Updated**: 2026-08-05 10:07 ET (Round 38)
+> **Current Round**: 39 (2026-08-05)
+> **Last Updated**: 2026-08-05 11:30 ET (Round 39)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
@@ -21,7 +21,7 @@
 | Benchmark Suites | 12 | BMS-001 through BMS-012 |
 | Experiments | 37 | EXP-001 through EXP-037 |
 | Sources | 131 | S001 through S131 (with 4 collision clusters) |
-| Dossiers | 14 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, plus 1 thin (search-algorithm-comparison) |
+| Dossiers | 15 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, MCTS-004, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, plus 1 thin (search-algorithm-comparison) |
 | Governance Findings | 29 | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) |
 
 ---
@@ -34,7 +34,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Dossiers | 14 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, plus 1 thin (search-algorithm-comparison) |
+| Dossiers | 15 | F-001, CS-001, CS-002, CS-003, MCTS-001, MCTS-002, MCTS-003, MCTS-004, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, plus 1 thin (search-algorithm-comparison) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -139,12 +139,19 @@
 |----|-------|--------|------|
 | D-CBL-001 | Baseline Contender Comparison | PROPOSED | `dossiers/contenders/contenders-baselines-benchmark-references.md` |
 
-### Empty Directories (3)
+### Neural (1 dossier)
+
+| ID | Title | Status | Path |
+|----|-------|--------|------|
+| NN-001 | Neural Network Architectures, Training Pipelines, and Data | READY | `dossiers/neural/NN-001-neural-networks-architectures-training-pipelines-and-data.md` |
+
+**Scope:** 5 architecture families (ResNet, MLP, CNN, DQN, NNUE), 3 training pipelines, 18 sources, inference optimization (TensorRT INT8), board-size generalization.
+
+### Empty Directories (2)
 
 | Directory | Status |
 |-----------|--------|
-| `dossiers/ensembles/` | EMPTY — needs ensemble dossiers |
-| `dossiers/neural/` | EMPTY — needs neural approach dossiers |
+
 | `dossiers/training-data/` | EMPTY — needs training pipeline dossiers |
 
 ---
@@ -163,6 +170,10 @@ CS-001 (opening books) → CS-003 (classical search and solver engineering) → 
 RI-001 (katac4 reference) -> D-034 (new repos) -> D-CBL-001 (baseline contenders) -> BMS-DOC-001 (benchmarking)
 D-034 (new repos) → D-CBL-001 (baseline contenders) → BMS-DOC-001 (benchmarking)
 
+NN-001 (neural architectures) -> MCTS-002 (neural MCTS) -> MCTS-001 (consistency)
+NN-001 (neural eval) -> CS-003 (classical search) -> F-001 (foundations)
+NN-001 (TensorRT) -> MCTS-002 (inference patterns) -> BMS-DOC-001 (benchmarking)
+
 ---
 
 ## Recent Changes (Round 37)
@@ -179,3 +190,19 @@ D-034 (new repos) → D-CBL-001 (baseline contenders) → BMS-DOC-001 (benchmark
 
 
 - **Fixed:** NEXUS.md dossier index — added MCTS-003, RI-001, corrected counts (9->14); cross-link map expanded with MCTS-003 and CS-002 chains
+
+## Recent Changes (Round 39)
+
+- **Added:** NN-001 (Neural Network Architectures, Training Pipelines, and Data — READY, 654 lines, 18 sources, 8 code/pseudocode samples, feasibility matrix, board-size applicability, 13 risk categories, benchmark protocol)
+- **Added:** mcts-004 (PROPOSED, thin — 1,480 bytes, executive summary only; needs expansion)
+- **Rejected:** mcts-004 (thin shell, no sources, no code, no feasibility matrix — fails minimum dossier standard)
+- **Updated:** Dossier count from 14 to 15 (NN-001 added); neural directory no longer empty
+- **Updated:** Empty directories from 3 to 2 (ensembles/, training-data/)
+- **Batch-00098:** 13 workers dispatched; 1 substantive dossier accepted (NN-001); 1 thin rejected (mcts-004)
+- **Workers also updated canonical files:** RESEARCH_REPORT.md, NEXUS.md, README.md, claim-register.md, source-ledger.md, benchmark-blueprint.md, hypothesis-register.md, ensemble-catalog.md, contender-roster.md, future-experiment-backlog.md, research-state.md, work-queue.md
+- **Root-level untracked research drafts** (neural_network_architectures_connectx.md, training-data-generation.md, transfer-learning-research.md, nn-architecture-research.md) remain uncommitted — superseded by NN-001
+
+## Recent Changes (Round 38)
+
+- **Rejected:** batch-00097 total failure (8/8 workers). Write tool unavailable error or zero output.
+- **Pre-commit repair:** NEXUS.md updated (9->14 dossiers), RESEARCH_REPORT.md header corrected (225->222 claims)

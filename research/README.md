@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 38
+> **Current Round**: 39
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -59,7 +59,8 @@
 | `iterations/round-035.md` | 35 | 2026-08-04 | First V10 dossier synthesis: NEXUS.md corpus index created. 11 dossier directories (3 empty, 8 newly created). GOV-001 governance audit dossier: 22 structural defects (4 CRITICAL, 8 HIGH, 6 MEDIUM, 4 LOW). 10 new governance claims (C206-C215) VERIFIED. Source ledger updated (S121-S126 added, S117/S120 [RETRACTED], S127 corrected citation). 5 new governance experiments (EXP-033-EXP-037). |
 | `iterations/round-036.md` | 36 | 2026-08-04 | External-pool batch-00002 synthesis: 2 new dossiers created (MCTS-001 on MCTS consistency problem, BMS-DOC-001 on benchmark science). 1 duplicate governance dossier removed. 2 workers rejected (one produced .js, one produced no output). Total dossiers: 3 (GOV-001, MCTS-001, BMS-DOC-001). |
 | `iterations/round-037.md` | 37 | 2026-08-05 | External-pool batch-00096 synthesis: 3 new dossiers (MCTS-002 neural MCTS integration, D-034 new reference sources, CS-003 classical search/solver engineering). 1 governance audit expanded (GOV-004 comprehensive corpus audit). 5 thin outputs rejected. Total dossiers: 9. Claims: 215→225. Sources: 127→131. Governance remediation: 55%. |
-| `iterations/round-038.md` | 38 | 2026-08-05 | Phase 1 — Governance gap repair: NEXUS.md dossier index (9→14), RESEARCH_REPORT.md header (225→222 claims, 9→14 dossiers), claim-register header (C001-C215→C001-C222, 215→222 total), benchmark-blueprint header (R35→R37). MCTS-003 and RI-001 added to NEXUS index. Phase 2 — Batch-00097 total rejection: all 8 workers failed (4: Write tool unavailable, 4: no output). 0 new dossiers/claims/sources. Dossiers: 14 (unchanged). Governance remediation: 55% (unchanged).
+| `iterations/round-038.md` | 38 | 2026-08-05 | Phase 1 — Governance gap repair: NEXUS.md dossier index (9→14), RESEARCH_REPORT.md header (225→222 claims, 9→14 dossiers), claim-register header (C001-C215→C001-C222, 215→222 total), benchmark-blueprint header (R35→R37). MCTS-003 and RI-001 added to NEXUS index. Phase 2 — Batch-00097 total rejection: all 8 workers failed (4: Write tool unavailable, 4: no output). 0 new dossiers/claims/sources. Dossiers: 14 (unchanged). Governance remediation: 55% (unchanged). |
+| `iterations/round-039.md` | 39 | 2026-08-05 | Batch-00098 synthesis: 1 new dossier (NN-001 neural networks — 654 lines, 18 sources, 5 code samples, feasibility matrix). 1 thin rejected (mcts-004, 1,480 bytes). Neural directory populated. Dossiers: 15. Empty dirs: 2 (ensembles, training-data). All canonical files updated by workers. |
 
 ## Legacy Documents (evidence, preserved)
 

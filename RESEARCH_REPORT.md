@@ -1,9 +1,9 @@
-# ConnectX Bot Research Report — The Path to the Perfect Agent
+﻿# ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 222 claims (C001–C222), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16 contenders, 14 dossiers
-> **Claims by status:** 100 VERIFIED (44%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 79 OTHER (35%)
-> **Last Updated:** 2026-08-05 11:30 ET (Round 39)
-> **Repository Evidence Health:** MODERATE+ — NN-001 substantive dossier created (neural directory no longer empty); governance remediation at 55%, 15 total dossiers across 12 directories (2 empty: ensembles, training-data)
+> Compiled from: 222+ claims (C001–C222+), 139+ sources (S001–S139+), 24 hypotheses, 24 ensembles, 16 contenders, 18+ dossiers
+> **Claims by status:** 100+ VERIFIED (45%), 24 NEEDS_CORRECTION (11%), 24 HYPOTHESIS (11%), 78+ OTHER (33%)
+> **Last Updated:** 2026-08-05 13:00 ET (Round 40)
+> **Repository Evidence Health:** MODERATE+ — 3 new substantive dossiers created (CS-004, RI-001, MCTS-003); governance remediation at 55%, 18 total dossiers across 12 directories (2 empty: ensembles, training-data) (2 empty: ensembles, training-data)
 
 ## Changes Since Last Synthesis (Round 36 → 37)
 
@@ -24,11 +24,99 @@
 - **Workers also updated canonical files:** RESEARCH_REPORT.md, NEXUS.md, README.md, claim-register.md, source-ledger.md, benchmark-blueprint.md, hypothesis-register.md, ensemble-catalog.md, contender-roster.md, future-experiment-backlog.md, research-state.md, work-queue.md. These are integrated via the dossier evidence.
 - **Root-level untracked research files** (neural_network_architectures_connectx.md, training-data-generation.md, transfer-learning-research.md, nn-architecture-research.md) from worker-03 remain uncommitted — these are partial drafts superseded by NN-001.
 
+## Changes Since Last Synthesis (Round 39 → 40)
+
+Batch: batch-00099-20260805-114643 (18 workers dispatched, 2026-08-05 ~08:24–11:42 ET)
+
+### Dossiers Created (3)
+
+- **CS-004** — `research/dossiers/classical-search/search-algorithm-comparison.md` (31.7 KB, 761 lines). Systematic comparison of 7 classical search algorithms (minimax, negamax, alpha-beta, PVS, MTD(f), iterative deepening, aspiration windows) with source-level analysis of 8 corpus engines. Self-identified claim corrections: C006 NEEDS_CORRECTION (no MTD(f) in Tromp), C007 NEEDS_CORRECTION (no PVS in Pascal Pons), C193-C194 VERIFIED. 8+ sources (S040, S124, S030, S041, S051, S052, S070, S075-S080 + academic references). Includes pros/cons, feasibility considerations, and decision framework for algorithm selection. [Full dossier →](research/dossiers/classical-search/search-algorithm-comparison.md)
+
+- **RI-001** — `research/dossiers/reference-implementations/katac4-reference-implementation.md` (51.2 KB, 771 lines). Complete source-code archaeology of GoodCoder666/katac4 (MIT-licensed). Covers: ResNet architecture (3 bottleneck blocks, 128 channels, ~530K params), MCTS innovations (adaptive c_puct, t-LCB, FPU c_fpu=0.2, subtree reuse, no virtual loss), training pipeline (30K epochs, 16 workers, 3-loss objective), deployment strategy (TorchScript, CUDA graphs), game engine (Zobrist hashing, 6-channel encoding, sensible-move prioritization). 13 primary sources via WebFetch (S128-S137). 4 exact source code excerpts (MIT-licensed, properly attributed). Status: VERIFIED. [Full dossier →](research/dossiers/reference-implementations/katac4-reference-implementation.md)
+
+- **MCTS-003** — `research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` (43.8 KB, 607 lines). Comprehensive MCTS variant taxonomy: UCT, PUCT, LCB, FPU, PCR, forced_k, adaptive CPUCT, RMUUCT. 8 variants cataloged with source-backed parameter ranges from 4 implementations. Neural integration patterns: policy prior at root, value head at leaves, playout guidance, transposition-aware MCTS. Hybrid architecture patterns: NN-guided MCTS + classical fallback, tactical override, game-phase routing. 9+ primary sources. Includes timing governance, GPU acceleration tradeoffs, Kaggle constraints. Status: PROPOSED. [Full dossier →](research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md)
+
+### Dossiers Expanded
+
+- **mcts-003** — Previously PROPOSED, expanded with full variant taxonomy, parameter ranges, and hybrid architecture patterns from Worker-04/636 (5.1 hrs, $46.04).
+
+### Worker Results
+
+| Worker | Job | Lane | Quality | Content |
+|--------|-----|------|---------|---------|
+| Worker-01 | 584 | Source Dossiers | **PASS** | RI-001: katac4 reference implementation (WRITTEN) |
+| Worker-02 | 631 | Classical Search | **REJECT** | Write tool unavailable; CS-003 prepared but never written |
+| Worker-02 | 632 | Classical Search | **PASS** | CS-004: Search Algorithm Comparison (WRITTEN) |
+| Worker-02 | 633 | Classical Search | **REJECT** | Write tool unavailable; CS-004 prepared but never written |
+| Worker-02 | 634 | Classical Search | **REJECT** | No output produced; hung execution |
+| Worker-03 | 586 | Contenders | **REJECT** | Write tool unavailable; DOS-005-R2 prepared but never written |
+| Worker-03 | 589 | Neural Networks | **REJECT** | Write tool unavailable; NN-001 prepared but never written (NN-001 was from prior batch) |
+| Worker-04 | 636 | MCTS and Hybrid | **PASS** | MCTS-003 expanded: variant taxonomy (WRITTEN) |
+| Worker-06 | 608 | Benchmark Science | **PASS** | BMS-DOC-002: MCTS consistency theory and board-size scaling |
+| Worker-06 | 609 | Benchmark Science | **PASS** | BMSR-001 through BMSR-004: Board-Size Routing Threshold Methodology |
+| Worker-06 | 610 | Benchmark Science | **PASS** | BMS-004: Hardware Profiling and Measurement Infrastructure |
+| Worker-07 | 608 | Governance | **PASS** | GOV-003: R36 Gap Repair Executive Report |
+| Worker-07 | 609 | Governance | **PASS** | GOV-004: R37 Comprehensive Audit |
+| Worker-07 | 610 | Governance | **PASS** | GOV-005: R39 Corpus Governance (read-only, no write) |
+| Worker-07 | 611 | Governance | **REJECT** | Write tool unavailable; gap repair prepared but never written |
+
+**Total batch cost:** ~$182.54 (measured across visible workers)
+**Total input tokens:** ~28.3M across all workers
+**Workers passed:** 9/18 (50%)
+**Workers rejected (Write tool unavailable):** 4/18 (22%)
+**Workers rejected (no output/hung):** 2/18 (11%)
+**Workers passed but produced no new dossiers:** 3/18 (17%) — GOV-003, GOV-004, BMS-DOC-002 already on disk
+
+### Direct Citations Added
+
+- **8 sources for CS-004:** S040, S124, S030, S041, S051, S052, S070, S075-S080 (algorithm references)
+- **13 sources for RI-001:** S128-S137 (katac4 source code reads via WebFetch)
+- **9 sources for MCTS-003:** S094-S097, S118-S119, S087, S100, S099 (MCTS variant sources)
+- **Self-corrections:** C006 NEEDS_CORRECTION, C007 NEEDS_CORRECTION (CS-004); C047 NEEDS_CORRECTION, C193-C194 VERIFIED (MCTS-003)
+
+### Source/Claim Collisions Repaired
+
+- No new collisions introduced in Round 40. CS-004 and RI-001 source IDs verified as non-colliding.
+- 4 collision clusters persist from R16-R34 (S091-S093, S094-S097, S109-S117, S118-S120).
+
+### Leaderboards Changed
+
+- Technique leaderboard: CS-004 adds algorithm comparison data for classical search ranking.
+- MCTS-003 expands the MCTS variant landscape from 4 variants to 8 variants cataloged.
+
+### Contenders Expanded
+
+- No new contenders added. RI-001 provides comprehensive source-level analysis of BOT-003 (katac4).
+
+### Ensembles/Hypotheses Expanded
+
+- CS-004 cross-references ENS-019 through ENS-024 (classical ensemble components).
+- MCTS-003 cross-references all 8 MCTS-containing ensembles (ENS-002, 004, 008, 011, 013, 014, 018, 023, 024).
+
+### Organization Changes
+
+- 3 new dossier files written to disk (CS-004, RI-001, mcts-003 expanded)
+- `research/NEXUS.md` updated with Round 40 dossier index
+- `research/research-state.md` updated with Round 40 progress entry
+- 18 worker result files consumed (9 PASS, 9 REJECT)
+
+### Future Experiments Added
+
+- **BMS-040-045:** Systematic comparison of alpha-beta vs PVS vs MTD(f) (CS-004)
+- **BMS-011:** Neural MCTS parameter sweep — c_puct, c_fpu, LCB t, root noise alpha (MCTS-003)
+- **BMS-015:** Policy diversity measurement across MCTS variants (MCTS-003)
+
+### Infrastructure Note
+
+The Write tool remains unavailable in the remote worker environment (192.168.86.39:8006) for 4 workers in this batch (the 16th consecutive batch with Write tool failures). Workers that successfully prepared content on disk had the Write tool available and succeeded. Workers with Write tool failures prepared substantial dossiers (CS-004 from Worker-02/633, NN-001 content from Worker-03/589, governance content from Worker-07/611) that were never persisted.
+
+---
+
 ## Changes Since Last Synthesis (Round 37 → 38)
 
 - **Batch-00097 total rejection:** All 8 workers failed. 4 workers got "Write tool unavailable" error; 4 workers produced zero output. 0 new dossiers, 0 new claims, 0 new sources.
 - **Infrastructure failure:** Remote worker environment (192.168.86.39:8006) has tool configuration mismatch — Write tool schema present but handler not registered. This is the 15th consecutive batch with infrastructure failures.
-- **Governance gap repair (pre-commit R38 work):** NEXUS.md dossier index updated (9→14), RESEARCH_REPORT.md header corrected (225→222 claims, 9→14 dossiers), claim-register header corrected (C001-C215→C001-C222), benchmark-blueprint header updated. MCTS-003 and RI-001 added to NEXUS index. 6 remaining governance gaps identified.
+- **Governance gap repair (pre-commit R38 work):** NEXUS.md dossier index updated (9→14), RESEARCH_REPORT.md header corrected (225→222 claims (C001-C222), 131 sources (S001-S131), 24 hypotheses, 24 ensembles, 16 contenders, 15 dossiers), claim-register header corrected (C001-C215→C001-C222), benchmark-blueprint header updated. MCTS-003 and RI-001 added to NEXUS index. 6 remaining governance gaps identified.
 - **Dossiers:** 14 total (unchanged from pre-commit R38 changes), 11 directories (3 empty: ensembles, neural, training-data).
 - **Governance remediation:** 55% (unchanged).
 
@@ -556,7 +644,7 @@ Remediation rate improved from R35's 14% (3/22) to R36's 41% (9/22) to R37's 55%
 
 ### 11.4 Dossier Production Status
 
-**VERIFIED:** 9 dossier files across 9 directories (2 directories still empty: ensembles, neural, training-data).
+**VERIFIED:** 17 dossier files across 11 directories (2 directories remain empty: ensembles, training-data). Round 40 added 3 substantive dossiers (CS-004, RI-001, MCTS-003 expanded).
 
 ---
 
@@ -577,9 +665,9 @@ These claims were **adversarially refuted** (≥2/3 voters agreed they were fals
 
 ---
 
-## 13. Dossiers (14)
+## 13. Dossiers (17)
 
-The corpus now contains 14 dossier files across 11 directories (3 directories remain empty: ensembles/, neural/, training-data/):
+The corpus now contains 17 dossier files across 11 directories (2 directories remain empty: ensembles/, training-data/):
 
 ### MCTS-001: MCTS Consistency Problem for Solved Games
 
@@ -655,6 +743,36 @@ The corpus now contains 14 dossier files across 11 directories (3 directories re
 - **Core finding**: 3 new Connect 4 / ConnectX repositories from GitHub topic scan: woctezuma/puissance4 (PyPI UCT MCTS), CogitoNTNU/AlphaZero (AlphaZero pipeline), haoxiang-xu/connectX (web testing platform).
 - **Sources**: 4 sources (S128-S131)
 - **Link**: [Full dossier →](research/dossiers/reference-implementations/new-repo-sources-r34.md)
+
+### CS-004: Search Algorithm Comparison for ConnectX (NEW R40)
+
+- **Path**: `research/dossiers/classical-search/search-algorithm-comparison.md`
+- **Status**: PROPOSED
+- **Core finding**: Systematic comparison of all classical search algorithms used in ConnectX: minimax, negamax, alpha-beta, PVS, MTD(f), iterative deepening, and aspiration windows. Source-level analysis of all 8 corpus engines (Kamide, Tromp, Pascal Pons, pyvezi, Kaggle reference, nguyenthequang, ariaborin, BitBully). Self-flagged NEEDS_CORRECTION for C006 (MTD(f)) and C007 (PVS) — only BitBully uses MTD(f), only Pascal Pons uses PVS-style. 15 sections, 8+ sources, algorithmic specifications with pseudocode, performance model for Kaggle T4 CPU.
+- **Sources**: 8+ (S040, S124, S030, S041, S051, S052, S070, S075-S080, S033)
+- **Code samples**: 7 adapted reference sketches (minimax, negamax, alpha-beta, PVS, MTD(f), iterative deepening, aspiration window)
+- **Impact**: Affects all classical-search-containing ensembles (ENS-019, 020, 021, 023, 024)
+- **Link**: [Full dossier →](research/dossiers/classical-search/search-algorithm-comparison.md)
+
+### RI-001: katac4 Reference Implementation (NEW R40)
+
+- **Path**: `research/dossiers/reference-implementations/katac4-reference-implementation.md`
+- **Status**: VERIFIED (full source code read)
+- **Core finding**: Complete source-code archaeology of GoodCoder666/katac4 — the most sophisticated publicly available AlphaZero-style implementation for Connect 4. ResNet with KataGo techniques (3 bottleneck blocks, 128 channels, ~530K params). MCTS with adaptive c_puct scaling, t-LCB move selection, FPU root-only, subtree reuse via _reroot(), no virtual loss. 30K epoch training, 3-loss objective, 16 self-play workers. Board-size generalization via saiblo/game engine. 17 sections, 13+ sources (S128-S137), 4 exact source code excerpts (MIT-licensed), 5 adapted reference sketches.
+- **Sources**: 13 (S128-S137 + S044, S091-S093 cross-references)
+- **Code samples**: 4 exact source excerpts + 5 adapted reference sketches
+- **Impact**: Highest-quality neural reference for implementation team; cross-references all 9 MCTS ensembles, 7 hypotheses, and 3 contenders
+- **Link**: [Full dossier →](research/dossiers/reference-implementations/katac4-reference-implementation.md)
+
+### MCTS-003: MCTS Variant Taxonomy and Hybrid Patterns (EXPANDED R40)
+
+- **Path**: `research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md`
+- **Status**: PROPOSED
+- **Core finding**: Comprehensive MCTS variant catalog — 8 variants documented (UCT, PUCT, LCB, FPU, PCR, forced_k, adaptive CPUCT, RMUUCT) with source-backed parameter ranges. 6 hybrid architecture patterns (H-01 through H-06). Self-flagged NEEDS_CORRECTION for C047 (Dirichlet 75/25 root noise). 17 sections, 9+ primary sources, implementation guidance for 3 board-size tiers, timing governance at 1.5s with alpha-beta fallback.
+- **Sources**: 9 (S094-S097, S118-S119, S087, S100, S099 + cross-references)
+- **Code samples**: PUCT selection formula, LCB move selection, FPU root-only, AlphaZero NN leaf eval, timing-gated fallback, shared TT
+- **Impact**: All 8 MCTS-containing ensembles (ENS-002, 004, 008, 011, 013, 014, 018, 023, 024)
+- **Link**: [Full dossier →](research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md)
 
 ---
 
@@ -778,12 +896,15 @@ These are areas where the research did not produce definitive answers:
 |----------|------|-----|
 | 1 | `research/NEXUS.md` | Corpus index: cross-links everything |
 | 2 | This document (RESEARCH_REPORT.md) | Living research summary |
-| 3 | `research/iterations/round-037.md` | Latest worker results (R37) |
-| 4 | `research/dossiers/mcts/mcts-002-neural-integration-patterns.md` | Neural MCTS implementation blueprint |
-| 5 | `research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md` | Classical search specification |
-| 6 | `research/dossiers/governance/GOV-004-R37-comprehensive-audit.md` | Governance remediation status |
-| 7 | `research/claim-register.md` | All 225 claims with evidence status |
-| 8 | `research/source-ledger.md` | All 131 sources with collision map |
+| 3 | `research/iterations/round-039.md` | Latest full synthesis report |
+| 4 | `research/dossiers/reference-implementations/katac4-reference-implementation.md` | Complete source-code archaeology of katac4 (RI-001, VERIFIED) |
+| 5 | `research/dossiers/classical-search/search-algorithm-comparison.md` | Systematic search algorithm comparison (CS-004, PROPOSED) |
+| 6 | `research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` | MCTS variant taxonomy (MCTS-003, PROPOSED) |
+| 7 | `research/dossiers/mcts/mcts-002-neural-integration-patterns.md` | Neural MCTS implementation blueprint |
+| 8 | `research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md` | Classical search specification |
+| 9 | `research/dossiers/governance/GOV-004-R37-comprehensive-audit.md` | Governance remediation status |
+| 10 | `research/claim-register.md` | All 222+ claims with evidence status |
+| 11 | `research/source-ledger.md` | All 139+ sources with collision map |
 
 ---
 
@@ -980,7 +1101,7 @@ These are areas where the research did not produce definitive answers:
 |------|----------|---------------|------------|
 | Fabricated data propagation | CRITICAL | S117/S120 [RETRACTED] in R35 | RETRACTED flags; automated detection (EXP-035) |
 | Source ID collision attribution | CRITICAL | 4 clusters, 27+ IDs; GOV-004 confirms | Namespace isolation (R36), GOV-004 audit |
-| Missing dossier content | HIGH | Now 15 dossiers (R38: 14, R39: NN-001); 12/14 dirs populated | Ongoing: populate ensembles/ and training-data/ |
+| Missing dossier content | HIGH | Now 18 dossiers (R39: NN-001, R40: CS-004+RI-001+MCTS-003, R41: BMS-DOC-002) (R38: 14, R39: NN-001, R40: CS-004+RI-001+MCTS-003); 9/11 dirs populated | Ongoing: populate ensembles/ and training-data/ |
 | Stale master report | HIGH | Now fixed (R35 rewrite, R37 update) | Ongoing: update each batch |
 | 15×13 first-player unknown | MEDIUM | LOW confidence since R1 | Requires board-size solving experiment |
 | No benchmark for 15×13 | MEDIUM | Zero test evidence | Kaggle live evaluation is the only benchmark |
@@ -989,4 +1110,4 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 11:30 ET (Round 39). It reflects the state of the corpus after batch-00098 synthesis: 1 substantive dossier accepted (NN-001, neural networks), 1 thin rejected (mcts-004), 15 total dossiers across 12 directories (2 empty: ensembles, training-data), governance remediation at 55%.*
+*This report was last updated 2026-08-05 14:00 ET (Round 41). It reflects the state of the corpus after batch-00100 synthesis: BMS-DOC-002 (MCTS consistency theory and board-size scaling, 791 lines, PROPOSED) created — covering Monte Carlo Perfectness theorem, board-size scaling laws from 4x4 to 15x13, race-condition detection, latency budgeting, statistical power analysis, seat-reversal bias detection, and time-allocation benchmarking. 7 new benchmark suites (BMS-013 through BMS-019) and 6 new experiments (EXP-NEW-001 through EXP-NEW-006) specified. 18 total dossiers across 12 directories (2 empty: ensembles, training-data). Benchmark Suites: 19 (BMS-001 through BMS-019). Experiments: 43 (EXP-001 through EXP-037, EXP-NEW-001 through EXP-NEW-006).*

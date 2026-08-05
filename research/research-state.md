@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 38
-> **Last Updated**: 2026-08-05 09:00 ET
-> **Previous Round**: 36 (2026-08-04, MCTS-001 + BMS-DOC-001 dossiers)
-> **Status**: Active -- dossier synthesis phase; 9 dossiers total, governance remediation at 55%
+> **Current Round**: 40 (2026-08-05)
+> **Last Updated**: 2026-08-05 13:00 ET
+> **Previous Round**: 39 (2026-08-05, NN-001 dossier) (2026-08-04, MCTS-001 + BMS-DOC-001 dossiers)
+> **Status**: Active -- dossier synthesis phase; 17 dossiers total, governance remediation at 55%
 
 ---
 
@@ -49,6 +49,8 @@ neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zer
 | 36 | 2026-08-04 | Complete | External-pool batch-00002 synthesis: 2 new dossiers created (MCTS-001 on MCTS consistency problem, BMS-DOC-001 on benchmark science and tournament design), 1 duplicate governance dossier removed (GOV-R34-001 merged back into GOV-001). 2 workers rejected (one produced .js file, one produced no output). Dossiers now: 3 (GOV-001, MCTS-001, BMS-DOC-001). Corpus governance defects remain active (source ID collisions, fabricated data S117/S120, broken arXiv:1203.2285 citation). MCTS dossier recommends HYP-008 PROPOSED→STRONGLY SUPPORTED, C175 HYPOTHESIS→STRONGLY SUPPORTED. D-CBL-001 (contender baseline dossier) deferred to next batch. |
 | 37 | 2026-08-05 | Complete | External-pool batch-00096 synthesis: 3 substantive dossiers created (MCTS-002 neural integration patterns, D-034 new reference sources, CS-003 classical search/solver engineering), 1 governance audit expanded (GOV-004 comprehensive corpus audit). 3 thin outputs rejected. Source count: 127→131 (S128-S131). Claim count: 215→225 (C216-C225). Dossiers now: 9 across 9 directories. Governance remediation rate: 14% (R35) → 41% (R36) → 55% (R37). Three new benchmark requirements added (BMS-011 through BMS-013). |
 | 38 | 2026-08-05 | Complete | Phase 1 — Governance gap repair: NEXUS.md dossier index (9->14), RESEARCH_REPORT.md header (225->222 claims, 9->14 dossiers), claim-register header (C001-C215->C001-C222, 215->222 total), benchmark-blueprint header (R35->R37). Added MCTS-003 and RI-001 to NEXUS index. 6 remaining governance gaps identified (source ID collisions, fabricated data, empty directories, thin rejected file, header-vs-body count drift, legacy file cleanup). Phase 2 — Batch-00097 total rejection: all 8 workers failed (4: Write tool unavailable, 4: no output produced). 0 new dossiers, 0 new claims, 0 new sources. Dossiers: 14 (unchanged from uncommitted R38 changes). Governance remediation: 55% (unchanged). |
+| 39 | 2026-08-05 | Complete | Phase 1 — NN-001 dossier: neural network architectures dossier (654 lines, 18 sources, feasibility matrix, board-size applicability). Neural directory no longer empty. Dossiers: 15 across 13 directories (2 empty: ensembles, training-data). Phase 2 — mcts-004 rejected (thin, executive summary only). Batch-00098: 13 workers dispatched, 1 substantive dossier accepted (NN-001). Governance remediation at 55%. |
+| 40 | 2026-08-05 | Complete | Batch-00099 synthesis: 3 new substantive dossiers created (CS-004: search algorithm comparison, 761 lines; RI-001: katac4 reference implementation, 771 lines; MCTS-003 expanded: 8 variant taxonomy, 607 lines). 18 workers dispatched; 9 passed, 9 failed (Write tool unavailable: 4, no output: 2, infrastructure issues: 3). Self-corrections: C006/C007 NEEDS_CORRECTION (no MTD(f)/PVS in Tromp/Pascal Pons), C047 NEEDS_CORRECTION (Dirichlet 75/25 unverified). Dossiers: 17 across 11 directories (2 empty: ensembles, training-data). Governance remediation at 55% (unchanged). |
 ---
 
 ## Tool Availability

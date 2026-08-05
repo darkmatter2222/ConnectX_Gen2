@@ -602,6 +602,138 @@ This dossier complements MCTS-001 (consistency problem) by providing **implement
 | BMS-011 | Benchmark | MCTS variant comparison -- proposed benchmark |
 | BMS-012 | Benchmark | Neural MCTS quality threshold -- proposed benchmark |
 
+| NeuralConnect4 (ha22yx) | Source | NeuralConnect4 source -- PUCT c=1.0, 800 sims, dual NN heads, defensive bonus 1.5x, game-quality weighting |
 ---
 
 *This dossier was produced as part of the ConnectX research corpus v10 worker pipeline. It complements MCTS-001 (theoretical consistency problem) by providing practical implementation guidance. Status: PROPOSED -- mechanisms confirmed from source code; empirical validation deferred to BMS-011/BMS-012 experiments.*
+
+---
+
+## 20. Additional Source Findings (from Background Agent a2cbb7c2)
+
+### 20.1 NeuralConnect4 (ha22yx/NeuralConnect4)
+
+**Source**: https://github.com/ha22yx/NeuralConnect4
+
+**PUCT Parameters**: c_puct = 1.0, num_simulations = 800, num_threads = 24
+
+**Neural Network Architecture**: Dual-head network with Residual blocks (conv + batch norm), policy head (softmax over 7 moves), value head (tanh, -1 to 1 win probability)
+
+**Cache System**: NeuralConnect4 implements value_cache and policy_cache to avoid redundant network inference:
+
+    with self.cache_lock:
+        if state_hash in self.value_cache:
+            value = self.value_cache[state_hash]
+            policy = self.policy_cache[state_hash]
+        else:
+            policy, value = self.net.predict(state.get_canonical_board())
+            self.value_cache[state_hash] = value
+            self.policy_cache[state_hash] = policy
+
+**UCB with Defensive Awareness**: NeuralConnect4 modifies the UCB formula to add a defensive bonus:
+
+    prior_score = c_puct * child.prior * sqrt(parent.visit_count) / (1 + child.visit_count)
+    value_score = -child.value if parent.current_player != child.current_player else child.value
+    if is_defensive_move(parent.state, child.action):
+        prior_score *= 1.5
+    return value_score + prior_score
+
+**Temperature Decay During Inference**: temp_decay = 0.97, with higher randomness in early moves (moves < 10). This gradually reduces stochasticity as the game progresses.
+
+**Training Data - Game Quality Weighting**:
+
+    def _calculate_game_quality(self, moves, winner):
+        quality = 1.0
+        if winner != 0:
+            quality *= max(0.6, 1.0 - (moves / 42))  # discourage quick wins
+        else:
+            quality *= min(1.2, 0.8 + (moves / 42))  # encourage long draws
+
+    # Prioritized experience replay buffer (max 100,000 entries)
+    # Higher-quality games (longer games, draws) get higher sampling probability
+
+**Training Loop**: Loss = MSE(value_pred, value_batch) + CrossEntropy(policy_pred, policy_batch). Uses gradient clipping and cosine annealing warm restarts scheduler.
+
+### 20.2 MCTS-NC: GPU Implementation Details
+
+**Lock-Free Design**: MCTS-NC uses NO atomic operations, NO mutexes, NO device-host transfers. Each of the 8 concurrent GPU trees operates independently.
+
+**Parallel RNG**: Uses xoroshiro128p_uniform_float32 for per-thread random number generation, ensuring deterministic parallel execution.
+
+**Virtual Loss: NOT USED**: Visit counters and win tallies are only updated after playouts finish and results propagate back through the tree hierarchy. This is a significant design difference from AlphaZero-style MCTS which uses virtual loss during rollout simulation.
+
+**CUDA Shared Memory for Argmax**: Selection kernel uses shared memory with stride-based reduction:
+
+    stride = tpb >> 1
+    while stride > 0:
+        if t < stride:
+            t_stride = t + stride
+            if shared_ucbs[t] < shared_ucbs[t_stride]:
+                shared_ucbs[t] = shared_ucbs[t_stride]
+                shared_best_child[t] = shared_best_child[t_stride]
+        cuda.syncthreads()
+        stride >>= 1
+
+**Default n_playouts**: 128 (must be power-of-two). With 8 concurrent trees and multiple threads per block, effective simulation count is much higher than 128.
+
+### 20.3 Connectpuct Value Formula Detail
+
+Connectpuct uses a value-sum formula rather than the standard Q_i = value/visits average:
+
+    score = -child.value + c_puct * child.prior * parent_sqrt / (1 + child.visits)
+
+Where `child.value` is the cumulative value sum, not the average. The sign flip (-child.value) and recursive negation mean values are always from the current player's perspective. This is a notable deviation from standard UCT/PUCT formulas which use the average reward (Q = value/visits).
+
+**Rollout Strategy**: Connectpuct uses a heuristic rollout with win/block priority:
+
+    def _rollout(board, rng):
+        for _ in range(42):
+            win = state.winner()
+            if win == root_player: return 1.0
+            if win == -root_player: return -1.0
+            immediate = _winning_move(state, state.player)
+            if immediate is None:
+                block = _winning_move(opponent, -state.player)
+                move = block if block in legal else rng.choice(legal)
+            else:
+                move = immediate
+            state = state.play(move)
+        return 0.0
+
+Rollouts are limited to 42 moves (full board) and use win/block priority before random selection.
+
+### 20.4 Cross-Project Comparison Table
+
+| Parameter | mcts_numba_cuda | connectpuct | NeuralConnect4 |
+|---|---|---|---|
+| **Formula** | UCB1 (classic) | PUCT (value-sum) | PUCT (standard Q/visits) |
+| **c / c_puct** | 2.0 | 1.4 | 1.0 |
+| **Simulations** | 128 (GPU kernels) | 80 (CPU) | 800 (multi-threaded) |
+| **Win Detection** | Numba JIT kernel, 4-direction check | Pure Python, 4-direction loop | winner() returns 4-in-a-row |
+| **Virtual Loss** | No (batch update after playout) | N/A (single tree) | No (single tree) |
+| **Parallelization** | 8 concurrent GPU trees, lock-free CUDA | None (single-threaded CPU) | 24 CPU threads via ThreadPool |
+| **Neural Network** | None | None (tactical priors) | Yes -- ResNet, value head + policy head |
+| **Tactical Priors** | N/A | Center bias (0.45), +8.0 win bonus, -0.6 block penalty | Defensive move bonus (1.5x) |
+| **Rollout** | Random playout via CUDA | Heuristic: win/block priority | Neural net evaluation (no rollouts) |
+| **Cache** | None | None | Value cache + policy cache |
+| **RNG** | xoroshiro128p (CUDA) | Python random | numpy random |
+| **Training** | N/A | N/A | MSE + CrossEntropy, cosine annealing |
+| **Game Quality** | N/A | N/A | Longer games/draws weighted higher |
+| **Temperature** | N/A | N/A | Decay 0.97, early-game randomness |
+
+---
+
+## Source Table
+
+| Source ID | Title | Direct URL | Type | Version/Date | Retrieval Date | License |
+|-----------|-------|------------|------|-------------|----------------|---------|
+| S094 | connectpuct/adversarial.py — PUCT implementation | https://github.com/ahmeddoghri/connectpuct/blob/main/adversarial.py | GitHub source code | main branch | 2026-08-05 | Unknown |
+| S095 | rowspire/mcts.rs — UCB1 MCTS (via corpus audit) | https://github.com/tre-systems/rowspire | GitHub source code | main branch | 2026-08-05 | Unknown |
+| S096 | katac4/mcts.py — PUCT with adaptive c_puct | https://github.com/katosu/katac4/blob/main/src/mcts.py | GitHub source code | main branch | 2026-08-05 | MIT |
+| S097 | MCTS-NC/mctsnc_game_mechanics.py — GPU MCTS | https://github.com/eriklupander/connect4/blob/master/mctsnc_game_mechanics.py | GitHub source code | master branch | 2026-08-05 | Unknown |
+| S118 | connectpuct/README.md — Benchmark docs | https://github.com/ahmeddoghri/connectpuct/blob/main/README.md | Documentation | main branch | 2026-08-05 | Unknown |
+| S119 | kaggle-environments test_connectx.py v1.32.2 | Kaggle framework source code | Framework | v1.32.2 | 2026-08-05 | Apache 2.0 |
+| S087 | MCTS-NC/c4.py — CPU UCB1 baseline | https://github.com/eriklupander/connect4/blob/master/c4.py | GitHub source code | master branch | 2026-08-05 | Unknown |
+| S100 | Browne et al. 2012 — MCTS Survey (IEEE TCC) | https://ieeexplore.ieee.org/document/6291809 | Academic survey | 2012 | 2026-08-05 | IEEE |
+| S099 | Kocsis & Szepesvari 2006 — Bandit-based MCPP | https://link.springer.com/chapter/10.1007/978-3-540-37564-9_86 | Academic paper | 2006 | Springer |
+| S094 (AZAL) | AZAL paper — Three-loss objective | https://arxiv.org/abs/2607.08984 | Academic paper | 2026-07-12 | 2026-08-05 | arXiv |

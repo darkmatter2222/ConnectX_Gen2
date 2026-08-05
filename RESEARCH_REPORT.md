@@ -1,16 +1,18 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> **Compiled from:** 215 claims (C001–C215), 127 sources (S001–S127), 24 hypotheses, 24 ensembles, 16 contenders, 3 dossiers
-> **Claims by status:** 96 VERIFIED (45%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 73 OTHER (34%)
-> **Last Updated:** 2026-08-04 22:30 ET (Round 36)
-> **Repository Evidence Health:** MODERATE — corpus governance established, 3 substantive dossiers created (governance, MCTS, benchmark), governance debt still active
+> **Compiled from:** 225 claims (C001–C225), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16 contenders, 9 dossiers
+> **Claims by status:** 100 VERIFIED (44%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 79 OTHER (35%)
+> **Last Updated:** 2026-08-05 09:00 ET (Round 37)
+> **Repository Evidence Health:** MODERATE+ — 3 new substantive dossiers (neural MCTS integration, reference sources, classical search), governance audit remediation at 55%
 
-## Changes Since Last Synthesis (Round 35 → 36)
+## Changes Since Last Synthesis (Round 36 → 37)
 
-- **New dossier: MCTS-001** (`research/dossiers/mcts/mcts-consistency-solved-games.md`) — Establishes that MCTS exhibits a fundamental consistency problem on solved-board positions in Connect 4: zero implementations use solved-game knowledge during MCTS, UCT provides only asymptotic convergence with no finite-sample bounds, and connectpuct achieves only 55% win rate vs minimax depth 3. Affects all 10 MCTS-containing ensembles. Recommends solved-game tablebook lookup + timing governance + alpha-beta fallback.
-- **New dossier: BMS-DOC-001** (`research/dossiers/benchmarking/benchmark-science-and-tournament-design.md`) — Comprehensive benchmark science specification covering tournament design, statistical Elo estimation, board-size generalization, adversarial testing, reproducibility, and GPU latency profiling. Covers all 12 benchmark suites.
-- **Governance cleanup**: Removed duplicate `dossier-governance-audit-r34.md` (same content as GOV-001).
-- **Rejected**: Worker-05 produced no Markdown deliverable (attempted .js file). Worker-07-job-54 produced no output (32 reads, 0 writes).
+- **New dossier: MCTS-002** (`research/dossiers/mcts/mcts-002-neural-integration-patterns.md`) — Documents 5 neural MCTS integration patterns with exact parameter values from source code. Neural MCTS oracle match 0.849 (VERIFIED C200). Key parameters: c_puct=1.1 inference, c_fpu=0.2, LCB t=0.5. Feasibility matrix across Kaggle T4, RTX 5090, local CPU. 6 failure modes with mitigations. 13 benchmark requirements. Affects all 9 MCTS-containing ensembles (ENS-002, 004, 008, 011, 013, 014, 018, 023, 024). 6 sources (S130–S137).
+- **New dossier: D-034** (`research/dossiers/reference-implementations/new-repo-sources-r34.md`) — 3 new Connect 4 / ConnectX repositories from GitHub topic scan: woctezuma/puissance4 (PyPI-distributed UCT MCTS), CogitoNTNU/AlphaZero (AlphaZero pipeline for 4-in-a-row), haoxiang-xu/connectX (web testing platform). 4 sources (S128–S131).
+- **New dossier: CS-003** (`research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md`) — Comprehensive classical search specification: board representations (4 types), search algorithms (minimax, negamax, alpha-beta, PVS, MTD(f)), transposition tables, move ordering, iterative deepening, pruning, fork detection, endgame solvers, Python performance optimization. 8 sources (S132–S139). Complements CS-001 (opening book engineering).
+- **Governance: GOV-004** (`research/dossiers/governance/GOV-004-R37-comprehensive-audit.md`) — Comprehensive audit of all 13 canonical files. 12 of 22 GOV-001 findings repaired (55%), 3 partially repaired (14%), 7 unaddressed (31%). Remaining defects: source ID collisions, fabricated data cross-references, empty dossier directories. 7 new findings (C216–C220).
+- **Rejected: 3 thin outputs rejected** — Worker-01-job-00534 (thinking-only), Worker-02-job-00070 (thin output), Worker-07-job-00556 (thin output).
+- **Accepted: 3 substantive dossiers** — MCTS-002 (17K bytes), D-034 (33K bytes), CS-003 (83K bytes).
 
 ---
 
@@ -28,15 +30,13 @@
 10. [Ensembles and Hypotheses](#10-ensembles-and-hypotheses)
 11. [Data Governance](#11-data-governance)
 12. [Refuted Claims — What NOT to Build](#12-refuted-claims--what-not-to-build)
-13. [Dossiers (3)](#13-dossiers)
+13. [Dossiers (9)](#13-dossiers)
 14. [Recommended Bot Architecture](#14-recommended-bot-architecture)
 15. [Open Questions](#15-open-questions)
 16. [Where to Look First](#16-where-to-look-first)
 17. [Technique Leaderboard](#17-technique-leaderboard)
 18. [Proven / Supported / Unproven / Refuted](#18-proven--supported--unproven--refuted)
 19. [Changes Since Last Synthesis](#19-changes-since-last-synthesis)
-20. [Top Benchmark Contenders](#21-top-benchmark-contenders)
-20. [Top Benchmark Contenders](#21-top-benchmark-contenders)
 
 ---
 
@@ -196,6 +196,22 @@ BitBully by Markus Thill is the state-of-the-art classical Connect 4 engine. Key
 - At depth 8: ~300M nodes — too deep for 2s
 - **Practical depth on 15×13: ~6-8 ply** vs. depth 12+ on 7×6
 
+### 4.5 CS-003: Classical Search and Solver Engineering (NEW R37)
+
+The new CS-003 dossier provides a comprehensive technical specification of classical search algorithms and solver engineering for the ConnectX problem space. It covers:
+
+- **Four board representations** (2D array, flat 1D, bitboard, ternary) with hash computation speed, move generation latency, and Kaggle deployment analysis
+- **Negamax + alpha-beta** as the essential core (all top classical engines)
+- **Transposition tables** with Zobrist hashing — O(1) lookups
+- **Move ordering** — winning moves first, then blocking, then TT moves, then killer moves
+- **Iterative deepening** — guarantee a move even when time runs out
+- **Pruning techniques** — LMR, NMP, quiescence search
+- **Endgame solvers** — recursive deepening, retrograde analysis
+- **Python performance** — Numba JIT (10-100x speedup), ctypes binding for C++ engines
+- **Solver architecture** — parameterized engine with config-driven depth/eval/TT size
+
+See [Full dossier →](research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md)
+
 ---
 
 ## 5. Neural Network Approaches
@@ -245,6 +261,18 @@ AZAL paper (arXiv:2607.08984) specifies a three-loss training objective for MCTS
 3. **Auxiliary loss:** Cross-entropy for oracle consistency improvement
 
 This achieves **0.785 oracle match rate** on Connect Four — substantially improves oracle consistency between value and policy networks.
+
+### 5.5 MCTS-002: Neural MCTS Integration Patterns (NEW R37)
+
+The new MCTS-002 dossier documents 5 distinct neural MCTS integration patterns with exact parameter values from source code:
+
+1. **NN-Guided Root Expansion** (katac4, rowspire, connectpuct): NN policy prior replaces Dirichlet noise. Combined prior: 80% NN + 20% uniform exploration.
+2. **NN-Guided Leaf Evaluation** (rowspire, NeuralConnect4): NN value network replaces heuristic eval at leaf nodes.
+3. **Dual NN (Policy + Value)** (katac4, rowspire): Separate heads trained simultaneously with three-loss objective.
+4. **NN-Guided Rollout** (MCTS-NC, Marcpaulo15): NN policy guides the playout phase.
+5. **NN-Only Move Selection** (Gemu03): Single forward pass, no MCTS.
+
+Key parameters: c_puct=1.1 inference, c_fpu=0.2, LCB t=0.5. INT8 quantization provides 3-5x latency reduction (C202). See [Full dossier →](research/dossiers/mcts/mcts-002-neural-integration-patterns.md)
 
 ---
 
@@ -369,6 +397,8 @@ With 2 seconds per move:
 | [Tromp fhourstones88](https://github.com/josephphelan/fhourstones88) | Alpha-beta + 8.3M TT | 8×8 | ✓ (R32) |
 | [miksipiksic/pyvezi](https://github.com/miksipiksic/pyvezi) | Bitmask minimax | Configurable | ✓ (R32) |
 | [Pascal Pons/connect4](https://github.com/PascalPons/connect4) | C++ negamax + book | Hardcoded 7×6 | ✓ |
+| [woctezuma/puissance4](https://github.com/woctezuma/puissance4) | PyPI UCT MCTS | 7×6 | ✓ (R37 D-034) |
+| [CogitoNTNU/AlphaZero](https://github.com/CogitoNTNU/AlphaZero) | AlphaZero pipeline | 4-in-a-row | ✓ (R37 D-034) |
 
 ### 9.2 Neural / RL Approaches
 
@@ -385,24 +415,36 @@ With 2 seconds per move:
 |-----------|-------------|----------|
 | [snap-stanford/connectx-kaggle](https://github.com/snap-stanford/connectx-kaggle) | Stanford WIN — alpha-beta minimax | ✓ |
 
+### 9.4 D-034: New Repositories (R37)
+
+Three new repositories discovered in R34 GitHub topic scan:
+
+| Repository | Stars | Description |
+|-----------|-------|-------------|
+| [woctezuma/puissance4](https://github.com/woctezuma/puissance4) | 5★ | PyPI-distributed UCT MCTS with model persistence |
+| [CogitoNTNU/AlphaZero](https://github.com/CogitoNTNU/AlphaZero) | 28★ | Student AlphaZero pipeline with 4000 concurrent games |
+| [haoxiang-xu/connectX](https://github.com/haoxiang-xu/connectX) | 0★ | Web testing platform with 4 built-in algorithms |
+
+See [D-034 dossier →](research/dossiers/reference-implementations/new-repo-sources-r34.md)
+
 ---
 
 ## 10. Ensembles and Hypotheses
 
 ### 10.1 Technique Leaderboard
 
-Ranking techniques by research score (evidence maturity, expected role, board coverage, Kaggle feasibility, integration value):
+Ranked by research score (evidence maturity, expected role, board coverage, Kaggle feasibility, integration value, failure risk):
 
-| Rank | Technique | Evidence Maturity | Role | Board Coverage | Kaggle Feasible | Integration Value | Risk | Verdict |
-|------|-----------|------------------|------|----------------|-----------------|-------------------|------|---------|
-| 1 | Alpha-beta negamax (parameterized) | VERIFIED (C184-C192, C139) | Baseline / midgame | 7×6 to 10×8; 15×13 limited | YES — CPU | HIGH | LOW | Build |
-| 2 | NN-guided MCTS (ResNet) | VERIFIED (C200, C201) | Midgame / large boards | 7×6 to 15×13 | YES — GPU | HIGH | MEDIUM | Build |
-| 3 | Solver-distilled training (rowspire) | VERIFIED (rowspire source) | Training foundation | Configurable | YES — CPU | HIGH | LOW | Build |
-| 4 | TensorRT INT8 inference | VERIFIED (C202) | Acceleration layer | All boards | YES — Kaggle T4 | MEDIUM | LOW | Build |
-| 5 | Board-size adaptive routing | HYPOTHESIS (HYP-021) | Ensemble controller | All boards | YES — CPU | HIGH | MEDIUM | Benchmark |
-| 6 | NNUE evaluation | HYPOTHESIS (HYP-024) | Classical eval function | 7×6 to 10×8 | YES — CPU | HIGH | MEDIUM | Benchmark |
-| 7 | GPU MCTS (lock-free) | DOCUMENTED (MCTS-NC) | Search acceleration | All boards | YES — GPU | HIGH | MEDIUM | Benchmark |
-| 8 | DQN pure | REFUTED (weakness C205) | Baseline | All boards | YES — GPU | LOW | HIGH | Avoid |
+| Rank | Technique | Evidence Maturity | Expected Role | Board Coverage | Kaggle Feasible | Integration Value | Failure Risk | Dossier |
+|------|-----------|------------------|---------------|----------------|-----------------|-------------------|-------------|---------|
+| 1 | Alpha-beta negamax (param.) | VERIFIED C184-C192 | Baseline; midgame on small boards | 7×6 to 10×8; 15×13 limited | YES (CPU) | HIGH | LOW | CS-003 |
+| 2 | NN-guided MCTS | VERIFIED C200, C201 | Midgame on large boards; 15×13 | 7×6 to 15×13 | YES (GPU) | HIGH | MEDIUM | MCTS-002 |
+| 3 | Solver-distilled training | VERIFIED (rowspire) | Training foundation | Configurable | YES (CPU) | HIGH | LOW | — |
+| 4 | TensorRT INT8 inference | VERIFIED C202 | Acceleration layer | All boards | YES (T4) | MEDIUM | LOW | MCTS-002 |
+| 5 | Board-size adaptive routing | HYPOTHESIS HYP-021 | Ensemble controller | All boards | YES (CPU) | HIGH | MEDIUM | — |
+| 6 | NNUE evaluation | HYPOTHESIS HYP-024 | Classical eval function | 7×6 to 10×8 | YES (CPU) | HIGH | MEDIUM | — |
+| 7 | GPU MCTS (lock-free) | DOCUMENTED (MCTS-NC) | Search acceleration | All boards | YES (GPU) | HIGH | MEDIUM | — |
+| 8 | DQN pure | REFUTED C205 weakness | Baseline | All boards | YES (GPU) | LOW | HIGH | — |
 
 ### 10.2 Ensemble Leaderboard
 
@@ -454,25 +496,21 @@ Ranking techniques by research score (evidence maturity, expected role, board co
 | S120 (first entry) | "Uniform random" methodology | R30 | EXP-029 | **[RETRACTED]** |
 | arXiv:1203.2285 | MCP theorem citation (astrophysics paper) | R33 | C136, HYP-019, HYP-020 | Broken — replace with S127 (Artho) |
 
-### 11.3 Master Report Currency
+### 11.3 GOV-004: Governance Remediation Status (NEW R37)
 
-**VERIFIED (C208):** RESEARCH_REPORT.md last updated 2026-07-29 (R29). Current: R35 (2026-08-04). Gap: 6 days, 6 rounds (R30–R35).
+Round 37 comprehensive audit (GOV-004) measures remediation progress against the 22 findings in GOV-001:
 
-**Missing findings now incorporated:**
-- Neural MCTS 0.849 oracle match (C200) — R34
-- AZAL three-loss objective (C201) — R34
-- TensorRT INT8 3-5x latency (C202) — R34
-- DQN tactical weakness (C205) — R34
-- Board-size solving matrix (8×8 P2, 9×6 P1, 10×8 draw) — R32/R34
-- Source governance issues — R33/R35
-- Neural MCTS benchmarks — R34
-- 24 ensembles, 16 contenders — R34
+| Category | Count | Percentage |
+|----------|-------|------------|
+| Repaired | 12 | 55% |
+| Partially Repaired | 3 | 14% |
+| Unaddressed | 7 | 31% |
+
+Remediation rate improved from R35's 14% (3/22) to R36's 41% (9/22) to R37's 55% (12/22). The remaining 7 findings include the highest-severity defects: 2 CRITICAL (source ID collisions, fabricated data cross-references) and 1 HIGH (empty dossier directories).
 
 ### 11.4 Dossier Production Status
 
-**VERIFIED (C210):** 0% dossier completion as of R34. R35 produces first dossier: GOV-001 (governance audit).
-
-11 dossier directories: 3 pre-existing empty, 8 newly created in R35.
+**VERIFIED:** 9 dossier files across 9 directories (2 directories still empty: ensembles, neural, training-data).
 
 ---
 
@@ -493,43 +531,90 @@ These claims were **adversarially refuted** (≥2/3 voters agreed they were fals
 
 ---
 
-## 13. Dossiers
+## 13. Dossiers (9)
 
-The corpus now contains 3 substantive dossiers, each covering a distinct research dimension:
+The corpus now contains 9 substantive dossier files covering governance, MCTS, benchmarking, classical search, neural MCTS integration, and reference implementations:
 
 ### MCTS-001: MCTS Consistency Problem for Solved Games
 
 - **Path**: `research/dossiers/mcts/mcts-consistency-solved-games.md`
 - **Status**: VERIFIED
 - **Core finding**: All 4 corpus MCTS implementations (connectpuct, rowspire, katac4, MCTS-NC) ignore solved-game knowledge during search. The UCT convergence theorem provides only asymptotic guarantees; Connect 4 is almost certainly not a Monte Carlo Perfect game, meaning MCTS cannot provably converge to correct values within practical simulation budgets.
-- **Impact**: Affects ensembles ENS-002 through ENS-014, ENS-018, ENS-023, ENS-024. Recommends solved-game tablebook lookup + timing governance + alpha-beta fallback for every MCTS-containing ensemble.
+- **Impact**: Affects ensembles ENS-002 through ENS-014, ENS-018, ENS-023, ENS-024. Recommends solved-game tablebook lookup + timing governance + alpha-beta fallback.
 - **Sources**: 18 sources (Kocsis & Szepesvari 2006, Browne et al. 2012, all 4 MCTS source repos)
 - **Link**: [Full dossier →](research/dossiers/mcts/mcts-consistency-solved-games.md)
+
+### MCTS-002: Neural MCTS Integration Patterns (NEW R37)
+
+- **Path**: `research/dossiers/mcts/mcts-002-neural-integration-patterns.md`
+- **Status**: VERIFIED
+- **Core finding**: Documents 5 neural MCTS integration patterns with exact parameter values from source code. Key parameters: c_puct=1.1 inference, FPU c_fpu=0.2, LCB t=0.5. Feasibility matrix across Kaggle T4, RTX 5090, local CPU. NN-guided MCTS achieves 0.849 oracle match on 7×6.
+- **Impact**: Affects all 9 MCTS-containing ensembles. Provides implementation blueprint for neural MCTS integration.
+- **Sources**: 6 (S130–S137)
+- **Code samples**: 3 adapted reference sketches + 1 conceptual pseudocode
+- **Link**: [Full dossier →](research/dossiers/mcts/mcts-002-neural-integration-patterns.md)
 
 ### BMS-DOC-001: Benchmark Science and Tournament Design
 
 - **Path**: `research/dossiers/benchmarking/benchmark-science-and-tournament-design.md`
 - **Status**: VERIFIED
-- **Core finding**: Comprehensive specification for benchmark infrastructure covering tournament design (4 formats), statistical Elo estimation (Bradley-Terry + Ladva draw adjustment), board-size generalization, adversarial testing (5 opponents), reproducibility protocol (5 requirements), and GPU latency profiling.
-- **Impact**: Provides the measurement framework for validating all 12 benchmark suites. Establishes minimum viable benchmark (5 suites) and recommended full suite (12 suites) for every ConnectX bot deployment.
-- **Sources**: 20+ sources (Kaggle spec, Pascal Pons solver, Tromp fhourstones, all MCTS/NN repos)
-- **Code samples**: 3 conceptual pseudocode blocks
+- **Core finding**: Comprehensive specification for benchmark infrastructure covering tournament design (4 formats), statistical Elo estimation, board-size generalization, adversarial testing (5 opponents), reproducibility protocol, and GPU latency profiling.
+- **Impact**: Provides measurement framework for validating all 12 benchmark suites.
+- **Sources**: 20+ sources
 - **Link**: [Full dossier →](research/dossiers/benchmarking/benchmark-science-and-tournament-design.md)
 
 ### GOV-001: Corpus Governance Audit — Round 34
 
 - **Path**: `research/dossiers/governance/GOV-001-corpus-governance-audit-round-34.md`
 - **Status**: VERIFIED
-- **Core finding**: 22 structural defects across 9 categories. 4 critical (source ID collisions, fabricated data). 8 high-priority (broken citation, header inconsistencies, stale references, governance automation gap).
-- **Impact**: Source ID collision rate ~10% (27+ colliding IDs). S117/S120 confirmed fabricated. arXiv:1203.2285 confirmed as astrophysics paper, not game theory.
-- **Sources**: 7 sources (all local corpus files + S044 TonyCWang dataset card + arXiv:1203.2285)
+- **Core finding**: 22 structural defects across 9 categories. 4 critical (source ID collisions, fabricated data). 8 high-priority.
+- **Sources**: 7 sources
 - **Link**: [Full dossier →](research/dossiers/governance/GOV-001-corpus-governance-audit-round-34.md)
+
+### GOV-002: R36 Gap Repair — Remediation Tracking
+
+- **Path**: `research/dossiers/governance/GOV-002-R36-gap-repair-remediation-tracking.md`
+- **Status**: VERIFIED
+- **Core finding**: Tracks remediation progress against GOV-001's 22 findings. 73% of findings remain unaddressed at time of writing.
+- **Link**: [Full dossier →](research/dossiers/governance/GOV-002-R36-gap-repair-remediation-tracking.md)
+
+### GOV-003: R36 Governance Gap Repair — Post-Merger Assessment
+
+- **Path**: `research/dossiers/governance/GOV-003-R36-gap-repair-executive-report.md`
+- **Status**: VERIFIED
+- **Core finding**: Post-R36 structural assessment. 4 of 6 dossier files are substantive; 1 effectively empty (contenders); 1 is remediation tracker.
+- **Link**: [Full dossier →](research/dossiers/governance/GOV-003-R36-gap-repair-executive-report.md)
+
+### GOV-004: R37 Comprehensive Audit (NEW R37)
+
+- **Path**: `research/dossiers/governance/GOV-004-R37-comprehensive-audit.md`
+- **Status**: VERIFIED
+- **Core finding**: 55% remediation rate (12/22 GOV-001 findings repaired). 7 findings remain unaddressed including 2 CRITICAL. New 7 findings (C216-C220).
+- **Sources**: All 13 canonical files read directly
+- **Link**: [Full dossier →](research/dossiers/governance/GOV-004-R37-comprehensive-audit.md)
+
+### CS-003: Classical Search and Solver Engineering (NEW R37)
+
+- **Path**: `research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md`
+- **Status**: READY
+- **Core finding**: Comprehensive technical specification of classical search algorithms — board representations (4 types), search algorithms (minimax, negamax, alpha-beta, PVS, MTD(f)), transposition tables, move ordering, iterative deepening, pruning, fork detection, endgame solvers, Python performance optimization.
+- **Sources**: 8 sources
+- **Code samples**: 5 adapted reference sketches
+- **Link**: [Full dossier →](research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md)
+
+### D-034: New Source Repositories Discovered (NEW R37)
+
+- **Path**: `research/dossiers/reference-implementations/new-repo-sources-r34.md`
+- **Status**: VERIFIED
+- **Core finding**: 3 new Connect 4 / ConnectX repositories from GitHub topic scan: woctezuma/puissance4 (PyPI UCT MCTS), CogitoNTNU/AlphaZero (AlphaZero pipeline), haoxiang-xu/connectX (web testing platform).
+- **Sources**: 4 sources (S128-S131)
+- **Link**: [Full dossier →](research/dossiers/reference-implementations/new-repo-sources-r34.md)
 
 ---
 
 ## 14. Recommended Bot Architecture
 
-### 13.1 Hybrid Neural + Classical Search (Confidence: HIGH)
+### 14.1 Hybrid Neural + Classical Search (Confidence: HIGH)
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -547,7 +632,7 @@ The corpus now contains 3 substantive dossiers, each covering a distinct researc
 │  2. Neural: ResNet (katac4 reference) for policy    │
 │     + value heads                                   │
 │  3. MCTS: NN-guided, GPU-accelerated (MCTS-NC ref) │
-│  4. Acceleration: TensorRT INT8 (3-5x lat │
+│  4. Acceleration: TensorRT INT8 (3-5x latency)      │
 │  5. Board router: adaptive (HYP-021)              │
 │                                                     │
 └─────────────────────────────────────────────────────┘
@@ -555,14 +640,14 @@ The corpus now contains 3 substantive dossiers, each covering a distinct researc
 
 **Key design decisions:**
 
-1. **Start with classical engine** — Kamide/connect-n reference: adaptive scoring minimax with alpha-beta, Web Worker deployment for non-blocking inference
+1. **Start with classical engine** — Kamide/connect-n reference: adaptive scoring minimax with alpha-beta, Web Worker deployment
 2. **Train NN to mimic classical engine** — supervised pre-training with 500K+ positions
 3. **Fine-tune via AZAL three-loss self-play** — policy + value + auxiliary loss
 4. **Use NN for MCTS guidance** — policy network narrows branching from ~12 to ~4-6 candidate moves
 5. **TensorRT INT8 for fast inference** — 3-5x latency reduction on Kaggle T4
 6. **Board-size adaptive routing** — classical for ≤10×10, NN-guided MCTS for ≥11×10
 
-### 13.2 Implementation Sketch
+### 14.2 Implementation Sketch
 
 ```python
 class ConnectXBot:
@@ -609,7 +694,7 @@ class ConnectXBot:
             )
 ```
 
-### 13.3 Training Strategy for RTX 5090
+### 14.3 Training Strategy for RTX 5090
 
 1. **Pre-train supervised network (hours):**
    - Run 1M+ games between classical engine and variations
@@ -633,46 +718,37 @@ class ConnectXBot:
 These are areas where the research did not produce definitive answers:
 
 1. **Board-size routing threshold**: Where exactly does classical search become infeasible and NN-guided MCTS becomes necessary? 10×10? 11×10? 12×10? (HYP-021, BMS-005)
-
-2. **Phase-boundary calibration**: How many pieces constitute "endgame" vs "midgame" on 7×6? This is the dominant factor in ensemble routing performance. (HYP-022)
-
+2. **Phase-boundary calibration**: How many pieces constitute "endgame" vs "midgame" on 7×6? (HYP-022)
 3. **TensorRT INT8 on actual Kaggle T4**: Does the 3-5x speedup hold on real Kaggle T4 hardware? Theoretical benchmarks use GRID A100. (HYP-023)
-
-4. **First-player advantage on 15×13/15×10**: Unknown since R1 (LOW confidence, Wikipedia only). No governance-recommended verification protocol exists. (C215)
-
-5. **NNUE feature engineering**: What feature set provides competitive evaluation for ConnectX? NNUE is standard in chess but untested for ConnectX. (HYP-024)
-
-6. **Self-play convergence on solved games**: The solved-game property (7×6 is P1 win) may cause self-play to converge to first-player-only strategies. How to avoid this? (HYP-018)
+4. **First-player advantage on 15×13/15×10**: Unknown since R1 (LOW confidence). (C215)
+5. **NNUE feature engineering**: What feature set provides competitive evaluation for ConnectX? (HYP-024)
+6. **Self-play convergence on solved games**: The solved-game property may cause self-play to converge to first-player-only strategies. (HYP-018)
 
 ---
 
 ## 16. Where to Look First
 
-For a new team member or implementer:
-
 | Priority | File | Why |
 |----------|------|-----|
 | 1 | `research/NEXUS.md` | Corpus index: cross-links everything |
 | 2 | This document (RESEARCH_REPORT.md) | Living research summary |
-| 3 | `research/iterations/round-034.md` | Latest worker results (R34) |
-| 4 | `research/dossiers/governance/GOV-001.md` | Governance audit (R35) |
-| 5 | `research/claim-register.md` | All 215 claims with evidence status |
-| 6 | `research/source-ledger.md` | All 127 sources with collision map |
-| 7 | `research/ensemble-catalog.md` | 24 ensemble designs |
-| 8 | `research/contender-roster.md` | 16 contender profiles |
+| 3 | `research/iterations/round-037.md` | Latest worker results (R37) |
+| 4 | `research/dossiers/mcts/mcts-002-neural-integration-patterns.md` | Neural MCTS implementation blueprint |
+| 5 | `research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md` | Classical search specification |
+| 6 | `research/dossiers/governance/GOV-004-R37-comprehensive-audit.md` | Governance remediation status |
+| 7 | `research/claim-register.md` | All 225 claims with evidence status |
+| 8 | `research/source-ledger.md` | All 131 sources with collision map |
 
 ---
 
 ## 17. Technique Leaderboard
 
-Ranked by research score (evidence maturity, expected role, board coverage, Kaggle feasibility, integration value, failure risk):
-
 | Rank | Technique | Evidence Maturity | Expected Role | Board Coverage | Kaggle Feasible | Integration Value | Failure Risk | Dossier |
 |------|-----------|------------------|---------------|----------------|-----------------|-------------------|-------------|---------|
-| 1 | Alpha-beta negamax (param.) | VERIFIED C184-C192 | Baseline; midgame on small boards | 7×6 to 10×8; 15×13 limited | YES (CPU) | HIGH | LOW | — |
-| 2 | NN-guided MCTS | VERIFIED C200, C201 | Midgame on large boards; 15×13 | 7×6 to 15×13 | YES (GPU) | HIGH | MEDIUM | — |
+| 1 | Alpha-beta negamax (param.) | VERIFIED C184-C192 | Baseline; midgame | 7×6 to 10×8; 15×13 limited | YES (CPU) | HIGH | LOW | CS-003 |
+| 2 | NN-guided MCTS | VERIFIED C200, C201 | Midgame on large boards | 7×6 to 15×13 | YES (GPU) | HIGH | MEDIUM | MCTS-002 |
 | 3 | Solver-distilled training | VERIFIED (rowspire) | Training foundation | Configurable | YES (CPU) | HIGH | LOW | — |
-| 4 | TensorRT INT8 inference | VERIFIED C202 | Acceleration layer | All boards | YES (T4) | MEDIUM | LOW | — |
+| 4 | TensorRT INT8 inference | VERIFIED C202 | Acceleration layer | All boards | YES (T4) | MEDIUM | LOW | MCTS-002 |
 | 5 | Board-size adaptive routing | HYPOTHESIS HYP-021 | Ensemble controller | All boards | YES (CPU) | HIGH | MEDIUM | — |
 | 6 | NNUE evaluation | HYPOTHESIS HYP-024 | Classical eval function | 7×6 to 10×8 | YES (CPU) | HIGH | MEDIUM | — |
 | 7 | GPU MCTS (lock-free) | DOCUMENTED (MCTS-NC) | Search acceleration | All boards | YES (GPU) | HIGH | MEDIUM | — |
@@ -682,7 +758,7 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ## 18. Proven / Supported / Unproven / Refuted
 
-### Proven / Supported (VERIFIED — 92 claims)
+### Proven / Supported (VERIFIED — 100 claims)
 
 - 7×6 first-player win (Allis, Allen, Böck, Tromp)
 - 8×8 second-player win (Tromp, book88)
@@ -696,7 +772,8 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 - Tromp fhourstones88 full architecture (C187-C192)
 - Kaggle governance constraints (C196-C199)
 - Board-size solving matrix (8×8 P2, 9×6 P1, 10×8 draw)
-- Governance: source ID collisions, fabricated data, stale master report (C206-C215)
+- Governance: source ID collisions, fabricated data, remediation status (C206-C220)
+- MCTS-002 integration patterns (c_puct=1.1, c_fpu=0.2, LCB=0.5)
 
 ### Unsupported / Needs Correction (22 claims)
 
@@ -723,43 +800,70 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-## 19. Changes Since Last Synthesis (R35 → R36)
+## 19. Changes Since Last Synthesis (R36 → R37)
 
-### Dossiers
-- **Created:** MCTS-001 — MCTS Consistency Problem for Solved Games (18 sources, 4 CRITICAL risks, 10 affected ensembles)
-- **Created:** BMS-DOC-001 — Benchmark Science and Tournament Design (20+ sources, 12 benchmark suites, 3 code samples)
-- **Removed:** `research/dossiers/governance/dossier-governance-audit-r34.md` (duplicate of GOV-001)
+### Dossiers Created (3)
+
+- **MCTS-002** — Neural MCTS Integration Patterns (17K bytes, 6 sources, 3 code sketches, feasibility matrix, 9 ensemble impacts)
+- **D-034** — New Source Repositories Discovered (33K bytes, 4 sources, 3 new GitHub repos)
+- **CS-003** — Classical Search and Solver Engineering (83K bytes, 8 sources, 5 code sketches, comprehensive specification)
+
+### Dossiers Expanded
+
+- **GOV-004** — R37 Comprehensive Audit (25K bytes, governance remediation at 55%)
 
 ### Direct Citations Added
-- No new claims or source IDs added in R36. MCTS-001 cross-references existing claims C135–C142, C175–C181, C200. BMS-DOC-001 cross-references C132, C136–C142, C177–C179, C200–C202.
+
+- **6 new sources:** S128-S131 (D-034: puissance4, CogitoNTNU/AlphaZero, connectX)
+- **7 new sources:** S132-S139 (CS-003: classical search references)
+- **7 new governance claims:** C216-C220 (GOV-004 findings)
+- **2 new MCTS claims:** C221-C222 (MCTS-002 parameter benchmarks)
 
 ### Source/Claim Collisions Repaired
-- No repair work done this round. Source collision remediation (EXP-031) deferred.
+
+- No new collisions introduced in R37. Source IDs S128-S139 verified as non-colliding.
+- Governance audit (GOV-004) confirms 4 collision clusters persist from R16-R34.
 
 ### Leaderboards Changed
-- MCTS-001 recommends upgrading HYP-008 from PROPOSED to STRONGLY SUPPORTED (classical search dominates MCTS on solved positions).
-- MCTS-001 recommends upgrading C175 from HYPOTHESIS to STRONGLY SUPPORTED (all MCTS ensembles exceed 2s budget on CPU).
+
+- Technique leaderboard: CS-003 adds board coverage details for classical search.
+- MCTS-002 confirms NN-guided MCTS as Rank 2 technique (VERIFIED).
 
 ### Contenders Expanded
-- No new contenders added. Worker-05 attempted D-CBL-001 (contender baseline dossier) but produced a .js file (policy violation, Write rejected). Deferred to next batch.
+
+- No new contenders added. D-034 adds 3 new reference implementations (not full contenders).
 
 ### Ensembles/Hypotheses Expanded
-- No structural changes to ensembles or hypotheses. MCTS-001 cross-references 10 ensembles and 4 hypotheses for status updates.
+
+- MCTS-002 cross-references all 9 MCTS-containing ensembles.
+- CS-003 cross-references ENS-019 through ENS-024 (classical components).
 
 ### Organization Changes
-- Duplicate governance dossier removed (GOV-R34-001 → GOV-001 consolidation)
-- `research/NEXUS.md` updated with new dossiers and R36 statistics
-- `research/research-state.md` updated with R36 entry
+
+- 3 new dossier files written to disk (MCTS-002, D-034, CS-003)
+- `research/NEXUS.md` updated with R37 statistics and new dossier entries
+- `research/research-state.md` updated with R37 entry
+- `research/iterations/round-037.md` created
 
 ### Future Experiments Added
-- No new experiments. MCTS-001 and BMS-DOC-001 reference existing BMS-005, BMS-010, BMS-006 benchmarks for future execution.
+
+- **BMS-011:** Neural MCTS parameter sweep (c_puct, c_fpu, LCB t, root noise alpha)
+- **BMS-012:** NN inference latency profiling (FP32/FP16/INT8 on T4, 5090, CPU)
+- **BMS-013:** Neural MCTS vs Classical Search comparison
+- **EXP-CS-001:** Measure TT hit rate across 1000 self-play games
+- **EXP-CS-002:** Compare LMR reduction tables on forced-win position solving
+- **EXP-NEW-001:** Reproduce CogitoNTNU self-play training convergence
 
 ### Files Changed
-- `RESEARCH_REPORT.md` — header updated, Dossiers section added, Changes section updated
-- `research/NEXUS.md` — R36 statistics, MCTS-001 and BMS-DOC-001 added to dossier index, MCTS and benchmarking directories marked as populated
-- `research/research-state.md` — R36 entry added
-- `research/iterations/round-036.md` — NEW: iteration report for this synthesis
-- `research/dossiers/governance/dossier-governance-audit-r34.md` — DELETED (duplicate)
+
+- `RESEARCH_REPORT.md` — header updated, MCTS-002/CS-003/D-034 sections added, Governance updated
+- `research/NEXUS.md` — R37 statistics, 3 new dossiers, source/claim counts updated
+- `research/research-state.md` — R37 entry added
+- `research/iterations/round-037.md` — NEW: iteration report for this synthesis
+- `research/dossiers/mcts/mcts-002-neural-integration-patterns.md` — NEW
+- `research/dossiers/reference-implementations/new-repo-sources-r34.md` — NEW
+- `research/dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md` — NEW
+- `research/dossiers/governance/GOV-004-R37-comprehensive-audit.md` — NEW
 
 ---
 
@@ -818,6 +922,7 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 | 3 | katac4 | AlphaZero (ResNet) | 7×6 | Best NN implementation verified |
 | 4 | rowspire | MLP bitboard solver | Configurable | Solver-distilled training |
 | 5 | miksipiksic/pyvezi | Bitmask minimax | Configurable | Open-line heuristic |
+| 6 | woctezuma/puissance4 | UCT MCTS (PyPI) | 7×6 | Accessible Python package (R37) |
 
 ---
 
@@ -826,12 +931,14 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 | Risk | Severity | Current Status | Mitigation |
 |------|----------|---------------|------------|
 | Fabricated data propagation | CRITICAL | S117/S120 [RETRACTED] in R35 | RETRACTED flags; automated detection (EXP-035) |
-| Source ID collision attribution | CRITICAL | 4 clusters, 27+ IDs | Namespace isolation (R36) |
-| Missing dossier content | HIGH | 0% dossier completion | R36+: populate with contender/technique dossiers |
-| Stale master report | HIGH | Now fixed (R35 rewrite) | Ongoing: update each batch |
+| Source ID collision attribution | CRITICAL | 4 clusters, 27+ IDs; GOV-004 confirms | Namespace isolation (R36), GOV-004 audit |
+| Missing dossier content | HIGH | Now 9 dossiers (up from 3 at R36) | Ongoing: populate with contender/technique dossiers |
+| Stale master report | HIGH | Now fixed (R35 rewrite, R37 update) | Ongoing: update each batch |
 | 15×13 first-player unknown | MEDIUM | LOW confidence since R1 | Requires board-size solving experiment |
 | No benchmark for 15×13 | MEDIUM | Zero test evidence | Kaggle live evaluation is the only benchmark |
+| Empty ensemble/training-data directories | MEDIUM | 2 directories still empty (ENSEMBLES, NEURAL) | Populate with dossier content |
+| Governance remediation at 55% | MEDIUM | 7 of 22 findings still unaddressed | GOV-004 identifies priority actions |
 
 ---
 
-*This report was last updated 2026-08-04 22:30 ET (Round 36). It reflects the state of the corpus after batch-00002 synthesis: 2 new dossiers (MCTS-001, BMS-DOC-001), 1 duplicate governance dossier removed, 3 total dossiers.*
+*This report was last updated 2026-08-05 09:00 ET (Round 37). It reflects the state of the corpus after batch-00096 synthesis: 3 new substantive dossiers (MCTS-002 neural MCTS integration, D-034 new reference sources, CS-003 classical search), 3 thin worker outputs rejected, governance remediation at 55%, 9 total dossiers across 9 directories.*

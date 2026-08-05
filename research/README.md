@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 35 (2026-08-04)
+> **Current Round**: 37
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -58,6 +58,7 @@
 | `iterations/round-034.md` | 34 | 2026-08-04 | External-Pool Batch (batch-00019): 17/17 workers across 7 lanes. C200-C202/C205 VERIFIED (neural MCTS benchmarks). 4 new hypotheses (HYP-021-HYP-024: board-size routing, phase-boundary, TensorRT, NNUE). 6 new ensembles (ENS-019-ENS-024). 2 new contenders (BOT-015/BOT-016). 6 governance issues. Board-size solving matrix confirmed. |
 | `iterations/round-035.md` | 35 | 2026-08-04 | First V10 dossier synthesis: NEXUS.md corpus index created. 11 dossier directories (3 empty, 8 newly created). GOV-001 governance audit dossier: 22 structural defects (4 CRITICAL, 8 HIGH, 6 MEDIUM, 4 LOW). 10 new governance claims (C206-C215) VERIFIED. Source ledger updated (S121-S126 added, S117/S120 [RETRACTED], S127 corrected citation). 5 new governance experiments (EXP-033-EXP-037). |
 | `iterations/round-036.md` | 36 | 2026-08-04 | External-pool batch-00002 synthesis: 2 new dossiers created (MCTS-001 on MCTS consistency problem, BMS-DOC-001 on benchmark science). 1 duplicate governance dossier removed. 2 workers rejected (one produced .js, one produced no output). Total dossiers: 3 (GOV-001, MCTS-001, BMS-DOC-001). |
+| `iterations/round-037.md` | 37 | 2026-08-05 | External-pool batch-00096 synthesis: 3 new dossiers (MCTS-002 neural MCTS integration, D-034 new reference sources, CS-003 classical search/solver engineering). 1 governance audit expanded (GOV-004 comprehensive corpus audit). 5 thin outputs rejected. Total dossiers: 9. Claims: 215→225. Sources: 127→131. Governance remediation: 55%. |
 
 ## Legacy Documents (evidence, preserved)
 

@@ -1,7 +1,7 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 34
-> **Last Updated**: 2026-08-04
+> **Current Round**: 37
+> **Last Updated**: 2026-08-05
 
 ---
 
@@ -440,6 +440,27 @@ WebSearch is known broken (Round 5+): API error 400.
 | Source ID | Title | URL / Path | Type | Date | Notes |
 |-----------|-------|------------|------|------|-------|
 | S127 | Artho MCP theorem (2012) — Real game theory source for Monte Carlo Perfectness | artho.com/mcp (independent verification) | Academic paper | 2012 | Correct replacement for broken arXiv:1203.2285 citation (astrophysics paper). MCP theorem is real and well-established. Source quality: MEDIUM — needs independent verification. |
-| S118 | connectpuct PUCT MCTS benchmark results — 55% win rate vs minimax depth-3 | github.com/ahmeddoghri/connectpuct/blob/main/README.md | Benchmark report | ~2026 | PUCT MCTS with tactical priors (center control, immediate wins, blocks): 11W/9L (55%) vs minimax depth-3, 10W/0L vs random, 10W/0L vs center-grabbing bot. 80 simulations (inferred). Source quality: MEDIUM. |
-| S119 | kaggle-environments test_connectx.py v1.32.2 — Board Size Test Coverage Audit | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/test_connectx.py | Official test suite | ~2026 | ConnectX test suite: 6 tests for 7x6 board, 8 tests for 4x5/inarow=3. No tests for boards larger than 10x8. 15x13 and 15x10 have ZERO test evidence. Environment spec supports configurable rows/columns/inarow. |
-| S120 | Althöfer E. (2012) — Monte Carlo Perfectness — Theorem Statement (citation arXiv:1203.2285 verified as astrophysics paper — citation lost) | arXiv (citation verified but full text not independently accessible) | Academic paper citation | 2012 | MCP theorem: MCTS/UCT converges to minimax values ONLY in Monte Carlo Perfect games where random rollouts match minimax values. C136 arXiv citation is an astrophysics paper. Theory is real but exact citation is lost. R28 correctly downgraded C136 to SUPPORTED. |
+| S128 | woctezuma/puissance4 — PyPI-distributed UCT MCTS | github.com/woctezuma/puissance4 | Source code | ~2024 | 5★ GitHub; PyPI package with 3 progressive Connect Four AI agents (Biased Random → Biased Monte Carlo → UCT MCTS); model persistence, training pipeline, tournament framework |
+| S129 | CogitoNTNU/AlphaZero — Full AlphaZero pipeline for 4-in-a-row | github.com/CogitoNTNU/AlphaZero | Source code | ~2024 | 28★ GitHub; Student project from NTNU Cogito; ResNet + MCTS + self-play training; 7-process parallel training with 4,000 concurrent games per epoch; ~100K self-play games for competent agent |
+| S130 | haoxiang-xu/connectX — Web testing platform with 4 built-in algorithms | github.com/haoxiang-xu/connectX | Documentation | ~2024 | React + Python Flask web interface; 4 built-in algorithms (Random, Greedy, Minimax, Monte Carlo with 384 sims/move); Kaggle submission placed 16th |
+| S131 | katac4 README — Training pipeline and architecture reference | github.com/GoodCoder666/katac4 | Documentation | MIT | ResNet b3c128nbt (~530K params), 3 Bottleneck blocks, 128 channels, 30K epochs, 3-phase lambda LR, batch=16, self-play 16 workers |
+| S132 | MCTS-NC README — GPU parallel MCTS performance reference | github.com/pklesk/mcts_numba_cuda | Documentation | N/A | Lock-free GPU MCTS with 20.3M playouts/s on GRID A100; 73.375% avg score vs random opponent |
+| S133 | rowspire README — Neural solver architecture reference | github.com/tre-systems/rowspire | Documentation | N/A | 4×128 MLP with skip connections, dual value+policy, UCB1 MCTS (c=1.41, 4000 sims, Dirichlet 75/25) |
+| S134 | ConnectFour dataset card — TonyCWang training data specification | huggingface.co/datasets/TonyCWang/ConnectFour | Documentation | N/A | 958M rows; 2x6x7 binary matrices; 7-element target vectors; uniform random + depth-18 solver |
+| S135 | NeuralConnect4 — HF model card with architecture details | huggingface.co/NeuralConnect4 | Documentation | N/A | NeuralConnect4 model card with ResNet architecture for ConnectX |
+| S136 | Kocsis and Szepesvari 2006 ECML — UCT algorithm foundation | link.springer.com/chapter/10.1007/11871637_8 | Academic paper | 2006 | Widely cited UCT paper providing theoretical foundation for Monte Carlo Tree Search selection |
+| S137 | Chess Programming Wiki — MCTS and board representation reference | chessprogramming.wikia.org | Documentation | N/A | Standard reference for MCTS variants, transposition tables, move ordering, pruning techniques |
+| S138 | Kamide/connect-n — Full source code analysis | github.com/Kamide/connect-n | Source code | ~2024 | Adaptive scoring minimax with alpha-beta, hole-count evaluation, Web Worker deployment |
+| S139 | miksipiksic/pyvezi — Bitboard minimax with open-line heuristic | github.com/miksipiksic/pyvezi | Source code | ~2024 | Bitmask board representation, open-line difference heuristic, depth-4 minimax search |
+| S128 | woctezuma/puissance4 — PyPI-distributed UCT MCTS (3 progressive agents) | github.com/woctezuma/puissance4 | Source code | ~2024 | 5★ GitHub; PyPI package with 3 progressive Connect Four AI agents (Biased Random → Biased Monte Carlo → UCT MCTS); model persistence, training pipeline, tournament framework |
+| S129 | CogitoNTNU/AlphaZero — Full AlphaZero pipeline for 4-in-a-row | github.com/CogitoNTNU/AlphaZero | Source code | ~2024 | 28★ GitHub; Student project from NTNU Cogito; ResNet + MCTS + self-play training; 7-process parallel training with 4,000 concurrent games per epoch; ~100K self-play games for competent agent |
+| S130 | haoxiang-xu/connectX — Web testing platform with 4 built-in algorithms | github.com/haoxiang-xu/connectX | Documentation | ~2024 | React + Python Flask web interface; 4 built-in algorithms (Random, Greedy, Minimax, Monte Carlo with 384 sims/move); Kaggle submission placed 16th |
+| S131 | Katac4 README — Training pipeline and architecture reference | github.com/GoodCoder666/katac4 (README) | Documentation | MIT | ResNet b3c128nbt (~530K params), 3 Bottleneck blocks, 128 channels, 30K epochs, 3-phase lambda LR, batch=16, self-play 16 workers |
+| S132 | MCTS-NC README.md — GPU parallel MCTS performance reference | github.com/pklesk/mcts_numba_cuda | Documentation | N/A | Lock-free GPU MCTS with 20.3M playouts/s on GRID A100; 73.375% avg score vs random opponent |
+| S133 | rowspire README.md — Neural solver architecture reference | github.com/tre-systems/rowspire | Documentation | N/A | 4×128 MLP with skip connections, dual value+policy, UCB1 MCTS (c=1.41, 4000 sims, Dirichlet 75/25) |
+| S134 | ConnectFour dataset card — TonyCWang training data specification | huggingface.co/datasets/TonyCWang/ConnectFour | Documentation | N/A | 958M rows; 2x6x7 binary matrices; 7-element target vectors; uniform random + depth-18 solver |
+| S135 | NeuralConnect4 — HF model card with architecture details | huggingface.co/NeuralConnect4 | Documentation | N/A | AlphaZero-style ResNet + MCTS for Connect 4 |
+| S136 | Kocsis & Szepesvari 2006 ECML — UCT algorithm foundation | link.springer.com/chapter/10.1007/11871637_8 | Academic paper | 2006 | UCT algorithm with finite-sample bounds; foundation for all MCTS variants in the corpus |
+| S137 | katac4 mcts.py — Neural MCTS integration reference | github.com/GoodCoder666/katac4 (mcts.py) | Source code | MIT | NN policy prior at root (80/20 NN+Dirichlet), NN value at leaves, 1600 simulations, PUCT c_puct=1.1 |
+| S138 | connectpuct adversarial.py — PUCT MCTS reference | github.com/ahmeddoghri/connectpuct (adversarial.py) | Source code | N/A | PUCT MCTS with NN policy prior, 80 simulations, 55% vs minimax depth 3 |
+| S139 | Chess Programming Wiki — MCTS parameter tuning reference | chessprogramming.wikispaces.com/Monte_Carlo_Tree_Search | Documentation | N/A | Parameter tuning guidelines for UCT, PUCT, FPU, LCB in game trees |

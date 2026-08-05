@@ -1,7 +1,7 @@
 ﻿# Idea Leaderboard — ConnectX Bot Research
 
 > **Created**: 2026-08-03 (Round 26)
-> **Last Updated**: 2026-08-04 (Round 33)
+> **Last Updated**: 2026-08-04 (Round 34)
 > **Purpose**: Ranked list of research ideas, components, and approaches by expected impact on Kaggle bot strength
 > **Status**: DRAFT — all rankings are theoretical; empirical validation required via benchmark-blueprint.md experiments
 
@@ -318,6 +318,17 @@ Estimated improvement is measured in **ELO points** against:
 4. **Feasibility is constrained by Kaggle limits** (95MB binary, 2s/move, T4 GPU, 72h training).
 5. **Ideas ranked 13-14 are speculative** — included for completeness, but low expected value.
 6. **No LLM has been verified as a competitive ConnectX player** — ideas 13-14 are included for research completeness, not recommendation.
+
+---
+
+## R34 Updates
+
+- **Idea-001** (Conservative Ensemble: Tablebook + Alpha-Beta): No rank change. C181 VERIFIED (ENS-013 alpha-beta-only timing-safe on CPU). ENS-020 added (conservative CPU-friendly ensemble) with same composition as ENS-013 but simplified routing. Research score: HIGH.
+- **Idea-013** (Neural MCTS ensemble): No rank change. C202 VERIFIED (TensorRT INT8 3-5x latency reduction). ENS-023 (TensorRT-optimized neural MCTS) added as improved variant with INT8 acceleration. Research score: MEDIUM-HIGH.
+- **Idea-021** (Board-Size Adaptive Routing): NEW. ENS-019 (board-size adaptive routing) added. Research score: MEDIUM. Primary unknown: optimal board-size threshold. Next decisive question: does routing threshold exist where ensemble outperforms single-component on all board sizes?
+- **Idea-022** (Phase-Boundary Calibration): NEW. ENS-024 (confidence-gated routing) uses phase-adaptive thresholds. Research score: MEDIUM. Primary unknown: confidence metric for neural policy reliability. Next decisive question: does confidence-gated routing outperform phase-gated routing?
+- **Idea-023** (TensorRT INT8 Advantage): NEW. ENS-023 (TensorRT-optimized neural MCTS) with 3-5x latency reduction. Research score: MEDIUM-HIGH. Primary unknown: Kaggle T4 calibration accuracy. Next decisive question: does INT8 MCTS achieve statistically significant win-rate improvement vs FP32 MCTS?
+- **Idea-024** (NNUE vs DQN Tactical): NEW. ENS-022 (NNUE-enhanced alpha-beta) as hybrid approach. Research score: MEDIUM. Primary unknown: NNUE feature engineering for ConnectX. Next decisive question: does NNUE evaluation outperform hand-crafted eval on tactical position suite?
 
 ---
 

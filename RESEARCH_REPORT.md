@@ -1,9 +1,16 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> **Compiled from:** 205 claims (C001–C215), 127 sources (S001–S127), 24 hypotheses, 24 ensembles, 16 contenders, 1 dossier
+> **Compiled from:** 215 claims (C001–C215), 127 sources (S001–S127), 24 hypotheses, 24 ensembles, 16 contenders, 3 dossiers
 > **Claims by status:** 96 VERIFIED (45%), 22 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (11%), 73 OTHER (34%)
-> **Last Updated:** 2026-08-04 21:30 ET (Round 35)
-> **Repository Evidence Health:** MODERATE — corpus governance established, dossier infrastructure created, substantive content still limited
+> **Last Updated:** 2026-08-04 22:30 ET (Round 36)
+> **Repository Evidence Health:** MODERATE — corpus governance established, 3 substantive dossiers created (governance, MCTS, benchmark), governance debt still active
+
+## Changes Since Last Synthesis (Round 35 → 36)
+
+- **New dossier: MCTS-001** (`research/dossiers/mcts/mcts-consistency-solved-games.md`) — Establishes that MCTS exhibits a fundamental consistency problem on solved-board positions in Connect 4: zero implementations use solved-game knowledge during MCTS, UCT provides only asymptotic convergence with no finite-sample bounds, and connectpuct achieves only 55% win rate vs minimax depth 3. Affects all 10 MCTS-containing ensembles. Recommends solved-game tablebook lookup + timing governance + alpha-beta fallback.
+- **New dossier: BMS-DOC-001** (`research/dossiers/benchmarking/benchmark-science-and-tournament-design.md`) — Comprehensive benchmark science specification covering tournament design, statistical Elo estimation, board-size generalization, adversarial testing, reproducibility, and GPU latency profiling. Covers all 12 benchmark suites.
+- **Governance cleanup**: Removed duplicate `dossier-governance-audit-r34.md` (same content as GOV-001).
+- **Rejected**: Worker-05 produced no Markdown deliverable (attempted .js file). Worker-07-job-54 produced no output (32 reads, 0 writes).
 
 ---
 
@@ -21,12 +28,15 @@
 10. [Ensembles and Hypotheses](#10-ensembles-and-hypotheses)
 11. [Data Governance](#11-data-governance)
 12. [Refuted Claims — What NOT to Build](#12-refuted-claims--what-not-to-build)
-13. [Recommended Bot Architecture](#13-recommended-bot-architecture)
-14. [Open Questions](#14-open-questions)
-15. [Where to Look First](#15-where-to-look-first)
-16. [Technique Leaderboard](#16-technique-leaderboard)
-17. [Proven / Supported / Unproven / Refuted](#17-proven--supported--unproven--refuted)
-18. [Changes Since Last Synthesis](#18-changes-since-last-synthesis)
+13. [Dossiers (3)](#13-dossiers)
+14. [Recommended Bot Architecture](#14-recommended-bot-architecture)
+15. [Open Questions](#15-open-questions)
+16. [Where to Look First](#16-where-to-look-first)
+17. [Technique Leaderboard](#17-technique-leaderboard)
+18. [Proven / Supported / Unproven / Refuted](#18-proven--supported--unproven--refuted)
+19. [Changes Since Last Synthesis](#19-changes-since-last-synthesis)
+20. [Top Benchmark Contenders](#21-top-benchmark-contenders)
+20. [Top Benchmark Contenders](#21-top-benchmark-contenders)
 
 ---
 
@@ -483,7 +493,41 @@ These claims were **adversarially refuted** (≥2/3 voters agreed they were fals
 
 ---
 
-## 13. Recommended Bot Architecture
+## 13. Dossiers
+
+The corpus now contains 3 substantive dossiers, each covering a distinct research dimension:
+
+### MCTS-001: MCTS Consistency Problem for Solved Games
+
+- **Path**: `research/dossiers/mcts/mcts-consistency-solved-games.md`
+- **Status**: VERIFIED
+- **Core finding**: All 4 corpus MCTS implementations (connectpuct, rowspire, katac4, MCTS-NC) ignore solved-game knowledge during search. The UCT convergence theorem provides only asymptotic guarantees; Connect 4 is almost certainly not a Monte Carlo Perfect game, meaning MCTS cannot provably converge to correct values within practical simulation budgets.
+- **Impact**: Affects ensembles ENS-002 through ENS-014, ENS-018, ENS-023, ENS-024. Recommends solved-game tablebook lookup + timing governance + alpha-beta fallback for every MCTS-containing ensemble.
+- **Sources**: 18 sources (Kocsis & Szepesvari 2006, Browne et al. 2012, all 4 MCTS source repos)
+- **Link**: [Full dossier →](research/dossiers/mcts/mcts-consistency-solved-games.md)
+
+### BMS-DOC-001: Benchmark Science and Tournament Design
+
+- **Path**: `research/dossiers/benchmarking/benchmark-science-and-tournament-design.md`
+- **Status**: VERIFIED
+- **Core finding**: Comprehensive specification for benchmark infrastructure covering tournament design (4 formats), statistical Elo estimation (Bradley-Terry + Ladva draw adjustment), board-size generalization, adversarial testing (5 opponents), reproducibility protocol (5 requirements), and GPU latency profiling.
+- **Impact**: Provides the measurement framework for validating all 12 benchmark suites. Establishes minimum viable benchmark (5 suites) and recommended full suite (12 suites) for every ConnectX bot deployment.
+- **Sources**: 20+ sources (Kaggle spec, Pascal Pons solver, Tromp fhourstones, all MCTS/NN repos)
+- **Code samples**: 3 conceptual pseudocode blocks
+- **Link**: [Full dossier →](research/dossiers/benchmarking/benchmark-science-and-tournament-design.md)
+
+### GOV-001: Corpus Governance Audit — Round 34
+
+- **Path**: `research/dossiers/governance/GOV-001-corpus-governance-audit-round-34.md`
+- **Status**: VERIFIED
+- **Core finding**: 22 structural defects across 9 categories. 4 critical (source ID collisions, fabricated data). 8 high-priority (broken citation, header inconsistencies, stale references, governance automation gap).
+- **Impact**: Source ID collision rate ~10% (27+ colliding IDs). S117/S120 confirmed fabricated. arXiv:1203.2285 confirmed as astrophysics paper, not game theory.
+- **Sources**: 7 sources (all local corpus files + S044 TonyCWang dataset card + arXiv:1203.2285)
+- **Link**: [Full dossier →](research/dossiers/governance/GOV-001-corpus-governance-audit-round-34.md)
+
+---
+
+## 14. Recommended Bot Architecture
 
 ### 13.1 Hybrid Neural + Classical Search (Confidence: HIGH)
 
@@ -584,7 +628,7 @@ class ConnectXBot:
 
 ---
 
-## 14. Open Questions
+## 15. Open Questions
 
 These are areas where the research did not produce definitive answers:
 
@@ -602,7 +646,7 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-## 15. Where to Look First
+## 16. Where to Look First
 
 For a new team member or implementer:
 
@@ -619,7 +663,7 @@ For a new team member or implementer:
 
 ---
 
-## 16. Technique Leaderboard
+## 17. Technique Leaderboard
 
 Ranked by research score (evidence maturity, expected role, board coverage, Kaggle feasibility, integration value, failure risk):
 
@@ -636,7 +680,7 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-## 17. Proven / Supported / Unproven / Refuted
+## 18. Proven / Supported / Unproven / Refuted
 
 ### Proven / Supported (VERIFIED — 92 claims)
 
@@ -679,7 +723,47 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-## 18. Changes Since Last Synthesis (R34 → R35)
+## 19. Changes Since Last Synthesis (R35 → R36)
+
+### Dossiers
+- **Created:** MCTS-001 — MCTS Consistency Problem for Solved Games (18 sources, 4 CRITICAL risks, 10 affected ensembles)
+- **Created:** BMS-DOC-001 — Benchmark Science and Tournament Design (20+ sources, 12 benchmark suites, 3 code samples)
+- **Removed:** `research/dossiers/governance/dossier-governance-audit-r34.md` (duplicate of GOV-001)
+
+### Direct Citations Added
+- No new claims or source IDs added in R36. MCTS-001 cross-references existing claims C135–C142, C175–C181, C200. BMS-DOC-001 cross-references C132, C136–C142, C177–C179, C200–C202.
+
+### Source/Claim Collisions Repaired
+- No repair work done this round. Source collision remediation (EXP-031) deferred.
+
+### Leaderboards Changed
+- MCTS-001 recommends upgrading HYP-008 from PROPOSED to STRONGLY SUPPORTED (classical search dominates MCTS on solved positions).
+- MCTS-001 recommends upgrading C175 from HYPOTHESIS to STRONGLY SUPPORTED (all MCTS ensembles exceed 2s budget on CPU).
+
+### Contenders Expanded
+- No new contenders added. Worker-05 attempted D-CBL-001 (contender baseline dossier) but produced a .js file (policy violation, Write rejected). Deferred to next batch.
+
+### Ensembles/Hypotheses Expanded
+- No structural changes to ensembles or hypotheses. MCTS-001 cross-references 10 ensembles and 4 hypotheses for status updates.
+
+### Organization Changes
+- Duplicate governance dossier removed (GOV-R34-001 → GOV-001 consolidation)
+- `research/NEXUS.md` updated with new dossiers and R36 statistics
+- `research/research-state.md` updated with R36 entry
+
+### Future Experiments Added
+- No new experiments. MCTS-001 and BMS-DOC-001 reference existing BMS-005, BMS-010, BMS-006 benchmarks for future execution.
+
+### Files Changed
+- `RESEARCH_REPORT.md` — header updated, Dossiers section added, Changes section updated
+- `research/NEXUS.md` — R36 statistics, MCTS-001 and BMS-DOC-001 added to dossier index, MCTS and benchmarking directories marked as populated
+- `research/research-state.md` — R36 entry added
+- `research/iterations/round-036.md` — NEW: iteration report for this synthesis
+- `research/dossiers/governance/dossier-governance-audit-r34.md` — DELETED (duplicate)
+
+---
+
+## 20. Previous Changes: R34 → R35
 
 ### Dossiers
 - **Created:** GOV-001 — Corpus Governance Audit (22 findings, 4 CRITICAL)
@@ -725,7 +809,7 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-## 19. Top Benchmark Contenders
+## 21. Top Benchmark Contenders
 
 | Rank | Contender | Strategy | Board Support | Key Strength |
 |------|-----------|----------|--------------|-------------|
@@ -737,7 +821,7 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-## 20. Top Unresolved Risks
+## 22. Top Unresolved Risks
 
 | Risk | Severity | Current Status | Mitigation |
 |------|----------|---------------|------------|
@@ -750,4 +834,4 @@ Ranked by research score (evidence maturity, expected role, board coverage, Kagg
 
 ---
 
-*This report was last updated 2026-08-04 21:30 ET (Round 35). It reflects the state of the corpus after the first V10 dossier synthesis.*
+*This report was last updated 2026-08-04 22:30 ET (Round 36). It reflects the state of the corpus after batch-00002 synthesis: 2 new dossiers (MCTS-001, BMS-DOC-001), 1 duplicate governance dossier removed, 3 total dossiers.*

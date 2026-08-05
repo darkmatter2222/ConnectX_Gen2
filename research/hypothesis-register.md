@@ -1,9 +1,9 @@
 # ConnectX Research Program -- Hypothesis Register
 
-**Version:** 1.0
-**Last reviewed:** Round 33
+**Version:** 1.1
+**Last reviewed:** Round 34
 **Synthesis agent:** ConnectX Research v9
-**Total hypotheses:** 20
+**Total hypotheses:** 24
 **Falsifiability:** All hypotheses are falsifiable by design
 **Component reference:** See `component-catalog.md` for CMP-### definitions
 
@@ -33,18 +33,22 @@
 | HYP-018 | Phase-Bias in Self-Play Data Generation | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
 | HYP-019 | Source Attribution Integrity Requirement | PROPOSED | HIGH | STRUCTURAL GOVERNANCE ISSUE |
 | HYP-020 | Fabricated Data Detection in Corpus | PROPOSED | HIGH | COMPONENTS: VERIFIED / STRUCTURAL: PROPOSED |
+| HYP-021 | Board-Size Adaptive Routing Ensemble | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-022 | Phase-Boundary Calibration Dominates Ensemble Performance | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PLAUSIBLE |
+| HYP-023 | TensorRT INT8 Inference Advantage for ResNet Value Networks | PROPOSED | HIGH | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
+| HYP-024 | NNUE Evaluation Advantage Over DQN for Tactical Positions | PROPOSED | MEDIUM | COMPONENTS: VERIFIED / COMBINATION: PROPOSED |
 
 ### Status Distribution
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| PROPOSED | 19 | 95% |
-| RESEARCHING | 1 | 5% |
+| PROPOSED | 21 | 88% |
+| RESEARCHING | 1 | 4% |
 | EVIDENCE_SUPPORTED | 0 | 0% |
 | PLAUSIBLE | 0 | 0% |
 | CONTESTED | 0 | 0% |
 | REJECTED | 0 | 0% |
-| DEFERRED_EMPIRICAL | 0 | 0% |
+| DEFERRED_EMPIRICAL | 2 | 8% |
 
 ### Evidence Maturity Distribution
 
@@ -1513,4 +1517,108 @@ PROPOSED — 2 confirmed fabrications, protocol not yet designed
 
 ---
 
-*End of Hypothesis Register v1.0.*
+## HYP-021: Board-Size Adaptive Routing Ensemble
+
+- **Title**: Board-size adaptive routing between classical search and neural MCTS improves playing strength
+- **Status**: PROPOSED
+- **Architecture Family**: Ensemble / Hybrid
+- **Components**: CMP-001 (classical search), CMP-003 (MCTS), CMP-005 (neural policy), CMP-017 (board-size routing)
+- **Exact Mechanism**: Router evaluates board dimensions (rows, cols, inarow) and selects classical search for board sizes where tactical trees are tractable (7x6, 6x6, 8x6) and neural MCTS for larger boards (8x8, 10x10) where search depth is limited and pattern recognition compensates
+- **Board-Size and Game-Phase Scope**: All supported board sizes; routing decision at game start
+- **Opponent Assumptions**: All opponent types (Kaggle built-in, random, other bots)
+- **Expected Advantage**: Both board sizes covered with best-in-class approach for each; no single approach degraded on either board size
+- **Evidence For**: C200 (neural MCTS quality benchmark), C171 (classical search solved-game knowledge), R32 ENS-013 (board-size adaptive routing ensemble design)
+- **Evidence Against**: Single-approach ensembles (HYP-001, HYP-002) show strong results on their targeted board size; routing overhead may waste moves at game start
+- **Source and Claim IDs**: C200, C171, C203, ENS-013, CMP-001, CMP-003, CMP-005
+- **Unsupported Assumptions**: Optimal routing threshold (board size boundary) is known a priori; routing decision is free (no compute cost)
+- **Kaggle Constraints**: Must route within 2s/move budget; board size known at game start
+- **Failure Modes**: (1) Wrong threshold degrades ensemble below single-component baseline. (2) Routing overhead consumes move budget. (3) Neural model under-trained on one board size produces poor moves
+- **Strongest Counterargument**: A single well-tuned approach on the most common board size (7x6) outperforms a two-system ensemble that is sub-optimal on both
+- **Research-Validation Method**: Comparative analysis of routing thresholds in existing ensemble literature; theoretical analysis of search complexity vs board size
+- **Falsification Condition**: Board-size adaptive routing performs worse than the best single-component ensemble on ALL board sizes
+- **Future Benchmark Requirements**: Multi-board round-robin with both ensemble and single-component opponents; measure routing decision accuracy
+- **Confidence**: MEDIUM — ensemble design documented in ENS-013, but routing threshold not calibrated
+- **Evidence Maturity**: PROPOSED — design exists, threshold not calibrated, no empirical comparison
+- **Last Reviewed Round**: 34
+
+---
+
+## HYP-022: Phase-Boundary Calibration Dominates Ensemble Performance
+
+- **Title**: Phase-boundary calibration (midgame vs endgame threshold) is the dominant factor in ensemble ensemble performance
+- **Status**: PROPOSED
+- **Architecture Family**: Ensemble / Hybrid
+- **Components**: CMP-012 (phase detection), CMP-013 (midgame tactics), CMP-014 (endgame tablebooks)
+- **Exact Mechanism**: The routing threshold between midgame (neural MCTS preferred) and endgame (tablebook/classical search preferred) in an ensemble determines overall performance; incorrect boundary degrades ensemble below single-component baseline
+- **Board-Size and Game-Phase Scope**: 7x6 ConnectX, midgame-to-endgame transition
+- **Opponent Assumptions**: Any opponent; phase detection is opponent-independent
+- **Expected Advantage**: Optimal phase boundary captures best of both approaches; suboptimal boundary wastes routing overhead
+- **Evidence For**: C180 (arbitration required for 3+ component ensembles), R32 ENS-013 (phase-based routing design), R33 phase-boundary analysis (worker-05-job-00029)
+- **Evidence Against**: Phase boundary may be less important than routing mechanism quality; some ensembles use other triggers (confidence, tactical)
+- **Source and Claim IDs**: C180, C204, ENS-013, CMP-012, CMP-013, CMP-014
+- **Unsupported Assumptions**: A single threshold (piece count) suffices for phase detection; phase boundary is board-size-invariant
+- **Kaggle Constraints**: Phase detection must be free (no compute budget consumed)
+- **Failure Modes**: (1) Phase boundary too early: neural MCTS runs on endgame positions where tablebooks are superior. (2) Phase boundary too late: classical search runs on midgame positions where MCTS is superior
+- **Strongest Counterargument**: Tactical quality (not phase) is the dominant routing signal; a confidence-based router outperforms a phase-based router
+- **Research-Validation Method**: Theoretical analysis of ConnectX phase transitions (number of pieces at midgame/endgame boundary); comparison with existing Connect 4 literature
+- **Falsification Condition**: Phase boundary calibration has no measurable impact on ensemble performance vs other routing signals
+- **Future Benchmark Requirements**: Ablation study: ensemble with optimal vs suboptimal phase boundary; measure win-rate delta
+- **Confidence**: MEDIUM — phase-based routing documented in ensemble literature, but dominance claim unverified
+- **Evidence Maturity**: PROPOSED — design exists, threshold not calibrated
+- **Last Reviewed Round**: 34
+
+---
+
+## HYP-023: TensorRT INT8 Inference Advantage for ResNet Value Networks
+
+- **Title**: TensorRT INT8 quantization provides significant latency advantage for ResNet value networks on Kaggle T4 GPU
+- **Status**: PROPOSED
+- **Architecture Family**: Neural / MCTS
+- **Components**: CMP-005 (neural policy/value), CMP-015 (TensorRT INT8 inference), CMP-016 (quantization calibration)
+- **Exact Mechanism**: TensorRT INT8 inference achieves 3-5x latency reduction vs FP32 for ResNet value networks on T4 GPU; INT8 calibration requires ~1000 representative positions; quantization error < 0.05 value deviation validated on ConnectX tactical positions; latency advantage enables more MCTS simulations per move budget
+- **Board-Size and Game-Phase Scope**: All board sizes; applies during inference-time neural evaluation
+- **Opponent Assumptions**: Any opponent; inference latency is opponent-independent
+- **Expected Advantage**: 3-5x faster inference enables more MCTS simulations within 2s/move budget, improving move quality
+- **Evidence For**: C202 (TensorRT INT8 latency benchmark), R33 neural MCTS training component analysis (worker-04-job-00019)
+- **Evidence Against**: INT8 calibration requires representative positions (may be hard to obtain); quantization error may be non-negligible on rare board configurations
+- **Source and Claim IDs**: C202, CMP-005, CMP-015, CMP-016
+- **Unsupported Assumptions**: TensorRT available in Kaggle environment; calibration positions are representative of all game states
+- **Kaggle Constraints**: T4 GPU available; INT8 model must fit within 95MB submission limit
+- **Failure Modes**: (1) Calibration positions not representative: INT8 model performs worse than FP32 on unseen positions. (2) Quantization error degrades value network accuracy below acceptable threshold
+- **Strongest Counterargument**: FP32 inference is already fast enough on T4 to complete all required MCTS simulations within 2s/move; INT8 calibration effort not justified
+- **Research-Validation Method**: Measure T4 latency for FP32 vs INT8 ResNet value network inference; compare MCTS simulation counts within 2s budget
+- **Falsification Condition**: TensorRT INT8 inference does not achieve >2x latency reduction vs FP32 on Kaggle T4 GPU for ResNet value networks
+- **Future Benchmark Requirements**: Latency measurement: FP32 vs INT8 ResNet on T4; MCTS simulation count comparison within 2s budget; value network accuracy comparison (quantization error)
+- **Confidence**: HIGH — C202 provides measured benchmark, but needs Kaggle-specific validation
+- **Evidence Maturity**: PROPOSED — benchmark exists but not Kaggle-specific
+- **Last Reviewed Round**: 34
+
+---
+
+## HYP-024: NNUE Evaluation Advantage Over DQN for Tactical Positions
+
+- **Title**: NNUE (Neural Network Updated Efficiently) evaluation provides superior tactical position assessment vs DQN for ConnectX
+- **Status**: PROPOSED
+- **Architecture Family**: Classical / Neural Hybrid
+- **Components**: CMP-001 (classical search), CMP-011 (NNUE eval function), CMP-018 (NNUE incremental update)
+- **Exact Mechanism**: NNUE evaluation (incremental feature transformation) provides faster and more accurate position evaluation than DQN policy network for tactical positions; DQN cannot reliably detect forced-win sequences > 4 plies without explicit search augmentation, while NNUE-enhanced alpha-beta solves 6+ ply forced wins with sufficient depth
+- **Board-Size and Game-Phase Scope**: 7x6 ConnectX; applies to tactical positions in midgame
+- **Opponent Assumptions**: Any opponent; evaluation quality is opponent-independent
+- **Expected Advantage**: Better tactical awareness enables alpha-beta to detect forced wins and avoid blunders; DQN relies on search augmentation for same capability
+- **Evidence For**: C205 (DQN tactical weakness), R33 DQN vs classical comparison (worker-02-job-00017), R33 NNUE evaluation discovery (worker-02-job-00018)
+- **Evidence Against**: DQN may learn tactical patterns through training that approximate NNUE evaluation; DQN policy network provides move prior that guides search better than NNUE eval
+- **Source and Claim IDs**: C205, CMP-002, CMP-004, CMP-018
+- **Unsupported Assumptions**: NNUE architecture exists and is implementable for ConnectX; DQN training produces positions comparable to NNUE-enhanced alpha-beta
+- **Kaggle Constraints**: NNUE evaluation must fit within 95MB submission limit; must be implementable in Python/NumPy
+- **Failure Modes**: (1) NNUE feature engineering is board-size-dependent and does not generalize well. (2) DQN policy network trained on high-quality data outperforms hand-crafted NNUE features
+- **Strongest Counterargument**: DQN policy network trained on self-play data captures tactical patterns that NNUE hand-crafted features cannot match
+- **Research-Validation Method**: Comparative analysis of NNUE feature representation for ConnectX vs DQN policy output quality; measure tactical position evaluation accuracy on solved positions
+- **Falsification Condition**: DQN policy network outperforms NNUE evaluation on all tactical position benchmarks without search augmentation
+- **Future Benchmark Requirements**: Paired evaluation: NNUE-enhanced alpha-beta vs DQN on tactical position suite; measure forced-win detection rate and evaluation accuracy
+- **Confidence**: MEDIUM — C205 documents DQN weakness, NNUE advantage is inference not measurement
+- **Evidence Maturity**: PROPOSED — comparative benchmark exists but not measured on ConnectX
+- **Last Reviewed Round**: 34
+
+---
+
+*End of Hypothesis Register v1.1.*

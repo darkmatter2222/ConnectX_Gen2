@@ -1,8 +1,9 @@
 # Ensemble Catalog -- ConnectX Bot Component Combinations
 
 > **Created**: 2026-08-03 (Round 26)
+> **Last Updated**: 2026-08-04 (Round 34)
 > **Purpose**: Document verified and proposed combinations of components for ConnectX bot architecture
-> **Status**: DRAFT -- verified ensembles only, no unverified combinations
+> **Status**: DRAFT -- verified ensembles only, no unverified combinations; R34 added ENS-019 through ENS-024
 
 ---
 
@@ -318,3 +319,109 @@
 | ENS-014 | 8 | Very High | Highest | 7x6 |
 | ENS-015 | 3 | Minimal | Medium-High | 7x6 |
 | ENS-018 | 3 | Medium | High (with TT reuse) | 7x6 |
+| ENS-019 | 4 | Medium | High | 7x6, 8x8 |
+| ENS-020 | 3 | Medium | High | All sizes |
+| ENS-021 | 3 | Medium | Medium-High | 7x6 |
+| ENS-022 | 2 | Medium | Medium-High | 7x6 |
+| ENS-023 | 4 | Medium | High | 7x6 |
+| ENS-024 | 3 | High | Very High | 7x6 |
+
+---
+
+## New Ensembles (Round 34)
+
+### ENS-019: Board-Size Adaptive Routing
+
+- **Components**: Classical Search (CMP-001), MCTS (CMP-003), Neural Policy/Value (CMP-005), Board-Size Router (CMP-017)
+- **Routing Mechanism**: If board ≤ 7x6 and inarow ≤ 4: use classical search. If board > 7x6 or inarow > 4: use neural MCTS.
+- **Game-Phase Gates**: None (routing at game start only)
+- **Board-Size Gates**: 7x6 → classical search; 8x8+ → neural MCTS
+- **Resource Allocation**: 100% of 2s/move to whichever component selected
+- **Expected Synergy**: Best approach for each board size; no single approach degraded
+- **Evidence Supporting Members**: C171 (classical search solved-game knowledge), C200 (neural MCTS quality benchmark), C203 (HYP-021 board-size adaptive routing hypothesis)
+- **Evidence Supporting Combination**: PROPOSED — no comparative evidence that routing improves over single approach
+- **Missing Evidence**: Optimal board-size threshold; routing decision cost; neural model generalization across board sizes
+- **Failure Modes**: (1) Wrong threshold degrades below single-component baseline. (2) Neural model under-trained on new board sizes
+- **Complexity Cost**: Medium — requires two complete system implementations + router
+- **Benchmark Requirements**: Multi-board round-robin against ENS-013 (classical-only) and ENS-014 (MCTS-only)
+- **Linked Hypotheses**: HYP-021
+
+### ENS-020: Conservative CPU-Friendly Ensemble
+
+- **Components**: Alpha-Beta with TT (CMP-001), Tablebook (CMP-006), Move Ordering (CMP-007)
+- **Routing Mechanism**: Sequential — check tablebook first, then alpha-beta with iterative deepening
+- **Game-Phase Gates**: Tablebook for opening (first ~10 moves), alpha-beta for rest
+- **Board-Size Gates**: 7x6 only (tablebook size grows exponentially)
+- **Resource Allocation**: 100% to alpha-beta; tablebook lookup O(1)
+- **Expected Synergy**: Near-perfect opening + strong midgame/endgame; minimal compute
+- **Evidence Supporting Members**: C171 (classical search verified), C181 (CPU timing-safe verified)
+- **Evidence Supporting Combination**: PLAUSIBLE — tablebook + alpha-beta is standard approach in classical engines
+- **Missing Evidence**: Tablebook size for 7x6 opening positions; iterative deepening depth achieved within 2s
+- **Failure Modes**: Tablebook incomplete for 7x6 opening (7^10 positions); alpha-beta depth insufficient on larger boards
+- **Complexity Cost**: Low — single component, no routing overhead
+- **Benchmark Requirements**: Win rate vs ENS-013 (CPU MCTS) on 7x6; latency profile
+- **Linked Hypotheses**: HYP-001
+
+### ENS-021: Neural-Only Ensemble (No Search)
+
+- **Components**: ResNet Value Network (CMP-005), ResNet Policy Network (CMP-005), Move Filtering (CMP-011)
+- **Routing Mechanism**: None — single forward pass through value+policy networks, select argmax of policy subject to legality filter
+- **Game-Phase Gates**: None
+- **Board-Size Gates**: Board-size-dependent architecture (input representation changes)
+- **Resource Allocation**: 100% to neural inference; TensorRT INT8 recommended
+- **Expected Synergy**: Fastest possible move selection; pattern recognition may capture tactical patterns missed by search
+- **Evidence Supporting Members**: C202 (TensorRT INT8 latency), C205 (DQN tactical weakness — neural policy may fare better than DQN)
+- **Evidence Supporting Combination**: PROPOSED — no trained neural ensemble exists for ConnectX; inference speed enables more training data
+- **Missing Evidence**: Neural model accuracy on ConnectX positions; training data requirements; generalization across board sizes
+- **Failure Modes**: (1) Neural model blunders on tactical positions (C205: DQN cannot solve > 4 ply forced wins). (2) Training data insufficient for high accuracy
+- **Complexity Cost**: High — requires neural model training + deployment infrastructure
+- **Benchmark Requirements**: Tactical position suite; forced-win detection rate; win rate vs ENS-013
+- **Linked Hypotheses**: HYP-024
+
+### ENS-022: NNUE-Enhanced Alpha-Beta
+
+- **Components**: NNUE Evaluation (CMP-002), Alpha-Beta Search (CMP-001), TT (CMP-010)
+- **Routing Mechanism**: None — NNUE evaluation function replaces hand-crafted eval within alpha-beta
+- **Game-Phase Gates**: None
+- **Board-Size Gates**: 7x6 only (NNUE features board-dependent)
+- **Resource Allocation**: 100% to search; NNUE eval incremental update O(1)
+- **Expected Synergy**: NNUE captures tactical patterns not expressible in hand-crafted eval; alpha-beta provides search depth for forced wins
+- **Evidence Supporting Members**: C205 (DQN tactical weakness vs classical), R33 NNUE evaluation discovery
+- **Evidence Supporting Combination**: PROPOSED — NNUE used in Shogi chess engines with demonstrated superiority over hand-crafted eval
+- **Missing Evidence**: NNUE feature set for ConnectX; evaluation accuracy vs hand-crafted eval
+- **Failure Modes**: (1) NNUE features not board-size generalizable. (2) Hand-crafted eval competitive for ConnectX position evaluation
+- **Complexity Cost**: Medium — NNUE feature engineering + alpha-beta integration
+- **Benchmark Requirements**: Paired evaluation: NNUE-enhanced alpha-beta vs alpha-beta with hand-crafted eval on tactical positions
+- **Linked Hypotheses**: HYP-024
+
+### ENS-023: TensorRT-Optimized Neural MCTS
+
+- **Components**: ResNet Value/Policy (CMP-005), MCTS (CMP-003), TensorRT INT8 (CMP-015), Timing Budget (CMP-014)
+- **Routing Mechanism**: Sequential — MCTS simulation loop with NN root prior + NN value at leaf nodes
+- **Game-Phase Gates**: None (MCTS throughout)
+- **Board-Size Gates**: 7x6 optimal; larger boards feasible due to INT8 speedup
+- **Resource Allocation**: 100% to MCTS; INT8 inference enables 3-5x more simulations
+- **Expected Synergy**: INT8 speedup enables more MCTS simulations within 2s budget → better move quality
+- **Evidence Supporting Members**: C202 (TensorRT INT8 latency benchmark), C177 (MCTS-NC playouts/s on T4)
+- **Evidence Supporting Combination**: PLAUSIBLE — INT8 speedup validated on ResNet architectures; more simulations = better MCTS quality
+- **Missing Evidence**: Kaggle T4-specific INT8 calibration; end-to-end MCTS latency with INT8
+- **Failure Modes**: (1) INT8 calibration positions not representative. (2) Quantization error degrades MCTS quality
+- **Complexity Cost**: High — TensorRT integration + calibration pipeline
+- **Benchmark Requirements**: Latency comparison: FP32 vs INT8 ResNet on T4; MCTS simulation count within 2s; win rate
+- **Linked Hypotheses**: HYP-023
+
+### ENS-024: Hybrid Neural-Classical with Confidence-Gated Routing
+
+- **Components**: Neural Policy/Value (CMP-005), Alpha-Beta (CMP-001), MCTS (CMP-003), Confidence Router (CMP-012)
+- **Routing Mechanism**: Confidence-gated — if neural policy confidence > threshold, use neural recommendation. If confidence < threshold, fallback to MCTS. If MCTS uncertain, use alpha-beta.
+- **Game-Phase Gates**: Confidence threshold adapts by game phase (higher threshold in endgame where neural eval more reliable)
+- **Board-Size Gates**: Configurable per board size
+- **Resource Allocation**: Neural first (fast), MCTS secondary (moderate), alpha-beta fallback (slowest)
+- **Expected Synergy**: Neural fast path for easy positions; MCTS for moderate; alpha-beta as safety net for hard positions
+- **Evidence Supporting Members**: C180 (ensemble arbitration required), C204 (phase-boundary calibration hypothesis)
+- **Evidence Supporting Combination**: PROPOSED — confidence-gated routing not documented in ConnectX literature; requires calibration
+- **Missing Evidence**: Neural confidence metric (how to measure); routing thresholds; fallback cost analysis
+- **Failure Modes**: (1) Routing overhead waste of moves. (2) Confidence metric unreliable on tactical positions. (3) Alpha-beta fallback too slow for late game
+- **Complexity Cost**: Very High — 3 component systems + router + calibration
+- **Benchmark Requirements**: Ablation: neural-only vs neural+MCTS vs full ensemble; measure routing decision distribution
+- **Linked Hypotheses**: HYP-011, HYP-022

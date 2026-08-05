@@ -1,12 +1,12 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 35 (2026-08-04)
+> **Current Round**: 36 (2026-08-04)
 > **Last Updated**: 2026-08-04
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 35)
+## Corpus Statistics (Round 36)
 
 | Category | Count | Range |
 |----------|-------|-------|
@@ -21,7 +21,7 @@
 | Benchmark Suites | 12 | BMS-001 through BMS-012 |
 | Experiments | 32 | EXP-001 through EXP-032 |
 | Sources | 126+ | S001 through S126 (with 4 collision clusters) |
-| Dossiers | 1 | GOV-001 (governance audit) |
+| Dossiers | 3 | GOV-001, MCTS-001, BMS-DOC-001 |
 | Governance Findings | 22 | F-001 through F-022 (4 CRITICAL, 8 HIGH, 6 MEDIUM, 4 LOW) |
 
 ---
@@ -95,6 +95,18 @@
 |----|-------|--------|------|
 | GOV-001 | Corpus Governance Audit — Round 34 Full Structural Assessment | VERIFIED | `dossiers/governance/GOV-001-corpus-governance-audit-round-34.md` |
 
+### MCTS (1 dossier)
+
+| ID | Title | Status | Path |
+|----|-------|--------|------|
+| MCTS-001 | MCTS Consistency Problem for Solved Games in Connect 4 | VERIFIED | `dossiers/mcts/mcts-consistency-solved-games.md` |
+
+### Benchmarking (1 dossier)
+
+| ID | Title | Status | Path |
+|----|-------|--------|------|
+| BMS-DOC-001 | Benchmark Science and Tournament Design for ConnectX Bot Evaluation | VERIFIED | `dossiers/benchmarking/benchmark-science-and-tournament-design.md` |
+
 ### Planned Dossiers (not yet created)
 
 | Target | Content | Priority |
@@ -103,11 +115,9 @@
 | Kaggle | Competition spec, environment analysis, evaluation methodology | HIGH |
 | Contenders | 16 contender dossiers (BOT-001 through BOT-016) | HIGH |
 | Classical Search | Alpha-beta, MTD(f), PVS, move ordering, killer moves | HIGH |
-| MCTS | UCT, RAVE, PUCT, Neural MCTS, GPU MCTS | HIGH |
 | Neural | NN architectures, ResNet, DQN, NNUE, policy/value networks | HIGH |
 | Training Data | Self-play, solver-distilled, temperature schedules | MEDIUM |
 | Ensembles | Ensemble design dossiers (ENS-013 through ENS-024) | MEDIUM |
-| Benchmarking | 12 benchmark suite dossiers (BMS-001 through BMS-012) | MEDIUM |
 | Reference Implementations | AlphaZero (katac4), rowspire, Tromp, Pascal Pons | MEDIUM |
 
 ### Empty Directories (awaiting content)
@@ -117,12 +127,10 @@
 | `dossiers/foundations/` | Mathematical and game theory foundations |
 | `dossiers/kaggle/` | Kaggle competition analysis |
 | `dossiers/classical-search/` | Classical search algorithm dossiers |
-| `dossiers/mcts/` | MCTS variant dossiers |
 | `dossiers/neural/` | Neural network architecture dossiers |
 | `dossiers/training-data/` | Training data analysis dossiers |
 | `dossiers/contenders/` | Contender dossiers (16 planned) |
 | `dossiers/ensembles/` | Ensemble design dossiers |
-| `dossiers/benchmarking/` | Benchmark suite dossiers |
 | `dossiers/reference-implementations/` | Reference code analysis dossiers |
 
 ---
@@ -181,9 +189,7 @@
 
 | Path | Status | Reason |
 |------|--------|--------|
-| `research/dossiers/benchmarking/` | Empty | Awaiting BMS-001 through BMS-012 dossiers |
 | `research/dossiers/classical-search/` | Empty | Awaiting classical search dossiers |
-| `research/dossiers/mcts/` | Empty | Awaiting MCTS variant dossiers |
 
 ---
 
@@ -199,4 +205,4 @@
 
 ---
 
-*This file was created in Round 35 as part of the first V10 dossier synthesis. It serves as the canonical index for the entire ConnectX research corpus.*
+*This file was created in Round 35 as part of the first V10 dossier synthesis. R36 added 2 dossiers (MCTS-001, BMS-DOC-001). It serves as the canonical index for the entire ConnectX research corpus.*

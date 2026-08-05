@@ -1,5 +1,8 @@
 # ConnectX Contender Roster
 
+> **Current Round**: 34
+> **Last Updated**: 2026-08-04
+
 ## Roster Summary
 
 | ID    | Name                              | Type                     | Board        | Language | Algorithm                        | GitHub  |
@@ -368,6 +371,56 @@
 - **Proposed future benchmark role:** Tier 3 lightweight classical baseline; bitmask representation reference
 - **Configuration that must eventually be pinned:** bitmask layout, depth parameter, open-line diff thresholds
 - **Source and claim IDs:** S125 (R32), C192 (R32)
+
+---
+
+### BOT-015: Tromp fhourstones88 (8x8 Solved-Game Oracle)
+
+- **Canonical name:** Tromp fhourstones88
+- **Exact URL:** https://github.com/joschacht/fhourstones88 (referenced via R32)
+- **Project type:** Oracle / perfect-play reference for 8x8
+- **Version, commit, tag, or release:** Source as of R32
+- **License:** GitHub repo license (verify)
+- **Language and runtime:** C++ (standard alpha-beta, NO MTD(f), NO PVS per R32 analysis)
+- **Board and inarow support:** 8×8 (inarow=4); 8x8 Connect 4 solved as P2 win
+- **Algorithm and components:** Standard full-window alpha-beta; iterative deepening; TT; book-based opening (book88 ~500MB)
+- **Published result evidence:** 8x8 Connect 4 solved as P2 win (Tromp, late 2014/2015); book88 ~500MB; column 4 universal P2 reply
+- **Availability:** Source code public
+- **Reproducibility:** C++; requires compilation; ~500MB book database
+- **Resource requirements:** Moderate — C++ compilation; book storage
+- **Known defects:**
+  - No Kaggle submission target (8x8 not default Kaggle board)
+  - Standard alpha-beta only; no MTD(f), no PVS (R32 verification)
+  - Book-based opening: not generalizable to arbitrary board sizes
+- **Comparability limits:** 8x8 only; not Kaggle ConnectX default (7x6)
+- **Proposed future benchmark role:** Oracle/reference for 8x8 solving; 8x8 board-size test suite
+- **Configuration that must eventually be pinned:** book88 content (opening positions), alpha-beta depth limits, TT size
+- **Source and claim IDs:** S126 (R32), C187-C190 (R32)
+
+---
+
+### BOT-016: DQN ConnectX Baseline
+
+- **Canonical name:** DQN ConnectX Bot (generic reference)
+- **Exact URL:** N/A — generic DQN architecture reference
+- **Project type:** Neural baseline
+- **Version, commit, tag, or release:** N/A
+- **License:** N/A
+- **Language and runtime:** Python (PyTorch/TF); reinforcement learning
+- **Board and inarow support:** Variable (depends on implementation); typically 7x6
+- **Algorithm and components:** DQN policy network; value network; experience replay; target network; epsilon-greedy exploration
+- **Published result evidence:** C205 (DQN cannot reliably detect forced-win sequences > 4 plies without search augmentation); C144-C145 (DQN training: 3-phase lambda scheduler, 30K epochs)
+- **Availability:** DQN architecture well-known; specific ConnectX implementation varies
+- **Reproducibility:** Python + PyTorch/TF; requires training data or self-play
+- **Resource requirements:** High — training requires GPU and significant compute; inference lightweight
+- **Known defects:**
+  - C205: DQN tactical weakness; cannot detect forced wins > 4 plies without search augmentation
+  - Training data quality critical; self-play data may suffer from solver-distillation problem
+  - No published Kaggle ConnectX DQN bot with documented ELO
+- **Comparability limits:** Performance highly dependent on training data quality and architecture choices
+- **Proposed future benchmark role:** Neural baseline for comparison vs classical and hybrid approaches
+- **Configuration that must eventually be pinned:** network architecture, training method, board representation, epsilon schedule
+- **Source and claim IDs:** C205 (R34), C144-C145 (R30)
 
 ---
 

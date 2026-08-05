@@ -23,6 +23,10 @@
 |--------|----------|-------------|--------|
 | GH-001 | MCTS | MCTS variants for ConnectX not researched | May be best search for large boards |
 | GH-002 | GPU | TensorRT inference benchmarks not available | Can't optimize inference pipeline |
+| GH-003 | Routing | Board-size-adaptive routing threshold unknown | ENS-019 cannot be calibrated |
+| GH-004 | Neural | NNUE feature engineering for ConnectX not specified | ENS-022 cannot be built |
+| GH-005 | Routing | Neural policy confidence metric undefined | ENS-024 routing mechanism cannot be implemented |
+| GH-006 | Governance | Source ID collision rate ~10% persists across rounds 16-33 | Data integrity at risk |
 | GH-003 | GPU | CUDA-based ConnectX search not explored | May miss major speedup opportunity |
 | GH-004 | Search | MTD(f) not benchmarked in Python | May miss 20-30% search speedup |
 | GH-005 | NN | Optimal CNN architecture unknown | May train suboptimal model |

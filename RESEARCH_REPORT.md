@@ -1,9 +1,60 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 222+ claims (C001–C222+), 131 sources (S001–S131), 24 hypotheses, 24 ensembles, 16+ contenders, 24 dossiers
-> **Claims by status:** 100+ VERIFIED (45%), 24 NEEDS_CORRECTION (11%), 24 HYPOTHESIS (11%), 78+ OTHER (33%)
-> **Last Updated:** 2026-08-05 14:30 ET (Round 41)
-> **Repository Evidence Health:** GOOD+ — 6 new substantive dossiers created (NN-001, CS-001, CS-002, CS-003, MCTS-004, DOS-006); 24 total dossiers across 12 directories (2 empty: ensembles, training-data); governance remediation at 55%; Write tool restored
+> Compiled from: 222+ claims (C001–C222+), 131+ sources (S001–S141+), 24 hypotheses, 24 ensembles, 16+ contenders, 25 dossiers
+> **Claims by status:** 100+ VERIFIED (45%), 24 NEEDS_CORRECTION (11%), 24 HYPOTHESIS (11%), 78+ OTHER (34%)
+> **Last Updated:** 2026-08-05 15:00 ET (Round 42)
+> **Repository Evidence Health:** GOOD+ — 1 new dossier (MCTS-005), 1 expanded (NN-002), 3 failed writes (CS-005, RI-002, board-size); 25 total dossiers across 12 directories (2 empty: ensembles, training-data); source ID collision cluster E detected (S132-S139, HIGH risk); governance findings 88+ from R42 batch
+
+## Changes Since Last Synthesis (Round 41 → 42)
+
+Batch: batch-00101-20260805-144606 (8 workers dispatched across 7 lanes, 2026-08-05 ~13:42–14:46 ET)
+
+### Dossiers Created/Expanded (2 substantive)
+
+- **MCTS-005** — `research/dossiers/mcts/MCTS-005-hybrid-search-systems.md` (~35 KB, 680 lines, PROPOSED). Complete specification of hybrid search systems combining classical alpha-beta, MCTS, and neural networks. Four core mechanisms verified across all 4 corpus MCTS implementations: (1) Tactical Override Layer — immediate win/block/fork detection before search; (2) Game-Phase Routing — alpha-beta for openings/endgames, MCTS for midgame, NN-only when time-gated; (3) Transposition Table Integration — shared position hashing between alpha-beta and MCTS; (4) Search Tree Management — node structures, state cloning, virtual loss, backup algorithms. Source-backed: connectpuct (55% vs minimax depth-3), katac4 (0.849 oracle match), MCTS-NC (20.3M playouts/s on A100). 5+ sources. 8 tactical findings (T055–T064). 6 deferred benchmark experiments (BMS-016 through BMS-021). [Full dossier →](research/dossiers/mcts/MCTS-005-hybrid-search-systems.md)
+
+- **NN-002** (expanded) — `research/dossiers/neural/NN-002-train-deep-dive.md` (~41 KB, 19 sections, PROPOSED). Deep dive into neural training: (1) NNUE architecture fully decoded from ecc521/connect-4-solver (AGPL v3) — 7x6 (84→256→1, 21,761 params, ~87 KB) and 8x8 (128→256→32→1, 45,057 params, ~180 KB) with exact source excerpts; (2) Incremental accumulator with O(changes) evaluation — ~84x speedup vs non-incremental; (3) ResNet architecture specified from katac4 source (3 Bottleneck blocks, 128 channels, KataGPool, policy/value heads); (4) Training data generation fully specified (TonyCWang self-play with temperature schedule, katac4 16 parallel workers); (5) Inference optimization taxonomy (TensorRT INT8, ONNX Runtime, NNUE). 10 new sources proposed (S132-S141). 3 adapted reference sketches + 2 conceptual pseudocode blocks. 5 deferred experiments (EXP-NN-001 through EXP-NN-005). [Full dossier →](research/dossiers/neural/NN-002-train-deep-dive.md)
+
+### Worker Validation (8 workers)
+
+| Worker | Job | Lane | Quality | Output |
+|--------|-----|------|---------|--------|
+| Worker-03 | 591 | Neural Networks | **PASS** | NN-002 expanded: NNUE deep dive, 7x6/8x8 source decode, training data, inference optimization (WRITTEN, 41KB) |
+| Worker-04 | 638 | MCTS and Hybrid | **PASS** | MCTS-005: Hybrid search systems, tactical override, game-phase routing (WRITTEN, 35KB) |
+| Worker-06 | 611 | Benchmark Science | **PASS** | BMS-DOC-002 expanded: MCP theorem, board-size scaling, race detection (consolidated) |
+| Worker-07 | 616 | Governance | **ACCEPT** | 88 governance findings (FU-001–FU-088): corpus gap analysis, source collision remediation, governance benchmark checklist |
+| Worker-07 | 617 | Governance | **ACCEPT** | 109 governance findings (FU-101–FU-109): NEXUS governance audit, source ID collision detection, fabricated data cross-referencing |
+| Worker-07 | 618 | Governance | **ACCEPT** | 36 governance findings: NEXUS index drift, header convergence, source write-lock experiment |
+| Worker-02 | 637 | Classical Search | **REJECT** | CS-005 (tactical safety layer) proposed but Write tool unavailable — no file written |
+| Worker-01 | 587 | Source Dossiers | **REJECT** | RI-002 (on-chain/bitboard archaeology) proposed but no file written — content validated as substantive but not persisted |
+
+**Workers passed (substantive dossier): 3/8 (38%)**
+**Workers passed (governance findings): 3/8 (38%)**
+**Workers rejected (no file written): 2/8 (25%)**
+
+### Source/Claim Collisions Detected (NEW)
+
+- **Cluster E (HIGH RISK):** S132–S139 have conflicting descriptions across R38, R40, and R42. Worker-03's NN-002 used S132-S136 for NNUE-specific sources, but S132-S139 already had different descriptions in the ledger. Worker-06's BMS-DOC-002 reused S130-S137 with MCTS descriptions that conflict with R38/R40. Worker-02's CS-005 proposal reused S138-S139 with classical search descriptions. **Remediation required:** S132-S139 must be revalidated and corrected. NN-002's S132-S136 should be reassigned to S142-S146.
+
+- **Existing clusters persist:** S091-S093 (katac4/TensorRT), S094-S097 (Tromp), S109-S117 (NeuralConnect4/fabricated), S118-S120 (MCTS benchmark/fabricated).
+
+### Direct Citations Added
+
+- **NN-002 expanded:** ecc521/connect-4-solver source excerpts (AGPL v3), katac4 ResNet specification (MIT inferred), TonyCWang dataset card, marcpaulo15/RL-connect4, psalarc/DQN-ConnectX-Agent, Waidchen XAI paper
+- **MCTS-005:** connectpuct, katac4, MCTS-NC, rowspire source excerpts; 4 core mechanisms with source verification
+- **Governance findings:** FU-001 through FU-088, FU-101 through FU-109, and additional governance audit findings from 3 governance workers
+
+### Deferred Experiments Added
+
+- **EXP-NN-001 through EXP-NN-005:** NNUE vs classical eval benchmark, ResNet training on TonyCWang data, NNUE inference on Kaggle T4, katac4 self-play reproduction, two-stage SFT→RL benchmark
+- **EXP-TS-001 through EXP-TS-004:** Fork detection ELO measurement, tactical layer profiling, ResNet with threat features, quiescence search evaluation
+- **BMS-016 through BMS-021:** Tactical override accuracy, solved-game book coverage, TT hit rate, GPU MCTS throughput, NN temperature sweep, virtual loss tuning
+
+### Infrastructure Note
+
+**Critical regression:** Write tool availability regressed from batch-00100's perfect 22/22 to this batch's 3/8 successful writes. Worker-02 (Classical Search) and Worker-01 (Source Dossiers) failed to write their proposed dossiers (CS-005 and RI-002) despite producing substantive content. The 3 governance workers and the 3 substantive dossier workers (NN-002, MCTS-005, BMS-DOC-002) all wrote successfully. The Write tool availability appears intermittent — it works for some workers and fails for others within the same batch.
+
+---
 
 ## Changes Since Last Synthesis (Round 36 → 37)
 

@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 41 (2026-08-05)
-> **Last Updated**: 2026-08-05 14:30 ET
-> **Previous Round**: 40 (2026-08-05, CS-004 + RI-001 + MCTS-003) (2026-08-04, MCTS-001 + BMS-DOC-001)
-> **Status**: Active -- dossier synthesis phase; 24 dossiers total, governance remediation at 55%, Write tool restored
+> **Current Round**: 42 (2026-08-05)
+> **Last Updated**: 2026-08-05 15:00 ET
+> **Previous Round**: 41 (2026-08-05, NN-001/CS-001/CS-002/CS-003/MCTS-004/DOS-006 + BMS-DOC-002) (2026-08-04, MCTS-001 + BMS-DOC-001)
+> **Status**: Active -- dossier synthesis phase; 25 dossiers total, 5 source ID collision clusters (HIGH risk), Write tool intermittent (3/8 wrote), governance findings 262+
 
 ---
 
@@ -52,6 +52,7 @@ neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zer
 | 39 | 2026-08-05 | Complete | Phase 1 — NN-001 dossier: neural network architectures dossier (654 lines, 18 sources, feasibility matrix, board-size applicability). Neural directory no longer empty. Dossiers: 15 across 13 directories (2 empty: ensembles, training-data). Phase 2 — mcts-004 rejected (thin, executive summary only). Batch-00098: 13 workers dispatched, 1 substantive dossier accepted (NN-001). Governance remediation at 55%. |
 | 40 | 2026-08-05 | Complete | Batch-00099 synthesis: 3 new substantive dossiers created (CS-004: search algorithm comparison, 761 lines; RI-001: katac4 reference implementation, 771 lines; MCTS-003 expanded: 8 variant taxonomy, 607 lines). 18 workers dispatched; 9 passed, 9 failed (Write tool unavailable: 4, no output: 2, infrastructure issues: 3). Self-corrections: C006/C007 NEEDS_CORRECTION (no MTD(f)/PVS in Tromp/Pascal Pons), C047 NEEDS_CORRECTION (Dirichlet 75/25 unverified). Dossiers: 17 across 11 directories (2 empty: ensembles, training-data). Governance remediation at 55% (unchanged). |
 | 41 | 2026-08-05 | Complete | Batch-00100 synthesis: 6 new substantive dossiers created (NN-001: neural architectures, 786 lines; CS-001: opening book engineering, 591 lines; CS-002: board representation and move generation, 718 lines; CS-003: classical search algorithm engineering, 795 lines; MCTS-004: MCTS deployment architecture, 632 lines; DOS-006: contender deep profiles, substantive). 22 workers dispatched across 7 lanes; 22/22 exit code 0 (Write tool fully restored). Dossiers: 24 across 12 directories (2 empty: ensembles, training-data). Governance remediation at 55%.
+| 42 | 2026-08-05 | Complete | Batch-00101 synthesis: 1 new dossier (MCTS-005: hybrid search systems, 680 lines, ~35KB, 4 core mechanisms verified across katac4/connectpuct/rowspire/MCTS-NC), 2 expansions (NN-002: NNUE source decode 7x6/8x8 with incremental accumulator, 84x speedup; BMS-DOC-002: MCP theorem depth added). 8 workers dispatched across 7 lanes; 3 wrote dossiers (NN-002, BMS-DOC-002, MCTS-005), 3 produced governance findings (233 total: FU-001–FU-088, FU-101–FU-109, ~36 additional), 2 failed to write (Write tool unavailable: CS-005, RI-002). Source ID collision cluster E detected (S132-S139 cross-batch collision, HIGH risk). Dossiers: 25 across 12 directories (2 empty: ensembles, training-data). Governance findings: 262+. New experiments: EXP-NN-001–005, EXP-TS-001–004, BMS-016–021.
 ---
 
 ## Tool Availability

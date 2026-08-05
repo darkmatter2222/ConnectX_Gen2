@@ -1,7 +1,7 @@
 # Claim Register â€” ConnectX Bot Research
 
-> **Current Round**: 38
-> **Last Updated**: 2026-08-05 10:07 ET
+> **Current Round**: 43
+> **Last Updated**: 2026-08-05 16:00 ET
 
 ---
 
@@ -21,8 +21,7 @@
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-Total unique claims: 222 across C001-C222 with gaps from ID reuse (C094-C099 duplicate IDs reused). R37: C200-C202 VERIFIED (neural MCTS benchmarks), C205 VERIFIED (DQN tactical weakness), C132/C175/C176/C195 updated to HYPOTHESIS. R35: C206-C215 VERIFIED (governance findings). R37: C216-C222 VERIFIED (governance audit findings). Key observations: (1) R35: 10 new VERIFIED governance claims from GOV-001 corpus audit. (2) R33: S117 and S120 FABRICATED. (3) R34: 4 collision clusters, 27+ colliding IDs. (4) R35: First substantive dossier produced (GOV-001).
-Total unique claims: 222 across C001-C222 with gaps from ID reuse (C094-C099 duplicate IDs reused). R34: C200-C202 VERIFIED (neural MCTS benchmarks), C205 VERIFIED (DQN tactical weakness), C132/C175/C176/C195 updated to HYPOTHESIS. R35: C206-C215 VERIFIED (governance findings: source ID collisions, fabricated data, master report staleness). R37: C216-C222 VERIFIED (governance audit findings: remediation rate, dossier count). Key observations: (1) R35: 10 new VERIFIED governance claims from GOV-001 corpus audit. (2) R33: S117 and S120 FABRICATED. (3) R34: 4 collision clusters, 27+ colliding IDs. (4) R35: First substantive dossier produced (GOV-001).
+Total unique claims: 230+ across C001-C232+ with gaps from ID reuse (C094-C099 duplicate IDs reused). R43: C226-C232, C223-C226, C071, C184-C186, C192, C205 added. R37: C200-C202 VERIFIED (neural MCTS benchmarks), C205 VERIFIED (DQN tactical weakness), C132/C175/C176/C195 updated to HYPOTHESIS. R35: C206-C215 VERIFIED (governance findings). R37: C216-C222 VERIFIED (governance audit findings). Key observations: (1) R35: 10 new VERIFIED governance claims from GOV-001 corpus audit. (2) R33: S117 and S120 FABRICATED. (3) R34-R43: 5 collision clusters, 30+ colliding IDs. (4) R35: First substantive dossier produced (GOV-001). (5) R42-R43: NN-002 NNUE decode, MCTS-005 hybrid search, CBL-001, DOS-007, BMS-DOC-003 created; 24+ new experiments proposed; governance findings FU-001–FU-109+.
 ---
 
 ## How to Read

@@ -1,7 +1,8 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 38
+> **Current Round**: 43
 > **Last Updated**: 2026-08-05
+> **NOTE**: Source IDs S130–S141 have been reused across R38, R40, R42 with different descriptions (Cluster E collision, HIGH risk). NN-002's S136-S141 reassigned to S142-S146 (R42) + S146+1 (R43). S142–S146 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources below use S142+.
 
 ---
 
@@ -464,3 +465,19 @@ WebSearch is known broken (Round 5+): API error 400.
 | S137 | katac4 mcts.py — Neural MCTS integration reference | github.com/GoodCoder666/katac4 (mcts.py) | Source code | MIT | NN policy prior at root (80/20 NN+Dirichlet), NN value at leaves, 1600 simulations, PUCT c_puct=1.1 |
 | S138 | connectpuct adversarial.py — PUCT MCTS reference | github.com/ahmeddoghri/connectpuct (adversarial.py) | Source code | N/A | PUCT MCTS with NN policy prior, 80 simulations, 55% vs minimax depth 3 |
 | S139 | Chess Programming Wiki — MCTS parameter tuning reference | chessprogramming.wikispaces.com/Monte_Carlo_Tree_Search | Documentation | N/A | Parameter tuning guidelines for UCT, PUCT, FPU, LCB in game trees |
+
+---
+
+## R42 New Sources (S142–S146) — NN-002 Neural Training Deep Dive
+
+**Note**: These sources were originally proposed as S136–S141 in Worker-03/591 but reassigned to S142–S146 to avoid collision with S130–S139 which have conflicting descriptions from R38/R40/R42.
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S142 | ecc521/connect-4-solver — NNUE.hpp header | github.com/ecc521/connect-4-solver/blob/main/native/NNUE.hpp | Source code | AGPL v3 | NNUE header defining network architecture: 84→256→1 (7x6), 128→256→32→1 (8x8). Source-level decode verified. |
+| S143 | ecc521/connect-4-solver — nnue_weights_7x6.hpp | github.com/ecc521/connect-4-solver/blob/main/native/nnue_weights_7x6.hpp | Source code | AGPL v3 | 7x6 NNUE weight matrix: [84][256] input weights, [256] bias, [256] output weights, [1] output bias. 21,761 params. |
+| S144 | ecc521/connect-4-solver — nnue_weights_8x8.hpp | github.com/ecc521/connect-4-solver/blob/main/native/nnue_weights_8x8.hpp | Source code | AGPL v3 | 8x8 NNUE weight file: 128→256→32→1 architecture. 45,057 params. Two hidden layers. |
+| S145 | ecc521/connect-4-solver — NNUEAccumulator.hpp | github.com/ecc521/connect-4-solver/blob/main/native/NNUEAccumulator.hpp | Source code | AGPL v3 | Incremental accumulator with addPiece/removePiece methods. O(changes) evaluation — ~84x speedup over non-incremental. |
+| S146 | Waidchen et al. (2022) — XAI for Connect 4 | arxiv.org/abs/2202.11797 | Academic paper | 2022 | Explainable AI for Connect 4 with neural networks. Verified source for neural eval interpretability. |
+
+**Retrieved**: 2026-08-05 via WebFetch, raw.githubusercontent.com, and GitHub.

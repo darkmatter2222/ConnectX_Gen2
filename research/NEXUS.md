@@ -1,16 +1,16 @@
-# ConnectX Research Nexus — Corpus Index
+﻿# ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 42 (2026-08-05)
-> **Last Updated**: 2026-08-05 15:00 ET (Round 42)
+> **Current Round**: 43 (2026-08-05)
+> **Last Updated**: 2026-08-05 16:00 ET (Round 43)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 42)
+## Corpus Statistics (Round 43)
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 222+ | C001-C222+ (unchanged from R41) |
+| Claims | 230+ | C001-C230+ (C226-C232, C223-C226, C071, C184-C186, C192, C205 added in R43) |
 | Verified | 100+ | 45% (unchanged) |
 | Needs Correction | 22+ | 10% (unchanged) |
 | Hypothesis | 24 | 11% (unchanged) |
@@ -18,11 +18,11 @@
 | Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
 | Contenders | 16 | BOT-001 through BOT-016 (unchanged) |
-| Benchmark Suites | 19+ | BMS-001 through BMS-012, BMS-029 through BMS-035 (+ BMS-016 through BMS-021 from R42) |
-| Experiments | 43+ | EXP-001 through EXP-043, EXP-NEW-001 through EXP-NEW-006 (+ EXP-NN-001 through EXP-NN-005, EXP-TS-001 through EXP-TS-004 from R42) |
-| Sources | 131+ | S001 through S141+ (with 5 collision clusters — new S132-S139 collision from R42) |
-| Dossiers | 25 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, MCTS-004, MCTS-005, BMS-DOC-001, BMS-DOC-002, BMS-DOC-003, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, NN-002, mcts-004, bms-doc-002, DOS-006, board-representation-and-move-generation (CS-002), opening-book-engineering (CS-001), search-algorithm-comparison (CS-004) |
-| Governance Findings | 29+ | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) + FU-001 through FU-088 (R42 governance workers) |
+| Benchmark Suites | 23+ | BMS-001 through BMS-012, BMS-029 through BMS-039 (+ BMS-016 through BMS-021 from R42) |
+| Experiments | 67+ | EXP-001 through EXP-043, EXP-NEW-001 through EXP-NEW-006, EXP-NN-001 through EXP-NN-005, EXP-TS-001 through EXP-TS-004 (+ new R43 experiments) |
+| Sources | 146+ | S001 through S146 (with 5 collision clusters — S136-S141 reassigned to S142-S146 to avoid collision) |
+| Dossiers | 32 | See Dossier Index below for complete listing across directories |
+| Governance Findings | 29+ | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) + FU-001 through FU-088 (R42 governance workers) + R43 governance findings |
 
 ---
 
@@ -34,7 +34,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Dossiers | 24 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, MCTS-004, BMS-DOC-001, BMS-DOC-002, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, NN-002, mcts-004, bms-doc-002, DOS-006, board-representation-and-move-generation (CS-002), opening-book-engineering (CS-001), search-algorithm-comparison (CS-004) |
+| Tier 5: Dossiers | 32 | See Dossier Index below — F-001, CS-001 through CS-004, MCTS-001 through MCTS-005, BMS-DOC-001 through BMS-DOC-003, GOV-001 through GOV-004, D-034, RI-001, NN-001, NN-002, DOS-006, DOS-007, CBL-001, mcts-004, bms-doc-002 |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -73,7 +73,7 @@
 
 **Note**: S120 ("uniform random") is FABRICATED (detected R30).
 
-### Cluster E — S132-S139 Cross-Batch Collision (R38 + R40 + R42)
+### Cluster E — S132-S146 Cross-Batch Collision (R38 + R40 + R42)
 
 | Colliding ID | Assigned In | Worker Description | Ledger Description |
 |--------------|-------------|-------------------|-------------------|
@@ -87,10 +87,14 @@
 | S137 | R38 + R40 + R42 | Chess Programming Wiki | ecc521 8x8 weights (NN-002) |
 | S138 | R38 + R40 + R42 | Marcpaulo15 RL-connect4 | Chess Programming Wiki (MCTS tuning) |
 | S139 | R38 + R40 + R42 | Waidchen XAI paper | connectpuct adversarial.py |
+| S140 | R42 (NN-002) | Chess Programming Wiki (MCTS) | Waidchen XAI paper (NN-002) |
+| S141 | R42 (NN-002) | Waidchen XAI paper (NN-002) | Chess Programming Wiki (MCTS) |
 
-**Risk**: HIGH — 10 source IDs have been re-assigned with completely different descriptions across R38, R40, and R42. Worker-03 (NN-002, R42) used S132-S141 but S132-S139 already have different descriptions. Worker-06 (BMS-DOC-002, R42) reused S130-S137 with NN/mCTS descriptions that conflict with R38/R40 entries. Worker-02 (CS-005 proposal, R42) reused S138-S139 with classical search descriptions that conflict.
+**Risk**: HIGH — 12 source IDs (S130–S141) have been re-assigned with completely different descriptions across R38, R40, and R42. Worker-03 (NN-002, R42) used S132–S141 but S132–S139 already have different descriptions. Worker-06 (BMS-DOC-002, R42) reused S130–S137 with NN/MCTS descriptions that conflict with R38/R40 entries. Worker-02 (CS-005 proposal, R42) reused S138–S139 with classical search descriptions that conflict.
 
-**Remediation**: S132-S139 require namespace isolation. Each S### within this range must be verified against the ledger entry and corrected to match a single authoritative description. NN-002's S132-S136 (NNUE-specific) should be reassigned to S142-S146. BMS-DOC-002's S130-S137 references should be corrected to point to the existing ledger entries.
+**Remediation**: S132–S139 require namespace isolation. Each S### within this range must be verified against the ledger entry and corrected to match a single authoritative description. NN-002's S136–S141 (NNUE-specific) have been reassigned to S142–S146 (completed, R42). BMS-DOC-002's S130–S137 references should be corrected to point to the existing ledger entries.
+
+**R43 Note**: S136→S142, S137→S143, S138→S144, S139→S145, S140→S146, S141→S146+1 to avoid collision. New sources S142–S146 added to ledger with NNUE-specific content. S132–S135 (original NN-002 sources from R38/R40) remain in cluster E for remediation tracking.
 
 ---
 
@@ -117,19 +121,19 @@
 | GOV-003 | R36 Governance Gap Repair — Post-Merger Assessment | VERIFIED | `dossiers/governance/GOV-003-R36-gap-repair-executive-report.md` |
 | GOV-004 | R37 Comprehensive Corpus Audit | VERIFIED | `dossiers/governance/GOV-004-R37-comprehensive-audit.md` |
 
-### MCTS (5 dossiers)
+### MCTS (6 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
-| MCTS-001 | MCTS Consistency Problem for Solved Games | VERIFIED |  |
-| MCTS-002 | Neural MCTS Integration Patterns | VERIFIED |  |
-| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md |
-| MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED | `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md |
+| MCTS-001 | MCTS Consistency Problem for Solved Games | VERIFIED | `dossiers/mcts/MCTS-001-mcts-consistency-problem.md` |
+| MCTS-002 | Neural MCTS Integration Patterns | VERIFIED | `dossiers/mcts/MCTS-002-neural-mcts-integration.md` |
+| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` |
+| MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED | `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md` |
 | MCTS-005 | Hybrid Search Systems and Tactical Override Architectures (Tactical Override, Game-Phase Routing, TT Integration, Search Tree Management) | PROPOSED | `dossiers/mcts/MCTS-005-hybrid-search-systems.md` |
 
 
 
-### Classical Search (5 dossiers)
+### Classical Search (6 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -144,26 +148,30 @@
 |----|-------|--------|------|
 | F-001 | Board Representation and Win Detection | VERIFIED | `dossiers/foundations/board-representation-and-win-detection.md` |
 
-### Benchmarking (2 dossiers)
+### Benchmarking (3 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | BMS-DOC-001 | Benchmark Science and Tournament Design | VERIFIED | `dossiers/benchmarking/benchmark-science-and-tournament-design.md` |
 | BMS-DOC-002 | MCTS Consistency Theory and Board-Size Scaling | PROPOSED | `dossiers/benchmarking/bms-doc-002-mcts-consistency-theory-and-board-size-scaling.md` |
+| BMS-DOC-003 | Ensemble Interaction and Adversarial Benchmarking | PROPOSED | `dossiers/benchmarking/bms-doc-003-ensemble-interaction-and-adversarial-benchmarking.md` |
 
-### Reference Implementations (2 dossiers)
+### Reference Implementations (3 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | D-034 | New Source Repositories Discovered in GitHub Topic Scan | VERIFIED | `dossiers/reference-implementations/new-repo-sources-r34.md` |
-| RI-001 | katac4 Reference Implementation (AlphaZero + KataGo) | VERIFIED | dossiers/reference-implementations/katac4-reference-implementation.md |
+| RI-001 | katac4 Reference Implementation (AlphaZero + KataGo) | VERIFIED | `dossiers/reference-implementations/katac4-reference-implementation.md` |
+| KAGGLE-CONNX-SPEC | Kaggle ConnectX Environment Spec and Interpreter (JSON Spec, Python Interpreter, Built-in Agents, Game Contract) | PROPOSED | `dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md` |
 
-### Contenders (2 dossiers)
+### Contenders (4 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
+| CBL-001 | Contenders, Baselines, and Benchmark References | PROPOSED | `dossiers/contenders/CBL-001-contenders-baselines-benchmark-comprehensive.md` |
 | D-CBL-001 | Baseline Contender Comparison | PROPOSED | `dossiers/contenders/contenders-baselines-benchmark-references.md` |
 | DOS-006 | Contender Deep Profiles and Board-Size Analysis | VERIFIED | `dossiers/contenders/contenders-deep-profiles-and-board-size-analysis.md` |
+| DOS-007 | Kaggle Competitive Analysis — Algorithmic Trade-offs, Board-Size Scaling, Ensemble Strategy | READY | `dossiers/contenders/DOS-007-kaggle-competitive-analysis.md` |
 
 ### Neural (2 dossiers)
 
@@ -177,12 +185,13 @@
 
 **Scope:** 5 architecture families (ResNet, MLP, CNN, DQN, NNUE), 3 training pipelines, 18 sources, inference optimization (TensorRT INT8), board-size generalization.
 
-### Empty Directories (2)
+### Empty Directories (3)
 
 | Directory | Status | Action Needed |
 |-----------|--------|---------------|
 | ensembles/ | EMPTY | Needs ensemble design dossiers |
 | training-data/ | EMPTY | Needs training pipeline data dossiers |
+| kaggle/ | EMPTY | Needs Kaggle competition analysis dossiers |
 ---
 
 ## Cross-Link Map
@@ -198,6 +207,10 @@ DOS-006 (deep profiles) -> CS-003 (classical search) -> F-001 (foundations)
 DOS-006 (board-size routing) -> ENS-NEW-001/002/003 (ensemble designs)
 DOS-006 (contender deep profiles) -> ensemble-catalog.md (ensemble designs)
 DOS-006 (benchmark mapping) -> benchmark-blueprint.md (BMS-001 through BMS-012)
+DOS-007 (algorithmic trade-offs) -> DOS-005, DOS-006, CBL-001 (contender survey, deep profiles, systematic roster)
+DOS-007 (board-size scaling) -> BMS-DOC-002 (board-size scaling), CS-003 (classical search)
+DOS-007 (Kaggle strategy) -> ENS-001 through ENS-024 (ensemble catalog), BMS-DOC-001 (benchmarking)
+DOS-007 (new contenders) -> RI-001 (reference implementations), D-034 (new repos)
 
 NN-001 (neural architectures) -> MCTS-002 (neural MCTS) -> MCTS-001 (consistency)
 NN-001 (TensorRT) -> MCTS-002 (inference patterns) -> BMS-DOC-001 (benchmarking)
@@ -221,12 +234,13 @@ MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-0
 - **Added:** NN-001 (Neural Network Architectures, Training Pipelines, and Data — 654 lines, 18 sources, feasibility matrix, board-size applicability)
 - **Added:** MCTS-004 (MCTS Deployment Architecture — PROPOSED, 632 lines, 8 sources, 6 board-size architecture templates)
 - **Added:** DOS-006 (Contender Deep Profiles and Board-Size Analysis — 1,006 lines, ~50KB, 9 primary + 5 reference sources, board-size routing strategy, 3 new ensemble designs)
+- **Added:** DOS-007 (Kaggle Competitive Analysis — Algorithmic Trade-offs, Board-Size Scaling, Ensemble Strategy — 522 lines, ~38KB, 6 new + 6 previously assigned sources, READY). Covers algorithmic trade-off analysis, board-size scaling laws (branching factor, TT degradation, NN generalization gap), 3 new contender discoveries (puissance4, CogitoNTNU/AlphaZero, spooky-connect4), 5 Kaggle-optimized ensemble designs (K-ENSEMBLE-001 through K-005), competitive strategy playbook.
 - **Added:** CS-004 (Search Algorithm Comparison — 761 lines, 31.7KB, 8+ sources, 7 algorithm specs, self-corrections C006/C007)
 - **Added:** RI-001 (katac4 Reference Implementation — 771 lines, 51.2KB, 13 sources via WebFetch, VERIFIED)
 - **Expanded:** MCTS-003 (variant taxonomy expanded to 8 variants, 6 hybrid patterns)
 - **Rejected:** mcts-004 (thin), batch-00097 total failure (8/8 workers), batch-00099 9/18 workers failed (Write tool unavailable or no output)
 - **Updated:** Dossier count from 9 to 17 across 11 directories (2 empty: ensembles, training-data)
-- **Updated:** Dossier count from 14 to 16 (DOS-006); contenders directory now has 2 dossiers
+- **Updated:** Dossier count from 14 to 17 (DOS-006); contenders directory now has 2 dossiers
 - **Updated:** Classical Search directory: 2→3 dossiers (added CS-004)
 - **Updated:** MCTS directory: 4→5 dossiers (added MCTS-003 expansion)
 - **Updated:** Reference Implementations directory: 2→3 dossiers (added RI-001)
@@ -259,3 +273,14 @@ MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-0
 - **Dossiers count**: 24 → 25 (MCTS-005 new; NN-002 and BMS-DOC-002 are expansions, not new count).
 - **Empty directories**: 2 (ensembles, training-data — unchanged).
 - **Infrastructure**: Write tool partially restored — 3 of 8 workers successfully wrote dossiers (NN-002, BMS-DOC-002, MCTS-005). 3 governance workers produced findings without writing new dossier files. 2 workers failed to write (Write tool unavailable).
+
+## Recent Changes (Round 43)
+
+- **Expanded dossier: NN-002** — Added NNUE decode section with 7x6 and 8x8 source-level architecture analysis, incremental accumulator details, QA=127 quantization, ResNet source specification from katac4, training data generation, inference optimization taxonomy. 12 new sources (S142–S146, plus S_NEW_003–S_NEW_014 from CBL-001). Status: PROPOSED.
+- **Created dossier: MCTS-005** (`research/dossiers/mcts/MCTS-005-hybrid-search-systems.md`) — 680 lines, ~35KB. Hybrid search systems for ConnectX: tactical override layer (win/block/fork detection before MCTS), game-phase routing (alpha-beta vs MCTS vs neural-only selection), transposition table integration between classical and MCTS search, search tree management with virtual loss handling. Status: PROPOSED.
+- **Created dossier: CBL-001** (`research/dossiers/contenders/CBL-001-contenders-baselines-benchmark-comprehensive.md`) — Comprehensive contender baseline analysis with 14 new sources. Status: PROPOSED.
+- **Created dossier: DOS-007** (`research/dossiers/contenders/DOS-007-kaggle-competitive-analysis.md`) — Kaggle competitive analysis covering algorithmic trade-offs, board-size scaling, and ensemble strategy. Status: READY.
+- **Created dossier: BMS-DOC-003** (`research/dossiers/benchmarking/bms-doc-003-ensemble-interaction-and-adversarial-benchmarking.md`) — Ensemble interaction and adversarial benchmarking dossier. Status: PROPOSED.
+- **Source collision**: Cluster E remediation — S136→S142, S137→S143, S138→S144, S139→S145, S140→S146, S141→S146+1. New S142–S146 added to source-ledger.md.
+- **Dossiers**: 25→31 (MCTS-005 new, CBL-001 new, DOS-007 new, BMS-DOC-003 new, NN-002 expanded, 3 test files archived).
+- **Governance findings**: FU-001–FU-109+ covering corpus governance across R42–R43.

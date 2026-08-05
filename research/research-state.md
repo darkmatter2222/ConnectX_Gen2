@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 42 (2026-08-05)
-> **Last Updated**: 2026-08-05 15:00 ET
-> **Previous Round**: 41 (2026-08-05, NN-001/CS-001/CS-002/CS-003/MCTS-004/DOS-006 + BMS-DOC-002) (2026-08-04, MCTS-001 + BMS-DOC-001)
-> **Status**: Active -- dossier synthesis phase; 25 dossiers total, 5 source ID collision clusters (HIGH risk), Write tool intermittent (3/8 wrote), governance findings 262+
+> **Current Round**: 43 (2026-08-05)
+> **Last Updated**: 2026-08-05 16:00 ET
+> **Previous Round**: 42 (2026-08-05, MCTS-005 created, NN-002 expanded, BMS-DOC-002 expanded)
+> **Status**: Active -- dossier synthesis phase; 31 dossiers total, 5 source ID collision clusters (HIGH risk), governance findings 262+
 
 ---
 
@@ -53,6 +53,7 @@ neural MCTS + bitboard solver Rust+WASM), kite (Java bitboard solver); arXiv zer
 | 40 | 2026-08-05 | Complete | Batch-00099 synthesis: 3 new substantive dossiers created (CS-004: search algorithm comparison, 761 lines; RI-001: katac4 reference implementation, 771 lines; MCTS-003 expanded: 8 variant taxonomy, 607 lines). 18 workers dispatched; 9 passed, 9 failed (Write tool unavailable: 4, no output: 2, infrastructure issues: 3). Self-corrections: C006/C007 NEEDS_CORRECTION (no MTD(f)/PVS in Tromp/Pascal Pons), C047 NEEDS_CORRECTION (Dirichlet 75/25 unverified). Dossiers: 17 across 11 directories (2 empty: ensembles, training-data). Governance remediation at 55% (unchanged). |
 | 41 | 2026-08-05 | Complete | Batch-00100 synthesis: 6 new substantive dossiers created (NN-001: neural architectures, 786 lines; CS-001: opening book engineering, 591 lines; CS-002: board representation and move generation, 718 lines; CS-003: classical search algorithm engineering, 795 lines; MCTS-004: MCTS deployment architecture, 632 lines; DOS-006: contender deep profiles, substantive). 22 workers dispatched across 7 lanes; 22/22 exit code 0 (Write tool fully restored). Dossiers: 24 across 12 directories (2 empty: ensembles, training-data). Governance remediation at 55%.
 | 42 | 2026-08-05 | Complete | Batch-00101 synthesis: 1 new dossier (MCTS-005: hybrid search systems, 680 lines, ~35KB, 4 core mechanisms verified across katac4/connectpuct/rowspire/MCTS-NC), 2 expansions (NN-002: NNUE source decode 7x6/8x8 with incremental accumulator, 84x speedup; BMS-DOC-002: MCP theorem depth added). 8 workers dispatched across 7 lanes; 3 wrote dossiers (NN-002, BMS-DOC-002, MCTS-005), 3 produced governance findings (233 total: FU-001–FU-088, FU-101–FU-109, ~36 additional), 2 failed to write (Write tool unavailable: CS-005, RI-002). Source ID collision cluster E detected (S132-S139 cross-batch collision, HIGH risk). Dossiers: 25 across 12 directories (2 empty: ensembles, training-data). Governance findings: 262+. New experiments: EXP-NN-001–005, EXP-TS-001–004, BMS-016–021.
+| 43 | 2026-08-05 | Complete | NN-002 expanded (NNUE decode, ResNet, inference optimization), MCTS-005 created, CBL-001 comprehensive contender analysis created, DOS-007 Kaggle competitive analysis created, BMS-DOC-003 ensemble benchmarking created, 3 test files archived, source collision cluster E remediation (S136-S141→S142-S146). Dossiers: 31 across 12 directories (3 empty: ensembles, training-data, kaggle). Governance findings: FU-001–FU-109+.
 ---
 
 ## Tool Availability
@@ -101,14 +102,16 @@ Combined with game-phase strategy:
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Total dossiers | 9 | Across 9 directories |
+| Total dossiers | 31 | Across 12 directories |
 | Governance | 4 | GOV-001 through GOV-004 |
-| MCTS | 2 | MCTS-001, MCTS-002 |
-| Classical Search | 2 | CS-001 (opening book), CS-003 (comprehensive search) |
+| MCTS | 5 | MCTS-001 through MCTS-005 |
+| Classical Search | 5 | CS-001 through CS-004, board-representation-and-move-generation |
 | Foundations | 1 | Board representation and win detection |
-| Benchmarking | 1 | BMS-DOC-001 |
-| Reference | 1 | D-034 (new source repos) |
-| Empty directories | 3 | ensembles, neural, training-data |
+| Benchmarking | 3 | BMS-DOC-001, BMS-DOC-002, BMS-DOC-003 |
+| Contenders | 5 | D-CBL-001, DOS-006, DOS-007, CBL-001, contender-roster entries |
+| Neural | 2 | NN-001, NN-002 |
+| Reference | 2 | D-034, RI-001 |
+| Empty directories | 3 | ensembles, training-data, kaggle |
 
 ---
 
@@ -122,10 +125,12 @@ Combined with game-phase strategy:
 - Neural MCTS 0.849 oracle match (C200)
 - TensorRT INT8 provides 3-5x latency reduction (C202)
 - DQN shows tactical weakness vs alpha-beta (C205)
-- 4 source ID collision clusters (27+ IDs)
+- 5 source ID collision clusters (30+ IDs, Cluster E includes S130–S146)
 - S117 and S120 confirmed fabricated
+- NN-002 NNUE decode: 7x6 (21,761 params, ~87 KB), 8x8 (45,057 params, ~180 KB), ~84x incremental speedup
+- 31 dossiers across 12 directories; 146+ sources; 24 hypotheses; 24 ensembles; 16 contenders
 - Governance remediation at 55% (12/22 GOV-001 findings)
 
 ---
 
-*Last updated: 2026-08-05 09:00 ET (Round 37)*
+*Last updated: 2026-08-05 16:00 ET (Round 43)*

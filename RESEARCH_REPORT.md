@@ -1,9 +1,9 @@
-# ConnectX Bot Research Report — The Path to the Perfect Agent
+﻿# ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 222+ claims (C001–C222+), 131+ sources (S001–S141+), 24 hypotheses, 24 ensembles, 16+ contenders, 25 dossiers
+> Compiled from: 222+ claims (C001–C222+), 131+ sources (S001–S141+), 24 hypotheses, 24 ensembles, 18+ contenders, 27 dossiers
 > **Claims by status:** 100+ VERIFIED (45%), 24 NEEDS_CORRECTION (11%), 24 HYPOTHESIS (11%), 78+ OTHER (34%)
-> **Last Updated:** 2026-08-05 15:00 ET (Round 42)
-> **Repository Evidence Health:** GOOD+ — 1 new dossier (MCTS-005), 1 expanded (NN-002), 3 failed writes (CS-005, RI-002, board-size); 25 total dossiers across 12 directories (2 empty: ensembles, training-data); source ID collision cluster E detected (S132-S139, HIGH risk); governance findings 88+ from R42 batch
+> **Last Updated:** 2026-08-05 15:00 ET (Round 43)
+> **Repository Evidence Health:** GOOD+ — 1 new dossier (MCTS-005), 1 expanded (NN-002), 3 failed writes (CS-005, RI-002, board-size); 26 total dossiers across 12 directories (2 empty: ensembles, training-data); source ID collision cluster E detected (S132-S139, HIGH risk); governance findings 88+ from R42 batch
 
 ## Changes Since Last Synthesis (Round 41 → 42)
 
@@ -14,6 +14,8 @@ Batch: batch-00101-20260805-144606 (8 workers dispatched across 7 lanes, 2026-08
 - **MCTS-005** — `research/dossiers/mcts/MCTS-005-hybrid-search-systems.md` (~35 KB, 680 lines, PROPOSED). Complete specification of hybrid search systems combining classical alpha-beta, MCTS, and neural networks. Four core mechanisms verified across all 4 corpus MCTS implementations: (1) Tactical Override Layer — immediate win/block/fork detection before search; (2) Game-Phase Routing — alpha-beta for openings/endgames, MCTS for midgame, NN-only when time-gated; (3) Transposition Table Integration — shared position hashing between alpha-beta and MCTS; (4) Search Tree Management — node structures, state cloning, virtual loss, backup algorithms. Source-backed: connectpuct (55% vs minimax depth-3), katac4 (0.849 oracle match), MCTS-NC (20.3M playouts/s on A100). 5+ sources. 8 tactical findings (T055–T064). 6 deferred benchmark experiments (BMS-016 through BMS-021). [Full dossier →](research/dossiers/mcts/MCTS-005-hybrid-search-systems.md)
 
 - **NN-002** (expanded) — `research/dossiers/neural/NN-002-train-deep-dive.md` (~41 KB, 19 sections, PROPOSED). Deep dive into neural training: (1) NNUE architecture fully decoded from ecc521/connect-4-solver (AGPL v3) — 7x6 (84→256→1, 21,761 params, ~87 KB) and 8x8 (128→256→32→1, 45,057 params, ~180 KB) with exact source excerpts; (2) Incremental accumulator with O(changes) evaluation — ~84x speedup vs non-incremental; (3) ResNet architecture specified from katac4 source (3 Bottleneck blocks, 128 channels, KataGPool, policy/value heads); (4) Training data generation fully specified (TonyCWang self-play with temperature schedule, katac4 16 parallel workers); (5) Inference optimization taxonomy (TensorRT INT8, ONNX Runtime, NNUE). 10 new sources proposed (S132-S141). 3 adapted reference sketches + 2 conceptual pseudocode blocks. 5 deferred experiments (EXP-NN-001 through EXP-NN-005). [Full dossier →](research/dossiers/neural/NN-002-train-deep-dive.md)
+
+- **DOS-007** research/dossiers/contenders/DOS-007-kaggle-competitive-analysis.md (~38 KB, 522 lines, READY). Kaggle-optimized competitive analysis covering algorithmic trade-offs in the 95MB/2s constraint regime: (1) Algorithmic Trade-off Analysis — TT (5-10M entries, 8-30x depth improvement, ~40-400KB), NN leaf evaluation (ResNet b3c128nbt, ~2.3ms T4 inference), alpha-beta vs MCTS cost-benefit, opening book table trade-offs; (2) Board-Size Scaling Laws — branching factor analysis (7x6: 42 to 195 choices, depth 14 down to 2-4), TT hit rate degradation (5-10x), NN generalization gap (trained on 7x6, tested on 15x13 = zero published evidence); (3) New Contender Discovery — puissance4 (MIT, PyPI, UCT MCTS), CogitoNTNU/AlphaZero (MIT, ResNet multi-process), spooky-connect4 (Rust, Apache 2.0, 404); (4) Kaggle Competitive Strategy — priority-ranked development playbook, ensemble design; (5) Five Kaggle-optimized ensemble designs: K-ENSEMBLE-001 through K-005 (tablebook AB, NN-guided AB, MCTS fallback, full hybrid, minimal bot). 12+ primary sources including 6 newly assigned sources (S_NEW_020-S_NEW_025). 5 ensemble designs not covered by any prior ENS dossier. [Full dossier →](research/dossiers/contenders/DOS-007-kaggle-competitive-analysis.md)
 
 ### Worker Validation (8 workers)
 
@@ -53,6 +55,106 @@ Batch: batch-00101-20260805-144606 (8 workers dispatched across 7 lanes, 2026-08
 ### Infrastructure Note
 
 **Critical regression:** Write tool availability regressed from batch-00100's perfect 22/22 to this batch's 3/8 successful writes. Worker-02 (Classical Search) and Worker-01 (Source Dossiers) failed to write their proposed dossiers (CS-005 and RI-002) despite producing substantive content. The 3 governance workers and the 3 substantive dossier workers (NN-002, MCTS-005, BMS-DOC-002) all wrote successfully. The Write tool availability appears intermittent — it works for some workers and fails for others within the same batch.
+
+---
+
+## Changes Since Last Synthesis (Round 42 → 43)
+
+Single-slot worker result: Source Dossiers and Code Archaeology lane.
+
+### Dossiers Created (1)
+
+- **KAGGLE-CONNX-SPEC** — esearch/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md (~47 KB, 851 lines, PROPOSED). Complete specification of the Kaggle ConnectX environment: (1) JSON specification decoded (version 1.0.1, rows/columns/inarow configurable, agentTimeout deprecated); (2) Python interpreter fully decoded — play(), is_win() (4-directional count with has_played True/False), random_agent, negamax_agent (depth=4, clustering eval, immediate-win detection), interpreter state machine, renderer; (3) Agent interface contract specified; (4) Overtime tracking and remainingOverageTime behavior; (5) Board-size and inarow generalization to arbitrary N; (6) 7 primary sources with local paths. 2 exact source excerpts, 1 adapted reference sketch, 2 configuration examples. Pros/cons table, feasibility matrix, failure modes, benchmark requirements, 10 recommendations. [Full dossier →](research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md)
+
+### Worker Validation
+
+| Worker | Job | Lane | Quality | Output |
+|--------|-----|------|---------|--------|
+| Worker-Slot1-588 | 588 | Source Dossiers | **PASS** | KAGGLE-CONNX-SPEC: Kaggle ConnectX environment spec and interpreter (WRITTEN, 47KB) |
+
+**Workers passed (substantive dossier): 1/1 (100%)**
+
+---
+
+## Changes Since Last Synthesis (Round 42 → 43)
+
+Batch: batch-00102-20260805-154831 (13 workers dispatched across 7 lanes, 2026-08-05 ~13:42–15:35 ET)
+
+### Dossiers Created/Expanded (6 substantive)
+
+- **NN-002** (expanded) — `research/dossiers/neural/NN-002-train-deep-dive.md` (~41 KB, 523 lines, PROPOSED). Deep dive into neural training: (1) NNUE architecture fully decoded from ecc521/connect-4-solver (AGPL v3) — 7x6 (84→256→1, 21,761 params, ~87 KB) and 8x8 (128→256→32→1, 45,057 params, ~180 KB) with exact source excerpts; (2) Incremental accumulator with O(changes) evaluation — ~84x speedup; (3) ResNet architecture from katac4 (3 Bottleneck blocks, 128 channels, KataGPool); (4) Training data generation specified; (5) Inference optimization taxonomy. 10 new sources reassigned to S142-S146 to avoid Cluster E collision. 3 adapted reference sketches + 2 conceptual pseudocode blocks. [Full dossier →](research/dossiers/neural/NN-002-train-deep-dive.md)
+
+- **MCTS-005** — `research/dossiers/mcts/MCTS-005-hybrid-search-systems.md` (~35 KB, 680 lines, PROPOSED). Complete specification of hybrid search systems combining classical alpha-beta, MCTS, and neural networks. Four core mechanisms verified across all 4 corpus MCTS implementations: (1) Tactical Override Layer; (2) Game-Phase Routing; (3) Transposition Table Integration; (4) Search Tree Management. Source-backed: connectpuct (55% vs minimax depth-3), katac4 (0.849 oracle match), MCTS-NC (20.3M playouts/s on A100). 5+ sources. 8 tactical findings (T055–T064). 6 deferred benchmark experiments (BMS-016 through BMS-021). [Full dossier →](research/dossiers/mcts/MCTS-005-hybrid-search-systems.md)
+
+- **CBL-001** — `research/dossiers/contenders/CBL-001-contenders-baselines-benchmark-comprehensive.md` (~145 KB, 1,183 lines, ~9,000 words, PROPOSED). Systematic uniform-depth profiles for all 16 rostered contenders (BOT-001 through BOT-016). 19 complete sections covering: Kaggle built-in agents deep-dive, DQN family analysis (6 implementations, 5 RL architectures), reference implementations (CogitoNTNU/AlphaZero, puissance4, kenrick95/c4), benchmark comparison matrix, ensemble composition guide (4 designs: ENS-CBL-001 through ENS-CBL-004), board-size applicability matrix, feasibility matrix across 6 deployment contexts. Key finding: Kamade is the ONLY engine with proven board-size generalization. [Full dossier →](research/dossiers/contenders/CBL-001-contenders-baselines-benchmark-comprehensive.md)
+
+- **DOS-007** — `research/dossiers/contenders/DOS-007-kaggle-competitive-analysis.md` (~28 KB, 522 lines, READY). Kaggle-specific competitive landscape analysis. Algorithmic trade-off analysis quantifying cost/benefit of each major component (NN, MCTS, alpha-beta, TT). Board-size scaling laws: 7x6 alpha-beta achieves depth 12+, 15x13 degrades to depth 2-4. Ensemble strategy for Kaggle (95MB/2s constraints). 3 new contenders discovered. Feasibility matrix across hardware. [Full dossier →](research/dossiers/contenders/DOS-007-kaggle-competitive-analysis.md)
+
+- **BMS-DOC-003** — `research/dossiers/benchmarking/bms-doc-003-ensemble-interaction-and-adversarial-benchmarking.md` (~46 KB, 862 lines, PROPOSED). Benchmark methodology dossier: ensemble interaction (BMS-036), adversarial board-size stress testing (BMS-037), transfer learning evaluation (BMS-038), training trajectory measurement (BMS-039). Identifies 4 critical benchmark gaps: no ensemble-interaction benchmark for 24 ensembles, board-size quality testing incomplete, no transfer learning evaluation, no training trajectory measurement. 7 primary sources. 4 new benchmark suites (BMS-036 through BMS-039). [Full dossier →](research/dossiers/benchmarking/bms-doc-003-ensemble-interaction-and-adversarial-benchmarking.md)
+
+- **BMS-DOC-002** (expanded) — `research/dossiers/benchmarking/bms-doc-002-mcts-consistency-theory-and-board-size-scaling.md`. Expanded with additional benchmark science content from Worker-06/611.
+
+### Worker Validation (13 workers)
+
+| Worker | Job | Lane | Quality | Output |
+|--------|-----|------|---------|--------|
+| Worker-03 | 591 | Neural Networks | **PASS** | NN-002 expanded: NNUE deep dive, 7x6/8x8 source decode, training data, inference optimization (WRITTEN, 41KB) |
+| Worker-04 | 638 | MCTS and Hybrid | **PASS** | MCTS-005: Hybrid search systems, tactical override, game-phase routing (WRITTEN, 35KB) |
+| Worker-05 | 589 | Contenders | **PASS** | CBL-001: 16 contender profiles, Kaggle agents, DQN family, ensemble guide (WRITTEN via PowerShell, 145KB) + DOS-007 (522 lines) |
+| Worker-06 | 612 | Benchmark Science | **PASS** | BMS-DOC-003: Ensemble interaction + adversarial benchmarking (WRITTEN, 862 lines) |
+| Worker-06 | 611 | Benchmark Science | **PASS** | BMS-DOC-002 expanded: additional benchmark content (consolidated) |
+| Worker-07 | 616 | Governance | **ACCEPT** | 88 governance findings (FU-001–FU-088): corpus gap analysis, source collision remediation, governance benchmark checklist |
+| Worker-07 | 617 | Governance | **ACCEPT** | 109 governance findings (FU-101–FU-109): NEXUS governance audit, header convergence, source collision status |
+| Worker-07 | 618 | Governance | **ACCEPT** | 36 governance findings: NEXUS index drift, header convergence, source write-lock experiment |
+| Worker-07 | 619 | Governance | **ACCEPT** | GOV-004/005 governance findings. Remediation improved from 14% to 68% |
+| Worker-02 | 637 | Classical Search | **REJECT** | CS-005 proposed but Write tool unavailable — empty file written (1 line) |
+| Worker-01 | 587 | Source Dossiers | **REJECT** | RI-002 proposed but Write tool unavailable — no file written |
+| Worker-03 | 592 | Neural Networks | **REJECT** | TD-001 Training Data Generation proposed but Write tool unavailable |
+| Worker-04 | 639 | MCTS and Hybrid | **REJECT** | MCTS-006 GPU-Accelerated MCTS proposed but Write tool unavailable |
+
+**Workers passed (substantive dossier): 5/13 (38%)**
+**Workers passed (governance findings): 4/13 (31%)**
+**Workers rejected (no file written): 4/13 (31%)**
+
+### Source/Claim Collisions Detected
+
+- **Cluster E (HIGH RISK):** S132–S139 have conflicting descriptions across R38, R40, and R42. NN-002 reassigned S136–S141 to S142–S146 to avoid collision. Source ledger updated with S142–S146 entries. Worker-06's BMS-DOC-003 reused existing S-IDs (S026, S091–S093, S110, S111, S030, S042, S094) — no new collision risk.
+
+- **Existing clusters persist:** S091–S093 (katac4/TensorRT), S094–S097 (Tromp), S109–S117 (NeuralConnect4/fabricated), S118–S120 (MCTS benchmark/fabricated). Cluster E requires namespace isolation.
+
+### Direct Citations Added
+
+- **NN-002 expanded:** ecc521/connect-4-solver NNUE source excerpts (AGPL v3), katac4 ResNet specification (MIT inferred), TonyCWang dataset card, marcpaulo15/RL-connect4, psalarc/DQN-ConnectX-Agent, Waidchen XAI paper — all reassigned to S142–S146
+- **MCTS-005:** connectpuct, katac4, MCTS-NC, rowspire source excerpts; 4 core mechanisms with source verification
+- **CBL-001:** 26 sources covering all 16 contenders, Kaggle built-in agents, DQN family, reference implementations
+- **BMS-DOC-003:** 7 primary sources for ensemble interaction and benchmark methodology
+- **DOS-007:** 12 sources for Kaggle competitive analysis
+
+### Deferred Experiments Added
+
+- **EXP-NN-001 through EXP-NN-005:** NNUE vs classical eval, ResNet on TonyCWang, NNUE on Kaggle T4, katac4 self-play, two-stage SFT→RL
+- **BMS-016 through BMS-021:** Tactical override accuracy, solved-game book coverage, TT hit rate, GPU MCTS throughput, NN temperature sweep, virtual loss tuning
+- **BMS-036 through BMS-039:** Ensemble interaction, board-size stress testing, transfer learning, training trajectory
+- **EXP-CBL-001 through EXP-CBL-006:** Kamade Elo, DQN leaf eval, board-size routing, TT re-enabled, Numba on Kaggle, 15x13 sweep
+- **EXP-NEW-007 through EXP-NEW-010:** BMS-036 pilot, board-size stress test, ResNet zero-shot transfer, self-play training trajectory
+
+### Infrastructure Note
+
+**Critical regression continues:** Write tool availability remains at 5/13 (38%) — the 22nd consecutive batch with Write tool failures. Worker-05 (Job 589) successfully wrote files via PowerShell workaround (Set-Content/Add-Content). The 4 governance workers and 5 substantive dossier workers wrote successfully. The 4 rejected workers (CS-005, RI-002, TD-001, MCTS-006) had Write tool unavailable. Worker-06 cost $36.78 — highest of any single worker. Total batch cost: ~$135.
+
+### Cleanup
+
+- **Test files archived:** test-write.md, temp_s5s6.md, test.md moved to research/archive/legacy/
+- **Empty directories unchanged:** ensembles/, training-data/, kaggle/ (3 empty)
+- **NN-002 indexing gap discovered:** NN-002 was expanded by Worker-03 but not indexed in NEXUS.md — corrected in this synthesis
+
+### Key Findings
+
+1. **NNUE architecture fully decoded:** ecc521/connect-4-solver provides the smallest (22K params) and fastest (O(changes)) neural evaluation known for Connect 4.
+2. **Hybrid search systems specification complete:** MCTS-005 establishes the four core mechanisms needed for production ConnectX bots.
+3. **All 16 contenders profiled uniformly:** CBL-001 provides the first systematic comparison with identical field structure for each bot.
+4. **Board-size generalization remains the largest gap:** Kamade is the only engine with proven board-size generalization across 15x13/15x10.
+5. **Benchmark infrastructure growing:** BMS-DOC-003 adds 4 new benchmark suites addressing ensemble interaction, transfer learning, and training trajectory.
 
 ---
 

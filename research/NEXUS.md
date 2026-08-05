@@ -21,7 +21,7 @@
 | Benchmark Suites | 12 | BMS-001 through BMS-012 |
 | Experiments | 37 | EXP-001 through EXP-037 |
 | Sources | 131 | S001 through S131 (with 4 collision clusters) |
-| Dossiers | 9 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, BMS-DOC-001, CS-003, D-034 |
+| Dossiers | 10 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, CS-003, D-034 |
 | Governance Findings | 29 | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) |
 
 ---
@@ -34,7 +34,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 9 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, BMS-DOC-001, CS-003, D-034 |
+| Tier 5: Dossiers | 10 | GOV-001, GOV-002, GOV-003, GOV-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, CS-003, D-034 |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -98,12 +98,13 @@
 | GOV-003 | R36 Governance Gap Repair — Post-Merger Assessment | VERIFIED | `dossiers/governance/GOV-003-R36-gap-repair-executive-report.md` |
 | GOV-004 | R37 Comprehensive Corpus Audit | VERIFIED | `dossiers/governance/GOV-004-R37-comprehensive-audit.md` |
 
-### MCTS (2 dossiers)
+### MCTS (3 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | MCTS-001 | MCTS Consistency Problem for Solved Games | VERIFIED | `dossiers/mcts/mcts-consistency-solved-games.md` |
 | MCTS-002 | Neural MCTS Integration Patterns | VERIFIED | `dossiers/mcts/mcts-002-neural-integration-patterns.md` |
+| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` |
 
 ### Classical Search (2 dossiers)
 

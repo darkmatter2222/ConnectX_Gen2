@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 33 (2026-08-04)
+> **Current Round**: 35 (2026-08-04)
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -18,13 +18,14 @@
 | `source-ledger.md` | All research sources: primary, secondary, verified, unverified |
 | `research-gaps.md` | Knowledge gap catalog with priority and resolution status |
 | `research-program.md` | Research program framework, evidence hierarchy, hypothesis lifecycle, ensemble protocol |
-| `hypothesis-register.md` | All hypotheses with full lifecycle records (HYP-001 through HYP-020) |
+| `NEXUS.md` | Corpus-level index: cross-link map, source collision map, fabricated data ledger, dossier index |
+| `hypothesis-register.md` | All hypotheses with full lifecycle records (HYP-001 through HYP-024) |
 | `idea-leaderboard.md` | Research-priority leaderboard with 0-5 scoring system |
 | `component-catalog.md` | Reusable component catalog with compatibility matrix (CMP-001 through CMP-010) |
-| `ensemble-catalog.md` | Ensemble catalog with comparison table (ENS-001 through ENS-018) |
-| `contender-roster.md` | Contender roster with classification (BOT-001 through BOT-014) |
+| `ensemble-catalog.md` | Ensemble catalog with comparison table (E-001 through E-012, ENS-013 through ENS-024) |
+| `contender-roster.md` | Contender roster with classification (BOT-001 through BOT-016) |
 | `benchmark-blueprint.md` | Benchmark design with 12 specified suites (BMS-001 through BMS-012) |
-| `future-experiment-backlog.md` | Future experiment backlog with full specifications (EXP-001 through EXP-025) |
+| `future-experiment-backlog.md` | Future experiment backlog with full specifications (EXP-001 through EXP-032) |
 
 ## Round Reports
 
@@ -54,6 +55,8 @@
 | `iterations/round-031.md` | 31 | 2026-08-04 | MCTS timing budget audit + ensemble arbitration. C177-C181 added (MCTS timing). HYP-015/016/017 added (GPU acceleration, CPU fallback, TT-MCTS). ENS-018 added (TT-MCTS shared cache). |
 | `iterations/round-032.md` | 32 | 2026-08-04 | External-Pool Batch (batch-00017): 13/13 workers. C139 VERIFIED (adjacent opening draw, 3 independent sources). C184-C199 VERIFIED (Kamide engine, Tromp search system). C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS). HYP-003 → MEDIUM. New sources S123-S126. New contenders BOT-013/BOT-014. Benchmark: 19 opponents, 6 tiers. 5 adversarial reviews confirm source ID collision. |
 | `iterations/round-033.md` | 33 | 2026-08-04 | External-Pool Batch (batch-00018): 9/9 workers. Source ID collision audit (4 clusters, 27+ IDs). Fabricated data: S117 (40-40-20 phase distribution), S120 ("uniform random" fabricated). arXiv:1203.2285 = astrophysics (not MCP theorem). Benchmark blueprint: 12 suites (BMS-001-BMS-012). 3 new hypotheses: HYP-018 (phase-bias), HYP-019 (source attribution), HYP-020 (fabrication detection). C151→NEEDS_CORRECTION, C172→NEEDS_CORRECTION. 7 new experiments EXP-026-EXP-032. |
+| `iterations/round-034.md` | 34 | 2026-08-04 | External-Pool Batch (batch-00019): 17/17 workers across 7 lanes. C200-C202/C205 VERIFIED (neural MCTS benchmarks). 4 new hypotheses (HYP-021-HYP-024: board-size routing, phase-boundary, TensorRT, NNUE). 6 new ensembles (ENS-019-ENS-024). 2 new contenders (BOT-015/BOT-016). 6 governance issues. Board-size solving matrix confirmed. |
+| `iterations/round-035.md` | 35 | 2026-08-04 | First V10 dossier synthesis: NEXUS.md corpus index created. 11 dossier directories (3 empty, 8 newly created). GOV-001 governance audit dossier: 22 structural defects (4 CRITICAL, 8 HIGH, 6 MEDIUM, 4 LOW). 10 new governance claims (C206-C215) VERIFIED. Source ledger updated (S121-S126 added, S117/S120 [RETRACTED], S127 corrected citation). 5 new governance experiments (EXP-033-EXP-037). |
 
 ## Legacy Documents (evidence, preserved)
 

@@ -3,7 +3,9 @@
 > **Created**: 2026-08-03 (Round 27)
 > **Purpose**: Records all future empirical work. No experiments executed during research-only phase.
 > **Total experiments**: 32 (25 + 7 from R33: EXP-026 through EXP-032)
+> **R35**: 5 new governance experiments planned (EXP-033 through EXP-037); not yet added to backlog body due to research-only phase; deferred to next batch
 > **All statuses**: DEFERRED or SPECIFIED — no experiment may be marked completed in research-only phase.
+> **R34**: No new experiments added (batch-00019 focused on hypothesis/component/ensemble generation, not empirical experiment specification)
 
 ---
 
@@ -814,6 +816,118 @@
 
 ---
 
+### EXP-033: Automated Corpus Governance Audit Tool
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-019 (Source attribution integrity), HYP-020 (Fabricated data detection) |
+| **Ensemble** | — |
+| **Purpose** | Build Python Markdown parser that reads all canonical files and detects: (a) round number fragmentation, (b) claim count discrepancies, (c) source ID collisions, (d) stale metadata |
+| **Independent variable** | Audit tool: automated vs manual GOV-001 findings |
+| **Dependent variables** | Detection true positive rate, false positive rate, processing time |
+| **Fixed controls** | Corpus state as of R34, all 19 canonical files |
+| **Contenders** | GOV-001 manual audit (baseline), automated tool (experimental) |
+| **Benchmark suites** | BMS-025 (automated corpus governance audit) |
+| **Board configs** | N/A (governance audit, not game play) |
+| **Sample size** | 22 known defects from GOV-001 |
+| **Metrics** | True positive rate (should be ≥95%), false positive rate (should be ≤2%), processing time |
+| **Expected outcomes** | Automated tool detects ≥95% of GOV-001's 22 findings |
+| **Falsification criteria** | Automated tool detects <80% of known defects |
+| **Compute** | Local CPU; ~30 minutes |
+| **Reproducibility** | Deterministic Markdown parsing; same corpus state produces same results |
+| **Prerequisite research** | GOV-001 dossier (F-001 through F-022 findings) |
+| **Status** | SPECIFIED |
+
+### EXP-034: Source ID Namespace Migration Test
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-019 (Source attribution integrity) |
+| **Ensemble** | — |
+| **Purpose** | Apply R34-S001 namespace scheme to S091–S120 collision cluster A and verify zero remaining collisions |
+| **Independent variable** | ID format: sequential (S091–S120) vs round-scoped (R34-S001–R34-S030) |
+| **Dependent variables** | Collision count, cross-reference accuracy |
+| **Fixed controls** | Collision cluster A (S091–S093), claim register references |
+| **Contenders** | Sequential IDs (baseline), round-scoped IDs (experimental) |
+| **Benchmark suites** | BMS-027 (source ID collision detection) |
+| **Board configs** | N/A |
+| **Sample size** | 27+ colliding IDs across 4 clusters |
+| **Metrics** | Collision count (expected: 0 after migration) |
+| **Expected outcomes** | 0 collisions after R34-S001 migration |
+| **Falsification criteria** | Migration introduces new collisions or breaks existing cross-references |
+| **Compute** | Local CPU; ~15 minutes |
+| **Reproducibility** | Deterministic ID generation; same source produces same mapped IDs |
+| **Prerequisite research** | GOV-001 F-001 (source ID collisions), namespace isolation schema |
+| **Status** | SPECIFIED |
+
+### EXP-035: Fabricated Data Detection Benchmark
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-020 (Fabricated data detection) |
+| **Ensemble** | — |
+| **Purpose** | Validate that automated detection rules identify S117 (40-40-20 phase distribution) and S120 (uniform random) as fabricated when applied to a corpus with 2 injected fabrications and 18 clean sources |
+| **Independent variable** | Detection method: regex-based vs semantic analysis |
+| **Dependent variables** | True positive rate, false positive rate, processing time |
+| **Fixed controls** | 20 known sources (2 fabricated, 18 clean), corpus files |
+| **Contenders** | Regex detection (baseline), semantic analysis (experimental) |
+| **Benchmark suites** | BMS-026 (fabricated data detection benchmark) |
+| **Board configs** | N/A |
+| **Sample size** | 20 sources (2 injected fabrications) |
+| **Metrics** | True positive rate (≥95%), false positive rate (≤2%) |
+| **Expected outcomes** | Both detection methods identify 40-40-20 and "uniform random" as fabricated |
+| **Falsification criteria** | Detection method fails to identify ≥1 of 2 injected fabrications |
+| **Compute** | Local CPU; ~10 minutes |
+| **Reproducibility** | Deterministic detection rules; same corpus produces same results |
+| **Prerequisite research** | GOV-001 F-002 (fabricated data), S117/S120 retraction |
+| **Status** | SPECIFIED |
+
+### EXP-036: Master Report Staleness Impact Analysis
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | HYP-019 (Source attribution integrity) |
+| **Ensemble** | — |
+| **Purpose** | Compare RESEARCH_REPORT.md recommendations (based on R29 data) against current R34 findings to identify ≥3 recommendations that should be updated |
+| **Independent variable** | Report version: R29 (stale) vs R35 (current) |
+| **Dependent variables** | Number of outdated recommendations, accuracy delta |
+| **Fixed controls** | Same research domain (ConnectX bot architecture) |
+| **Contenders** | R29 report (stale baseline), R35 report (current) |
+| **Benchmark suites** | BMS-028 (header consistency validation) |
+| **Board configs** | N/A |
+| **Sample size** | 14 recommendations across RESEARCH_REPORT.md |
+| **Metrics** | Outdated recommendations count (expected: ≥3) |
+| **Expected outcomes** | ≥3 recommendations from R29 report should be updated based on R30–R34 findings |
+| **Falsification criteria** | R29 report is ≥90% accurate (suggests staleness is less impactful than assessed) |
+| **Compute** | Research-only (read and compare); ~1 hour |
+| **Reproducibility** | Deterministic comparison; same report versions produce same delta |
+| **Prerequisite research** | GOV-001 F-003 (master report staleness), R29 and R35 RESEARCH_REPORT.md |
+| **Status** | SPECIFIED |
+
+### EXP-037: Dossier Production Throughput Measurement
+
+| Field | Value |
+|-------|-------|
+| **Hypothesis** | — |
+| **Ensemble** | — |
+| **Purpose** | Measure time required to produce a single-entry dossier (source analysis, algorithm extraction, pros/cons, feasibility matrix) from a public GitHub repository |
+| **Independent variable** | Source complexity: simple repo (≤10 files) vs complex repo (100+ files) |
+| **Dependent variables** | Time per dossier, word count per dossier, citation count |
+| **Fixed controls** | Research-only phase, read-only web access, same synthesis protocol |
+| **Contenders** | Simple repo, complex repo |
+| **Benchmark suites** | — |
+| **Board configs** | N/A |
+| **Sample size** | 5 repos across complexity spectrum |
+| **Metrics** | Minutes per dossier, words per dossier, citations per dossier |
+| **Expected outcomes** | 30–90 minutes per dossier with read-only web access |
+| **Falsification criteria** | Average dossier production exceeds 4 hours (suggests different approach needed) |
+| **Compute** | Research-only; ~5 hours total |
+| **Reproducibility** | Same protocol; deterministic output per source |
+| **Prerequisite research** | GOV-001 F-007 (empty/missing dossier directories), dossier production plan |
+| **Status** | SPECIFIED |
+
+---
+
 ## Priority Classification
 
 | Priority | Criteria |
@@ -832,4 +946,4 @@
 
 ---
 
-*Backlog created: Round 27. Total experiments: 32 (EXP-001 through EXP-032). SPECIFIED: 30, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04). R32 added EXP-019 through EXP-025 (7 new experiments: Kamide benchmark, Tromp validation, MTD(f)/PVS gap, board representation comparison, ENS-013 routing, Web Worker constraints, corpus governance automation). R33 added EXP-026 through EXP-032 (7 new experiments: fabrication detection, benchmark coverage audit, TonyCWang replication/verification, MCP theorem citation verification, source ID collision detection, adversarial hypothesis stress test).*
+*Backlog created: Round 27. Total experiments: 32 (EXP-001 through EXP-032). SPECIFIED: 30, BLOCKED: 2, DEFERRED: 0, READY_FOR_IMPLEMENTATION: 0, RETIRED: 0. R28 added EXP-009 through EXP-015 (7 new experiments from W04/W05 neural MCTS and ensemble research). R30 added EXP-016 through EXP-018 (3 new adjacent-opening MCTS experiments from W04). R32 added EXP-019 through EXP-025 (7 new experiments: Kamide benchmark, Tromp validation, MTD(f)/PVS gap, board representation comparison, ENS-013 routing, Web Worker constraints, corpus governance automation). R33 added EXP-026 through EXP-032 (7 new experiments: fabrication detection, benchmark coverage audit, TonyCWang replication/verification, MCP theorem citation verification, source ID collision detection, adversarial hypothesis stress test). R35 added EXP-033 through EXP-037 (5 new governance experiments: automated corpus audit, source ID namespace migration, fabricated data detection, master report staleness impact, dossier production throughput).*

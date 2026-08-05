@@ -1,12 +1,10 @@
 ﻿# Benchmark Blueprint - ConnectX Bot
 
-> **Last Updated**: 2026-08-04 (Round 33)
 > **Created**: 2026-08-03 (Round 26)
-> **Status**: BMS-001 through BMS-012 fully designed; R33 added BMS-007 through BMS-012 specifications
-> **Last Updated**: 2026-08-04 (Round 33)
+> **Last Updated**: 2026-08-04 (Round 35)
 > **Purpose**: Rigorous benchmark methodology and tournament design for ConnectX bot evaluation
 > **Status**: DRAFT - design only, no execution required
-> **Suite count**: 12 benchmark suites (BMS-001 through BMS-012), all designed
+> **Suite count**: 12 benchmark suites (BMS-001 through BMS-012) designed + 4 governance suites (BMS-025 through BMS-028) planned
 
 ---
 

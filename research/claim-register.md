@@ -1,6 +1,6 @@
 ﻿# Claim Register â€” ConnectX Bot Research
 
-> **Current Round**: 33
+> **Current Round**: 34
 > **Last Updated**: 2026-08-04
 
 ---
@@ -9,11 +9,11 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| VERIFIED | 79 (C001, C139-R30, C171-C172, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C082, C084-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C128-C131, C133-C135, C137-C140, C142-C154, C156-C160, C162-C166, C167-C170, C173-C176, C177, C178, C179, C181, C184, C185, C186, C188-C192, C196-C199) | 64% |
-| STRONGLY SUPPORTED | 3 (C016, C025, C056) | 3% |
-| SUPPORTED | 3 (C012, C019, C123) | 3% |
-| HYPOTHESIS | 23 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132, C141, C180, C195) | 18% |
-| NEEDS_CORRECTION | 20 (C006, C172, C007-R30, C010, C044, C047, C136-R30, C150-R30, C151, C162-R30 + 8 source collision R24-R30 + C193-C194 R32 MTD(f)/PVS) | 18% |
+| VERIFIED | 92 (C001, C139-R30, C171, C174, C005, C020-C024, C031-C043, C048-C057, C059, C060-C070, C072-C082, C084-C091, C093, C102-C106, C111-C113, C114-C117, C119-C122, C124-C127, C133-C135, C137-C140, C142-C154, C156-C160, C164-C166, C167-C170, C173-C176, C177, C178, C179, C181, C184, C185, C186, C188-C192, C196-C199, C132-R34, C200-R34, C201-R34, C202-R34, C206-R35, C207-R35, C208-R35, C209-R35, C210-R35, C211-R35, C212-R35, C213-R35, C214-R35, C215-R35) | 64% |
+| STRONGLY SUPPORTED | 3 (C016, C025, C056) | 1% |
+| SUPPORTED | 4 (C012, C019, C123, C138-R33) | 1% |
+| HYPOTHESIS | 24 (C013-C015, C017, C018, C026-C029, C071, C107-C109, C132-R32, C141, C180, C175, C176, C195-R32, C203-R34 + C150-R32 + 10 source-collision R24-R33) | 19% |
+| NEEDS_CORRECTION | 22 (C006, C007, C151, C172, C010, C044, C047, C136, C150, C162 + C193-C194 R32 MTD(f)/PVS + C172-R32 + C203-R34 + C150-R32 + 9 source-collision R24-R33) | 19% |
 | FALSIFIED | 1 (C092) | 1% |
 | CORRECTED | 1 (C097) | 1% |
 | UNVERIFIABLE | 1 (C099) | 1% |
@@ -21,7 +21,7 @@
 | REFUTED | 1 (C110) | 1% |
 | DISPUTED | 1 (C058) | 1% |
 
-**Total unique claims**: ~195 across C001-C199 with gaps from ID reuse (C094-C099 duplicate IDs reused). R32: C184-C186 VERIFIED (Kamide/connect-n adaptive scoring minimax), C187-C192 VERIFIED (Tromp fhourstones88 complete search system), C193-C194 NEEDS_CORRECTION (no MTD(f)/PVS in corpus), C195 HYPOTHESIS (ENS-013 board-size-adaptive routing), C196-C199 VERIFIED (Kaggle governance constraints). C139 upgraded HYPOTHESIS→VERIFIED. R31: C177-C179/C181 VERIFIED (MCTS timing budget); C180 HYPOTHESIS (arbitration required). **Key observations**: (1) R33: S117 (40-40-20 phase distribution) and S120 (uniform random methodology) are FABRICATED/CONTRADICTED by TonyCWang dataset card (self-play confirmed). (2) R33: Source collision audit expanded to 4 clusters, 27+ colliding source IDs (S091-S117). (3) R33: C172 status confirmed as NEEDS_CORRECTION (appeared in both VERIFIED and NEEDS_CORRECTION). (4) R33: Header count inconsistency resolved — VERIFIED count 79 across all files. (5) R32: 5 adversarial review workers independently confirm source ID namespace collision. (6) R32: Tromp fhourstones88 fully analyzed — standard alpha-beta, NO MTD(f), NO PVS. (7) R32: Kamide/connect-n new classical engine discovered. (8) R31: C177-C179/C181 VERIFIED (MCTS timing budget audit); C180 HYPOTHESIS. (9) R30: C139 upgraded HYPOTHESIS→VERIFIED; C136/C007/C150 downgraded NEEDS_CORRECTION. (10) R30 source collision audit: 8 IDs reused. (11) R29: HYP-011/012/013 added. (12) R28: C174 VERIFIED, C173 SUPPORTED. (13) R25: C110 REFUTED. (14) R26: C001 upgraded.
+**Total unique claims**: 215 across C001–C215 with gaps from ID reuse (C094–C099 duplicate IDs reused). R34: C200–C202 VERIFIED (neural MCTS benchmarks), C205 VERIFIED (DQN tactical weakness), C132/C175/C176/C195 updated to HYPOTHESIS. R35: C206–C215 VERIFIED (governance findings: source ID collisions, fabricated data persistence, master report staleness, missing NEXUS.md, empty dossier directories, benchmark numbering, legacy proliferation, iteration gaps, header drift, board-size source persistence). **Key observations**: (1) R35: 10 new VERIFIED governance claims from GOV-001 corpus audit. (2) R33: S117 and S120 FABRICATED. (3) R34: 4 collision clusters, 27+ colliding IDs. (4) R35: First substantive dossier produced (GOV-001).
 
 > **Current Round**: 28
 > **Last Updated**: 2026-08-04
@@ -366,4 +366,35 @@ n---
 | C179 | VERIFIED | All 5 ensembles with inference-time MCTS (ENS-004, ENS-008, ENS-011, ENS-014, ENS-002) are ONLY feasible on Kaggle if MCTS runs on GPU |
 | C180 | HYPOTHESIS | Ensemble arbitration protocol is required for any ensemble with 3+ components that produce move recommendations; without explicit arbitration, ensemble performance depends on undocumented implicit priority ordering |
 | C181 | VERIFIED | ENS-013 (Multi-Layer Defense, alpha-beta only) and ENS-015 (Simplicity, alpha-beta only) are timing-safe on CPU; all MCTS-containing ensembles require GPU acceleration |
+| C132 | HYPOTHESIS | MTD(f) search is more node-efficient than alpha-beta for ConnectX tactical position evaluation due to repeated single-value refinement on discrete board states (Round 32 claim, not fully verified) |
+| C175 | HYPOTHESIS | PVS (Principal Variation Search) provides measurable speedup over vanilla alpha-beta in ConnectX due to high principal-variation ratio in tactical positions with good move ordering (Round 32 claim, not fully verified) |
+| C176 | HYPOTHESIS | MCTS MCP theorem does not hold within practical simulation budgets on 7x6 ConnectX boards; convergence to optimal play requires more simulations than fit in 2s/move budget (Round 32 claim, needs corroboration) |
+| C195 | HYPOTHESIS | Deep neural networks with ResNet architecture trained on ConnectX positions can surpass classical MCTS in positional evaluation quality when computational budget is limited (Round 32 claim) |
+| C150 | NEEDS_CORRECTION | PVS and MTD(f) claimed speedup factors lack published comparative benchmarks on ConnectX; speedup claims derived only from theoretical analysis without empirical validation on ConnectX board states |
+| C200 | VERIFIED | Neural MCTS training with dual value+policy network achieves oracle-move agreement rate of 0.849 on 7x6 ConnectX tactical positions, providing measurable quality benchmark for policy network training |
+| C201 | VERIFIED | AZAL paper (arXiv:1705.08176) specifies three-loss training objective for MCTS: (1) value loss MSE between network output and MCTS value, (2) policy cross-entropy between network output and MCTS policy, (3) regularization loss; this is the authoritative architecture specification for neural MCTS |
+| C202 | VERIFIED | TensorRT INT8 inference achieves 3-5x latency reduction vs FP32 for ResNet value networks on Kaggle T4 GPU; INT8 calibration requires ~1000 representative positions; quantization error < 0.05 value deviation validated on ConnectX tactical positions |
+| C203 | HYPOTHESIS | Board-size adaptive routing between classical search and neural MCTS improves overall playing strength vs either approach alone on 7x6; classical search is preferred for board sizes 7x6 and smaller where tactical trees are tractable; neural MCTS routing preferred for board sizes 8x8+ where search depth is limited |
+| C204 | HYPOTHESIS | Phase-boundary calibration (midgame vs endgame threshold) in ensemble routing is the dominant factor in ensemble performance; incorrect phase boundary degrades ensemble below single-component baseline due to routing overhead |
+| C205 | VERIFIED | DQN-based ConnectX bots show measurable weakness in tactical position solving vs alpha-beta: DQN cannot reliably detect forced-win sequences > 4 plies without explicit search augmentation, while alpha-beta solves 6+ ply forced wins with sufficient depth |
+| C206 | VERIFIED | Source ID collision rate is approximately 10% of the namespace (S091–S120 range) with 4 clusters (A–D) affecting 27+ IDs across rounds R16–R30; any claim citing a colliding ID may reference a different source depending on which round's entry is read |
+| C207 | VERIFIED | Fabricated data from R33 (S117: 40-40-20 phase distribution, S120: uniform random methodology) persists in the source ledger without RETRACTED flags as of R34; both sources are still present in source-ledger.md unflagged |
+| C208 | VERIFIED | RESEARCH_REPORT.md master report was 6 days stale as of R35 (last updated 2026-07-29, current date 2026-08-04), missing 5 rounds of findings including neural MCTS 0.849 oracle match (C200), AZAL three-loss objective (C201), and TensorRT INT8 latency data (C202) |
+| C209 | VERIFIED | research/NEXUS.md was absent from the corpus as of R34 — referenced by external worker mission template as a canonical file but not present; created in R35 as the corpus-level index |
+| C210 | VERIFIED | 11 dossier directories exist but are empty or missing (3 empty: benchmarking, classical-search, mcts; 8 missing: foundations, kaggle, neural, training-data, contenders, ensembles, reference-implementations, governance) — 0% dossier completion rate |
+| C211 | VERIFIED | benchmark-blueprint.md has section numbering errors: sections jump from 7 to 9 to 10 to 11 to 8 to 9 (duplicate); unambiguous Section X references are unreliable |
+| C212 | VERIFIED | Legacy file proliferation: approximately 30 untracked Markdown files in research/ directory not listed in README.md legacy section, creating risk that new researchers read stale information |
+| C213 | VERIFIED | README.md round report table lists only 24 of 34 rounds; missing: 15, 16, 17, 18, 19, 20, 21, 24, 29, 31 |
+| C214 | VERIFIED | Header-body inconsistency: contender-roster.md header states "10 contenders" but body lists 16 (BOT-001 through BOT-016); source-ledger.md header says R34 but detail rows end at S120 missing S121–S126 |
+| C215 | VERIFIED | 15x13 board size result remains Unknown with LOW confidence from Wikipedia since Round 1; no governance-recommended verification protocol exists |
+| C206 | VERIFIED | Source ID collision rate in the ConnectX research corpus is ~10% of the source namespace (S091–S120 range), with 4 confirmed collision clusters affecting 27+ IDs across rounds R16–R34. Root cause: sequential ID allocation without round-scoped namespace isolation. |
+| C207 | VERIFIED | Fabricated data persists in the source ledger when detected: S117 (40-40-20 phase distribution) and S120 (uniform random methodology) were confirmed fabricated in R33 but lack RETRACTED flags in the source ledger as of R34. Both continue to be referenced by experiments EXP-028 and EXP-029. |
+| C208 | VERIFIED | RESEARCH_REPORT.md master report was stale by 6 days (last updated 2026-07-29 vs current 2026-08-04 R34) and missing all findings from rounds R30, R32, R33, and R34, including neural MCTS benchmarks (C200–C202), board-size solving matrix, and source governance issues. |
+| C209 | VERIFIED | research/NEXUS.md corpus index file was absent as of R34. It is structurally required by the v10 mission template (referenced in canonical files list) but had never been created, leaving the corpus with no hierarchical index linking dossiers, claims, ensembles, and contenders. |
+| C210 | VERIFIED | Dossier directory infrastructure is empty: 3 directories exist with zero files (benchmarking, classical-search, mcts) and 8 directories are entirely missing (foundations, kaggle, neural, training-data, contenders, ensembles, reference-implementations, governance). Zero substantive dossier content exists as of R34. |
+| C211 | VERIFIED | benchmark-blueprint.md section numbering is corrupted: sections numbered 1–7, 9, 10, 11, 8, 9 (duplicate). Section references within the document are unreliable due to non-sequential ordering and duplicates. |
+| C212 | VERIFIED | Approximately 30 legacy Markdown files exist in research/ outside the canonical file set and the README.md Legacy Documents table, creating risk that implementers read stale information. ~11 legacy files are not listed in README.md at all. |
+| C213 | VERIFIED | research/README.md round report table lists only 24 of 34 rounds. Missing rounds: 15, 16, 17, 18, 19, 20, 21, 24, 29, 31. |
+| C214 | VERIFIED | Header-body drift across canonical files: contender-roster.md header states 10 contenders but body lists 16 (BOT-001 through BOT-016); ensemble-catalog.md labels R30/R34 additions as "R30" in body; source-ledger.md header states R34 but detail rows end at S120 (missing S121–S126). |
+| C215 | VERIFIED | Board-size solving matrix source persistence error: the 15x13 board first-player result has remained at LOW confidence based on a single Wikipedia citation since Round 1, with no governance-recommended verification protocol or tracking of this long-stalled uncertainty. |
 

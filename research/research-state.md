@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 33
+> **Current Round**: 35
 > **Last Updated**: 2026-08-04
-> **Previous Round**: 32 (2026-08-04, Kamide/Kaggle opponent analysis, benchmark specification, corpus audit)
-> **Status**: Active -- deep research phase; v9 canonical corpus established (batch-00001)
+> **Previous Round**: 34 (2026-08-04, external-pool batch-00019, 17 workers, neural MCTS benchmarks)
+> **Status**: Active -- dossier synthesis phase; v10 infrastructure established, first dossiers produced
 
 ---
 
@@ -44,6 +44,8 @@
 | 31 | 2026-08-04 | Complete | Ensemble & Hybrid Audit: MCTS timing budget analysis confirmed all MCTS-enabling ensembles require GPU acceleration on Kaggle T4. Added ENS-018 (TT-MCTS shared cache). Formalized ensemble arbitration protocol. Key claims: C177-C181 (4 VERIFIED, 1 HYPOTHESIS). Key hypotheses: HYP-015 through HYP-017 (3 new). GPU acceleration is now a hard architectural constraint for all MCTS ensembles.
 | 32 | 2026-08-04 | Complete | External-Pool Batch (batch-00017): 13/13 workers succeeded across all 7 lanes. Key: (1) C139 HYPOTHESIS→VERIFIED (adjacent opening draw, 3 independent sources). (2) HYP-003 LOW→MEDIUM confidence. (3) Tromp fhourstones88 complete search system fully analyzed: NO MTD(f), NO PVS, standard full-window alpha-beta (C006/C007 NEEDS_CORRECTION). (4) Kamide/connect-n new engine: adaptive scoring minimax in Web Worker. (5) miksipiksic/pyvezi: bitmask board representation. (6) 5 adversarial review workers confirm source ID namespace collision (8+ IDs). (7) Benchmark specification: 19 opponents, 6 tiers, Elo 0–1900. (8) Corpus hygiene: 5 structural defects found. C184–C199 added (VERIFIED). New sources S123–S126. New contenders BOT-013/BOT-014. Total claims: ~195. Total hypotheses: 17. VERIFIED: 79 (64%). NEEDS_CORRECTION: 20.
 | 33 | 2026-08-04 | Complete | External-Pool Batch (batch-00018): 9/9 workers succeeded across 3 lanes (corpus governance, timing audit, benchmark science). Key: (1) Source ID collision audit: 4 clusters (S091-S093 R16/R25, S094-S097 R23/R25, S109-S117 R25/R30, S118-S120 R30 self-duplicate). (2) Fabricated data: S117 (40-40-20 phase distribution invented), S120 ("uniform random" methodology fabricated — actual: self-play with temperature schedule). (3) arXiv:1203.2285 verified as astrophysics paper (not game theory MCP theorem). (4) Benchmark blueprint completed: 12 suites (BMS-001 through BMS-012). (5) 3 new hypotheses: HYP-018 (phase-bias in self-play), HYP-019 (source attribution integrity), HYP-020 (fabricated data detection). (6) C151→NEEDS_CORRECTION, C172→NEEDS_CORRECTION, C136 updated. (7) 7 new experiments EXP-026 through EXP-032. Total claims: ~200. Total hypotheses: 20 (HYP-001 through HYP-020). VERIFIED: ~74. NEEDS_CORRECTION: 22.
+| 34 | 2026-08-04 | Complete | External-Pool Batch (batch-00019): 17/17 workers across 7 lanes. Key: (1) C200-VERIFIED (neural MCTS 0.849 oracle match benchmark), C201-VERIFIED (AZAL three-loss objective), C202-VERIFIED (TensorRT INT8 3-5x latency reduction), C205-VERIFIED (DQN tactical weakness). (2) C132/C175/C176/C195 updated: MTD(f) hypothesis, PVS hypothesis, MCTS MCP theorem hypothesis, NN depth hypothesis. (3) C203-HYPOTHESIS (board-size adaptive routing), C204-HYPOTHESIS (phase-boundary calibration). (4) 4 new hypotheses: HYP-021 (board-size routing), HYP-022 (phase-boundary calibration), HYP-023 (TensorRT INT8 advantage), HYP-024 (NNUE vs DQN tactical). (5) 6 governance issues identified: source ID collision rate ~10%, fabricated data mechanism, MCTS MCP citation broken, header inconsistency, broken MCP citation, governance tasks. (6) Board-size solving: 8x8 P2 win, 9x6 solvable, 10x8 draw. Total claims: 205. Total hypotheses: 24 (HYP-001 through HYP-024). VERIFIED: 86. NEEDS_CORRECTION: 22.
+| 35 | 2026-08-04 | Complete | First V10 dossier synthesis: NEXUS.md corpus index created (first hierarchical index). Dossier hierarchy established: 11 directories (3 pre-existing empty, 8 newly created). GOV-001 governance audit dossier created: 22 structural defects (4 CRITICAL, 8 HIGH, 6 MEDIUM, 4 LOW) verified across entire corpus. 10 new governance claims (C206–C215) all VERIFIED. Source ledger updated: S121–S126 added (4 missing from R32), S117/S120 marked [RETRACTED], S127 (Artho MCP) added as corrected citation. Work queue: 78 governance tasks defined (FU-052 through FU-078). Claim count: 215 (C001–C215). VERIFIED: 96 (45%). NEEDS_CORRECTION: 22.
 ---
 
 ## Tool Availability
@@ -144,3 +146,75 @@ esearch/ (preserved, indexed in README)
 5. **Board-size-adaptive ensemble design** -- All 12 ensembles are 7x6-centric. Design ENS-013 (NN-Prior MCTS) with explicit multi-board support.
 6. **Kaggle 95MB TT size audit** -- Profile transposition table sizing across all ensembles against Kaggle's 95MB binary asset limit.
 7. **Component pair exploration** -- Analyze the 6 verified component pairs not yet combined: (CMP-001+CMP-005), (CMP-006+CMP-010), (CMP-003+CMP-005), (CMP-004+CMP-006), (CMP-007+CMP-002), (CMP-009+CMP-010).
+
+---
+
+## Governance Status (R35)
+
+**Active governance audit**: GOV-001 Corpus Governance Audit — Round 34 Full Structural Assessment
+
+**Defect counts by severity**:
+
+| Severity | Count | Description |
+|----------|-------|-------------|
+| CRITICAL | 4 | Source ID collisions, fabricated data persistence, broken MCP citation, source ledger incompleteness |
+| HIGH | 8 | Master report staleness, header inconsistency, missing NEXUS.md, empty/missing dossier dirs, benchmark numbering |
+| MEDIUM | 6 | Legacy file proliferation, claim status discrepancy, iteration gaps, ledger header stale, queue fragmentation, contention |
+| LOW | 4 | Ensemble cross-reference gaps, experiment-ensemble orphaning, hypothesis terminology, board-size source persistence |
+| **Total** | **22** | **Across 9 categories** |
+
+**Remediation plan**:
+
+| Priority | Task | Target Round |
+|----------|------|-------------|
+| 1 | Add [RETRACTED] flags to S117/S120 in source ledger | DONE (R35) |
+| 2 | Create NEXUS.md corpus index | DONE (R35) |
+| 3 | Populate dossier directories with content | R36–R37 |
+| 4 | Fix source ID collisions (4 clusters, 27+ IDs) | R36 |
+| 5 | Fix benchmark blueprint section numbering | R36 |
+| 6 | Replace arXiv:1203.2285 with verified MCP source | R36 |
+| 7 | Header reconciliation across all canonical files | R37 |
+| 8 | Legacy file audit and categorization | R37 |
+| 9 | Master report (RESEARCH_REPORT.md) update | R36 |
+| 10 | Automated fabrication detection pipeline | R38+ |
+
+**New experiments from R35 governance audit**:
+
+| ID | Description | Target |
+|----|-------------|--------|
+| EXP-033 | Automated corpus governance audit tool (Python Markdown parser) | Deferred empirical |
+| EXP-034 | Source ID namespace migration test (R34-S001 format) | Deferred empirical |
+| EXP-035 | Fabricated data detection benchmark (inject 2 fabrications into corpus) | Deferred empirical |
+| EXP-036 | Master report staleness impact analysis (R29→R34 gap) | Deferred empirical |
+| EXP-037 | Dossier production throughput measurement (time per dossier) | Deferred empirical |
+
+**New governance benchmark suites**:
+
+| ID | Purpose | Status |
+|----|---------|--------|
+| BMS-025 | Automated corpus governance audit | PLANNED |
+| BMS-026 | Fabricated data detection benchmark | PLANNED |
+| BMS-027 | Source ID collision detection | PLANNED (EXP-031) |
+| BMS-028 | Header consistency validation | PLANNED (EXP-007) |
+
+---
+
+## Updated R35 Statistics
+
+| Status | Count | Percentage |
+|--------|-------|------------|
+| VERIFIED | 96 (C001–C215 with 10 new governance claims) | 45% |
+| NEEDS_CORRECTION | 22 | 10% |
+| HYPOTHESIS | 24 | 11% |
+| Other statuses | 73 | 34% |
+| **Total claims** | **215** | |
+
+| Category | Count |
+|----------|-------|
+| Total hypotheses | 24 (HYP-001 through HYP-024) |
+| Total ensembles | 24 (E-001 through E-012, ENS-013 through ENS-024) |
+| Total contenders | 16 (BOT-001 through BOT-016) |
+| Total benchmark suites | 12 (BMS-001 through BMS-012), + 4 governance planned |
+| Total experiments | 32 (EXP-001 through EXP-032), + 5 governance planned |
+| Dossiers created | 1 (GOV-001) |
+| Dossier directories | 11 (3 pre-existing empty, 8 newly created in R35) |

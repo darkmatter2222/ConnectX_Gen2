@@ -1,7 +1,7 @@
 # ConnectX Contender Roster
 
-> **Current Round**: 34
-> **Last Updated**: 2026-08-04
+> **Current Round**: 44
+> **Last Updated**: 2026-08-05
 
 ## Roster Summary
 

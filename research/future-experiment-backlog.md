@@ -2,8 +2,9 @@
 
 > **Created**: 2026-08-03 (Round 27)
 > **Purpose**: Records all future empirical work. No experiments executed during research-only phase.
-> **Total experiments**: 43 (EXP-001 through EXP-037, EXP-CS-001 through EXP-CS-003, EXP-NEW-001)
+> **Total experiments**: 59+ (EXP-001 through EXP-037, EXP-CS-001 through EXP-CS-002, EXP-NEW-001 through EXP-NEW-010, EXP-BMS-001 through EXP-BMS-008, EXP-NN-001 through EXP-NN-005, BMS-016 through BMS-021, BMS-036 through BMS-039)
 > **R35**: 5 new governance experiments planned (EXP-033 through EXP-037); not yet added to backlog body due to research-only phase; deferred to next batch
+> **R44**: 8 new experiments added from BMS-DOC-005 (EXP-BMS-001 through EXP-BMS-008): Kaggle competitive benchmark, resource profiling pilot, pipeline gate calibration, board-size stress test, overtime profiling, statistical power analysis, resource comparison, pipeline gate precision/recall.
 > **All statuses**: DEFERRED or SPECIFIED — no experiment may be marked completed in research-only phase.
 > **R34**: No new experiments added (batch-00019 focused on hypothesis/component/ensemble generation, not empirical experiment specification)
 

@@ -111,6 +111,8 @@ Total: 72 tasks (T001-T059, T101-T108, T118, T120-T122; gaps: T016, T114-T117, T
 
 ---
 
+
+| T018-NN003 | N/A | C202, FU-030 | NN-003 Training Methodology Deep Dive -- temperature schedules, replay buffer, AZAL, board-size strategy | Corrected temperature decay formula: katac4 uses max(1.03, 1.35*pow(0.66, step/bs)) and act_temp = base_act_temp*pow(0.8, (step-0.5*dm)/bw) | katac4 train.py (S142), AZAL paper (S144), TonyCWag card (S145), rowspire train.rs (S146) | NN-003 dossier completed 2026-08-05 | Temperature formula corrected, AZAL specified, replay buffer decoded, board-size strategy documented, Kaggle feasibility analyzed | COMPLETE -- NN-003 dossier (662 lines, ~39KB, 8 sources S150-S157) created 2026-08-05
 ## Follow-up Queue (discovered during research, needs tracking)
 
 | ID | Follows From | Description | Status |

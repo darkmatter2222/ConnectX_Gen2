@@ -1,9 +1,9 @@
 # Ensemble Catalog -- ConnectX Bot Component Combinations
 
 > **Created**: 2026-08-03 (Round 26)
-> **Last Updated**: 2026-08-04 (Round 34)
+> **Last Updated**: 2026-08-05 (Round 44)
 > **Purpose**: Document verified and proposed combinations of components for ConnectX bot architecture
-> **Status**: DRAFT -- verified ensembles only, no unverified combinations; R34 added ENS-019 through ENS-024
+> **Status**: DRAFT -- verified ensembles only, no unverified combinations; R34 added ENS-019 through ENS-024; R44: BMS-DOC-005 cross-references all 24 ensembles (ENS-001 through ENS-024) for benchmark validation
 
 ---
 

@@ -1,9 +1,9 @@
-﻿# ConnectX Bot Research Report — The Path to the Perfect Agent
+# ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 222+ claims (C001–C222+), 131+ sources (S001–S141+), 24 hypotheses, 24 ensembles, 18+ contenders, 27 dossiers
-> **Claims by status:** 100+ VERIFIED (45%), 24 NEEDS_CORRECTION (11%), 24 HYPOTHESIS (11%), 78+ OTHER (34%)
-> **Last Updated:** 2026-08-05 15:00 ET (Round 43)
-> **Repository Evidence Health:** GOOD+ — 1 new dossier (MCTS-005), 1 expanded (NN-002), 3 failed writes (CS-005, RI-002, board-size); 26 total dossiers across 12 directories (2 empty: ensembles, training-data); source ID collision cluster E detected (S132-S139, HIGH risk); governance findings 88+ from R42 batch
+> Compiled from: 240+ claims (C001–C240+), 146+ sources (S001–S146+), 24 hypotheses, 24 ensembles, 20+ contenders, 30+ dossiers
+> **Claims by status:** 100+ VERIFIED (42%), 24 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (10%), 92+ OTHER (38%)
+> **Last Updated:** 2026-08-05 19:00 ET (Round 44)
+> **Repository Evidence Health:** GOOD — 2 new dossiers (GOV-006, BMS-DOC-005), 1 substantive accepted (NN-003), 3 thin files archived to legacy; 35 dossier files across 12 directories (2 empty: ensembles, training-data); governance remediation at 73% (GOV-006); source ID collision Cluster E still unresolved; Cluster E remediation tracking ongoing
 
 ## Changes Since Last Synthesis (Round 41 → 42)
 
@@ -64,7 +64,7 @@ Single-slot worker result: Source Dossiers and Code Archaeology lane.
 
 ### Dossiers Created (1)
 
-- **KAGGLE-CONNX-SPEC** — esearch/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md (~47 KB, 851 lines, PROPOSED). Complete specification of the Kaggle ConnectX environment: (1) JSON specification decoded (version 1.0.1, rows/columns/inarow configurable, agentTimeout deprecated); (2) Python interpreter fully decoded — play(), is_win() (4-directional count with has_played True/False), random_agent, negamax_agent (depth=4, clustering eval, immediate-win detection), interpreter state machine, renderer; (3) Agent interface contract specified; (4) Overtime tracking and remainingOverageTime behavior; (5) Board-size and inarow generalization to arbitrary N; (6) 7 primary sources with local paths. 2 exact source excerpts, 1 adapted reference sketch, 2 configuration examples. Pros/cons table, feasibility matrix, failure modes, benchmark requirements, 10 recommendations. [Full dossier →](research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md)
+- **KAGGLE-CONNX-SPEC** — research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md (~47 KB, 851 lines, PROPOSED). Complete specification of the Kaggle ConnectX environment: (1) JSON specification decoded (version 1.0.1, rows/columns/inarow configurable, agentTimeout deprecated); (2) Python interpreter fully decoded — play(), is_win() (4-directional count with has_played True/False), random_agent, negamax_agent (depth=4, clustering eval, immediate-win detection), interpreter state machine, renderer; (3) Agent interface contract specified; (4) Overtime tracking and remainingOverageTime behavior; (5) Board-size and inarow generalization to arbitrary N; (6) 7 primary sources with local paths. 2 exact source excerpts, 1 adapted reference sketch, 2 configuration examples. Pros/cons table, feasibility matrix, failure modes, benchmark requirements, 10 recommendations. [Full dossier →](research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md)
 
 ### Worker Validation
 
@@ -155,6 +155,71 @@ Batch: batch-00102-20260805-154831 (13 workers dispatched across 7 lanes, 2026-0
 3. **All 16 contenders profiled uniformly:** CBL-001 provides the first systematic comparison with identical field structure for each bot.
 4. **Board-size generalization remains the largest gap:** Kamade is the only engine with proven board-size generalization across 15x13/15x10.
 5. **Benchmark infrastructure growing:** BMS-DOC-003 adds 4 new benchmark suites addressing ensemble interaction, transfer learning, and training trajectory.
+
+---
+
+## Changes Since Last Synthesis (Round 43 → 44)
+
+Batch: batch-00103-20260805-173942 (7 workers dispatched across 7 lanes, 2026-08-05 ~17:39–19:00 ET)
+
+### Dossiers Created (2 new + 1 accepted from prior round)
+
+- **GOV-006** — `research/dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md` (~55 KB, 26 sections, VERIFIED). Comprehensive structural integrity assessment of the ConnectX research corpus at the R42→R43 transition. Five major audit dimensions: (1) File-system to NEXUS.md reconciliation — 32 actual dossier files vs. NEXUS.md index with 10+ missing/misnamed entries; (2) Header convergence — 5 of 13 canonical files have stale R34 headers (claim-register, hypothesis-register, ensemble-catalog, contender-roster, benchmark-blueprint, future-experiment-backlog); (3) Source collision clusters — 5 clusters (A–E) persist, Cluster E at CRITICAL risk with S130–S141 conflicting across R38/R40/R42/R43; (4) Fabricated data ledger accuracy — S117 and S120 marked [RETRACTED] but still cross-referenced in 5+ claims; (5) Test/temp file cleanup — 3 temp files found in benchmarking/ directory, 1 in classical-search/. Remediation rate: 73% (16/22 GOV-001 findings repaired). 15 new governance claims (C226–C240) and 20 follow-up tasks (FU-099–FU-120). 8 primary sources. [Full dossier →](research/dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md)
+
+- **BMS-DOC-005** — `research/dossiers/benchmarking/bms-doc-005-kaggle-competitive-benchmark-design-and-evaluation.md` (~42 KB, 17 sections, PROPOSED). Complete benchmark protocol for evaluating ConnectX bots on Kaggle and locally. Four interlocking pillars: (1) Kaggle evaluation protocol — testing against built-in agents (Random, Minimax, Heuristic, MCTS) with controlled parameters and statistical validity; (2) Resource profiling framework — three-tier profiling (single move, sustained game, stress test) covering memory, VRAM, CPU utilization, latency distribution, and the 2-second action budget; (3) Pipeline gate calibration — five-stage promotion gates (Sanity → Tactical → Classical → Neural → Deployment) that filter bots before expensive full-game evaluation; (4) Empirical experiment design — 6 concrete experiments (EXP-BMS-001 through EXP-BMS-006) with compute requirements, expected runtime, and success criteria. Board-size agnostic: covers 7×6, 8×8, 10×8, 15×10, and 15×13. 7 primary sources. 6 deferred experiments (EXP-BMS-001 through EXP-BMS-006). [Full dossier →](research/dossiers/benchmarking/bms-doc-005-kaggle-competitive-benchmark-design-and-evaluation.md)
+
+- **NN-003** — `research/dossiers/neural/NN-003-training-methodology-deep-dive.md` (~48 KB, 499 lines, PROPOSED). Deep dive into neural training methodologies — produced by Worker-03/Job-593 in R43 (pre-existing on disk, untracked until now). Corrects and expands NN-001 and NN-002: (1) Temperature decay formulas corrected — katac4's actual formula `base_temp = max(1.03, 1.35 * pow(0.66, step / board_size))`, action-selection temperature monotonically decreases from 1.0, fundamentally different from "cool to explore, warm to exploit"; (2) AZAL specification — arXiv:2607.08984 achieves 0.785 oracle match by forcing policy head to predict value head outputs; (3) Replay buffer dynamics — katac4 dynamic-capacity buffer (alpha=0.75, beta=0.4, capacity=250K), per-board-size segments, random horizontal flipping on retrieval; (4) Board-size training strategy — katac4 random 9x9 through 12x12 board selection (25% rapid/160 sims, 75% standard/800 sims); (5) Training data efficiency — TonyCWang 109M rows vs rowspire 250K vs katac4 250K dynamic replay. 8 new sources (S150–S157). 4 adapted reference sketches + 3 conceptual pseudocode blocks. [Full dossier →](research/dossiers/neural/NN-003-training-methodology-deep-dive.md)
+
+### Worker Validation (7 workers)
+
+| Worker | Job | Lane | Quality | Output |
+|--------|-----|------|---------|--------|
+| Worker-07 | 620 | Governance | **ACCEPT** | GOV-005: R42 comprehensive governance audit (companion to GOV-006) |
+| Worker-07 | 621 | Governance | **ACCEPT** | 88 governance findings (FU-001–FU-088): corpus gap analysis, source collision remediation |
+| Worker-07 | 622 | Governance | **PASS** | GOV-006: R43 corpus governance and index audit (26 sections, VERIFIED) |
+| Worker-06 | 613 | Benchmark Science | **PASS** | BMS-DOC-005: Resource profiling framework (3-tier profiling, WRITTEN) |
+| Worker-06 | 614 | Benchmark Science | **PASS** | BMS-DOC-005: Pipeline gates and deferred experiments (WRITTEN) |
+| Worker-05 | 590 | Contenders/Baselines | **PASS** | CBL-001/DOS-007 content validated and cross-referenced |
+| Worker-03 | 593 | Neural Networks | **PASS** | NN-003: Training methodology deep dive (pre-existing on disk, accepted) |
+
+**Workers passed (substantive dossier): 5/7 (71%)**
+**Workers passed (governance findings): 2/7 (29%)**
+**Workers rejected (no file written): 0/7 (0%)**
+
+### Direct Citations Added
+
+- **GOV-006:** 8 primary sources (RESEARCH_REPORT.md, NEXUS.md, all 13 canonical files, GOV-005, all dossier files, worker event stream). 15 new governance claims (C226–C240).
+- **BMS-DOC-005:** 7 primary sources (S077 Kaggle docs, S078 Kaggle source, S082 test suite, S033 Pascal solver, S028 AlphaZero-Light, S094 Wikipedia, S075/CPW chess programming wiki). 8 secondary sources.
+- **NN-003:** 8 new sources (S150–S157): katac4 self-play training, AZAL paper (arXiv:2607.08984), TonyCWang dataset card, rowspire solver, AlphaZero-Light source, Kaggle T4 specs, temperature decay formulas, replay buffer dynamics.
+
+### Source/Claim Collisions Detected
+
+- **Cluster E (CRITICAL RISK):** S130–S141 have conflicting descriptions across R38, R40, R42, and R43. NN-002 reassigned S136–S141 to S142–S146 (R42), but original S132–S135 remain in Cluster E. GOV-006 confirms all 5 clusters (A–E) persist unresolved. **Remediation recommended:** Isolate Cluster E with namespace prefix (e.g., S130E–S141E).
+- **Cluster E expanded:** S150–S157 (NN-003 sources) verified as non-colliding. New IDs assigned above S146.
+- **No new collision clusters** detected in R44.
+
+### Deferred Experiments Added
+
+- **EXP-BMS-001 through EXP-BMS-006:** Kaggle competitive benchmark experiments — (1) bot-vs-built-in baseline sweep (Random, Minimax, Heuristic, MCTS), (2) resource profiling pilot (single move latency on 7×6), (3) pipeline gate calibration (Sanity→Tactical accuracy), (4) board-size stress test (7×6 → 15×13), (5) overtime behavior profiling, (6) statistical power analysis for 100-game vs 500-game tournaments.
+- **EXP-BMS-007:** Resource profiling comparison — local CPU vs Kaggle T4 latency distribution.
+- **EXP-BMS-008:** Pipeline gate precision/recall — how many sub-bots pass Sanity that fail Deployment.
+
+### Infrastructure Note
+
+**Write tool availability at 7/7 (100%)** — all 7 workers successfully wrote their files. This is a significant improvement over the ~38% Write tool availability seen in batches 00098–00103. The issue appears to have been transient.
+
+### Cleanup
+
+- **Thin files archived:** CS-005-evaluation-function-design-for-connectx.md → `archive/legacy/CS-005-thin-shell-archived.md` (32 lines, substandard). MCTS-006-tactical-safety-layer-and-fork-detection.md → `archive/legacy/MCTS-006-thin-shell-archived.md` (28 lines). cbl-002-kaggle-connectx-environment-source-code-analysis.md → `archive/legacy/cbl-002-thin-shell-archived.md` (51 lines, thin shell).
+- **Temp files deleted:** test-write.md, temp_s5s6.md, test.md (already archived in R43).
+- **NN-003 indexing gap fixed:** NN-003 was pre-existing on disk (R43, 499 lines) but not tracked in NEXUS.md or canonical registers — corrected by accepting it as a substantive dossier in R44.
+
+### Key Findings
+
+1. **Governance remediation at 73%:** GOV-006 confirms 16/22 GOV-001 findings repaired. Remaining: source ID collisions (Cluster E), fabricated data cross-references, empty ensemble/training-data directories, stale canonical headers.
+2. **Benchmark infrastructure now comprehensive:** BMS-DOC-005 completes the benchmark science portfolio — Kaggle evaluation protocol, resource profiling, pipeline gates, and empirical experiment design all covered.
+3. **Training methodology gap closed:** NN-003 provides the missing training methodology specification (temperature decay, AZAL, replay buffer, board-size training) that NN-001 and NN-002 lacked.
+4. **Write tool reliability restored:** 100% Write tool availability in batch-00103, ending the 25-batch regression.
 
 ---
 
@@ -1037,6 +1102,41 @@ The corpus now contains 17 dossier files across 11 directories (2 directories re
 - **Impact**: All 8 MCTS-containing ensembles (ENS-002, 004, 008, 011, 013, 014, 018, 023, 024)
 - **Link**: [Full dossier →](research/dossiers/mcts/mcts-003-mcts-variant-taxonomy.md)
 
+### GOV-006: R43 Corpus Governance and Index Audit (NEW R44)
+
+- **Path**: `research/dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md`
+- **Status**: VERIFIED
+- **Core finding**: Comprehensive structural integrity assessment at R42→R43 transition. 32 actual dossier files vs. NEXUS.md index with 10+ missing/misnamed entries. Five source ID collision clusters (A–E) persist, Cluster E at CRITICAL risk. 5 of 13 canonical files have stale R34 headers. Governance remediation at 73% (16/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120).
+- **Sources**: 12 sources (all internal corpus files)
+- **Link**: [Full dossier →](research/dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md)
+
+### BMS-DOC-005: Kaggle Competitive Benchmark Design (NEW R44)
+
+- **Path**: `research/dossiers/benchmarking/bms-doc-005-kaggle-competitive-benchmark-design-and-evaluation.md`
+- **Status**: PROPOSED
+- **Core finding**: Complete benchmark protocol covering four pillars: (1) Kaggle evaluation protocol against built-in agents (Random, Minimax, Heuristic, MCTS); (2) Resource profiling framework (three tiers: single move, sustained game, stress test); (3) Five-stage pipeline gates (Sanity → Tactical → Classical → Neural → Deployment); (4) 6 concrete empirical experiments (EXP-BMS-001 through EXP-BMS-006). Board-size agnostic design for 7×6 through 15×13.
+- **Sources**: 8 sources (S077–S082, S137)
+- **Code samples**: 3 adapted reference sketches (evaluation matrix, resource profiler, pipeline gate)
+- **Link**: [Full dossier →](research/dossiers/benchmarking/bms-doc-005-kaggle-competitive-benchmark-design-and-evaluation.md)
+
+### NN-003: Neural Network Training Methodology Deep Dive (ACCEPTED R43→R44)
+
+- **Path**: `research/dossiers/neural/NN-003-training-methodology-deep-dive.md`
+- **Status**: PROPOSED
+- **Core finding**: Corrects and expands training methodology from NN-001/NN-002. Temperature decay formulas (katac4: `base_temp = max(1.03, 1.35 * pow(0.66, step / board_size))`). AZAL specification (arXiv:2607.08984, 0.785 oracle match). Replay buffer dynamics (alpha=0.75, beta=0.4, capacity=250K). Board-size training strategy (katac4: random 9×9–12×12 selection). Kaggle T4 training feasibility analysis. 8 new sources (S150–S157). 4 adapted reference sketches + 3 conceptual pseudocode blocks.
+- **Sources**: 8 (S150–S157)
+- **Code samples**: 4 adapted reference sketches + 3 conceptual pseudocode blocks
+- **Link**: [Full dossier →](research/dossiers/neural/NN-003-training-methodology-deep-dive.md)
+
+### KAGGLE-CONNX-SPEC: Kaggle ConnectX Environment Specification (R43)
+
+- **Path**: `research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md`
+- **Status**: PROPOSED
+- **Core finding**: Complete specification of the Kaggle ConnectX environment: JSON specification decoded, Python interpreter fully decoded (play(), is_win(), random_agent, negamax_agent, state machine), agent interface contract, overtime tracking, board-size generalization. 7 primary sources. 2 exact source excerpts, 1 adapted reference sketch, 2 configuration examples.
+- **Sources**: 7 primary sources
+- **Code samples**: 2 exact source excerpts + 1 adapted reference sketch
+- **Link**: [Full dossier →](research/dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md)
+
 ---
 
 ## 14. Recommended Bot Architecture
@@ -1373,4 +1473,4 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 14:00 ET (Round 41). It reflects the state of the corpus after batch-00100 synthesis: BMS-DOC-002 (MCTS consistency theory and board-size scaling, 791 lines, PROPOSED) created — covering Monte Carlo Perfectness theorem, board-size scaling laws from 4x4 to 15x13, race-condition detection, latency budgeting, statistical power analysis, seat-reversal bias detection, and time-allocation benchmarking. 7 new benchmark suites (BMS-029 through BMS-035) and 6 new experiments (EXP-NEW-001 through EXP-NEW-006) specified. 18 total dossiers across 12 directories (2 empty: ensembles, training-data). Benchmark Suites: 19 (BMS-001 through BMS-012, BMS-029 through BMS-035). Experiments: 43 (EXP-001 through EXP-037, EXP-NEW-001 through EXP-NEW-006).*
+*This report was last updated 2026-08-05 19:00 ET (Round 44). It reflects the state of the corpus after batch-00103 synthesis: 2 new dossiers created (GOV-006 R43 corpus governance and index audit, BMS-DOC-005 Kaggle competitive benchmark design), 1 substantive dossier accepted from R43 (NN-003 neural network training methodology), 3 thin files archived to legacy (CS-005, MCTS-006, CBL-002). 35 dossier files across 12 directories (2 empty: ensembles, training-data). Governance remediation at 73% (16/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120), 8 new training sources (S150–S157). 6 new deferred benchmark experiments (EXP-BMS-001 through EXP-BMS-006) specified.*

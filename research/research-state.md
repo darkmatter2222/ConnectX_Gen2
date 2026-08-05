@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 43 (2026-08-05)
-> **Last Updated**: 2026-08-05 16:00 ET
-> **Previous Round**: 42 (2026-08-05, MCTS-005 created, NN-002 expanded, BMS-DOC-002 expanded)
-> **Status**: Active -- dossier synthesis phase; 31 dossiers total, 5 source ID collision clusters (HIGH risk), governance findings 262+
+> **Current Round**: 44 (2026-08-05)
+> **Last Updated**: 2026-08-05 19:00 ET
+> **Previous Round**: 43 (2026-08-05, KAGGLE-CONNX-SPEC created, GOV-005 R42 governance)
+> **Status**: Active -- dossier synthesis phase; 35 dossier files (30 substantive) across 12 directories, 5 source ID collision clusters (Cluster E: CRITICAL), governance remediation at 73%, Write tool availability restored to 100%
 
 ---
 
@@ -130,6 +130,7 @@ Combined with game-phase strategy:
 - NN-002 NNUE decode: 7x6 (21,761 params, ~87 KB), 8x8 (45,057 params, ~180 KB), ~84x incremental speedup
 - 31 dossiers across 12 directories; 146+ sources; 24 hypotheses; 24 ensembles; 16 contenders
 - Governance remediation at 55% (12/22 GOV-001 findings)
+- NN-003: Temperature decay formula corrected from T=1.0 to T=0.5 to katac4 formula max(1.03, 1.35*pow(0.66, step/bs)); 8 new sources (S150-S157)
 
 ---
 

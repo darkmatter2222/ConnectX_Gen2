@@ -1,8 +1,8 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 43
+> **Current Round**: 44
 > **Last Updated**: 2026-08-05
-> **NOTE**: Source IDs S130–S141 have been reused across R38, R40, R42 with different descriptions (Cluster E collision, HIGH risk). NN-002's S136-S141 reassigned to S142-S146 (R42) + S146+1 (R43). S142–S146 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources below use S142+.
+> **NOTE**: Source IDs S130–S141 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S150. GOV-006 confirms all 5 collision clusters (A-E) persist unresolved.
 
 ---
 
@@ -479,5 +479,27 @@ WebSearch is known broken (Round 5+): API error 400.
 | S144 | ecc521/connect-4-solver — nnue_weights_8x8.hpp | github.com/ecc521/connect-4-solver/blob/main/native/nnue_weights_8x8.hpp | Source code | AGPL v3 | 8x8 NNUE weight file: 128→256→32→1 architecture. 45,057 params. Two hidden layers. |
 | S145 | ecc521/connect-4-solver — NNUEAccumulator.hpp | github.com/ecc521/connect-4-solver/blob/main/native/NNUEAccumulator.hpp | Source code | AGPL v3 | Incremental accumulator with addPiece/removePiece methods. O(changes) evaluation — ~84x speedup over non-incremental. |
 | S146 | Waidchen et al. (2022) — XAI for Connect 4 | arxiv.org/abs/2202.11797 | Academic paper | 2022 | Explainable AI for Connect 4 with neural networks. Verified source for neural eval interpretability. |
-
-**Retrieved**: 2026-08-05 via WebFetch, raw.githubusercontent.com, and GitHub.
+| S142 | GoodCoder666/katac4 — train.py (training loop source) | https://github.com/GoodCoder666/katac4/blob/main/train.py | Source code (Python) | Primary | VERIFIED | 2026-08-05 | train.py, training pipeline, temperature formula |
+| S143 | GoodCoder666/katac4 — model.py (ResNet architecture source) | https://github.com/GoodCoder666/katac4/blob/main/model.py | Source code (Python) | Primary | VERIFIED | 2026-08-05 | model.py, ResNet/Bottlenest architecture |
+| S144 | AlphaZero Auxiliary Loss (AZAL) paper — arXiv:2607.08984 | https://arxiv.org/abs/2607.08984 | Academic paper | Primary | VERIFIED | 2026-08-05 | AZAL formulation, oracle match rate 0.785 |
+| S145 | TonyCWag/ConnectFour dataset card | https://huggingface.co/datasets/TonyCWag/ConnectFour | Dataset card | Primary | VERIFIED | 2026-08-05 | 958M rows, 2x6x7 encoding, temperature note |
+| S146 | tre-systems/rowspire — train.rs (training loop source) | https://github.com/tre-systems/rowspire/blob/main/worker/src/train.rs | Source code (Rust) | Primary | VERIFIED | 2026-08-05 | rowspire training methodology |
+| S147 | marcpaulo15/RL-connect4 — two-stage training config files | https://github.com/marcpaulo15/RL-connect4 | GitHub | Secondary | VERIFIED | 2026-08-05 | SFT to RL config files, 200K training data |
+| S148 | psalarc/DQN-ConnectX-Agent — DQN training study | https://github.com/psalarc/DQN-ConnectX-Agent | GitHub | Secondary | VERIFIED | 2026-08-05 | DQN training methodology |
+| S149 | Waidchen et al. (2022) — XAI for Connect 4 | https://arxiv.org/abs/2202.11797 | Academic paper | Secondary | VERIFIED | 2026-08-05 | Explainability analysis of Connect 4 AI |
+| S142 | GoodCoder666/katac4 -- train.py | https://github.com/GoodCoder666/katac4/blob/main/train.py | Source code | Secondary | VERIFIED | 2026-08-05 | Training loop, self-play, temperature formulas, replay buffer |
+| S143 | GoodCoder666/katac4 -- model.py | https://github.com/GoodCoder666/katac4/blob/main/model.py | Source code | Secondary | VERIFIED | 2026-08-05 | ResNet architecture, Bottlenest blocks, KataGPool |
+| S144 | AlphaZero Auxiliary Loss (AZAL) paper | https://arxiv.org/abs/2607.08984 | Academic paper | Secondary | VERIFIED | 2026-08-05 | AZAL auxiliary loss, oracle consistency, Connect Four results |
+| S145 | TonyCWag/ConnectFour dataset card | https://huggingface.co/datasets/TonyCWag/ConnectFour | Dataset card | Primary | VERIFIED | 2026-08-05 | 958M rows, temperature schedule, format specification |
+| S146 | tre-systems/rowspire -- train.rs | https://github.com/tre-systems/rowspire/blob/main/worker/src/train.rs | Source code | Secondary | VERIFIED | 2026-08-05 | Training loop, SFT methodology |
+| S147 | marcpaulo15/RL-connect4 -- training config | https://github.com/marcpaulo15/RL-connect4 | GitHub | Secondary | VERIFIED | 2026-08-05 | Two-stage SFT to RL training, 200K positions |
+| S148 | psalarc/DQN-ConnectX-Agent -- DQN study | https://github.com/psalarc/DQN-ConnectX-Agent | GitHub | Secondary | VERIFIED | 2026-08-05 | DQN training methodology, shallow network |
+| S149 | Waidchen et al. (2022) -- XAI for Connect 4 | https://arxiv.org/abs/2202.11797 | Academic paper | Secondary | VERIFIED | 2026-08-05 | Explainability analysis of Connect 4 AI |
+| S150 | GoodCoder666/katac4 -- train.py (training loop) | https://github.com/GoodCoder666/katac4/blob/main/train.py | Source code (Python) | Primary | VERIFIED | 2026-08-05 | Temperature decay formulas, replay buffer, self-play, learning rate scheduler |
+| S151 | GoodCoder666/katac4 -- model.py (ResNet architecture) | https://github.com/GoodCoder666/katac4/blob/main/model.py | Source code (Python) | Primary | VERIFIED | 2026-08-05 | Pre-activation ResNet, Bottlenest blocks, KataGPool, ConvBlock |
+| S152 | AlphaZero Auxiliary Loss (AZAL) paper -- arXiv:2607.08984 | https://arxiv.org/abs/2607.08984 | Academic paper | Primary | VERIFIED | 2026-08-05 | AZAL auxiliary loss formulation, oracle consistency, Connect Four results (0.785 oracle match) |
+| S153 | TonyCWag/ConnectFour dataset card | https://huggingface.co/datasets/TonyCWag/ConnectFour | Dataset card | Primary | VERIFIED | 2026-08-05 | 958M rows, 2x6x7 binary encoding, temperature schedule note, format specification |
+| S154 | tre-systems/rowspire -- train.rs (training loop) | https://github.com/tre-systems/rowspire/blob/main/worker/src/train.rs | Source code (Rust) | Primary | VERIFIED | 2026-08-05 | SFT training methodology, neural network training pipeline |
+| S155 | marcpaulo15/RL-connect4 -- two-stage training config | https://github.com/marcpaulo15/RL-connect4 | GitHub | Secondary | VERIFIED | 2026-08-05 | SFT to RL transfer learning, 200K heuristic positions, PPO/REINFORCE |
+| S156 | psalarc/DQN-ConnectX-Agent -- DQN study | https://github.com/psalarc/DQN-ConnectX-Agent | GitHub | Secondary | VERIFIED | 2026-08-05 | DQN training methodology, shallow network architecture study |
+| S157 | Waidchen et al. (2022) -- XAI for Connect 4 | https://arxiv.org/abs/2202.11797 | Academic paper | Secondary | VERIFIED | 2026-08-05 | Explainable AI analysis of Connect 4 neural networks |

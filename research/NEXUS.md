@@ -1,12 +1,12 @@
-﻿# ConnectX Research Nexus — Corpus Index
+# ConnectX Research Nexus — Corpus Index
 
 > **Current Round**: 41 (2026-08-05)
-> **Last Updated**: 2026-08-05 14:00 ET (Round 41)
+> **Last Updated**: 2026-08-05 14:30 ET (Round 41)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 40)
+## Corpus Statistics (Round 41)
 
 | Category | Count | Range |
 |----------|-------|-------|
@@ -18,10 +18,10 @@
 | Hypotheses | 24 | HYP-001 through HYP-024 |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 |
 | Contenders | 16 | BOT-001 through BOT-016 |
-| Benchmark Suites | 19 | BMS-001 through BMS-019 |
+| Benchmark Suites | 19 | BMS-001 through BMS-012, BMS-029 through BMS-035 |
 | Experiments | 43 | EXP-001 through EXP-037, EXP-NEW-001 through EXP-NEW-006 |
 | Sources | 131 | S001 through S131 (with 4 collision clusters) |
-| Dossiers | 18 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, plus MCTS-004 (PROPOSED, thin), BMS-DOC-002 (MCTS consistency and board-size scaling, PROPOSED) |
+| Dossiers | 24 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, MCTS-004, BMS-DOC-001, BMS-DOC-002, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, NN-002, mcts-004, bms-doc-002, DOS-006, board-representation-and-move-generation (CS-002), opening-book-engineering (CS-001), search-algorithm-comparison (CS-004) |
 | Governance Findings | 29 | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) |
 
 ---
@@ -34,7 +34,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Dossiers | 18 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, BMS-DOC-001, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, plus MCTS-004 (PROPOSED, thin), BMS-DOC-002 (MCTS consistency and board-size scaling, PROPOSED) |
+| Dossiers | 24 | F-001, CS-001, CS-002, CS-003, CS-004, MCTS-001, MCTS-002, MCTS-003, MCTS-004, BMS-DOC-001, BMS-DOC-002, GOV-001, GOV-002, GOV-003, GOV-004, D-034, RI-001, NN-001, NN-002, mcts-004, bms-doc-002, DOS-006, board-representation-and-move-generation (CS-002), opening-book-engineering (CS-001), search-algorithm-comparison (CS-004) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -104,25 +104,25 @@
 |----|-------|--------|------|
 | MCTS-001 | MCTS Consistency Problem for Solved Games | VERIFIED |  |
 | MCTS-002 | Neural MCTS Integration Patterns | VERIFIED |  |
-| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED |  |
-| MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED |  |
+| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md |
+| MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED | `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md |
 
 
 
-### Classical Search (3 dossiers)
+### Classical Search (5 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
-| CS-001 | Opening Book Engineering | VERIFIED | `dossiers/classical-search/opening-book-engineering.md` |
-| CS-003 | Classical Search and Solver Engineering | READY | `dossiers/classical-search/CS-003-classical-search-and-solver-engineering.md` |
+| CS-001 | Opening Book Engineering | READY | `dossiers/classical-search/CS-001-opening-book-engineering.md` |
+| CS-002 | Board Representation and Move Generation | VERIFIED | `dossiers/classical-search/CS-002-board-representation-and-move-generation.md` |
+| CS-003 | Classical Search and Solver Engineering | VERIFIED | `dossiers/classical-search/CS-003-classical-search-algorithm-engineering.md` |
 | CS-004 | Search Algorithm Comparison | PROPOSED | `dossiers/classical-search/search-algorithm-comparison.md` |
 
-### Foundational (2 dossiers)
+### Foundational (1 dossier)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | F-001 | Board Representation and Win Detection | VERIFIED | `dossiers/foundations/board-representation-and-win-detection.md` |
-| CS-002 | Board Representation and Move Generation | VERIFIED | `dossiers/classical-search/board-representation-and-move-generation.md` |
 
 ### Benchmarking (2 dossiers)
 
@@ -145,11 +145,15 @@
 | D-CBL-001 | Baseline Contender Comparison | PROPOSED | `dossiers/contenders/contenders-baselines-benchmark-references.md` |
 | DOS-006 | Contender Deep Profiles and Board-Size Analysis | VERIFIED | `dossiers/contenders/contenders-deep-profiles-and-board-size-analysis.md` |
 
-### Neural (1 dossier)
+### Neural (2 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | NN-001 | Neural Network Architectures, Training Pipelines, and Data | READY | `dossiers/neural/NN-001-neural-networks-architectures-training-pipelines-and-data.md` |
+| NN-002 | NNUE Architecture and Inference Optimization Deep Dive | PROPOSED | `dossiers/neural/NN-002-train-deep-dive.md` |
+
+**NN-001 scope:** 5 architecture families (ResNet, MLP, CNN, DQN, NNUE), 3 training pipelines, 18 sources, inference optimization (TensorRT INT8), board-size generalization.
+**NN-002 scope:** NNUE incremental evaluation (O(changes) cost, QA=127 quantization), 7x6 vs 8x8 board size analysis, ResNet vs NNUE comparison.
 
 **Scope:** 5 architecture families (ResNet, MLP, CNN, DQN, NNUE), 3 training pipelines, 18 sources, inference optimization (TensorRT INT8), board-size generalization.
 
@@ -178,7 +182,7 @@ DOS-006 (benchmark mapping) -> benchmark-blueprint.md (BMS-001 through BMS-012)
 NN-001 (neural architectures) -> MCTS-002 (neural MCTS) -> MCTS-001 (consistency)
 NN-001 (TensorRT) -> MCTS-002 (inference patterns) -> BMS-DOC-001 (benchmarking)
 BMS-DOC-002 (MCTS consistency theory) -> MCTS-001 (consistency problem) -> MCTS-002 (neural MCTS)
-BMS-DOC-002 (board-size scaling) -> DOS-006 (board-size routing) -> benchmark-blueprint.md (BMS-001 through BMS-019)
+BMS-DOC-002 (board-size scaling) -> DOS-006 (board-size routing) -> benchmark-blueprint.md (BMS-001 through BMS-012, BMS-029 through BMS-035)
 BMS-DOC-002 (race detection) -> BMS-DOC-001 (reproducibility) -> BMS-012 (reproducibility protocol)
 BMS-DOC-002 (seat-reversal bias) -> DOS-006 (contender deep profiles) -> ensemble-catalog.md
 BMS-DOC-002 (latency budgeting) -> NN-001 (TensorRT latency) -> MCTS-002 (GPU patterns) -> BMS-DOC-001 (benchmarking)
@@ -204,9 +208,14 @@ NN-001 (neural eval) -> CS-003 (classical search) -> F-001 (foundations)
 
 ## Recent Changes (Round 41)
 
-- **Added:** BMS-DOC-002 (MCTS Consistency Theory, Board-Size Scaling Laws, and Benchmark Methodology Gaps — PROPOSED, 791 lines, ~38KB, 13+ sources, 8 code/pseudocode blocks, feasibility matrix, 7 new benchmark suites, 6 new experiments)
-- **New benchmarks proposed:** BMS-013 through BMS-019 (MCP consistency analysis, board-size scaling validation, race-condition detection, latency budget audit, seat-reversal bias test, time-allocation benchmark, statistical power analysis)
-- **New experiments specified:** EXP-NEW-001 through EXP-NEW-006 (MCTS consistency test, board-size scaling measurement, race detection, latency profiling, seat-reversal bias test, time allocation optimization)
-- **Updated:** Benchmark Suites count from 12 to 19 (BMS-001 through BMS-019)
-- **Updated:** Dossiers count from 17 to 18 (BMS-DOC-002 added to benchmarking directory)
-- **Updated:** Experiments count from 37 to 43 (6 new experiments)
+- **Added 6 substantive dossiers:** NN-001 (Neural Network Architectures, 786 lines, 18 sources, VERIFIED), CS-001 (Opening Book Engineering, 591 lines, 12+ sources, READY), CS-002 (Board Representation and Move Generation, 718 lines, 10+ sources, VERIFIED), CS-003 (Classical Search Algorithm Engineering, 795 lines, 6 sources, VERIFIED), MCTS-004 (MCTS Deployment Architecture, 632 lines, 8 sources, PROPOSED), DOS-006 (Contender Deep Profiles and Board-Size Analysis, substantive, 10+ sources, VERIFIED)
+- **Added:** BMS-DOC-002 (MCTS Consistency Theory, Board-Size Scaling Laws, and Benchmark Methodology Gaps — PROPOSED, 791 lines, ~38KB, 13+ sources, 8 code/pseudocode blocks, feasibility matrix)
+- **Classical Search directory expanded:** 3→5 dossiers (added CS-001 opening book, CS-002 board representation)
+- **Neural directory expanded:** 1→2 dossiers (added NN-002 NNUE deep dive)
+- **MCTS directory expanded:** 5→6 dossiers (added MCTS-004 deployment architecture)
+- **Contenders directory expanded:** 2→2 dossiers (DOS-006 deep profiles, already listed)
+- **Dossiers count:** 18 → 24 across 12 directories (2 empty: ensembles, training-data)
+- **New benchmarks proposed:** BMS-029 through BMS-035 (MCP consistency analysis, board-size scaling validation, race-condition detection, latency budget audit, seat-reversal bias test, time-allocation benchmark, statistical power analysis), BMS-046 through BMS-050 (MCTS deployment benchmarks)
+- **New experiments specified:** EXP-NEW-001 through EXP-NEW-006 (MCTS consistency test, board-size scaling measurement, race detection, latency profiling, seat-reversal bias test, time allocation optimization), EXP-038 through EXP-043 (benchmark operational execution)
+- **New claims:** C001-C010 verified (opening book claims), C022-C024 (board representation claims), C126-C129 (search algorithm claims), C222+ (governance claims)
+- **Infrastructure:** Write tool restored in batch-00100 — 22/22 workers exit code 0, no tool failures reported

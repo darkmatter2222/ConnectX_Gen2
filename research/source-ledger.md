@@ -1,8 +1,8 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 46
+> **Current Round**: 47
 > **Last Updated**: 2026-08-05
-> **NOTE**: Source IDs S130–S146 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). RI-002 uses S158-S165 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S157. GOV-006/GOV-007 confirm all 5 collision clusters (A-E) persist unresolved. NN-004 claimed S160-S173 — S160-S165 overlap with NN-003/RI-002; unique IDs S166+ need de-duplication.
+> **NOTE**: Source IDs S130–S146 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). RI-002 uses S158-S165 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S157. GOV-006/GOV-007/GOV-008/GOV-009 confirm all 6 collision clusters (A-F) persist unresolved. **CRITICAL NEW**: NN-004 claimed S158-S169 which overlaps RI-002's S158-S165. Kamade planned S158-S163 which also overlaps. NN-004 must be re-indexed to S166-S177, Kamade to S178-S183. Cluster F remediation required in R48.
 
 ---
 

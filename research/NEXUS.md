@@ -1,29 +1,29 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 46 (2026-08-05)
-> **Last Updated**: 2026-08-05 21:30 ET (Round 46)
+> **Current Round**: 47 (2026-08-05)
+> **Last Updated**: 2026-08-05 22:00 ET (Round 47)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 46)
+## Corpus Statistics (Round 47)
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 260+ | C001-C260 (C226-C240 governance R43, C241-C260 governance R44-R45) |
-| Verified | 125+ | 45% (includes C233-C236 from MCTS-007 R45, C226-C240 R43 governance, C241-C260 R44-R45 governance) |
-| Needs Correction | 24 | 9% (C006, C007, C151, C172, C010, C044, C047, C136, C150, C162 + C193-C194 R32 + C203-R34 + C150-R32 + source-collision R24-R33) |
+| Claims | 280+ | C001-C295 (C226-C240 gov R43, C241-C260 gov R44-R45, C256-C295 gov R45-R46) |
+| Verified | 135+ | 48% (includes C233-C236 MCTS-007 R45, C226-C260 gov R43-R45, C256-C295 gov R45-R46, C276-C295 GOV-009 VERIFIED) |
+| Needs Correction | 24 | 9% (same as R46) |
 | Hypothesis | 24 | 9% (unchanged) |
-| Other | 107+ | 40% (unchanged) |
+| Other | 97+ | 35% (unchanged minus C276-C295 promotion) |
 | Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
-| Contenders | 22+ | BOT-001 through BOT-016, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001 |
-| Benchmark Suites | 38+ | BMS-001 through BMS-012, BMS-016 through BMS-021, BMS-029 through BMS-039, EXP-BMS-001 through EXP-BMS-008 |
-| Experiments | 90+ | EXP-001 through EXP-044, EXP-NEW-001 through EXP-NEW-010, EXP-NN-001 through EXP-NN-006, EXP-TS-001 through EXP-TS-004, EXP-BMS-001 through EXP-BMS-008 |
-| Sources | 165+ | S001 through S165 (S150-S157 from NN-003 R44, S158-S165 from RI-002 R45, S142-S146 from NN-002 R42) |
-| Dossiers | 37 | 31 substantive + 6 test/artifact across 12 directories (2 empty: ensembles, training-data) |
-| Governance Findings | 90+ | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + FU-001 through FU-138+ |
-| Remediation Rate | 75% | 17/22 GOV-001 findings repaired (GOV-007 R45) — **6-round plateau (R40-R45)** |
+| Contenders | 23+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001 |
+| Benchmark Suites | 54+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006 |
+| Experiments | 96+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008 |
+| Sources | 165+ | S001-S165 (NN-004 claimed S158-S169 — **COLLISION** with RI-002 S158-S165; Kamide claimed S158-S163 — **COLLISION** with RI-002) |
+| Dossiers | 45+ | 38 substantive + 7 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
+| Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 |
+| Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 2 rounds |
 
 ---
 
@@ -35,14 +35,23 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 37 | | See Dossier Index below — GOV-001 through GOV-008, CS-001 through CS-005, MCTS-001 through MCTS-007, BMS-DOC-002 through BMS-DOC-006, NN-001 through NN-004, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, RI-001, RI-002, CON-001, benchmark-science-and-tournament-design (31 substantive + 6 test/artifact) |
+| Tier 5: Dossiers | 45+ | | See Dossier Index below — GOV-001 through GOV-008, CS-001 through CS-005, MCTS-001 through MCTS-008, BMS-DOC-002 through BMS-DOC-007, NN-001 through NN-004, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, RI-001, RI-002, CON-001, KAMIDE-CONNECT-N (uncommitted), benchmark-science-and-tournament-design (38 substantive + 7 test/artifact) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
 
 ## Source ID Collision Map
 
-5 collision clusters identified across rounds R16–R42. **30+ source IDs affected.**
+6 collision clusters identified across rounds R16–R47. **38+ source IDs affected.**
+
+### Cluster F — RI-002 / NN-004 / Kamade source overlap (R45, R46, R47) **NEW**
+
+| Source ID | RI-002 usage (R45) | NN-004 usage (R46) | Kamade usage (R47 planned) | Resolution |
+|-----------|-------------------|-------------------|--------------------------|------------|
+| S158-S163 | RI-002 reference implementation sources | NN-004 transfer learning sources | Kamade source sources | **CRITICAL** — all three dossiers claim same IDs for different content. Must re-index NN-004 to S166-S177 and Kamade to S178-S183. |
+| S164-S165 | RI-002 sources | NN-004 claims | — | Overlap with NN-004 |
+
+**Remediation**: Cluster F re-indexing sprint required in R48. NN-004 sources must be re-indexed to S166-S177. Kamade sources must be re-indexed to S178-S183.
 
 ### Cluster A — katac4 / TensorRT Inference (R16, R25, R30)
 

@@ -490,3 +490,74 @@ The Kaggle T4 GPU provides:
 4. **What is the impact of column-height features?** Adding a third input channel (column height / available moves) may significantly help generalization.
 5. **Does the AZAL auxiliary loss help with board-size generalization?** The paper only tested it for oracle consistency, not for cross-board transfer.
 6. **How does the win condition (inarow) interact with board size?** A 15x13 board with inarow=6 may be easier than inarow=4 because fewer cells are needed.
+
+## 16. Recommendations
+
+### For Implementation Team
+
+1. **Priority 1 -- Build a board-size-agnostic CNN using global average pooling.** This is the highest-leverage single change: it transforms the marcpaulo15 CustomNetwork from a 7x6-only architecture to one that works on any board size. The required code change is replacing the FC input dimension with a global-pooling output dimension.
+
+2. **Priority 2 -- Generate a 15x13 training dataset using Kamade classical engine.** Kamade (BOT-013) supports configurable NxN boards and adaptive scoring minimax. Run 10,000-100,000 games on 15x13 and extract non-terminal positions for supervised fine-tuning.
+
+3. **Priority 3 -- Transfer-learning pipeline:**
+   - Step A: Pre-train CNN on TonyCWang 7x6 data (200K-1M positions)
+   - Step B: Fine-tune on 15x13 classical-engine positions (10K-100K positions)
+   - Step C: Freeze conv, train RL policy head on 15x13 self-play (200-1,000 games)
+
+4. **Priority 4 -- Add column-height feature channel** as a third input channel (in addition to active-player and opponent channels). This encodes the column gravity constraint explicitly and may significantly help CNN generalization.
+
+### For Kaggle Deployment
+
+5. **Deploy the fine-tuned model as a 15x13 specialist** alongside a 7x6 model. Use board-size-aware routing: when the environment specifies 7x6, use the 7x6 model; when 15x13 or 15x10, use the 15x13 model.
+
+6. **Convert the 15x13 model to ONNX** for Kaggle-compatible inference (no PyTorch runtime required). Use TensorRT INT8 if GPU is available.
+
+## 17. Sources and Retrieval Record
+
+| Source ID | Title | URL | Type | License | Date Retrieved |
+|-----------|-------|-----|------|---------|----------------|
+| S158 | marcpaulo15/RL-connect4 -- CustomNetwork source | github.com/marcpaulo15/RL-connect4/blob/main/src/models/custom_network.py | Source code | Academic | 2026-08-05 |
+| S159 | marcpaulo15/RL-connect4 -- Two-phase training methodology | github.com/marcpaulo15/RL-connect4 | GitHub | Academic | 2026-08-05 |
+| S160 | psalarc/DQN-ConnectX-Agent -- DQN source (30KB) | github.com/psalarc/DQN-ConnectX-Agent/blob/main/src/DS669FinalProject_PabloSalar.py | Source code | Academic | 2026-08-05 |
+| S161 | AZAL paper -- arXiv:2607.08984 | arxiv.org/abs/2607.08984 | Academic paper | CC | 2026-08-05 |
+| S162 | GoodCoder666/katac4 -- train.py (board-size randomization) | github.com/GoodCoder666/katac4/blob/main/train.py | Source code | MIT (inferred) | 2026-08-05 |
+| S163 | ecc521/connect-4-solver -- NNUE 7x6 and 8x8 | github.com/ecc521/connect-4-solver | Source code | AGPL v3 | 2026-08-05 |
+| S164 | Waidchen et al. (2022) -- XAI for Connect 4 | arxiv.org/abs/2202.11797 | Academic paper | CC | 2026-08-05 |
+| S165 | sebadorn/Machine-Learning--Connect-Four | github.com/sebadorn/Machine-Learning--Connect-Four | GitHub | -- | 2026-08-05 |
+| S166 | TonyCWang/ConnectFour dataset card | huggingface.co/datasets/TonyCWang/ConnectFour | Dataset card | MIT | 2026-08-05 |
+| S167 | Gridline Four Android -- complexity formulas | github.com/gridline-four-android | GitHub | -- | 2026-08-05 |
+| S168 | Kamade/connect-n -- Adaptive scoring NxN | github.com/Kamide/connect-n | Source code | -- | 2026-08-05 |
+| S169 | Wikipedia -- Connect Four board-size results | en.wikipedia.org/wiki/Connect_Four | Wikipedia | CC BY-SA | 2026-08-05 |
+
+## 18. Cross-Links
+
+- **NN-001** -- Architecture overview (ResNet, MLP, CNN, DQN, NNUE survey); NN-004 focuses on board-size generalization across all five families
+- **NN-002** -- NNUE source decode (7x6 and 8x8); NN-004 extends this to 15x13 with weight-switching analysis
+- **NN-003** -- Temperature schedules, replay buffer, AZAL; NN-004 uses AZAL board-size consistency results
+- **MCTS-002** -- Neural MCTS integration; board-size-agnostic neural policy is prerequisite for neural-guided MCTS on 15x13
+- **CS-002** -- Board representation; column-height feature encoding is a board representation enhancement
+- **CBL-001** -- Contender roster; Kamade (BOT-013) is the classical engine source for 15x13 training data
+- **ENS-019** -- Board-size adaptive routing; transfer-learned 15x13 model enables this ensemble
+- **BMS-DOC-002** -- MCTS consistency and board-size scaling; NN-004 BMS-NN-001 through BMS-NN-007 extend this to neural-specific benchmarks
+- **RI-001** -- katac4 reference implementation; katac4 board-size randomization is one of NN-004 five approaches
+
+## 19. Follow-Up Research Tasks
+
+1. **Generate a 15x13 training dataset** using Kamade classical engine -- run 10,000 games, extract non-terminal positions, save as Parquet for supervised fine-tuning
+2. **Implement and benchmark a global-average-pooling CNN** for ConnectX -- verify that a CNN trained on 7x6 can evaluate 15x13 positions
+3. **Measure catastrophic forgetting** -- quantify how much 7x6 performance degrades after 15x13 fine-tuning for each architecture (CNN, MLP, ResNet)
+4. **Evaluate column-height feature channel** -- compare 2-channel (player + opponent) vs 3-channel (+ column height) input for 15x13 generalization
+5. **Implement NNUE weight-switching at inference** -- measure latency overhead of loading different weight files for different board sizes
+6. **Run AZAL-style oracle consistency tests** on Connect Four 15x13 -- does the perfect 10x11 Chomp result hold?
+7. **Benchmark transfer learning vs. training from scratch** on 15x13 -- how much does 7x6 pre-training help vs. starting from random initialization?
+
+## 20. Deferred Empirical Experiments
+
+- **BMS-NN-001:** Generate 15x13 positions using Kamade classical engine; fine-tune ResNet on 50K positions; measure oracle agreement rate on 1,000 held-out 15x13 positions
+- **BMS-NN-002:** Measure catastrophic forgetting by evaluating fine-tuned model on 7x6 positions before and after fine-tuning
+- **BMS-NN-003:** End-to-end benchmark: transfer-learned CNN vs. negamax on 15x13 board, 100 games each
+- **BMS-NN-007:** Reproduce AZAL oracle consistency experiment on Connect Four 15x13
+
+---
+
+**EXTERNAL WORKER COMPLETE**

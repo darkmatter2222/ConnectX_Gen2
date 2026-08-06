@@ -1,9 +1,9 @@
 # Research State -- ConnectX Bot
 
-> **Current Round**: 44 (2026-08-05)
-> **Last Updated**: 2026-08-05 19:00 ET
-> **Previous Round**: 44 (2026-08-05, GOV-007 post-commit governance audit, NN-003+CS-005+MCTS-007+KAGGLE-CONNX-SPEC added in R43, governance remediation 75%)
-> **Status**: Active -- dossier synthesis phase; 35 dossier files (29 substantive + 6 test/artifact) across 12 directories, 5 source ID collision clusters (Cluster E: CRITICAL), governance remediation at 75%, 5 unindexed files on disk, 3 test artifacts in dossier directories
+> **Current Round**: 47 (2026-08-05)
+> **Last Updated**: 2026-08-05 22:00 ET
+> **Previous Round**: 46 (2026-08-05, GOV-009 R46 master governance, NN-004+MCTS-006+CON-001+GOV-008 added, governance remediation 100% coverage)
+> **Status**: Active -- dossier synthesis phase; 45+ dossier files across 12 directories (3 empty: ensembles/, kaggle/, training-data/), 6 source ID collision clusters (Cluster E+F: CRITICAL), governance remediation at 100% coverage (17/22 fully + 5/22 partially), 7 NEXUS index gaps, 1 new source collision cluster (F: S158-S169 overlap)
 
 ---
 
@@ -135,4 +135,12 @@ Combined with game-phase strategy:
 ---
 
 *Last updated: 2026-08-05 16:00 ET (Round 43)*
+
+---
+
+## Round Progression (continued)
+
+| Round | Date | Status | Key Activity |
+|-------|------|--------|--------------|
+| 47 | 2026-08-05 | Complete | Batch-00106 synthesis: 5 workers ($139), all accepted. NN-004 expanded with 12 new sources (S158-S169), bms-doc-007 new, MCTS-008 new, CS-005 expanded, MCTS-006 expanded. **New source collision Cluster F** (S158-S169 overlaps RI-002 S158-S165 and Kamide S158-S163). GOV-009 R46 governance: 100% remediation coverage, 7 NEXUS gaps, kaggle/ new empty dir. Governance plateau at 100%. Source collision clusters: 6 (A-F). **Cluster F requires immediate remediation**.
 

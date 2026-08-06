@@ -1,6 +1,6 @@
 
 > **Last Updated**: 2026-08-05
-> **Current Round**: 44
+> **Current Round**: 47
 > **Purpose**: Persistent cross-round task hopper. Unique task IDs, priority-ordered.
 
 ---

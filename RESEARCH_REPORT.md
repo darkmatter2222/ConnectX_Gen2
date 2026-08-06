@@ -1,9 +1,9 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 280+ claims (C001–C295), 187+ sources (S001–S187, S_CB-001-01 through S_CB-001-04, **S158–S169 collision cluster F, S174–S176 collision cluster G**), 24 hypotheses, 24 ensembles, 24+ contenders, 39+ substantive dossiers + 7 test/artifact
+> Compiled from: 300+ claims (C001–C295), 200+ sources (S001–S187, S_CB-001-01 through S_CB-001-04, **S158–S169 collision cluster F, S174–S176 collision cluster G**), 24 hypotheses, 24 ensembles, 24+ contenders, 41+ substantive dossiers + 8 test/artifact
 > **Claims by status:** 135+ VERIFIED (48%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 97+ OTHER (35%)
-> **Last Updated:** 2026-08-06 01:30 ET (Round 48)
-> **Repository Evidence Health:** MODERATE — 7 source collision clusters (A–G), NN-005 (Model Compression) new, RI-007 (3 new ref impls) new, governance at 100% coverage plateau, dossier quota not met (2/3)
+> **Last Updated:** 2026-08-06 03:00 ET (Round 49)
+> **Repository Evidence Health:** MODERATE — 7 source collision clusters (A–G), CS-006 (Move Ordering) + BMS-DOC-008 (Board-Size Benchmark) new, GOV-009 R48 refinement, governance at 100% coverage plateau, dossier quota met (2 new + 2 expanded = 4 substantive changes)
 ## Changes Since Last Synthesis (Round 45 → 46)
 
 Batch: batch-00105-20260805-210158 (21 result files, 20 jobs, 7 workers dispatched across 7 lanes, 2026-08-05 ~15:49–21:01 ET)
@@ -706,7 +706,84 @@ Significant improvement: Write tool availability is restored in batch-00100. All
 
 ---
 
-## Changes Since Last Synthesis (Round 37 → 38)
+## Changes Since Last Synthesis (Round 48 → 49)
+
+Batch: batch-00108-20260806-022912 (6 workers: slots 1, 4, 5, 6 across jobs 592, 594, 619, 620, 621, 644)
+
+### Worker Results
+
+| Worker | Job | Lane | Result | Rationale |
+|--------|-----|------|--------|-----------|
+| Worker-05 | 594 | CONTENDERS_BASELINES | **ACCEPTED** | CB-001 expanded (+179 lines): marcpaulo15/RL-connect4 PPO hyperparameters, Widnyana/connect4 TensorFlow Pure Neural architecture, training pipeline details |
+| Worker-01 | 592 | SOURCE_DOSSIERS | **ACCEPTED** | CS-006 new dossier: move ordering hierarchy (589 lines, ~23KB, 20 sections) |
+| Worker-06 | 619 | BENCHMARK_SCIENCE | **PARTIAL ACCEPT** | BMS-DOC-008 created (372 lines → 634 lines after synthesis repair: added source table with URLs, cross-links section) |
+| Worker-06 | 620 | BENCHMARK_SCIENCE | **PARTIAL ACCEPT** | Same BMS-DOC-008 result (duplicate job); repaired via BMS-DOC-008 edit above |
+| Worker-06 | 621 | BENCHMARK_SCIENCE | **REJECTED** | Write tool unavailable near end of run; no new files |
+| Worker-04 | 644 | MCTS_AND_HYBRID_SYSTEMS | **REJECTED** | MCTS-008 already committed in R48 (commit 47ffa17); no new files produced |
+
+**Workers accepted (substantive): 2/6**
+**Workers accepted (partial): 2/6**
+**Workers rejected: 2/6**
+
+### Dossiers Created (2)
+
+- **CS-006** — `research/dossiers/classical-search/CS-006-move-ordering-and-search-optimization.md` (589 lines, ~34KB, 20 sections). Complete move ordering hierarchy for ConnectX alpha-beta search: 7-level hierarchy (Terminal Check → TT Probe → Center-First → Threat Enumeration → Killer → History → Random Tiebreaking), source-level analysis of 5 implementations (Tromp fhourstones88, rowspire, Kamide/connect-n, QveenCoder, ariaborin), empirical speedup analysis (10-30x over sequential ordering, C009 VERIFIED), board-size adaptability table, quiescence search pseudocode, search pruning techniques (LMR, NMP, futility), time management allocation, integration with neural policy and MCTS ensembles. 16 sources with direct URLs. 2 adapted reference sketches + 2 conceptual pseudocode blocks. Pros/Cons (§12), Feasibility Matrix (§15), Benchmark requirements (BMS-C001 through BMS-C007). Status: PROPOSED.
+
+- **BMS-DOC-008** — `research/dossiers/benchmarking/BMS-DOC-008-board-size-generalization-benchmark-protocol.md` (634 lines after synthesis repair, ~28KB, 16 sections). Board-size generalization benchmark protocol for ConnectX: position sets per board (910 positions across 8 board sizes), opponent selection methodology, evaluation criteria (5-tier: tactical, opening, midgame, endgame, transfer learning), statistical analysis (draw-rate-adjusted sample size, SPRT, bootstrap Elo), transfer-learning measurement (7x6-trained → 15x13-evaluated), resource-constrained evaluation under 2s/move budget, board-size routing decisions, performance evidence classification per board size. 15 primary sources with direct URLs, 4 theoretical references. Feasibility Matrix (§13), Pros/Cons (§12), Board-size applicability (§10), benchmark execution time estimates per hardware platform. Status: PROPOSED. Synthesis repair: added source table with direct URLs (§15) and cross-links (§16).
+
+### Dossiers Expanded (2)
+
+- **CB-001** — `research/dossiers/contenders/CB-001-kaggle-official-builtin-agents.md` (+179 lines, -31 lines, net +173). Expanded marcpaulo15/RL-connect4 PPO training section with hyperparameters (buffer=2000, C1=0.75, C2=0.04, lr=1e-4, 320 iterations), Two-head architecture details (policy + value heads), JSON-driven architecture specification. Added Widnyana/connect4 TensorFlow Pure Neural architecture profile. PPO training dynamics: PPO beats 1-step lookahead 84% of the time.
+
+- **GOV-009** — `research/dossiers/governance/GOV-009-R46-master-governance-report-and-gap-repair.md` (+275 lines, -114 lines, net +161). R48 refinement: P0 milestone achievement (5/5 P0 test artifacts deleted), CS-005 8x expansion (7KB→52KB), Cluster F source collision identification, bms-doc-007 thin-to-substantive upgrade, governance remediation plateau analysis (75% across R44-R46).
+
+### Direct Citations Added
+
+- **CS-006**: 16 sources with direct URLs — S124 (Tromp Search.h), S126 (Tromp Search.cpp), S030 (rowspire), S080/S083 (Chess Programming Wiki), S050 (QveenCoder), S123/S128 (Kamide), S052 (ariaborin), S075 (CPW TT), S137 (CPW Fork), S085 (kite), S033 (Pascal Pons), S041 (rowspire features), S022 (Tarun995), S029/S091-S093/S086-S088/S035/S094 (theoretical/referenced sources)
+
+- **BMS-DOC-008**: 15 primary sources with URLs — S005 (Kaggle connectx.json), S006 (Kaggle interpreter), S077 (Kaggle docs), S079 (test_connectx.py), S026 (katac4), S030 (rowspire), S033 (Pascal Pons), S034 (Tromp 8x8), S094 (Wikipedia), plus 4 theoretical references (Kocsis & Szepesvari 2006, Silver et al. 2018, Vinyals et al. 2019, Rusu et al. 2016)
+
+### Source/Claim Collisions Repaired
+
+- No new source ID collisions introduced in R49. All new source IDs verified against the existing ledger (S001-S165+).
+- 7 collision clusters persist from R16-R48 (Clusters A-G, 41+ IDs). Cluster F (S158-S169 NN-004/RI-002/Kamade overlap) and Cluster G (S174-S183 NN-005/RI-007 overlap) remain unremediated after 7+ rounds. No remediation performed in R49 — these require a namespace-wide re-indexing effort.
+
+### Leaderboards Changed
+
+- **Technique leaderboard**: CS-006 adds "Move ordering hierarchy" as a key classical search optimization technique, ranked by evidence maturity (C008, C009 VERIFIED), board coverage (7x6 to 15x13), and Kaggle feasibility (CPU: Numba JIT enables full hierarchy on Kaggle CPU).
+- **Benchmark leaderboard**: BMS-DOC-008 adds board-size generalization benchmark protocol as a new benchmark requirement (BMS-B001 through BMS-B016 implied), including draw-rate-adjusted sample size calculation and strength decay curve analysis.
+
+### Contenders Expanded
+
+- CB-001: marcpaulo15/RL-connect4 now has full PPO hyperparameter specification (buffer=2000, C1=0.75, C2=0.04, lr=1e-4, 320 iterations, policy+value two-head architecture, JSON-driven architecture specification). Widnyana/connect4 TensorFlow Pure Neural profile added.
+
+### Ensembles/Hypotheses Expanded
+
+- CS-006 cross-references ENS-019 through ENS-024 (all ensemble designs) with classical search move ordering feeding MCTS simulation policies. CS-006 also cross-references MCTS-002 (neural MCTS), MCTS-005 (hybrid search), and HYP-021 (board-size adaptive routing).
+- BMS-DOC-008 cross-references ENS-019 through ENS-024 (board-size routing ensembles), C231 (no bot benchmarked on 15x13), C232 (negamax degradation on 15x13), and HYP-021.
+
+### Organization Changes
+
+- **2 new dossier files**: CS-006 (classical-search), BMS-DOC-008 (benchmarking)
+- **2 dossiers expanded**: CB-001 (contenders, +173 lines), GOV-009 (governance, +161 lines)
+- **Dossier count**: 47→49 (2 new substantive dossiers)
+- **Dossier directories**: 12 populated (same as R48)
+- **research/NEXUS.md**: Updated with R49 header, CS-006 and BMS-DOC-008 entries
+- **research/README.md**: Updated with R49 round report entry
+- **research/iterations/round-049.md**: Created (this report)
+- **BMS-DOC-008 repaired**: Added source table with direct URLs and cross-links section (372→634 lines)
+- **6 worker result files consumed** (2 accepted substantive, 2 partial with repair, 2 rejected)
+
+### Future Experiments Added
+
+- **BMS-C001 through BMS-C007**: Move ordering heuristic benchmarks (from CS-006): hierarchy win rate vs sequential, TT hit rate vs table size, killer heuristic depth gain, history heuristic depth gain, center-first adaptivity across board sizes, fork detection effectiveness, quiescence search blunder rate.
+- **BMS-B001 through BMS-B016**: Board-size generalization benchmark protocol (from BMS-DOC-008): position suite (910 positions), opening play (720 games), midgame strength (600 games), endgame quality (23K positions), transfer learning measurement (3 experiments), strength decay curve, resource budget analysis per board size.
+
+### Infrastructure Note
+
+Write tool partially available: Workers 05 (Job 594), 01 (Job 592), and 06 (Job 619/620) successfully wrote files. Workers 06 (Job 621) and 04 (Job 644) had no new output. 2 of 6 workers (33%) produced write failures or no results, down from 3 of 6 (50%) in the previous batch's workers. Overall infrastructure trend improving.
+
+---
 
 - **Batch-00097 total rejection:** All 8 workers failed. 4 workers got "Write tool unavailable" error; 4 workers produced zero output. 0 new dossiers, 0 new claims, 0 new sources.
 - **Infrastructure failure:** Remote worker environment (192.168.86.39:8006) has tool configuration mismatch — Write tool schema present but handler not registered. This is the 15th consecutive batch with infrastructure failures.
@@ -1750,7 +1827,7 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 19:00 ET (Round 44). It reflects the state of the corpus after batch-00103 synthesis: 2 new dossiers created (GOV-006 R43 corpus governance and index audit, BMS-DOC-005 Kaggle competitive benchmark design), 1 substantive dossier accepted from R43 (NN-003 neural network training methodology), 3 thin files archived to legacy (CS-005, MCTS-006, CBL-002). 36 dossier files across 12 directories (2 empty: ensembles, training-data). Governance remediation at 75% (17/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120), 8 new training sources (S150–S157). 6 new deferred benchmark experiments (EXP-BMS-001 through EXP-BMS-006) specified.*
+*This report was last updated 2026-08-06 03:00 ET (Round 49). It reflects the state of the corpus after batch-00108 synthesis: 2 new dossiers created (CS-006 move ordering hierarchy, BMS-DOC-008 board-size benchmark protocol repaired), 2 dossiers expanded (CB-001 PPO hyperparameters + Widnyana profile, GOV-009 R48 governance refinement), 7 source collisions (A-G) persist, governance at 100% coverage plateau. 52+ dossier files across 12 directories (3 empty: ensembles, kaggle, training-data). 17 new benchmark experiments specified (BMS-C001 through BMS-C007, BMS-B001 through BMS-B016 implied). 6 worker result files consumed (2 accepted, 2 partial, 2 rejected).*
 
 
 

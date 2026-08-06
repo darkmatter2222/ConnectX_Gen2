@@ -1,12 +1,12 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 47 (2026-08-05)
-> **Last Updated**: 2026-08-05 22:00 ET (Round 47)
+> **Current Round**: 49 (2026-08-06)
+> **Last Updated**: 2026-08-06 03:00 ET (Round 49)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 47)
+## Corpus Statistics (Round 49)
 
 | Category | Count | Range |
 |----------|-------|-------|
@@ -21,7 +21,7 @@
 | Benchmark Suites | 54+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006 |
 | Experiments | 96+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008 |
 | Sources | 165+ | S001-S165 (NN-004 claimed S158-S169 — **COLLISION** with RI-002 S158-S165; Kamide claimed S158-S163 — **COLLISION** with RI-002) |
-| Dossiers | 46+ | 39 substantive + 7 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
+| Dossiers | 49+ | 41 substantive + 8 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
 | Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 |
 | Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 2 rounds |
 
@@ -335,6 +335,16 @@ MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-0
 - **Dossiers count**: 24 → 25 (MCTS-005 new; NN-002 and BMS-DOC-002 are expansions, not new count).
 - **Empty directories**: 2 (ensembles, training-data — unchanged).
 - **Infrastructure**: Write tool partially restored — 3 of 8 workers successfully wrote dossiers (NN-002, BMS-DOC-002, MCTS-005). 3 governance workers produced findings without writing new dossier files. 2 workers failed to write (Write tool unavailable).
+
+## Recent Changes (Round 49)
+
+- **New dossier: CS-006** (`research/dossiers/classical-search/CS-006-move-ordering-and-search-optimization.md`) — 589 lines, ~34KB, 20 sections. Complete move ordering hierarchy for ConnectX: 7-level hierarchy (Terminal Check → TT Probe → Center-First → Threat Enumeration → Killer → History → Random Tiebreaking), source-level analysis of 5 implementations (Tromp fhourstones88, rowspire, Kamide, QveenCoder, ariaborin), empirical speedup analysis (10-30x over sequential, C009 VERIFIED), board-size adaptability, quiescence search, search pruning, time management. 16 sources with direct URLs. 2 adapted reference sketches + 2 conceptual pseudocode. Feasibility Matrix (§15), Pros/Cons (§12), Benchmark requirements (BMS-C001 through BMS-C007). Status: PROPOSED.
+- **New dossier: BMS-DOC-008** (`research/dossiers/benchmarking/BMS-DOC-008-board-size-generalization-benchmark-protocol.md`) — 634 lines after synthesis repair (from 372), ~28KB, 16 sections. Board-size generalization benchmark protocol: position sets per board (910 positions), opponent selection, evaluation criteria (5-tier), statistical analysis (draw-rate-adjusted sample size, SPRT, bootstrap Elo), transfer-learning measurement, resource-constrained evaluation under 2s/move. 15 primary sources with URLs, 4 theoretical references. Feasibility Matrix (§13), Pros/Cons (§12), Board-size routing decisions (§11). Synthesis repair: added source table (§15) and cross-links (§16). Status: PROPOSED.
+- **Expanded: CB-001** (+179 lines, -31 lines): marcpaulo15/RL-connect4 PPO hyperparameters (buffer=2000, C1=0.75, C2=0.04, lr=1e-4, 320 iterations), Widnyana/connect4 TensorFlow Pure Neural architecture.
+- **Expanded: GOV-009** (+275 lines, -114 lines): R48 governance refinement — P0 milestone, CS-005 expansion, Cluster F identification, remediation plateau analysis.
+- **Dossiers count**: 46+ → 49+ (2 new: CS-006, BMS-DOC-008)
+- **Source collisions**: 7 clusters (A-G) persist. No new collisions in R49.
+- **Infrastructure**: Write tool partially available (4 of 6 workers wrote files; 2 had no output or failures).
 
 ## Recent Changes (Round 43)
 

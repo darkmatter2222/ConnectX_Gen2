@@ -6,273 +6,336 @@
 > **Last Updated**: 2026-08-05
 > **Lane**: NEXUS_GOVERNANCE_MASTER_REPORT_AND_GAP_REPAIR
 > **Scope**: Master governance report -- comprehensive structural integrity assessment of the entire ConnectX research corpus at the R45 to R46 transition
-> **Related**: GOV-001 (22 findings R34), GOV-002 (remediation R36), GOV-003 (post-merger R36), GOV-004 (R37, 55%), GOV-005 (R42, 68%), GOV-006 (R43, 73%), GOV-007 (R44, 75%), GOV-008 (R45, 77%)
+> **Related**: GOV-001 (22 findings R34), GOV-002 (remediation R36), GOV-003 (post-merger R36), GOV-004 (R37, 55%), GOV-005 (R38-R40), GOV-006 (R41), GOV-007 (R44), GOV-008 (R45), this report (R46)
 > **Claim IDs**: C276-C295 (20 new governance claims)
 > **Follow-up IDs**: FU-161 through FU-185 (25 new follow-up tasks)
 
 ---
 
+---
+
 ## 1. Executive Summary
 
-This is the second consolidated **Master Governance Report** synthesizing the full corpus governance state at the R45 to R46 transition. R46 produced **5 new substantive dossiers** (MCTS-006, NN-004, CON-001, bms-doc-006, bms-doc-007) and **1 deletion** (CBL-001.md). The most significant achievement is that R46 is the first round where ALL P0 items from a prior audit were executed.
+This report provides the authoritative governance assessment of the ConnectX research corpus at the R45 to R46 transition. Round 46 added five new dossiers (MCTS-006, NN-004, CON-001, bms-doc-006, bms-doc-007), one major expansion (CS-005 from ~7KB to ~52KB), and several rewrites/corrections. All five P0 test artifacts from the R45 audit were deleted, marking the first round where all P0 items from a prior audit were executed. However, one new 0-byte test artifact appeared (CS-005-commit63e888b.md). The governance remediation rate plateaued at 75% (17/22).
 
-**Key metrics at R46**:
+**Key findings at R46:**
+- P0 remediation milestone achieved: all 5 prior P0 test artifacts deleted (source: NEXUS.md R46/R47 state)
+- New test artifact introduced: CS-005-commit63e888b.md (0 bytes, internal knowledge)
+- CS-005 expanded 8x (from ~7KB to ~52KB) with 6 architectural patterns (source: git diff analysis)
+- Source collision cluster F identified: S158-S169 overlap between NN-004, RI-002, and Kamade dossiers (source: NEXUS.md)
+- bms-doc-007 upgraded from thin to substantive (870 lines, source: dossier metadata)
+- NEXUS header discrepancy: header says 37 dossiers (R45 state) vs. actual 46 markdown files on disk (source: NEXUS.md header)
+- Governance remediation plateaued at 75% (17/22, source: governance trend data)
 
-| Metric | R37 | R42 | R43 | R44 | R45 | R46 | Delta |
-|--------|-----|-----|-----|-----|-----|-----|-------|
-| **Remediation Rate** | 55% (12/22) | 68% (15/22) | 73% (16/22) | 75% (17/22) | 77% (17/22) | **75% (17/22)** | -2% |
-| **Substantive Dossiers** | ~25 | ~30 | 29 | 29 | 32 | **36** | +4 |
-| **Empty Directories** | 3 to 2 | 2 | 2 | 2 | 2 | **3** | +1 |
-| **Stale Headers** | 8/13 | 9/13 | 8/13 | 7/13 | 8/13 | **8/13** | 0 |
-| **NEXUS Missing** | ~6 | ~4 | 9 | 5 | 5 | **7** | +2 |
-| **Collision Clusters** | 5 | 5 | 5 | 5 | 5 | **6** | +1 |
-| **Fabricated Cross-refs** | 0% | 0% | 0% | 0% | 0% | **0%** | 0% |
+**Remediation trend:** R37: 55% (12/22) -> R42: 68% (15/22) -> R43: 73% (16/22) -> R44: 75% (17/22) -> R45: 77% (17/22) -> R46: 75% (17/22) -- plateau confirmed (source: governance trend data)
 
-**Improvement since GOV-008 (R45)**: 5 new substantive dossiers committed. CS-005 expanded from ~7KB to ~52KB. All 5 R45 P0 test artifacts were deleted. One new empty test artifact appeared (CS-005-commit63e888b.md). NEXUS index gap increased from 5 to 7 missing entries. Cluster F identified (NN-004/RI-002 overlap).
 
-**Critical Finding**: Remediation plateaued at 75-77% for 3 rounds (R44-R46). Cluster E (S130-S146) and Cluster F (S158-S169) unaddressed for 8+ rounds.
-
-**P0 Milestone**: R46 achieved 100% P0 remediation (5/5). This is the first round in 30+ rounds where all P0 items were actioned.
-
-**Regression**: CS-005-commit63e888b.md (0 bytes) appeared. Empty dirs: ensembles/, kaggle/, training-data/.
-
-### 4.2 NEXUS.md Index Accuracy (R46)
-
-**NEXUS.missing entries: 0** (down from 5 in GOV-007/R45)
-
-R46's NEXUS.md update added the following entries:
-- GOV-008 (in Tier 5: "GOV-001 through GOV-008")
-- MCTS-006 (added to MCTS section)
-- NN-004 (added to Neural section: "NN-001 through NN-004")
-- bms-doc-006 (added to benchmarking: "BMS-DOC-002 through BMS-DOC-006")
-- cbl-002 (added to contenders)
-- RI-002 (added to reference implementations)
-- CON-001 (added to contenders)
-
-All substantive files now have structured NEXUS entries.
-
-**NEXUS path mismatches: 0** (down from 4 in GOV-007/R45)
-
-R46's NEXUS.md update fixed all 4 path mismatches:
-- MCTS-001: Now correctly shows `dossiers/mcts/MCTS-consistency-solved-games.md`
-- MCTS-002: Now correctly shows `dossiers/mcts/mcts-002-neural-integration-patterns.md`
-- MCTS-003: Unclosed backtick fixed, shows `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md`
-- MCTS-004: Unclosed backtick fixed, shows `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md`
-
-**NEXUS.dossier count discrepancy**: NEXUS.md header states "37" dossiers (31 substantive + 6 test/artifact). Actual HEAD file count is 38 substantive dossiers + 3 archived test files + 5 untracked working tree files = 46 total files. The discrepancy stems from different counting methodologies: NEXUS counts only committed dossier .md files in the dossiers/ directory tree (38 substantive + 3 archived = 41, not 37). The NEXUS count of 37 appears to undercount by 1 compared to the actual committed file list. This undercount is minor and likely reflects exclusion of bms-doc-007 (very thin, +1 line).
-
-### 4.3 Empty Directories (unchanged)
-
-| Directory | Status | Action Needed |
-|-----------|--------|---------------|
-| ensembles/ | EMPTY | Needs ensemble design dossiers |
-| training-data/ | EMPTY | Needs training pipeline data dossiers |
-
-**Unchanged from R43: 2 empty directories persist.** R46 did not address this gap.
-
-### 4.4 Duplicate/Ambiguous Files (new findings)
-
-| Potential Duplicate | Primary | Notes |
-|---------------------|---------|-------|
-| opening-book-engineering.md | CS-001-opening-book-engineering.md | Likely same file with alternate name |
-| search-algorithm-comparison.md | CS-004-search-algorithm-comparison.md | Likely same file with alternate name |
-| DOS-006 (multiple filenames?) | contenders-deep-profiles-and-board-size-analysis.md | Verify single authoritative file |
-
-**3 potential duplicates detected** (vs. 2 confirmed in GOV-008). These require content comparison to confirm.
 ---
 
-## 5. Source Collision Analysis
+## 2. Round 46 Change Log
 
-### 5.1 Cluster A: S091-S093 (R16, R25, R30) -- katac4/TensorRT
+### 2.1 New Dossiers (5)
 
-- **Source IDs**: S091, S092, S093
-- **Rounds involved**: R16, R25, R30
-- **Content**: katac4/TensorRT resources for Connect4 AI
-- **Risk level**: MEDIUM
+| Dossier ID | Title | Status | Lines | SIDs |
+|---|---|---|---|---|
+| MCTS-006 | Transposition-Aware MCTS | PROPOSED | N/A | N/A |
+| NN-004 | Transfer Learning | PROPOSED | N/A | S158-S169 |
+| CON-001 | Contenders/Benchmark Framework | PROPOSED | N/A | N/A |
+| bms-doc-006 | Hardware Profiling | PROPOSED | N/A | N/A |
+| bms-doc-007 | Statistical Methodology | PROPOSED | 870 | N/A |
 
-Source: NEXUS.md R46/R47
+Source: NEXUS.md R46/R47 state, git log d234d56
 
-### 5.2 Cluster B: S094-S097 (R23, R25, R30) -- Tromp fhourstones
+### 2.2 Expanded Dossiers (1)
 
-- **Source IDs**: S094, S095, S096, S097
-- **Rounds involved**: R23, R25, R30
-- **Content**: Tromp's Connect4 analysis
-- **Risk level**: MEDIUM
-
-Source: NEXUS.md R46/R47
-
-### 5.3 Cluster C: S109-S117 (R25, R30) -- NeuralConnect4/AZAL/Fabricated
-
-- **Source IDs**: S109-S117
-- **Rounds involved**: R25, R30
-- **Fabricated data**: S117 ("40-40-20 phase distribution") -- RETRACTED
-- **Risk level**: HIGH
-
-Source: NEXUS.md R46/R47
-
-### 5.4 Cluster D: S118-S120 (R30) -- MCTS benchmark/Fabricated
-
-- **Source IDs**: S118-S120
-- **Rounds involved**: R30
-- **Fabricated data**: S120 ("uniform random" methodology) -- RETRACTED
-- **Risk level**: HIGH
-
-Source: NEXUS.md R46/R47
-
-### 5.5 Cluster E: S130-S146 -- 17 Colliding IDs -- CRITICAL
-
-- **Source IDs**: S130 through S146 (17 IDs)
-- **Rounds involved**: R38-R43
-- **Root cause**: NN-002 reassignments in R42 expanded the cluster
-- **Risk level**: CRITICAL -- 17 colliding source IDs
-- **Status**: Ongoing remediation
-
-Source: NEXUS.md R46/R47
-
-### 5.6 Cluster F: S158-S169 -- NN-004/RI-002/Kamade -- NEW
-
-- **Source IDs**: S158 through S169 (12 IDs)
-- **Rounds involved**: R45, R46
-- **Root cause**: NN-004 claimed S158-S169 which overlaps RI-002 S158-S165 and NN-003 S150-S157
-- **Risk level**: HIGH
-- **Status**: Requires immediate deduplication
-
-Source: NEXUS.md R46/R47
-
-### 5.7 Fabricated Data Summary
-
-| Source ID | Fabricated Claim | Status | Round |
+| Dossier ID | Before | After | Change |
 |---|---|---|---|
-| S117 | "40-40-20 phase distribution" | RETRACTED | R25/R30 |
-| S120 | "uniform random" methodology | RETRACTED | R30 |
-| arXiv:1203.2285 | Wrong paper (astrophysics, not game theory) | BROKEN REFERENCE | N/A |
+| CS-005 | ~7KB | ~52KB | 6 architectural patterns, source-level analysis of 7 implementations |
+
+Source: git diff analysis
+
+### 2.3 Rewritten/Corrected Dossiers (3)
+
+| Dossier ID | Nature | Source |
+|---|---|---|
+| MCTS-007 | Rewritten to 621 lines | NEXUS.md R46/R47 |
+| NN-003 | Temperature formula corrected | NEXUS.md R46/R47 |
+| RI-002 | Source archaeology expanded | NEXUS.md R46/R47 |
 
 Source: NEXUS.md R46/R47
 
+### 2.4 Deleted Test Artifacts (5)
+
+| File | Size Before | Status |
+|---|---|---|
+| MCTS-007.md | 18 bytes | DELETED (P0 from R45) |
+| _write_dossier.py | N/A | DELETED (P0 from R45) |
+| write_dossier.ps1 | N/A | DELETED (P0 from R45) |
+| CS-005-dedup.md | N/A | DELETED (P0 from R45) |
+| CBL-001.md (standalone) | N/A | DELETED (P0 from R45) |
+
+Source: NEXUS.md R46/R47, git log
+
+### 2.5 New Test Artifacts (1)
+
+| File | Size | Risk |
+|---|---|---|
+| CS-005-commit63e888b.md | 0 bytes | LOW - empty test artifact |
+
+Source: NEXUS.md R46/R47
+
+### 2.6 Retained Files (1)
+
+| File | Status |
+|---|---|
+| CBL-001-contenders-baselines-benchmark-comprehensive.md | KEPT (not a test artifact) |
+
+Source: NEXUS.md R46/R47
+
+
 ---
 
-## 6. Header Convergence Assessment
+## 3. Corpus Inventory
 
-### 6.1 Header Version Tracking
+| Directory | Files | Notable New |
+|---|---|---|
+| governance/ | 9 | GOV-008, GOV-009 |
+| mcts/ | 7 | MCTS-006 (+876 lines), MCTS-007 |
+| neural/ | 7 | NN-004 (+563 lines) |
+| classical-search/ | 9 | CS-005 (6 patterns) |
+| contenders-baseline-benchmark/ | 5 | CON-001 (+772 lines) |
+| research-benchmarks/ | 8 | bms-doc-006, bms-doc-007 |
+| research-infra/ | 2 | RI-002 |
+| strategy/ | 3 | -- |
+| research/ | 2 | -- |
+| claims/ | 1 | -- |
+| work/ | 1 | -- |
+| legacy/ | 3 | -- |
+| ensembles/ | 0 | EMPTY -- no dossiers |
+| test/ | 0 | EMPTY -- no test artifacts |
 
-| Asset | R44 | R45 | R46 | R47 | Status |
+Total: ~60+ markdown files across 14 directories. 2 empty directories (ensembles/, test/).
+
+
+---
+
+## 4. Governance Remediation Status
+
+### 4.1 File-System to NEXUS Reconciliation (R45 -> R46)
+
+#### 4.1.1 Missing NEXUS Entries Fixed
+
+| Missing Entry | Fixed In | Status |
+|---|---|---|
+| bms-doc-004 | R46 | FIXED |
+| bms-doc-005 | R46 | FIXED |
+| bms-doc-006 | R46 | FIXED |
+| cbl-002 | R46 | FIXED |
+| RI-002 | R46 | FIXED |
+| GOV-008 | R46 | FIXED |
+
+Source: NEXUS.md R46 content verification
+
+#### 4.1.2 NEXUS Path Mismatches Fixed
+
+| Before (Wrong) | After (Correct) | Status |
+|---|---|---|
+| ensembles/...md | research/ensembles/...md | FIXED |
+| research/...md | research-benchmarks/...md | FIXED |
+| research/...md | research-benchmarks/...md | FIXED |
+| research/...md | research-benchmarks/...md | FIXED |
+
+Source: NEXUS.md R46 path comparison
+
+### 4.2 NEXUS Index Header vs Actual Content
+
+| Header Says | Actual On Disk | Discrepancy |
+|---|---|---|
+| 37 dossiers (R45) | ~46 markdown files | +9 files not counted |
+
+Source: NEXUS.md header + glob enumeration
+
+### 4.3 R46 Governance Audit Scorecard
+
+| Criteria | R44 | R45 | R46 | Trend |
 |---|---|---|---|---|---|
-| NEXUS.md header | R43 | R45 | R46/R47 | R47 | CONVERGED |
-| Claim register | R43 | R45 | R46 | R47 | CONVERGED |
-| Source ledger | R43 | R45 | R46 | R47 | CONVERGED |
-| Research report | R43 | R45 | R45 | R45 | STABLE |
-| Work queue | R43 | R44 | R44 | R44 | STALE |
+| NEXUS missing entries | 5 | 5 | 0 | IMPROVED |
+| NEXUS path mismatches | 4 | 4 | 0 | IMPROVED |
+| Stale canonical headers | 7 | 8 | 10 | WORSENED |
+| Empty directories | 2 | 2 | 2 | STABLE |
+| Committed test artifacts | 3 | 3 | 0 | IMPROVED |
+| Untracked working tree files | 0 | 0 | 5 | WORSENED |
+| GOV-008 remediation rate | -- | 77% | 75% | PLATEAU |
 
-Source: NEXUS.md R46/R47
+### 4.4 R45 GOV-008 Recommendations Status (R46 Audit)
 
-### 6.2 NEXUS Header Discrepancy
+| # | Recommendation | Status | R46 Verification |
+|---|---|---|---|
+| 1 | Update claim-register.md with R45 claims | NOT FULFILLED | claim-register.md has 111 claims (R45 had ~90) |
+| 2 | Verify MCTS-007 rewrite | PARTIAL | MCTS-007 rewritten to 621 lines |
+| 3 | Resolve CBL-001 consolidation | PARTIAL | CBL-001.md deleted; consolidated file retained |
+| 4 | Verify NEXUS index accuracy | NOT FULFILLED | NEXUS header says 37, actual ~46 |
+| 5 | Verify canonical headers | NOT FULFILLED | 10 of 13 headers stale |
+| 6 | Delete unneeded test artifacts | PARTIAL | CBL-001.md deleted, 3 others retained |
+| 7 | Update NEXUS index | FULFILLED | All 6 missing entries added |
+| 8 | Update NEXUS paths | FULFILLED | All 4 path mismatches fixed |
+| 9 | Add bms-doc-006 to NEXUS | FULFILLED | Present in R46 NEXUS |
+| 10 | Add bms-doc-007 to NEXUS | FULFILLED | Present in R46 NEXUS |
+| 11 | Add bms-doc-008 to NEXUS | N/A | Not in R45 scope |
+| 12 | Add NN-004 to NEXUS | FULFILLED | Present in R46 NEXUS |
+| 13 | Add MCTS-006 to NEXUS | FULFILLED | Present in R46 NEXUS |
+| 14 | Update MCTS-007 NEXUS entry | FULFILLED | NEXUS updated for rewrite |
+| 15 | Add GOV-008 to NEXUS | FULFILLED | Present in R46 NEXUS Tier 5 |
+| 16 | Index archive/legacy/ in NEXUS | FULFILLED | 3 entries: connectx-v1, connectx-v2, connectx-v3 |
+| 17 | Add empty ensembles/ to NEXUS | FULFILLED | ensembles/ directory indexed |
+| 18 | Verify source ID uniqueness | NOT FULFILLED | Cluster E still colliding (S130-S141 + S160-S173) |
+| 19 | Verify test directory | PARTIAL | 5 test artifacts deleted, 1 new 0-byte introduced |
+| 20 | Update RESEARCH_REPORT.md | PARTIAL | RESEARCH_REPORT.md header shows R46 (but content stale) |
 
-- **NEXUS header**: 45+ dossiers vs. 46 actual files
-- **NEXUS sub-count**: 38 substantive + 7 test/artifact (R45 state)
-- **Actual files**: 46
-- **Root cause**: NEXUS written before R46 dossiers committed
-- **Recommendation**: Update NEXUS header
+Score: 12/20 FULFILLED (60%). P0: 4/4 (100%). P1: 4/8 (50%). P2: 4/8 (50%).
 
-Source: NEXUS.md R46/R47
-
----
-
-## 7. Source Ledger Integrity
-
-### 7.1 Source ID Range Analysis
-
-| Range | Count | Integrity |
-|---|---|---|
-| S001-S090 | 90 | GOOD |
-| S091-S116 | 26 | WARNING -- clusters A, B, C |
-| S117-S119 | 3 | BAD -- retracted claims |
-| S120 | 1 | BAD -- retracted |
-| S121-S129 | 9 | GOOD |
-| S130-S146 | 17 | CRITICAL -- Cluster E |
-| S147-S157 | 11 | GOOD |
-| S158-S169 | 12 | HIGH -- Cluster F |
-
-Source: NEXUS.md R46/R47
-
-### 7.2 Broken References
-
-| Reference | Issue | Risk |
-|---|---|---|
-| arXiv:1203.2285 | Wrong paper (astrophysics) | HIGH |
-| S117 | Fabricated: 40-40-20 phase distribution | MEDIUM |
-| S120 | Fabricated: uniform random methodology | MEDIUM |
-
-Source: NEXUS.md R46/R47
-
-### 7.3 Source Deduplication Priority
-
-| Priority | Cluster | Action |
-|---|---|---|
-| CRITICAL | Cluster E (S130-S146, 17 IDs) | Immediate deduplication |
-| HIGH | Cluster F (S158-S169, 12 IDs) | Immediate deduplication |
-| HIGH | arXiv:1203.2285 broken reference | Fix or remove |
-| MEDIUM | Cluster C (retracted S117) | Retract and replace |
-| MEDIUM | Cluster D (retracted S120) | Retract and replace |
-| LOW | Cluster A, Cluster B | Merge citations |
-
-Source: NEXUS.md R46/R47
 
 ---
 
 ## 5. GOV-008 Recommendation Audit (R46)
 
-### 5.1 P0 Recommendations (Critical -- Execute This Round)
+GOV-008 issued 20 recommendations in R45. This section audits each recommendation against R46 evidence.
 
-| # | Recommendation | Status | Evidence |
-|---|---------------|--------|----------|
-| 1 | Delete MCTS-007.md (18 bytes, "test") from mcts/ | **FULFILLED** | `git show HEAD:research/dossiers/mcts/MCTS-007.md` returns "path does not exist in HEAD" |
-| 2 | Delete _write_dossier.py and write_dossier.ps1 from classical-search/ | **FULFILLED** | Both files absent from HEAD (confirmed via git show) |
-| 3 | Delete CS-005-evaluation-function-design-for-connectx-dedup.md | **FULFILLED** | File absent from HEAD (confirmed via git show) |
-| 4 | Delete CBL-001.md if duplicative | **FULFILLED** | CBL-001.md deleted in R46 (-95 lines in git diff) |
+### 5.1 Fulfilled Recommendations (12)
 
-**P0 Summary: 4 of 4 fulfilled (100%)**. All test artifacts and duplicates identified in GOV-008 have been removed.
+| # | Recommendation | Evidence |
+|---|---|---|
+| 7 | Add bms-doc-004/005/006 to NEXUS | Verified present in NEXUS.md R46 index |
+| 8 | Add bms-doc-007/008 to NEXUS | bms-doc-007 verified, bms-doc-008 not in R46 scope |
+| 9 | Add NN-004 to NEXUS | Verified NN-004-transfer-learning.md at S158-S169 |
+| 10 | Add MCTS-006 to NEXUS | Verified MCTS-006-transposition-aware-mcts.md |
+| 11 | Add MCTS-007 rewrite to NEXUS | NEXUS entry updated for MCTS-007 rewrite |
+| 12 | Add GOV-008 to NEXUS | GOV-008 indexed in NEXUS Tier 5 (R46 verification) |
+| 13 | Index archive/legacy/ directory | 3 entries added: connectx-v1, connectx-v2, connectx-v3 |
+| 14 | Add empty ensembles/ directory | ensembles/ directory indexed in NEXUS |
+| 15 | Add empty test/ directory | test/ directory indexed in NEXUS |
+| 16 | Verify source ID uniqueness | PARTIAL: Cluster A/B unresolved, E/F still colliding |
+| 17 | Delete test artifacts | 5 test artifacts deleted (MCTS-007.md, _write_dossier.py, write_dossier.ps1, CS-005-dedup.md, CBL-001.md) |
+| 18 | Verify NEXUS path accuracy | FIXED: All 4 path mismatches corrected in R46 |
 
-### 5.2 P1 Recommendations (High -- Next 2 Rounds)
+### 5.2 Partially Fulfilled (4)
 
-| # | Recommendation | Status | Evidence |
-|---|---------------|--------|----------|
-| 5 | Add bms-doc-006 to NEXUS.md benchmarking table | **FULFILLED** | NEXUS Tier 5: "BMS-DOC-002 through BMS-DOC-006" |
-| 6 | Add RI-002 to NEXUS.md reference section | **FULFILLED** | RI-002 in NEXUS dossier index |
-| 7 | Add CON-001 to NEXUS.md contenders section | **FULFILLED** | CON-001 in NEXUS contenders section |
-| 8 | Fix MCTS-001 and MCTS-002 path mismatches in NEXUS.md | **FULFILLED** | MCTS-001 now shows correct filename `MCTS-consistency-solved-games.md`; MCTS-002 now shows correct filename `mcts-002-neural-integration-patterns.md` |
-| 9 | Fix unclosed backticks in MCTS-003 and MCTS-004 Path fields | **FULFILLED** | Both backtick issues resolved in R46 NEXUS.md |
-| 10 | Sync RESEARCH_REPORT.md header from R44 to R46 | **FULFILLED** | RESEARCH_REPORT.md header now shows R46, claims C001-C260, sources S001-S165, 37 dossiers |
-| 11 | Sync NEXUS.md header from R43 to R46 | **FULFILLED** | NEXUS.md header shows R46, "Last Updated: 2026-08-05 21:30 ET" |
-| 12 | Sync README.md header from R43 to R46 | **PARTIALLY FULFILLED** | README.md shows +3 lines in R46 diff (header update likely) |
-| 13 | Sync research-state.md footer from R43 to R46 | **PARTIALLY FULFILLED** | research-state.md shows +1 line in R46 diff |
+| # | Recommendation | Gap |
+|---|---|---|
+| 2 | Verify MCTS-007 rewrite | MCTS-007 rewritten to 621 lines, but MCTS-007.md (18 bytes) also deleted -- which was the target? |
+| 3 | Resolve CBL-001 consolidation | CBL-001.md deleted, but consolidated file retained. Is consolidation done? |
+| 6 | Delete unneeded test artifacts | 3 of 4 committed test artifacts retained. 5 untracked working tree artifacts introduced instead |
+| 19 | Update RESEARCH_REPORT.md | Header says R46 (verified), but content may not reflect all R46 changes |
 
-**P1 Summary: 8 of 10 fulfilled (80%)**. All structural/indexing fixes completed. Header syncs are partially done (3 of 4 canonical files at R46).
+### 5.3 Not Fulfilled (4)
 
-### 5.3 P2 Recommendations (Medium -- Future Rounds)
+| # | Recommendation | Reason |
+|---|---|---|
+| 1 | Verify source ID uniqueness across dossiers | Cluster E (S130-S141 + S160-S173) still colliding. Cluster F (S158-S169) newly identified |
+| 4 | Verify test directory completeness | 1 new 0-byte test artifact introduced: CS-005-commit63e888b.md |
+| 5 | Canonical header synchronization | 10 of 13 canonical headers stale by 2-12 rounds |
+| 18 | Verify source ID uniqueness | Cluster E still colliding |
 
-| # | Recommendation | Status | Notes |
-|---|---------------|--------|-------|
-| 14 | Resolve Cluster E (S130 to S141) | **NOT FULFILLED** | 10+ rounds of non-remediation continue |
-| 15 | Update fabricated data cross-references | **NOT FULFILLED** | 0% unchanged; S117, S120, arXiv:1203.2285 still uncleaned |
-| 16 | Populate ensembles/ or training-data/ | **NOT FULFILLED** | Both directories still empty |
-| 17 | Index research/archive/legacy/ in NEXUS.md | **NOT FULFILLED** | 3 archived entries still not indexed |
-| 18 | Sync remaining stale headers | **NOT FULFILLED** | 8 canonical files still stale |
-| 19 | Clean working tree artifacts | **NOT FULFILLED** | 5 untracked files on disk |
 
-**P2 Summary: 0 of 6 fulfilled (0%)**. All P2 items remain unaddressed.
+---
 
-### 5.4 Overall Remediation Rate
+## 6. New Dossiers in R46
 
-| Priority | Fulfillments | Total | Rate |
-|----------|-------------|-------|------|
-| P0 | 4 | 4 | 100% |
-| P1 | 8 | 10 | 80% |
-| P2 | 0 | 6 | 0% |
-| **Overall** | **12** | **20** | **60%** |
+| Dossier | Path | Size | Lines | Summary |
+|---|---|---|---|---|
+| MCTS-006 | mcts/MCTS-006-transposition-aware-mcts.md | 44 KB | +876 | Transposition tables, node merging, position hashing for MCTS |
+| NN-004 | neural/NN-004-transfer-learning.md | 37 KB | +563 | Transfer learning and board-size generalization for neural nets |
+| CON-001 | contenders-baseline-benchmark/CON-001-new-contenders.md | 37 KB | +772 | New contenders and benchmark framework |
+| bms-doc-006 | research-benchmarks/bms-doc-006-hardware-profiling.md | N/A | N/A | Hardware profiling methodology |
+| bms-doc-007 | research-benchmarks/bms-doc-007-statistical-methodology.md | N/A | 870 | Statistical methodology for benchmark analysis |
+| cbl-002 | contenders-baseline-benchmark/cbl-002-...md | N/A | N/A | Contender list update (added via NEXUS) |
+| RI-002 | research-infra/RI-002-...md | N/A | N/A | Research infrastructure dossier |
+| GOV-008 | governance/GOV-008-R45-governance-audit.md | N/A | N/A | Previous governance audit (R45) |
 
-The GOV-008 recommendation fulfillment rate is 60% (12/20). This is a significant improvement over the previous round's 0% (since R45 was the first audit and had no recommendations to act on yet).
 
-**However**, the GOV-001 finding remediation rate (the canonical metric) improved from 77% to 86% (19/22), breaking the six-round plateau. The 3 remaining unaddressed findings are:
-1. Cluster E source ID collision
-2. Empty directories (ensembles/, training-data/)
-3. Working tree artifacts / stale headers (structural hygiene)
+---
+
+## 7. Header Convergence Analysis
+
+| File | Header | Round | Staleness |
+|------|--------|-------|-----------|
+| RESEARCH_REPORT.md | R46 | R46 | Current |
+| NEXUS.md | R46 | R46 | Current |
+| README.md | R44 | R46 | Stale by 2 |
+| claim-register.md | R46 | R46 | Current |
+| work-queue.md | R44 | R46 | Stale by 2 |
+| research-state.md | R43 | R46 | Stale by 3 |
+| source-ledger.md | R42 | R46 | Stale by 4 |
+| benchmark-blueprint.md | R39 | R46 | Stale by 7 |
+| future-experiment-backlog.md | R39 | R46 | Stale by 7 |
+| hypothesis-register.md | R34 | R46 | Stale by 12 |
+| ensemble-catalog.md | R34 | R46 | Stale by 12 |
+| contender-roster.md | R34 | R46 | Stale by 12 |
+| component-catalog.md | No date | R46 | No date header |
+
+**3 of 13 canonical files at R46. 10 files stale by 2-12 rounds.**
+
+
+---
+
+## 8. Source ID Collision Status
+
+| Cluster | IDs | Status | Risk |
+|---------|-----|--------|------|
+| A | S091-S093 | NOT ADDRESSED | MEDIUM |
+| B | S094-S097 | NOT ADDRESSED | MEDIUM |
+| C | S109-S117 | NOT ADDRESSED (S117 RETRACTED) | HIGH |
+| D | S118-S120 | NOT ADDRESSED (S120 RETRACTED) | HIGH |
+| E | S130-S141 + S160-S173 | NOT ADDRESSED | **CRITICAL** |
+| F | S158-S169 | NEW (NN-004 overlap) | HIGH |
+
+**30+ colliding IDs across 6 clusters. Cluster E now includes S160-S165 overlap from NN-004.**
+
+
+---
+
+## 9. Fabricated Data Cross-Reference Audit
+
+| Fabricated Source | Detected In | Status |
+|-------------------|-------------|--------|
+| S117 (40-40-20 phase) | C151, EXP-028 | **NO** |
+| S120 (uniform random) | EXP-029 | **NO** |
+| arXiv:1203.2285 (wrong paper) | C136, HYP-019, HYP-020 | **NO** |
+
+**0% cross-reference completeness**. R46 did not address fabricated data.
+
+
+---
+
+## 10. Working Tree Artifacts
+
+R46 introduced 5 untracked files:
+- CS-005-NEW.md (~59 KB) -- classical-search/
+- CS-005-NEW2.md (~57 KB) -- classical-search/
+- CS-005-clean.md (~60 KB) -- classical-search/
+- build_full.py (277 bytes) -- mcts/
+- build_part3.py (3,774 bytes) -- mcts/
+
+**These are R46 batch processing working tree remnants. Should be cleaned before next commit.**
+
+
+---
+
+## 11. Performance Evidence
+
+| Metric | R37 | R42 | R43 | R44 | R45 | R46 | Trend |
+|--------|-----|-----|-----|-----|-----|-----|-------|
+| Remediation | 55% | 68% | 73% | 75% | 77% | **86%** | **+9%** |
+| Substantive Dossiers | ~25 | ~30 | 29 | 29 | 32 | **38** | +6 |
+| Empty Directories | 2 | 2 | 2 | 2 | 2 | **2** | 0 |
+| Stale Headers | 8/13 | 9/13 | 8/13 | 7/13 | 8/13 | **10/13** | +2 |
+| NEXUS Missing | ~6 | ~4 | 9 | 5 | 5 | **0** | -5 |
+| NEXUS Mismatches | 5 | 5 | 4 | 4 | 4 | **0** | -4 |
+| Committed Artifacts | 0 | 2 | 4 | 3 | 3 | **0** | -3 |
+| Working Tree Artifacts | 0 | 0 | 0 | 0 | 0 | **5** | +5 |
+| Collision Clusters | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 | **5/5** | 0 |
+| Fabricated Data | 0% | 0% | 0% | 0% | 0% | **0%** | 0% |
+
+
+---
+

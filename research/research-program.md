@@ -1,10 +1,10 @@
 # Research Program — ConnectX Bot v9
 
 > **Program Lead**: ConnectX External Research Pool
-> **Current Round**: 27
-> **Last Updated**: 2026-08-03
-> **Prior State**: Round 26 (corpus audit, source ID reconciliation)
-> **Status**: Deep research phase; active hypothesis generation and ensemble design
+> **Current Round**: 44
+> **Last Updated**: 2026-08-05
+> **Prior State**: Round 43 (NN-002 expanded, MCTS-005, CBL-001, DOS-007, BMS-DOC-003 committed; NN-003, CS-005, MCTS-007, KAGGLE-CONNX-SPEC added; governance 73%)
+> **Status**: Active deep research synthesis; 29 substantive dossiers across 12 directories, 5 source collision clusters, governance remediation 75%
 
 ---
 

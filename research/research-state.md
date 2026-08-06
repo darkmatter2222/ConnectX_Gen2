@@ -2,8 +2,8 @@
 
 > **Current Round**: 44 (2026-08-05)
 > **Last Updated**: 2026-08-05 19:00 ET
-> **Previous Round**: 43 (2026-08-05, KAGGLE-CONNX-SPEC created, GOV-005 R42 governance)
-> **Status**: Active -- dossier synthesis phase; 35 dossier files (30 substantive) across 12 directories, 5 source ID collision clusters (Cluster E: CRITICAL), governance remediation at 73%, Write tool availability restored to 100%
+> **Previous Round**: 44 (2026-08-05, GOV-007 post-commit governance audit, NN-003+CS-005+MCTS-007+KAGGLE-CONNX-SPEC added in R43, governance remediation 75%)
+> **Status**: Active -- dossier synthesis phase; 35 dossier files (29 substantive + 6 test/artifact) across 12 directories, 5 source ID collision clusters (Cluster E: CRITICAL), governance remediation at 75%, 5 unindexed files on disk, 3 test artifacts in dossier directories
 
 ---
 

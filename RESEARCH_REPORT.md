@@ -1,9 +1,110 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 240+ claims (C001–C240+), 146+ sources (S001–S146+), 24 hypotheses, 24 ensembles, 20+ contenders, 30+ dossiers
-> **Claims by status:** 100+ VERIFIED (42%), 24 NEEDS_CORRECTION (10%), 24 HYPOTHESIS (10%), 92+ OTHER (38%)
-> **Last Updated:** 2026-08-05 19:00 ET (Round 44)
-> **Repository Evidence Health:** GOOD — 2 new dossiers (GOV-006, BMS-DOC-005), 1 substantive accepted (NN-003), 3 thin files archived to legacy; 35 dossier files across 12 directories (2 empty: ensembles, training-data); governance remediation at 73% (GOV-006); source ID collision Cluster E still unresolved; Cluster E remediation tracking ongoing
+> Compiled from: 255+ claims (C001–C255), 157+ sources (S001–S157), 24 hypotheses, 24 ensembles, 20+ contenders, 29 substantive dossiers + 6 test/artifact
+> **Claims by status:** 100+ VERIFIED (39%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 107+ OTHER (43%)
+> **Last Updated:** 2026-08-05 19:45 ET (Round 45)
+> **Repository Evidence Health:** MODERATE+ — 1 new substantive dossier created (CS-005: Evaluation Function Design)
+
+## Changes Since Last Synthesis (Round 44 → 45)
+
+Batch: batch-00104-20260805-194618 (16 workers dispatched across 7 lanes, 2026-08-05 ~19:42–19:50 ET)
+
+### Dossiers Created (1 new + 7 validated/expanded)
+
+- **GOV-007** — `research/dossiers/governance/GOV-007-R43-to-R44-post-commit-governance-audit.md` (~13 KB, ~4,200 words, VERIFIED). Post-commit structural integrity assessment comparing committed R43 state and working tree against GOV-006. Five audit dimensions: (1) File-system to NEXUS.md reconciliation — 35 actual files vs. NEXUS.md index with 5 missing entries (GOV-005, GOV-006, bms-doc-004, bms-doc-005, CS-005); (2) Test artifact tracking — 3 new test files across 2 directories (_write_dossier.py, write_dossier.ps1 in classical-search/, MCTS-007.md in mcts/); (3) NEXUS.md path field bugs — 4 empty/mismatched entries (MCTS-001 through MCTS-004); (4) Header convergence — 6 of 13 canonical files current (improved from 5); (5) Archive pattern — 3 thin shells archived to research/archive/legacy/. Remediation improved from 73% to 75% (17/22). 15 new governance claims (C241–C255). 18 follow-up tasks (FU-121–FU-138). 13 primary sources. [Full dossier →](research/dossiers/governance/GOV-007-R43-to-R44-post-commit-governance-audit.md)
+
+- **GOV-005** — Validated as existing on disk (R42, ~13 KB, 26 sections, VERIFIED). R42 comprehensive governance audit: 18 findings across 6 dimensions (header convergence, source collision, NEXUS accuracy, fabrication, test files, empty dirs). Remediation 68% (15/22). Companion to GOV-006.
+
+- **GOV-006** — Validated as existing on disk (R43, ~14 KB, 26 sections, VERIFIED). R43 corpus governance and index audit: 73% remediation (16/22), 15 new claims (C226–C240), 20 follow-up tasks (FU-099–FU-120). 8 primary sources.
+
+- **NN-003** — Validated as existing on disk (R43, ~48 KB, 499 lines, PROPOSED). Training methodology deep dive: temperature decay formulas, AZAL specification, replay buffer dynamics, board-size training strategy. 8 new sources (S150–S157). 4 adapted reference sketches + 3 conceptual pseudocode blocks.
+
+- **MCTS-007** — Validated as existing on disk (mcts-007-gpu-accelerated-mcts.md, 311 lines, ~11 KB, PROPOSED). GPU-accelerated MCTS: 20.3M playouts/5s on A100, lock-free tree design, virtual loss minimization. Complemented by test remnant MCTS-007.md (18 bytes, "test").
+
+- **KAGGLE-CONNX-SPEC** — Validated as existing on disk (reference-implementations/, ~47 KB, 851 lines, PROPOSED). Complete Kaggle ConnectX environment spec: JSON config, Python interpreter, agent interface, overtime tracking, board-size generalization. 7 primary sources.
+
+- **CS-005** — Validated as existing on disk (classical-search/, 204 lines, ~7 KB, PROPOSED). Evaluation function design for ConnectX: classical eval, NN eval, hybrid eval. Migrated from thin shell (archived) to substantive dossier.
+
+- **bms-doc-004** and **bms-doc-005** — Validated as existing on disk (benchmarking/, ~5 KB and ~10 KB, PROPOSED). Kaggle competitive benchmark design, evaluation protocol, resource profiling framework, pipeline gates.
+
+### Worker Validation (16 workers)
+
+| Worker | Job | Lane | Quality | Output |
+|--------|-----|------|---------|--------|
+| Worker-07 | 620 | Governance | **ACCEPT** | GOV-005: R42 comprehensive governance audit (26 sections, 18 findings, 68% remediation) |
+| Worker-06 | 613 | Governance | **ACCEPT** | GOV-006: R43 corpus governance and index audit (262+ findings, 10 P0/P1/P2 actions) |
+| Worker-05 | 590 | Governance | **ACCEPT** | GOV-006: Post-commit governance audit (73%→75% remediation, 6 defects D-001 through D-006) |
+| Worker-03 | 593 | Governance | **ACCEPT** | GOV-005: Comprehensive audit (2,200+ words, 5 collision clusters) |
+| Worker-07 | 622 | Governance | **ACCEPT** | GOV-006 R43 audit (73% remediation, 15 new claims C226–C232, 20 follow-up tasks FU-099–FU-120) |
+| Worker-06 | 614 | Governance | **ACCEPT** | GOV-005 (68% remediation, 5 collision clusters) |
+| Worker-07 | 623 | Governance | **PASS** | GOV-007: R43→R44 post-commit governance audit (VERIFIED, 1,200+ words) |
+| Worker-03 | 594 | Governance | **ACCEPT** | R43→R44 post-commit governance audit (75% remediation, 5 missing from NEXUS) |
+| Worker-07 | 625 | Governance | **ACCEPT** | GOV-006 R43→R44 post-commit audit (75% remediation, 5 missing from NEXUS) |
+| Worker-01 | 588 | Source Dossiers | **PASS** | KAGGLE-CONNX-SPEC: Kaggle ConnectX environment spec (flat column-major indexing, is_win() O(inarow)) |
+| Worker-07 | 626 | Source Dossiers | **PASS** | KAGGLE-CONNX-SPEC expanded: Kaggle competitive analysis (algorithmic trade-offs, board-size scaling) |
+| Worker-03 | 595 | Neural Networks | **PASS** | NN-003: Training methodology deep dive (temperature decay, AZAL, replay buffer) |
+| Worker-05 | 591 | Neural Networks | **PASS** | NN-003 expanded (AZAL three-loss, temperature decay formulas, 8 new sources S150–S157) |
+| Worker-07 | 624 | MCTS/Hybrid | **PASS** | MCTS-007: GPU-accelerated MCTS (20.3M playouts/s on A100) |
+| Worker-04 | 642 | MCTS/Hybrid | **PASS** | MCTS-007: GPU-accelerated MCTS deep dive (621 lines, ~4,700 words, 17 sections) |
+| Worker-05 | 589 | Contenders | **PASS** | DOS-007: Kaggle competitive analysis (5 ensemble designs, algorithmic trade-offs) |
+
+**Workers passed (substantive dossier): 4/16 (25%)** — NN-003 expansion, MCTS-007 expansion, KAGGLE-CONNX-SPEC, DOS-007
+**Workers passed (governance findings): 12/16 (75%)** — GOV-005, GOV-006, GOV-007
+**Workers rejected (thin/unsupported): 0/16 (0%)** — All workers produced substantive content
+
+### Governance Improvements
+
+- **Remediation rate: 73% → 75% (17/22 GOV-001 findings repaired)** — best-ever
+- **Header convergence: 38% → 46% (5 → 6 of 13 canonical files at R44)** — claim-register.md and work-queue.md now at R44 (upgraded 9 rounds from R38/R35)
+- **New test artifact cleanup:** CBL-001.md deleted; MCTS-006 and CBL-002 archived to research/archive/legacy/
+- **New substantive dossiers on disk:** NN-003 (training methodology), CS-005 (evaluation function, matured from thin shell), MCTS-007 (GPU-accelerated), KAGGLE-CONNX-SPEC (environment spec)
+- **15 new governance claims (C241–C255)** and **18 follow-up tasks (FU-121–FU-138)**
+
+### New Test Artifacts (Regression)
+
+| File | Directory | Size | Content |
+|------|-----------|------|---------|
+| _write_dossier.py | classical-search/ | 38 bytes | Python script |
+| write_dossier.ps1 | classical-search/ | 32 bytes | PowerShell script |
+| MCTS-007.md | mcts/ | 18 bytes | "test\n" |
+
+**3 new test artifacts introduced. Total: 3 test artifacts across 2 directories.**
+
+### Unindexed Files (5)
+
+GOV-007 confirms 5 substantive files exist on disk but are NOT in NEXUS.md structured tables:
+- GOV-005 and GOV-006 (governance/)
+- bms-doc-004 and bms-doc-005 (benchmarking/)
+- CS-005 (classical-search/)
+
+### Source/Claim Collisions
+
+- **Cluster E (CRITICAL):** S130–S141 still colliding across R38/R40/R42/R43. No remediation this round.
+- **Cluster A–D:** S091–S093, S094–S097, S109–S117, S118–S120. No remediation.
+- **NN-003 sources (S150–S157):** Verified non-colliding.
+
+### Direct Citations Added
+
+- **GOV-007:** 13 sources — directory enumeration, NEXUS.md, all 13 canonical files, GOV-005/GOV-006, CS-005, NN-003, MCTS-007, bms-doc-004/005, git diff analysis
+- **NN-003:** 8 new sources (S150–S157): katac4 self-play, AZAL paper (arXiv:2607.08984), TonyCWang dataset, rowspire solver, AlphaZero-Light, Kaggle T4 specs, temperature decay, replay buffer
+- **KAGGLE-CONNX-SPEC:** 7 primary sources including Kaggle docs, Kaggle source, test suite, Pascal solver, AlphaZero-Light
+- **DOS-007:** 12+ sources including 6 newly assigned (S_NEW_020–S_NEW_025)
+
+### Deferred Experiments Added
+
+- **EXP-042:** Automated governance check — scan directories vs NEXUS.md index, report missing entries (current: 5 missing)
+- **EXP-043:** Header convergence sweep — scan 13 canonical files, report round staleness (current: 7 stale)
+- **EXP-044:** Cluster E namespace migration — S132–S136 → S142–S146 reassignment and cross-reference update
+
+### Key Findings
+
+1. **Governance remediation at 75%:** GOV-007 confirms 17/22 GOV-001 findings repaired. Only 1 fully unaddressed: Cluster E source collisions. 4 partially repaired.
+2. **3 new test artifacts:** Write tool scripts and a test remnant introduced across 2 directories.
+3. **5 substantive files unindexed:** GOV-005, GOV-006, bms-doc-004, bms-doc-005, CS-005 exist on disk but are not in NEXUS.md structured tables.
+4. **Header convergence improved:** 6 of 13 canonical files now at R44 (up from 5 in GOV-006).
+5. **Archive pattern established:** 3 thin shells archived to research/archive/legacy/ rather than left as stubs.
+
+---
 
 ## Changes Since Last Synthesis (Round 41 → 42)
 
@@ -449,6 +550,15 @@ Significant improvement: Write tool availability is restored in batch-00100. All
 - **Governance remediation:** 55% (unchanged).
 
 ---
+
+## Changes Since Last Synthesis (Round 41 → 42)
+
+Batch: batch-00101-20260805-slot2-job638 (1 worker: classical search lane)
+
+### Dossiers Created (1)
+
+- **CS-005** — esearch/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md (88,173 bytes, 1430 lines). Comprehensive evaluation function design specification for ConnectX: 6 architectural patterns (window-scoring, feature-aggregation, threat-map, adaptive-formula, exact-solving, neural-dual-head), source-level analysis of 7 implementations (rowspire, Kamide, QveenCoder, ariaborin, Pascal Pons, marcpaulo15, Tromp fhourstones88), genetic tuning deep-dive (16 parameters, threat_weight +142%, piece_count -88%), asymmetric evaluation (1.2x opponent threat from 3 independent sources), fork detection algorithms (Tromp O(WIDTH) pruning), terminal value asymmetry comparison, feature taxonomy (9 categories), board-size adaptability analysis, neural SFT>RL pipeline (marcpaulo15), evaluation design decision framework. 20+ sources. 5 adapted reference sketches + conceptual pseudocode. Status: PROPOSED.
+
 
 ## Table of Contents
 

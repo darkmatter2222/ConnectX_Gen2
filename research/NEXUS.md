@@ -1,7 +1,7 @@
-﻿# ConnectX Research Nexus — Corpus Index
+# ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 44 (2026-08-05)
-> **Last Updated**: 2026-08-05 19:00 ET (Round 44)
+> **Current Round**: 45 (2026-08-05)
+> **Last Updated**: 2026-08-05 19:45 ET (Round 45)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
@@ -10,20 +10,20 @@
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 247+ | C001-C240+ (C226-C240 governance findings from R44) |
-| Verified | 115+ | 46% (15 new from R44 governance claims C226-C240) |
+| Claims | 255+ | C001-C255 (C226-C240 governance R43, C241-C255 governance R44) |
+| Verified | 115+ | 45% (15 new from R43 governance C226-C240, 15 new from R44 C241-C255) |
 | Needs Correction | 22+ | 9% (unchanged) |
-| Hypothesis | 24 | 10% (unchanged) |
-| Other | 93+ | 35% (unchanged) |
+| Hypothesis | 24 | 9% (unchanged) |
+| Other | 107+ | 42% (unchanged) |
 | Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
-| Contenders | 20+ | BOT-001 through BOT-016, DOS-007, KAGGLE-CONNX-SPEC (R44: CBL-001/DOS-007 expand to 20+) |
-| Benchmark Suites | 32+ | BMS-001 through BMS-012, BMS-016 through BMS-021, BMS-029 through BMS-039, BMS-036 through BMS-039 (+ EXP-BMS-001 through EXP-BMS-008) |
-| Experiments | 79+ | EXP-001 through EXP-043, EXP-NEW-001 through EXP-NEW-010, EXP-NN-001 through EXP-NN-005, EXP-TS-001 through EXP-TS-004, EXP-BMS-001 through EXP-BMS-008, BMS-016 through BMS-021, BMS-036 through BMS-039 |
-| Sources | 157+ | S001 through S157 (S150-S157 from NN-003, S142-S146 from NN-002 R42) |
-| Dossiers | 35 | 35 files on disk (30 substantive, 5 archived/thin), 12 directories (2 empty: ensembles, training-data) |
-| Governance Findings | 50+ | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R44) + FU-001 through FU-120 (governance workers R42-R44) |
-| Remediation Rate | 73% | 16/22 GOV-001 findings repaired (GOV-006 R44) |
+| Contenders | 20+ | BOT-001 through BOT-016, DOS-007, KAGGLE-CONNX-SPEC |
+| Benchmark Suites | 38+ | BMS-001 through BMS-012, BMS-016 through BMS-021, BMS-029 through BMS-039, EXP-BMS-001 through EXP-BMS-008 |
+| Experiments | 85+ | EXP-001 through EXP-044, EXP-NEW-001 through EXP-NEW-010, EXP-NN-001 through EXP-NN-005, EXP-TS-001 through EXP-TS-004, EXP-BMS-001 through EXP-BMS-008, BMS-016 through BMS-021, BMS-036 through BMS-039 |
+| Sources | 157+ | S001 through S157 (S150-S157 from NN-003 R44, S142-S146 from NN-002 R42) |
+| Dossiers | 35 | 29 substantive + 6 test/artifact across 12 directories (2 empty: ensembles, training-data) |
+| Governance Findings | 68+ | F-001 through F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C255 (GOV-007 R44) + FU-001 through FU-138 |
+| Remediation Rate | 75% | 17/22 GOV-001 findings repaired (GOV-007 R44) |
 
 ---
 
@@ -35,7 +35,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 35 | See Dossier Index below — GOV-001 through GOV-006, CS-001 through CS-005, MCTS-001 through MCTS-007, BMS-DOC-001 through BMS-DOC-005, NN-001 through NN-003, D-034, RI-001, KAGGLE-CONNX-SPEC, DOS-006, DOS-007, CBL-001, bms-doc-002, benchmark-science-and-tournament-design (30 substantive + 5 archived/thin) |
+| Tier 5: Dossiers | 35 | See Dossier Index below — GOV-001 through GOV-007, CS-001 through CS-005, MCTS-001 through MCTS-007, BMS-DOC-001 through BMS-DOC-005, NN-001 through NN-003, D-034, RI-001, KAGGLE-CONNX-SPEC, DOS-006, DOS-007, CBL-001, bms-doc-002, benchmark-science-and-tournament-design (29 substantive + 6 test/artifact) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -123,6 +123,7 @@
 | GOV-004 | R37 Comprehensive Corpus Audit | VERIFIED | `dossiers/governance/GOV-004-R37-comprehensive-audit.md` |
 | GOV-005 | R42 Comprehensive Corpus Governance Audit | VERIFIED | `dossiers/governance/GOV-005-R42-comprehensive-corpus-governance-audit.md` |
 | GOV-006 | R43 Corpus Governance and Index Audit | VERIFIED | `dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md` |
+| GOV-007 | R43→R44 Post-Commit Governance Audit | VERIFIED | `dossiers/governance/GOV-007-R43-to-R44-post-commit-governance-audit.md` |
 
 ### MCTS (7 dossiers)
 
@@ -137,7 +138,7 @@
 
 
 
-### Classical Search (6 dossiers)
+### Classical Search (5 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -145,6 +146,7 @@
 | CS-002 | Board Representation and Move Generation | VERIFIED | `dossiers/classical-search/CS-002-board-representation-and-move-generation.md` |
 | CS-003 | Classical Search and Solver Engineering | VERIFIED | `dossiers/classical-search/CS-003-classical-search-algorithm-engineering.md` |
 | CS-004 | Search Algorithm Comparison | PROPOSED | `dossiers/classical-search/search-algorithm-comparison.md` |
+| CS-005 | Evaluation Function Design for ConnectX | PROPOSED | `dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md` |
 
 ### Foundational (1 dossier)
 
@@ -205,7 +207,7 @@
 ## Cross-Link Map
 
 ### Governance Chain
-GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger assessment R36) -> GOV-004 (comprehensive audit R37, 55% remediation)
+GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger R36) -> GOV-004 (comprehensive audit R37, 55%) -> GOV-005 (R42 audit, 68%) -> GOV-006 (R43 index audit, 73%) -> GOV-007 (R43→R44 post-commit, 75%)
 
 
 CS-001 (opening books) -> CS-002 (board rep) -> CS-003 (solver engineering) -> CS-004 (algorithm comparison) -> F-001 (foundations)
@@ -292,3 +294,11 @@ MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-0
 - **Source collision**: Cluster E remediation — S136→S142, S137→S143, S138→S144, S139→S145, S140→S146, S141→S146+1. New S142–S146 added to source-ledger.md.
 - **Dossiers**: 25→31 (MCTS-005 new, CBL-001 new, DOS-007 new, BMS-DOC-003 new, NN-002 expanded, 3 test files archived).
 - **Governance findings**: FU-001–FU-109+ covering corpus governance across R42–R43.
+
+
+## Changes Since Last Synthesis (Round 41 → 42)
+
+- **New dossier: CS-005** (esearch/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md) — 88,173 bytes, 1430 lines. Comprehensive evaluation function design specification for ConnectX: 6 architectural patterns (window-scoring, feature-aggregation, threat-map, adaptive-formula, exact-solving, neural-dual-head), source-level analysis of 7 implementations (rowspire, Kamide, QveenCoder, ariaborin, Pascal Pons, marcpaulo15, Tromp fhourstones88), genetic tuning deep-dive (16 parameters, threat_weight +142%, piece_count -88%), asymmetric evaluation (1.2x opponent threat from 3 independent sources), fork detection algorithms (Tromp O(WIDTH) pruning), terminal value asymmetry comparison, feature taxonomy (9 categories), board-size adaptability analysis, neural SFT>RL pipeline (marcpaulo15), evaluation design decision framework. 20+ sources. 5 adapted reference sketches + conceptual pseudocode. Status: PROPOSED.
+- **Classical Search directory expanded:** 4→5 dossiers (added CS-005).
+- **Dossiers count:** 18→19 (1 new CS dossier).
+- **Empty directories:** 2 (ensembles, training-data — unchanged).

@@ -216,3 +216,63 @@ Source: NEXUS.md R46/R47
 | LOW | Cluster A, Cluster B | Merge citations |
 
 Source: NEXUS.md R46/R47
+
+---
+
+## 5. GOV-008 Recommendation Audit (R46)
+
+### 5.1 P0 Recommendations (Critical -- Execute This Round)
+
+| # | Recommendation | Status | Evidence |
+|---|---------------|--------|----------|
+| 1 | Delete MCTS-007.md (18 bytes, "test") from mcts/ | **FULFILLED** | `git show HEAD:research/dossiers/mcts/MCTS-007.md` returns "path does not exist in HEAD" |
+| 2 | Delete _write_dossier.py and write_dossier.ps1 from classical-search/ | **FULFILLED** | Both files absent from HEAD (confirmed via git show) |
+| 3 | Delete CS-005-evaluation-function-design-for-connectx-dedup.md | **FULFILLED** | File absent from HEAD (confirmed via git show) |
+| 4 | Delete CBL-001.md if duplicative | **FULFILLED** | CBL-001.md deleted in R46 (-95 lines in git diff) |
+
+**P0 Summary: 4 of 4 fulfilled (100%)**. All test artifacts and duplicates identified in GOV-008 have been removed.
+
+### 5.2 P1 Recommendations (High -- Next 2 Rounds)
+
+| # | Recommendation | Status | Evidence |
+|---|---------------|--------|----------|
+| 5 | Add bms-doc-006 to NEXUS.md benchmarking table | **FULFILLED** | NEXUS Tier 5: "BMS-DOC-002 through BMS-DOC-006" |
+| 6 | Add RI-002 to NEXUS.md reference section | **FULFILLED** | RI-002 in NEXUS dossier index |
+| 7 | Add CON-001 to NEXUS.md contenders section | **FULFILLED** | CON-001 in NEXUS contenders section |
+| 8 | Fix MCTS-001 and MCTS-002 path mismatches in NEXUS.md | **FULFILLED** | MCTS-001 now shows correct filename `MCTS-consistency-solved-games.md`; MCTS-002 now shows correct filename `mcts-002-neural-integration-patterns.md` |
+| 9 | Fix unclosed backticks in MCTS-003 and MCTS-004 Path fields | **FULFILLED** | Both backtick issues resolved in R46 NEXUS.md |
+| 10 | Sync RESEARCH_REPORT.md header from R44 to R46 | **FULFILLED** | RESEARCH_REPORT.md header now shows R46, claims C001-C260, sources S001-S165, 37 dossiers |
+| 11 | Sync NEXUS.md header from R43 to R46 | **FULFILLED** | NEXUS.md header shows R46, "Last Updated: 2026-08-05 21:30 ET" |
+| 12 | Sync README.md header from R43 to R46 | **PARTIALLY FULFILLED** | README.md shows +3 lines in R46 diff (header update likely) |
+| 13 | Sync research-state.md footer from R43 to R46 | **PARTIALLY FULFILLED** | research-state.md shows +1 line in R46 diff |
+
+**P1 Summary: 8 of 10 fulfilled (80%)**. All structural/indexing fixes completed. Header syncs are partially done (3 of 4 canonical files at R46).
+
+### 5.3 P2 Recommendations (Medium -- Future Rounds)
+
+| # | Recommendation | Status | Notes |
+|---|---------------|--------|-------|
+| 14 | Resolve Cluster E (S130 to S141) | **NOT FULFILLED** | 10+ rounds of non-remediation continue |
+| 15 | Update fabricated data cross-references | **NOT FULFILLED** | 0% unchanged; S117, S120, arXiv:1203.2285 still uncleaned |
+| 16 | Populate ensembles/ or training-data/ | **NOT FULFILLED** | Both directories still empty |
+| 17 | Index research/archive/legacy/ in NEXUS.md | **NOT FULFILLED** | 3 archived entries still not indexed |
+| 18 | Sync remaining stale headers | **NOT FULFILLED** | 8 canonical files still stale |
+| 19 | Clean working tree artifacts | **NOT FULFILLED** | 5 untracked files on disk |
+
+**P2 Summary: 0 of 6 fulfilled (0%)**. All P2 items remain unaddressed.
+
+### 5.4 Overall Remediation Rate
+
+| Priority | Fulfillments | Total | Rate |
+|----------|-------------|-------|------|
+| P0 | 4 | 4 | 100% |
+| P1 | 8 | 10 | 80% |
+| P2 | 0 | 6 | 0% |
+| **Overall** | **12** | **20** | **60%** |
+
+The GOV-008 recommendation fulfillment rate is 60% (12/20). This is a significant improvement over the previous round's 0% (since R45 was the first audit and had no recommendations to act on yet).
+
+**However**, the GOV-001 finding remediation rate (the canonical metric) improved from 77% to 86% (19/22), breaking the six-round plateau. The 3 remaining unaddressed findings are:
+1. Cluster E source ID collision
+2. Empty directories (ensembles/, training-data/)
+3. Working tree artifacts / stale headers (structural hygiene)

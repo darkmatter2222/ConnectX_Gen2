@@ -503,3 +503,16 @@ WebSearch is known broken (Round 5+): API error 400.
 | S155 | marcpaulo15/RL-connect4 -- two-stage training config | https://github.com/marcpaulo15/RL-connect4 | GitHub | Secondary | VERIFIED | 2026-08-05 | SFT to RL transfer learning, 200K heuristic positions, PPO/REINFORCE |
 | S156 | psalarc/DQN-ConnectX-Agent -- DQN study | https://github.com/psalarc/DQN-ConnectX-Agent | GitHub | Secondary | VERIFIED | 2026-08-05 | DQN training methodology, shallow network architecture study |
 | S157 | Waidchen et al. (2022) -- XAI for Connect 4 | https://arxiv.org/abs/2202.11797 | Academic paper | Secondary | VERIFIED | 2026-08-05 | Explainable AI analysis of Connect 4 neural networks |
+
+## R45 New Sources (S158–S165) — connectpuct PUCT MCTS Source Archaeology
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S158 | connectpuct repository (ahmeddoghri) — MIT-licensed PUCT MCTS for Connect 4 | github.com/ahmeddoghri/connectpuct | Repo | ~2025 | Full source: engine.py (Board class), mcts.py (PUCT MCTS with tactical priors), minimax.py (alpha-beta opponent), adversarial.py (game loop). Browser-playable via web/ directory. |
+| S159 | connectpuct README.md — benchmark results (55% vs minimax d3) | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/README.md | Documentation | ~2025 | 10W-0L vs random, 10W-0L vs center policy, 11W-9L (55%) vs minimax depth-3. Small sample (20 games). |
+| S160 | connectpuct/engine.py — Board class: frozen dataclass, tuple cells, WIN_LINES | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/engine.py | Source code | ~2025 | COLS=7, ROWS=6 hardcoded. Immutable Board with legal_moves(), play(), winner() returning int (1/-1/2/0). O(W) win detection via pre-computed lines. |
+| S161 | connectpuct/mcts.py — PUCT MCTS: Node, _priors, _simulate, _rollout, choose_move | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/mcts.py | Source code | ~2025 | Standard PUCT formula (c_puct=1.4), smart rollout (prioritizes wins/blocks), tactical override (win/block before MCTS). 80 sims default, 40 via Kaggle wrapper. |
+| S162 | connectpuct/minimax.py — alpha-beta minimax with column-proximity heuristic | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/minimax.py | Source code | ~2025 | Very basic heuristic: weight = 3 - abs(3 - col). No fork/near-win detection. Correct alpha-beta. Used as benchmark opponent for PUCT. |
+| S163 | connectpuct/adversarial.py — game loop, match, policy wrappers | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/adversarial.py | Source code | ~2025 | play_game(), match_against_minimax(), puct_policy (Kaggle wrapper), minimax_wrapped. Color-swapping with alternating colors in match. |
+| S164 | connectpuct/benchmark.py — match evaluation and output | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/benchmark.py | Source code | ~2025 | print_results(), print_match_table() functions. Statistical output for match records. |
+| S165 | connectpuct/pyproject.toml — Python project metadata | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/pyproject.toml | Config | ~2025 | Python project configuration; no external dependencies beyond stdlib. |

@@ -1,7 +1,7 @@
 # ConnectX Research Program -- Hypothesis Register
 
-**Version:** 1.1
-**Last reviewed:** Round 44
+> **Current Round**: 53 (2026-08-06)
+> **Last Updated**: 2026-08-06 10:30 ET (Round 53)
 **Synthesis agent:** ConnectX Research v10
 **Total hypotheses:** 24
 **Falsifiability:** All hypotheses are falsifiable by design

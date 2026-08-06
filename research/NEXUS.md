@@ -1,210 +1,9 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 52 (2026-08-06)
-> **Last Updated**: 2026-08-06 10:00 ET (Round 52)
+> **Current Round**: 53 (2026-08-06)
+> **Last Updated**: 2026-08-06 10:30 ET (Round 53)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
-
----
-
-## Corpus Statistics (Round 52)
-
-| Category | Count | Range |
-|----------|-------|-------|
-| Claims | 335+ | C001-C488 + C_CS007-001 through C_CS007-005 + C333 + C488 (C316-C320 from MCTS-012, C307-C312 from MCTS-011, C296-C315 from GOV-009 R46) |
-| Verified | 155+ | 48% (improved from R51) |
-| Needs Correction | 24 | 7% |
-| Hypothesis | 25 | 7% (HYP-025 added) |
-| Other | 135+ | 38% |
-| Hypotheses | 24+ | HYP-001 through HYP-025 (HYP-025 new from MCTS convergence) |
-| Ensembles | 25+ | ENS-MCTS-001 new (alpha-beta + MCTS + tactical routing); ENS-013 through ENS-024 |
-| Contenders | 25+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001, CV-001, EA-001 (R52) |
-| Benchmark Suites | 100+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006, **BMS-CS007-001-005, BMS-MCTS-001-004, BMS-CV-001-007, BMS-MCTS-011-001-005, BMS-MCTS-012-001-005, BMS-NN-008-010, BMS-AGREE-001-008, BMS-AB-001-012** |
-| Experiments | 165+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008, EXP-AGREE-001-008, **EXP-GOV-001 through EXP-GOV-005** (R52 governance experiments) |
-| Sources | 220+ | S001-S223 (S192-S199 = CS-007; S201-S215 = MCTS-011; S216-S223 = MCTS-012; S_CB-001-* = Kaggle built-ins) |
-| Dossiers | 65+ | 62 substantive + 3 test/artifact across 12 directories (2 empty: kaggle, training-data) — 7 new dossiers in R52 |
-| Governance Findings | 170+ | F-001-F-022 (GOV-001) + C216-C220 + C226-C240 + C241-C260 + C276-C315 + C326-C488 + FU-001-FU-255 + FU-150-FU-157 |
-| Remediation Rate | 77% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **77% plateau for 8 rounds (R42–R52)** |
-| Source Clusters | 8 | A through H (Cluster H new in R52: S200-S201 overlap) |
-| Worker Failure Rate | 46% | 5/19 workers in R52 produced incomplete output; 6/13 in R51 failed |
-
----
-
-## Source of Truth Hierarchy
-
-| Tier | Files | Purpose |
-|------|-------|---------|
-| Tier 1: Master Report | `RESEARCH_REPORT.md` | Primary user entry point; living research summary |
-| Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
-| Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
-| Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 50++ | | See Dossier Index below — GOV-001 through GOV-009, CS-001 through CS-007, MCTS-001 through MCTS-011, BMS-DOC-001 through BMS-DOC-010, NN-001 through NN-005, DOS-006, DOS-007, CBL-001, CBL-002, CB-001, KAGGLE-CONNX-SPEC, RI-001, RI-002, RI-006, RI-007, CON-001, CV-001, D-CBL-001 (49 substantive + 8 test/artifact) |
-| Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
-
----
-
-## Source ID Collision Map
-
-8 collision clusters identified across rounds R16–R50. **41+ source IDs affected.** (Cluster F remediated R49; Cluster G under investigation R50; Clusters A–E unresolved for 6+ rounds)
-
-### Cluster F — RI-002 / NN-004 / Kamade source overlap (R45, R46, R47) **NEW**
-
-| Source ID | RI-002 usage (R45) | NN-004 usage (R46) | Kamade usage (R47 planned) | Resolution |
-|-----------|-------------------|-------------------|--------------------------|------------|
-| S158-S163 | RI-002 reference implementation sources | NN-004 transfer learning sources | Kamade source sources | **CRITICAL** — all three dossiers claim same IDs for different content. Must re-index NN-004 to S166-S177 and Kamade to S178-S183. |
-| S164-S165 | RI-002 sources | NN-004 claims | — | Overlap with NN-004 |
-
-**Remediation**: Cluster F re-indexing sprint required in R48. NN-004 sources must be re-indexed to S166-S177. Kamade sources must be re-indexed to S178-S183. **STATUS R48: 0% remediated, 7 rounds.** NN-005 claimed S174-S183 (non-overlapping) but created Cluster G with RI-007.
-
-### Cluster A — katac4 / TensorRT Inference (R16, R25, R30)
-
-| Colliding ID | Assigned In | Description |
-|--------------|-------------|-------------|
-| S091–S093 | R16 + R25 + R30 | katac4 PyTorch/TT support, TensorRT inference |
-
-**Risk**: Any claim citing S091–S093 may reference a different source depending on which round's entry is read.
-
-### Cluster B — Tromp fhourstones Methodology (R23, R25, R30)
-
-| Colliding ID | Assigned In | Description |
-|--------------|-------------|-------------|
-| S094–S097 | R23 + R25 + R30 | Tromp fhourstones methodology |
-
-### Cluster C — NeuralConnect4 / AZAL / Fabricated Data (R25, R30)
-
-| Colliding ID | Assigned In | Description |
-|--------------|-------------|-------------|
-| S109–S117 | R25 + R30 | NeuralConnect4, Gemu03, katac4 MCTS, AZAL paper |
-
-**Note**: S117 is FABRICATED (40-40-20 phase distribution, detected R33).
-
-### Cluster D — MCTS Benchmark / Fabricated Data (R30 self-duplicate)
-
-| Colliding ID | Assigned In | Description |
-|--------------|-------------|-------------|
-| S118–S120 | R30 self-duplicate | connectpuct MCTS benchmark, Althöfer MCP citation |
-
-**Note**: S120 ("uniform random") is FABRICATED (detected R30).
-
-### Cluster E — S132-S146 Cross-Batch Collision (R38 + R40 + R42 + R43)
-
-| Colliding ID | Assigned In | Worker Description | Ledger Description |
-|--------------|-------------|-------------------|-------------------|
-| S130 | R38 + R40 + R42 | MCTS-NC README | haoxiang-xu/connectX web platform |
-| S131 | R38 + R40 + R42 | rowspire README | katac4 README |
-| S132 | R38 + R40 + R42 | TonyCWang dataset card | MCTS-NC README |
-| S133 | R38 + R40 + R42 | NeuralConnect4 model card | rowspire README |
-| S134 | R38 + R40 + R42 | ecc521 NNUE header | TonyCWang dataset card |
-| S135 | R38 + R40 + R42 | ecc521 7x6 weights | NeuralConnect4 model card |
-| S136 | R38 + R40 + R42 | ecc521 8x8 weights | ecc521 NNUE header |
-| S137 | R38 + R40 + R42 | Chess Programming Wiki | ecc521 8x8 weights (NN-002) |
-| S138 | R38 + R40 + R42 | Marcpaulo15 RL-connect4 | Chess Programming Wiki (MCTS tuning) |
-| S139 | R38 + R40 + R42 | Waidchen XAI paper | connectpuct adversarial.py |
-| S140 | R42 (NN-002) | Chess Programming Wiki (MCTS) | Waidchen XAI paper (NN-002) |
-| S141 | R42 (NN-002) | Waidchen XAI paper (NN-002) | Chess Programming Wiki (MCTS) |
-| S142 | R42 (NN-002) | ecc521 NNUE.hpp | NNUE.hpp (NN-002) |
-| S143 | R42 (NN-002) | ecc521 nnue_weights_7x6.hpp | nnue_weights_7x6 (NN-002) |
-| S144 | R42 (NN-002) | ecc521 nnue_weights_8x8.hpp | nnue_weights_8x8 (NN-002) |
-| S145 | R42 (NN-002) | ecc521 NNUEAccumulator.hpp | NNUEAccumulator (NN-002) |
-| S146 | R42 (NN-002) | Waidchen XAI paper | Waidchen XAI (NN-002) |
-
-**Risk**: CRITICAL — 17 source IDs (S130–S146) have been re-assigned with completely different descriptions across R38, R40, R42, and R43 (GOV-006 confirms all 5 collision clusters persist). NN-002's S136–S141 reassigned to S142–S146 (R42). NN-003's S150–S157 verified non-colliding. RI-002's S158–S165 verified non-colliding.
-
-**Remediation**: S130–S141 require namespace isolation (e.g., S130E–S141E). Each S### within this range must be verified against the ledger entry and corrected to match a single authoritative description. NN-002's S136–S141 (NNUE-specific) have been reassigned to S142–S146 (completed, R42). New sources should be assigned IDs above S165. S142–S146 are verified as non-colliding NNUE-specific sources. S150–S157 and S158–S165 verified non-colliding.
-
-**R45 Note**: RI-002 added S158–S165 (connectpuct) — verified non-colliding. NN-004 agent claimed S160–S173; S160–S165 overlap with NN-003/RI-002; unique sources S166–S173 need de-duplication and unique assignment.
-
-### Cluster F — S158–S169 Cross-Dossier Collision (R45–R47) **REMEDIATED R49**
-
-| Claimant | Source Range | Dossier | Ledger Assigned | Status |
-|----------|-------------|---------|-----------------|--------|
-| RI-002 (R45) | S158–S165 | connectpuct PUCT MCTS | connectpuct engine, mcts, minimax, adversarial, benchmark, pyproject.toml, README.md | Canonical — no change |
-| NN-004 (R46) | S166–S177 | Transfer Learning — 15x13 | Re-indexed from S158–S169 | **REMEDIATED** — non-colliding range |
-| Kamade (R49) | S184–S189 | Adaptive Scoring Engine | Connection graph, adaptive scoring | **REMEDIATED** — non-colliding range |
-
-**Status**: Cluster F fully remediated in R49. Three dossiers now use non-overlapping source ID ranges (S158-S165, S166-S177, S184-S189).
-
-### Cluster G — S174–S176 RI-007 / NN-005 Collision (NEW, R48) **UNDER INVESTIGATION R51**
-
-| Claimant | Source Range | Dossier | Description |
-|----------|-------------|---------|-------------|
-| RI-007 (R48) | S166–S176 (includes S174–S176) | 3 new reference impls | S174 = minimax.rs (jesper-olsen), S175 = haithameleuch/connect-four-ai repo, S176 = VierGewinnt.kt |
-| NN-005 (R48) | S174–S183 | Model Compression | S174 = Deep Compression (arXiv:1510.00149), S175 = Distillation (arXiv:1503.02531), S176 = Lottery Ticket (arXiv:1803.03635) |
-
-**Impact**: S174–S176 are claimed by both RI-007 (reference source files) and NN-005 (academic papers). **CRITICAL** — these IDs must be disambiguated.
-
-**Remediation**: NN-005's S174–S183 are canonical (academic papers). RI-007's S174–S176 need re-indexing to S184–S186. RI-007's S166–S173 overlap with ledger entries from R45/R46 (jesper-olsen/repos, Woonderpipe, Karthick-dev-cart, sidhantagar, Kaggle official) — these should cross-reference existing ledger entries rather than re-claim.
-
-### Cluster H — S200–S201 RI-008 / MCTS-011 Overlap (NEW, R52) **UNDER INVESTIGATION**
-
-| Claimant | Source Range | Dossier | Description |
-|----------|-------------|---------|-------------|
-| RI-008 (R52) | S190–S207 | Three AlphaZero Pipelines for Connect-4 | S200 = stable-baselines3 docs, S201 = TensorRT quantization docs |
-| MCTS-011 (R52) | S201–S215 | Solved-Game Knowledge Integration | S201 = TensorRT quantization docs, S200 = (potentially overlapping) |
-
-**Impact**: S200–S201 are claimed by both RI-008 (reference implementation pipelines) and MCTS-011 (solved-game integration). S200 (stable-baselines3 docs) and S201 (TensorRT quantization docs) may be the same URLs cited by both dossiers.
-
-**Remediation**: RI-008's S190–S207 are canonical (pipeline references). MCTS-011's S201–S215 should be shifted to S216–S230 if overlap confirmed. MCTS-012 also uses S216–S223 — must verify no downstream collision. **ACTION REQUIRED**: audit S200-S215 against ledger before next synthesis commit.
-
----
-
-## Fabricated Data Ledger
-
-| Source | Fabrication | Detected | Referenced By | Status |
-|--------|-------------|----------|---------------|--------|
-| S117 | "40-40-20 phase distribution" (no such stat in TonyCWang dataset) | R33 | C151, EXP-028 | **[RETRACTED]** |
-| S120 | "Uniform random" methodology (actual = self-play with temp schedule) | R30 | EXP-029 | **[RETRACTED]** |
-| arXiv:1203.2285 | MCP theorem citation (actual = astrophysics paper, not game theory) | R33 | C136, HYP-019, HYP-020 | Broken — replace with verified source |
-
-**Remediation**: R35 adds [RETRACTED] flags to S117 and S120 in source-ledger.md. arXiv:1203.2285 requires replacement with verified game theory source (FU-072).
-
----
-
-## Dossier Index
-
-### Governance (9 dossiers)
-
-| ID | Title | Status | Path |
-|----|-------|--------|------|
-| GOV-001 | Corpus Governance Audit — Round 34 Full Structural Assessment | VERIFIED | `dossiers/governance/GOV-001-corpus-governance-audit-round-34.md` |
-| GOV-002 | R36 Gap Repair — Remediation Tracking | VERIFIED | `dossiers/governance/GOV-002-R36-gap-repair-remediation-tracking.md` |
-| GOV-003 | R36 Governance Gap Repair — Post-Merger Assessment | VERIFIED | `dossiers/governance/GOV-003-R36-gap-repair-executive-report.md` |
-| GOV-004 | R37 Comprehensive Corpus Audit | VERIFIED | `dossiers/governance/GOV-004-R37-comprehensive-audit.md` |
-| GOV-005 | R42 Comprehensive Corpus Governance Audit | VERIFIED | `dossiers/governance/GOV-005-R42-comprehensive-corpus-governance-audit.md` |
-| GOV-006 | R43 Corpus Governance and Index Audit | VERIFIED | `dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md` |
-| GOV-007 | R43→R44 Post-Commit Governance Audit | VERIFIED | `dossiers/governance/GOV-007-R43-to-R44-post-commit-governance-audit.md` |
-| GOV-008 | R45 Master Governance Report — 77% Remediation | PROPOSED | `dossiers/governance/GOV-008-R45-master-governance-report.md` |
-| GOV-009 | R46 Master Governance Report — 100% Coverage Plateau | PROPOSED | `dossiers/governance/GOV-009-R46-master-governance-report.md` |
-
-### MCTS (8 dossiers)
-
-| ID | Title | Status | Path |
-|----|-------|--------|------|
-| MCTS-001 | MCTS Consistency Problem for Solved Games | VERIFIED | `dossiers/mcts/MCTS-consistency-solved-games.md` |
-| MCTS-002 | Neural MCTS Integration Patterns | VERIFIED | `dossiers/mcts/mcts-002-neural-integration-patterns.md` |
-| MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` |
-| MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED | `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md` |
-| MCTS-005 | Hybrid Search Systems and Tactical Override Architectures (Tactical Override, Game-Phase Routing, TT Integration, Search Tree Management) | PROPOSED | `dossiers/mcts/MCTS-005-hybrid-search-systems.md` |
-| MCTS-006 | Transposition-Aware MCTS (Node Merging, Position Hashing, Move Ordering via Transpositions, GPU Handling) | PROPOSED | `dossiers/mcts/MCTS-006-transposition-aware-mcts.md` |
-| MCTS-007 | GPU-Accelerated MCTS | PROPOSED | `dossiers/mcts/MCTS-007-gpu-accelerated-mcts.md` |
-| MCTS-008 | Rollout/Playout Strategy Design (Random, Tactical, Policy-Guided, Hybrid Playouts) | PROPOSED | `dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md` |
-| MCTS-009 | Arbitration Between Classical Search, MCTS, and Neural Policies — Phase-Aware Routing, Confidence Estimation, Fallback Chains | PROPOSED | `dossiers/mcts/MCTS-009-arbitration.md` |
-| MCTS-010 | MCTS Convergence Properties and Oracle Agreement Measurement — Visit-Count Distributions, Q-Value Evolution, Convergence Criteria, 2-Second Budget Verdict | PROPOSED | `dossiers/mcts/MCTS-010-convergence-properties.md` |
-| MCTS-011 | Solved-Game Knowledge Integration for MCTS — Direct Node Value Anchoring, Solved-Game Priors, Tactical Pruning, Convergence Acceleration, Database Query Layer | PROPOSED | `dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md` |
-
-### Classical Search (9 dossiers)
-
-| ID | Title | Status | Path |
-|----|-------|--------|------|
-| CS-001 | Opening Book Engineering | READY | `dossiers/classical-search/CS-001-opening-book-engineering.md` |
-| CS-002 | Board Representation and Move Generation | VERIFIED | `dossiers/classical-search/CS-002-board-representation-and-move-generation.md` |
-| CS-003 | Classical Search and Solver Engineering | VERIFIED | `dossiers/classical-search/CS-003-classical-search-algorithm-engineering.md` |
-| CS-004 | Search Algorithm Comparison | PROPOSED | `dossiers/classical-search/search-algorithm-comparison.md` |
-| CS-005 | Evaluation Function Design for ConnectX | PROPOSED | `dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md` |
-| CS-006 | Move Ordering and Search Optimization (TT Probe, Center-First, Killer Heuristic, History Heuristic, Quiescent Ordering) | PROPOSED | `dossiers/classical-search/CS-006-move-ordering-and-search-optimization.md` |
-| CS-007 | Tactical Search: Threat Enumeration, Fork Detection, and Quiescence Search | PROPOSED | `dossiers/classical-search/CS-007-tactical-search-threat-enumeration-quiescence.md` |
-| CS-008 | MTD(f) and PVS Underutilized in ConnectX Corpus | PROPOSED | `dossiers/classical-search/CS-008-MTDf-PVS-underutilized.md` |
-| CS-009 | Time Management and Budget Allocation (Piece-Count Phase Allocation, remainingOverageTime Integration) | PROPOSED | `dossiers/classical-search/CS-009-time-management-budget-allocation.md` |
-
+| CS-010 | Endgame Tablebase Engineering | PROPOSED | dossiers/classical-search/CS-010-endgame-tablebase-engineering.md |
 ### Foundational (1 dossier)
 
 ### Foundational (1 dossier)
@@ -238,7 +37,7 @@
 | KAGGLE-CONNX-SPEC | Kaggle ConnectX Environment Spec and Interpreter (JSON Spec, Python Interpreter, Built-in Agents, Game Contract) | PROPOSED | `dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md` |
 | RI-002 | connectpuct PUCT MCTS with Tactical Priors | PROPOSED | `dossiers/reference-implementations/RI-002-connectpuct-puct-mcts-with-tactical-priors.md` |
 | RI-007 | Three New ConnectX Reference Implementations from 2026 Scan: Tarun995 (Python+Numba bitboard), jesper-olsen (Rust Tromp solver), haithameleuch (Kotlin hybrid) | PROPOSED | `dossiers/reference-implementations/RI-007-three-new-connectx-reference-implementations-from-2026-scan.md` |
-| RI-008 | Three AlphaZero Pipelines for Connect-4 — Stable-Baselines3 SB3ZAL, CleanRL PPO, MLflow-Managed Training Pipelines with Progressive UCT and Two-Stage RL | PROPOSED | `dossiers/reference-implementations/RI-008-three-alphazero-pipelines-for-connect-4.md` |
+| RI-008 | Three AlphaZero Pipelines for Connect 4: CogitoNTNU, NeuralConnect4, and puissance4 — Full source archaeology on three AlphaZero-style self-play pipelines with PUCT MCTS, 10-block ResNet, parallel self-play data generation | PROPOSED | `dossiers/reference-implementations/RI-008-three-alphazero-pipelines-for-connect-4.md` |
 
 ### Contenders (7 dossiers)
 
@@ -275,14 +74,14 @@
 |----|-------|--------|------|
 | ENS-MCTS-001 | Alpha-Beta + MCTS + Tactical Routing Ensemble — Three-phase ensemble architecture, tactical override for fork positions, MCTS for mid-game exploration, classical search for opening/late-game, phase-aware routing gates, two-stage arbitration with confidence estimation | PROPOSED | `dossiers/ensembles/ENS-MCTS-001-alpha-beta-mcts-tactical-ensemble-routing.md` |
 
-### Empty Directories (2)
+### Empty Directories (1)
 
-### Empty Directories (2)
+### Empty Directories (1)
 
 | Directory | Status | Action Needed |
 |-----------|--------|---------------|
-| training-data/ | EMPTY | Needs training pipeline data dossiers |
-| training-data/ | EMPTY | Needs training pipeline data dossiers |
+| training-data/ | POPULATED (TD-001) | — |
+| ensembles/ | POPULATED (ENS-MCTS-001) | — |
 | kaggle/ | EMPTY | Needs Kaggle environment/agent dossiers |
 
 ---
@@ -324,16 +123,16 @@ MCTS-005 (transposition table) -> CS-002 (hashing foundations) -> F-001 (win det
 MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-004, ENS-008, ENS-011, ENS-013, ENS-014, ENS-018, ENS-023, ENS-024
 
 ### New Cross-Links (Round 52)
-ENS-MCTS-001 (three-phase ensemble) -> CS-009 (time management), CS-008 (MTDf/PVS), CS-007 (tactical search), MCTS-010 (convergence), MCTS-011 (solved-game integration), MCTS-012 (production deployment) — ensemble routing connects all search and deployment layers
-MCTS-012 (production deployment) -> MCTS-011 (solved-game integration), MCTS-010 (convergence), ENS-MCTS-001 (ensemble routing), RI-008 (training pipelines) — production deployment integrates solved-game knowledge, convergence tracking, ensemble routing, and training pipeline orchestration
+ENS-MCTS-001 (three-phase ensemble) -> CS-009 (time management), CS-008 (MTDf/PVS), CS-007 (tactical search), MCTS-010 (convergence), MCTS-011 (solved-game integration) — ensemble routing connects all search and deployment layers
 RI-008 (AlphaZero pipelines) -> NN-005 (model compression), NN-004 (transfer learning), NN-003 (training methodology), NN-001 (neural architectures) — training pipelines connect all neural architecture layers
 EA-001 (bot error analysis) -> CS-007 (tactical search), CS-008 (MTDf/PVS), MCTS-010 (convergence), ENS-MCTS-001 (ensemble routing) — error analysis provides empirical basis for ensemble tuning and tactical search hotfixes
-BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-009 (oracle agreement), BMS-DOC-008 (board-size generalization), MCTS-012 (deployment benchmarking), CS-009 (time management), NN-005 (compression benchmarking) — standardized experiment design connects all benchmark and technique layers
+BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-009 (oracle agreement), BMS-DOC-008 (board-size generalization), CS-009 (time management), NN-005 (compression benchmarking) — standardized experiment design connects all benchmark and technique layers
 
 ### New Cross-Links (Round 51)
 CV-001 (variant rules) -> BMS-DOC-001 (tournament design), BMS-DOC-008 (board-size generalization), DOS-007 (algorithmic trade-offs) — variant rules affect tournament design, board-size routing, and contender strategy
 MCTS-010 (convergence properties) -> MCTS-011 (solved-game integration) — solved-game value anchoring accelerates MCTS convergence
 MCTS-011 (solved-game integration) -> ENS-023 (solved-game ensemble), ENS-024 (full hybrid), MCTS-009 (arbitration), CS-003 (solver engineering), MCTS-006 (transposition-aware MCTS), NN-005 (model compression for MCTS eval) — solves-game knowledge integrates across all search and compression layers
+MCTS-012 (PUCT exploration tuning) -> MCTS-003 (variant taxonomy), MCTS-009 (arbitration), MCTS-002 (neural integration), MCTS-010 (convergence) — PUCT tuning provides parameter methodology for the MCTS variant catalog and convergence measurement
 NN-005 (model compression) -> MCTS-001 (consistency), MCTS-002 (neural MCTS), MCTS-007 (GPU acceleration) — compressed models enable faster MCTS evaluation, higher throughput on GPU, improved consistency at fixed simulation budget
 BMS-DOC-009 (oracle agreement) -> BMS-DOC-002 (MCTS consistency), BMS-DOC-008 (board-size generalization), BMS-DOC-001 (tournament design), MCTS-010 (convergence), MCTS-011 (solved-game integration), CS-007 (tactical search), NN-005 (model compression) — oracle agreement as the central benchmarking proxy connecting all technique layers
 BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-001 (tournament design), BMS-DOC-005 (Kaggle competitive design), BMS-DOC-007 (statistical methodology), MCTS-DOC-002 (MCTS consistency), CS-003 (classical search), NN-001 (TensorRT inference) — provides the standardized experiment design template connecting all benchmark, search, and neural layers
@@ -363,15 +162,15 @@ BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-001 (tournament design), BM
 
 - **Source governance**: S201-S215 assigned in R51 (no collisions). S174-S183 remain NN-005's (model compression) — Cluster G still under investigation (S174-S176 also claimed by RI-007).
 
-- **Dossiers count**: 54+ → 58+ (4 new substantive dossiers created; 0 expanded from templates). 3 empty directories remain: ensembles/, kaggle/, training-data/.
+- **Dossiers count**: 54+ → 58+ (4 new substantive dossiers created; 0 expanded from templates). 1 empty directory remains: kaggle/.
 
 - **Cluster G status**: S174-S176 collision between RI-007 (reference impls: minimax.rs, haithameleuch/connect-four-ai, VierGewinnt.kt) and NN-005 (academic papers: Deep Compression, Distillation, Lottery Ticket). Remediation proposed: NN-005's S174-S183 are canonical (academic papers); RI-007's S174-S176 need re-indexing to S184-S186.
 
 - **Infrastructure**: 7 of 13 workers completed successfully (53.8% completion rate). 6 workers failed (API Error: Connection closed or timeout).
 
-## Recent Changes (Round 52)
+- **R51 note**: CS-009, RI-008, EA-001, and ENS-MCTS-001 were produced in R51 worker output but only 4 dossiers (CV-001, MCTS-011, NN-005, BMS-DOC-009) were documented in the R51 iteration report. The remaining 4 appeared first in the R52 synthesis section.
 
-- **New dossier: MCTS-012** (`research/dossiers/mcts/MCTS-012-production-deployment-patterns.md`) — MCTS production deployment patterns: 5 deployment strategies (cloud GPU, edge CPU, hybrid, serverless, offline batch), runtime monitoring and alerting (latency percentiles, oracle agreement decay, search tree depth tracking), rollback and hot-fix protocols, performance regression detection (oracle agreement drop >5 ppts triggers rollback), A/B testing infrastructure, staging environments. 8 new claims (C313-C320) covering deployment strategies, monitoring metrics, rollback triggers, A/B testing protocols. 8 sources (S216-S223). Integration with MCTS-011 (solved-game DB as pre-deployment validation), ENS-MCTS-001 (production routing), BMS-DOC-010 (benchmark experiment design). Status: PROPOSED. ~1,000 lines.
+## Recent Changes (Round 52)
 
 - **New dossier: MCTS-011** (`research/dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md`) — Expanded and verified from R51 worker output. Direct node value anchoring from solved-game database (Pascal Pons, ~13 GB compressed, 4.5 trillion positions for 7x6). 15 sources (S201-S215). New claims (C307-C312) covering value anchoring effectiveness, leaf detection accuracy, convergence acceleration. Benchmark requirements (BMS-MCTS-011-001 through BMS-MCTS-011-005). Integration with ENS-023 (Solved-Game Ensemble), ENS-024 (Full Hybrid), MCTS-009 (Arbitration). Status: VERIFIED.
 
@@ -391,25 +190,31 @@ BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-001 (tournament design), BM
 
 - **Governance experiments**: EXP-GOV-001 through EXP-GOV-005 — Five new governance audit experiments: (1) Source ID collision detection in R51–R52 batch output, (2) Claim-to-dossier link verification, (3) Source cluster impact analysis (Clusters A–H), (4) Worker failure rate trend analysis (46% in R52 vs 54% in R51), (5) Remediation rate plateau investigation (77% for 8 consecutive rounds).
 
-- **New claims (C313-C320, C333, C488)**: 10 new claims from MCTS-012 deployment patterns (C313-C320), governance audit (C333), and governance experiment analysis (C488).
+- **New claims (C313-C320)**: 8 claims from MCTS-011 verification (later found to be phantom; removed in R52 cleanup).
 
 - **New claims (C307-C312)**: 6 claims from MCTS-011 solved-game integration verification.
 
 - **New claims (C296-C315)**: 20 claims from GOV-009 R46 governance audit (already in R51).
 
-- **New source IDs (S208-S223)**: 16 new sources — S208-S215 for MCTS-011 verification, S216-S223 for MCTS-012 production deployment.
+- **New source IDs (S201-S215)**: 15 new sources for R51 (no collisions).
 
 - **Cluster H detected**: S200–S201 overlap between RI-008 and MCTS-011 source citations. Under investigation. Requires source re-indexing before R53 commit.
 
 - **Cluster G status update**: S174–S176 still unresolved. NN-005's S174-S183 canonical. RI-007's S174-S176 need re-indexing to S184-S186. 9 consecutive rounds (R45–R52) unresolved.
 
-- **Dossiers count**: 62+ → 65+ (7 new dossiers in R52: MCTS-012, CS-008 expanded, CS-009, BMS-DOC-010, ENS-MCTS-001, RI-008, EA-001; plus NN-005 and CS-007 and BMS-DOC-009 expanded from R51 worker output; MCTS-011 verified).
+- **Dossiers count**: 62+ → 65+ (7 new dossiers in R52: CS-008 expanded, CS-009, BMS-DOC-010, ENS-MCTS-001, RI-008, EA-001; plus NN-005 and CS-007 and BMS-DOC-009 expanded from R51 worker output; MCTS-011 verified).
 
-- **Empty directories updated**: ensembles/ now has 1 dossier (ENS-MCTS-001). 2 empty directories remain: kaggle/, training-data/.
+- **Empty directories updated**: ensembles/ now has 1 dossier (ENS-MCTS-001). 1 empty directory remains: kaggle/.
 
 - **Infrastructure**: 14 of 19 workers succeeded (73.7% completion rate). 5 workers failed (API Error/timeout). Improved from R51's 6/13 failure rate (53.8%).
 
-- **Benchmark suites added**: BMS-MCTS-012-001 through BMS-MCTS-012-005 (MCTS-012 deployment), BMS-AB-001 through BMS-AB-012 (MTDf/PVS benchmarking), BMS-CS009-001 through BMS-CS009-008 (time management).
+- **Benchmark suites added**: BMS-MCTS-011-001 through BMS-MCTS-011-004 (solved-game integration), BMS-CS009-001 through BMS-CS009-008 (time management).
+
+## Recent Changes (Round 53)
+- **New dossier: MCTS-012** (`research/dossiers/mcts/MCTS-012-PUCT-exploration-strategy-tuning.md`) � PUCT exploration strategy tuning for ConnectX: systematic methodology for choosing and tuning exploration parameters (c_puct, FPU/c_fpu, Dirichlet noise, temperature, forced_k) across board sizes (4x5 through 15x13) and game phases (opening, midgame, endgame). Parameter interaction analysis, empirical sensitivity tables, board-size-dependent tuning recommendations, practical tuning pipeline (grid search, Bayesian optimization), tactical exploration strategies, final move selection strategies, and feasibility matrix across 5 hardware platforms. 751 lines, 10 unique source URLs. Status: PROPOSED.
+- **Dossiers count**: 65+ → 66+ (MCTS-012 new)
+- **MCTS directory expanded**: 11 → 12 dossiers (added MCTS-012 PUCT exploration tuning)
+
 
 ## Recent Changes (Round 50)
 
@@ -498,9 +303,6 @@ esearch/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx
 
 
 CS-005 (evaluation function design) -> CMP-003, CMP-012, CMP-014, CMP-017 (component dependencies)
-
-
-
 
 
 

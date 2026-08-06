@@ -1,7 +1,7 @@
-﻿# Benchmark Blueprint - ConnectX Bot
+# Benchmark Blueprint - ConnectX Bot
 
 > **Created**: 2026-08-03 (Round 26)
-> **Last Updated**: 2026-08-05 (Round 47)
+> **Last Updated**: 2026-08-06 (Round 53)
 > **Purpose**: Rigorous benchmark methodology and tournament design for ConnectX bot evaluation
 > **Status**: DRAFT - design only, no execution required
 > **Suite count**: 12 benchmark suites (BMS-001 through BMS-012) designed + 4 governance suites (BMS-025 through BMS-028) planned + 3 MCTS-specific suites (BMS-011 through BMS-013) added in R37 + 6 Kaggle competitive experiments (EXP-BMS-001 through EXP-BMS-006) added in R44 + 8 deferred benchmark suites (BMS-036 through BMS-039, BMS-029 through BMS-035) from R42-R43

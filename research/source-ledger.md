@@ -1,7 +1,7 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 47
-> **Last Updated**: 2026-08-05
+> **Current Round**: 53 (2026-08-06)
+> **Last Updated**: 2026-08-06 10:30 ET (Round 53)
 > **NOTE**: Source IDs S130–S146 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). RI-002 uses S158-S165 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S157. GOV-006/GOV-007/GOV-008/GOV-009 confirm all 6 collision clusters (A-F) persist unresolved. **CRITICAL NEW**: NN-004 claimed S158-S169 which overlaps RI-002's S158-S165. Kamade planned S158-S163 which also overlaps. NN-004 must be re-indexed to S166-S177, Kamade to S178-S183. Cluster F remediation required in R48.
 
 ---
@@ -636,3 +636,23 @@ Kamide/connect-n sources have been assigned S184-S189, avoiding all collision cl
 |-----------|-------|------------|------|------|-------|
 | S214 | Pascal Pons/connect4 — Solver query API (solved-game position lookup) | github.com/PascalPons/connect4 | Source code | 2026 | API for querying solved-game database: given a position, return optimal move. Foundation for oracle agreement measurement. |
 | S215 | Chess Programming Wiki — MCTS search optimization | chessprogramming.wikispaces.com/MCTS | Documentation | Latest | MCTS optimization techniques: virtual loss, UCT formula variants, move ordering, parallel MCTS. Reference for MCTS convergence analysis. |
+
+### CS-010 Endgame Tablebase Sources (S216–S230)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S216 | Bock (2025) -- A Strong Solving Algorithm for Connect Four | arXiv:2507.05267 | Academic paper | 2025 | BDD-based retrograde analysis for Connect 4. Complete W-D-L tablebase. |
+| S217 | Bock -- Complete 7x6 W-D-L Tablebase | Zenodo: https://zenodo.org/records/14582823 | Dataset | 2025 | 46.8 GB compressed BDD files. CC-BY 4.0. Full 7x6 W-D-L classification. |
+| S218 | Pascal Pons/connect4 -- C++ solver source code | github.com/PascalPons/connect4 | Source code | 2024 | AGPL-3.0. Complete solver with negamax, alpha-beta, CRT hashing, opening book. |
+| S219 | Pascal Pons -- OpeningBook.hpp + generator.cpp | github.com/PascalPons/connect4/src/ | Source code | 2024 | CRT hash table, symmetric base-3 encoding, opening book generation. |
+| S220 | John Tromp's Fhourstones -- 7x6 benchmark solver | github.com/tromp/fhourstones | Source code | ~2018 | 7x6 Connect 4 benchmark solver. Alpha-beta with hash table. |
+| S221 | John Tromp's fhourstones88 -- 8x8 solver | github.com/tromp/fhourstones88 | Source code | ~2018 | 8x8 Connect 4 solver. book88 ~10 MB opening book. |
+| S222 | Connect 4 gamesolver.org -- Interactive solver | connect4.gamesolver.org | Web application | 2024 | Online solver using Pascal Pons algorithm. Play any position against perfect play. |
+| S223 | Algorhythm-sxv/connect4-ai -- Rust bot with Huffman DB | github.com/Algorhythm-sxv/connect4-ai | Source code | 2024 | Huffman-coded ~20 MB opening DB, 5 bytes/entry, binary search lookup. |
+| S224 | Algorhythm-sxv -- ~20 MB opening DB artifact | github.com/Algorhythm-sxv/connect4-ai | Artifact | 2024 | Binary opening database, sorted array, Huffman-coded positions. |
+| S225 | Wikipedia -- Connect Four (solved game history) | en.wikipedia.org/wiki/Connect_Four | Documentation | 2024 | CC-BY-SA 4.0. Solved game history, position counts, board-size results. |
+| S226 | Wikipedia -- Connect Four (solved results matrix) | en.wikipedia.org/wiki/Connect_Four | Documentation | 2024 | Board-size solved results matrix. 7x6=P1, 8x8=P2, 9x6=P1, 10x8=Draw. |
+| S227 | Chess Programming Wiki -- Endgame tablebases | chessprogramming.wikispaces.com/Endgame_Database | Reference | Latest | Endgame database design, score-distance encoding, hash functions. |
+| S228 | Chess Programming Wiki -- Retrograde analysis | chessprogramming.wikispaces.com/Retrograde_Analysis | Reference | Latest | Retrograde analysis theory, forward/backward propagation, transposition. |
+| S229 | Chess Programming Wiki -- Binary Decision Diagrams | chessprogramming.wikispaces.com/Binary_Decision_Diagrams | Reference | Latest | BDD encoding schemes, variable ordering, image/pre-image operations. |
+| S230 | Markus Bock -- GitHub repository for Connect 4 Strong Solver | github.com/markus7800/Connect4-Strong-Solver | Source code | 2025 | BDD-based solver source. Compressed column-wise encoding for BDD. |

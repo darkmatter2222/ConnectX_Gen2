@@ -477,6 +477,101 @@ No contender enters a top-strength tier based solely on popularity or source-cod
 - **Configuration to pin:** database coverage (which board sizes/positions), fallback strategy when position not in database, TT update policy
 - **Planned in round:** TBD
 
+### BOT-NEW-001: ManuelFay/Alpha_Connect4 (DQN Architecture Study)
+
+- **URL:** github.com/ManuelFay/Alpha_Connect4
+- **Stars:** 0
+- **License:** Not specified
+- **Language:** Python (PyTorch)
+- **Board support:** 7x6 (configurable)
+- **Algorithm:** DQN family (DQN, Double DQN, Dueling DQN, Policy Gradient, A3C)
+- **Evaluation:** CNN with 3-channel board encoding; predicts win probability per column
+- **Strength:** HYPOTHESIS — no published benchmarks
+- **Kaggle compatible:** YES (Python + PyTorch, Jupyter notebook)
+- **Source IDs:** S166
+- **Dossier:** CON-001
+- **Key finding:** Lighter architectures converge faster with comparable accuracy
+- **Purpose in nexus:** Neural architecture comparison reference for NN-001 ensemble
+
+### BOT-NEW-002: jesper-olsen/connect-four (Rust Fhourstones Port)
+
+- **URL:** github.com/jesper-olsen/connect-four
+- **Stars:** 0
+- **License:** Unknown
+- **Language:** Rust
+- **Board support:** 7x6
+- **Algorithm:** Alpha-beta negamax with Fhourstones heuristics, bitboard representation
+- **Evaluation:** Bitboard-based win detection (O(1)), TT, interactive CLI testing
+- **Strength:** HYPOTHESIS — no published benchmarks
+- **Kaggle compatible:** NO (Rust)
+- **Source IDs:** S167
+- **Dossier:** CON-001
+- **Key insight:** Fhourstones methodology replicated in modern memory-safe language
+- **Purpose in nexus:** Inspiration for Numba-JIT Python bitboard implementation
+
+### BOT-NEW-003: Hemakumargokul/ai-game-agents (Java Minimax Collection)
+
+- **URL:** github.com/Hemakumargokul/ai-game-agents
+- **Stars:** 0
+- **License:** Unknown
+- **Language:** Java
+- **Board support:** 7x6
+- **Algorithm:** Minimax with alpha-beta pruning
+- **Evaluation:** Basic — count connected pieces, fork opportunities
+- **Strength:** HYPOTHESIS — educational project quality
+- **Kaggle compatible:** NO (Java)
+- **Source IDs:** S168
+- **Dossier:** CON-001
+- **Purpose in nexus:** Educational reference for classic AI patterns
+
+### BOT-NEW-004: Woonderpipe/connect-4 (Next.js/TS Production Game)
+
+- **URL:** github.com/Woonderpipe/connect-4
+- **Stars:** 1
+- **License:** Apache 2.0
+- **Language:** TypeScript/JavaScript (Next.js 16, React 19, Capacitor)
+- **Board support:** Configurable (web and mobile)
+- **Algorithm:** Minimax with alpha-beta, POSITIONAL_BONUS matrix
+- **Evaluation:** Positional bonus matrix, center-first ordering, difficulty-based depth
+- **Strength:** HYPOTHESIS — game AI, not research
+- **Kaggle compatible:** NO (TypeScript/Next.js)
+- **Source IDs:** S169
+- **Dossier:** CON-001
+- **Key insight:** 8 difficulty modes provide calibration scale for benchmarking
+- **Purpose in nexus:** ENS-020 (difficulty scaling) reference
+
+### BOT-NEW-005: Karthick-dev-cart/connectfour (Flutter Minimax)
+
+- **URL:** github.com/Karthick-dev-cart/connectfour
+- **Stars:** 0
+- **License:** Unknown
+- **Language:** Flutter (Dart)
+- **Board support:** 7x6, configurable up to 20x20
+- **Algorithm:** Minimax with alpha-beta
+- **Evaluation:** Tactical position testing (winning drops, blocking threats)
+- **Strength:** HYPOTHESIS — mobile game project
+- **Kaggle compatible:** NO (Flutter/Dart)
+- **Source IDs:** S170
+- **Dossier:** CON-001
+- **Key insight:** Configurable inarow (3-10), rare among Connect 4 bots
+- **Purpose in nexus:** ENS-019 (inarow generalization) reference
+
+### BOT-NEW-006: sidhantagar/ConnectX (Kaggle + Pygame)
+
+- **URL:** github.com/sidhantagar/ConnectX
+- **Stars:** 10
+- **License:** MIT
+- **Language:** Python
+- **Board support:** 7x6 (default), configurable up to 20x20, inarow 3-10
+- **Algorithm:** Minimax with alpha-beta + dynamic programming (memoization)
+- **Evaluation:** DP-based position caching, configurable board sizes
+- **Strength:** HYPOTHESIS — Kaggle notebook aims for "high score"
+- **Kaggle compatible:** YES (Python, stdlib + pygame optional)
+- **Source IDs:** S171
+- **Dossier:** CON-001
+- **Key insight:** Most Kaggle-compatible new contender discovered
+- **Purpose in nexus:** CMP-007 (DP optimization) reference, primary new benchmark target
+
 ---
 
 ## Source and Claim ID Index

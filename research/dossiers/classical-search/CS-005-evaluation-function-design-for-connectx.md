@@ -1,4 +1,4 @@
-﻿# CS-005: Evaluation Function Design for ConnectX
+# CS-005: Evaluation Function Design for ConnectX
 
 > **Dossier ID**: CS-005
 > **Status**: PROPOSED
@@ -124,196 +124,6 @@ Defensive scoring identifies opponent threats. Source: rowspire (S030) -- "Oppon
 
 ---
 
-## 5. Implementation Anatomy
-
-### 5.1 rowspire Heuristic AI (S030, S039, S041, S066, S068, S069)
-
-The most fully-featured classical evaluation in the source corpus. Combines positional scoring with seven tunable heuristic features.
-
-**Score formula**: score = positional_score(P1) + weighted_feature_score(P1) - positional_score(P2) - weighted_feature_score(P2). Two-player zero-sum formulation.
-
-**Positional scoring**: O(P) where P is number of pieces. For each piece, look up column value, multiply by row_height. Column values hardcoded for 7-column boards: [6, 17, 97, 165, 97, 17, 6].
-
-**Weighted feature score**: O(P * 7 features * 4 directions). For each piece, scan all four directions to compute seven features.
-
-**Seven heuristic features**:
-
-| Feature | Default | Evolved | Delta |
-|---|---|---|---|
-| center_control | 2.022 | 1.460 | -28% |
-| pieces_count | 0.965 | 0.113 | -88% |
-| threat | 1.588 | 3.851 | +143% |
-| mobility | 1.453 | 1.176 | -19% |
-| vertical_control | 2.862 | 1.335 | -53% |
-| horizontal_control | 1.344 | 2.840 | +111% |
-| defensive | 1.372 | 0.992 | -28% |
-
-Key findings from genetic tuning: threat scoring nearly tripled (discovering importance as primary forcing mechanism), horizontal control doubled (discovering horizontal runs are undervalued), pieces_count collapsed 88% (raw piece count is useless without interactions).
-
-**Terminal values**: win=+10000/5815, loss=-10000/-9283. Dual value sets for different search contexts.
-
-**AI modes**: HeuristicAI (one-ply greedy, O(M*P*7*4)), Solver (negamax+AB depth 20, no eval, O(b^20)), MLAI (NN+MCTS, 100D feature vector, dual-head).
-
-### 5.2 Kamide Adaptive Scoring (S121, S123, S128, S138)
-
-Notable for making ALL evaluation weights functions of winCondition, enabling automatic adaptation.
-
-Adaptive weight formulas: center_piece = +(WC-1), threat_offense = +(WC+1), threat_defense = -(WC), vulnerable_chain = +(WC-2), terminal_win = +infinity. On WC=3: center=+2, threat_off=+4, threat_def=-3, vulnerable=+1. On WC=5: center=+4, threat_off=+6, threat_def=-5, vulnerable=+3.
-
-Threat detection: any sequence of >= (WC-1) pieces with >= 1 hole. Hole-count heuristic: count empty adjacent cells at playable column tops, accumulating holes on both sides.
-
-Search: standard minimax + alpha-beta with shuffled (non-deterministic) move order.
-
-Strengths: board-size adaptation, simple formulas, no hardcoded constants. Weaknesses: symmetric threat scoring, no fork detection, no mobility.
-
-### 5.3 QveenCoder Asymmetric Window (S050)
-
-Window-based scanning with asymmetric threat amplification. Eval(board) = center_bonus + SUM over all windows: scoreWindow(window, player).
-
-scoreWindow: AI inarow = +100,000 (win), AI (inarow-1)+open = +100 (threat), AI (inarow-2)+2open = +10 (potential), Opp (inarow-1)+open = -120 (1.2x own threat!), Center piece = +6.
-
-Asymmetric ratio: 120/100 = 1.2x opponent threat. Design rationale: defending against imminent threat is more urgent than creating your own -- a missed defense causes immediate loss while a missed offense merely delays gain.
-
-Independent verification from S051 (nguyen-the-quang) uses identical asymmetric window scoring.
-
-Terminal values: +10,000,000 win, -10,000,000 loss. Strengths: simple, asymmetric threat amplification, generalizes to arbitrary inarow. Weaknesses: no fork detection, no mobility, no vertical control.
-
-### 5.4 ariaborin Threat-Map (S052, S124)
-
-Threat-map approach classifying threats as "strong" (3-in-a-row + empty) or "weak" (2-in-a-row + empties), symmetric weights with secondary weighting on weak threats.
-
-Eval(board) = (strong_pos - strong_neg) + 0.1 * (weak_pos - weak_neg). Strong: +/-1000. Weak: +/-100. Symmetric +/- means opponent strong threat is penalized exactly as it is rewarded for oneself.
-
-History heuristic: HistoryScore[move] += 3^depth. Exponential weighting, rapid decay with search depth. Transposition table: 10M entries, commented out in actual search.
-
-Strengths: clean threat classification, history heuristic for move ordering. Weaknesses: no positional scoring, no center control, no mobility, no vertical/horizontal control.
-
-#### Pattern D: Adaptive Formulaic Scoring
-
-**Sources**: Kamide/connect-n S121, S123, S128, S138
-
-This is the only evaluation in the corpus designed for **variable board sizes and variable inarow**. All weights are expressed as functions of the win condition (winCondition = inarow), making the evaluation automatically scale to any board configuration.
-
-| Evaluation Term | Weight Formula | Default (WC=4) |
-|----------------|----------------|----------------|
-| Central column piece | +(winCondition-1) per piece | +3 |
-| Threat (WC-1 pieces, >=1 hole) | +(WC+1) offense / -(WC) defense | +5/-4 |
-| Vulnerable chain (WC-2 pieces, >=2 holes) | +(WC-2) | +2 |
-| Win terminal | +infinity | +infinity |
-
-**Key insight**: By expressing weights as functions of winCondition, the same evaluation code works for Connect 4 (WC=4), 5-in-a-row (WC=5), and any other variant. The central column piece weight (WC-1 = 3 for WC=4) encodes that control of the center column is worth approximately 3 pieces of material.
-
-**Hole-count heuristic**: For each connection type at playable column tops, the engine counts empty adjacent cells (holes). This captures the positional value of having contiguous pieces without gaps -- a key concept in Connect 4 that simple window-scoring misses.
-
-**Computational characteristics**: O(R*C) for board scan plus O(holes) for hole counting. Hole counting adds constant overhead per board position.
-
-#### Pattern E: No Static Evaluation (Perfect Solver)
-
-**Sources**: Pascal Pons/connect4 S033, S038, S042, S126
-
-Pascal Pons solver uses **no heuristic evaluation function**. It is a perfect game-theoretic solver that computes the exact distance-to-win for every position. The score is not a pattern-based heuristic but the exact game-theoretic value.
-
-**Scoring**: MAX_SCORE = (WIDTH*HEIGHT+1)/2 - 3 = 21, MIN_SCORE = -(WIDTH*HEIGHT)/2 + 3 = -20. Score = remaining_moves_to_terminal. This is the exact distance to the end of the game, not an approximation.
-
-**Move ordering heuristic** (not evaluation): moveScore(move) = popcount(compute_winning_position(current|move, mask)): Counts winning opportunities for move ordering only. This heuristic is used exclusively for ordering the search, not for evaluating leaf positions.
-
-**O(WIDTH) forced-move pruning**: possibleNonLosingMoves() prunes moves that cannot lead to a win, based on the opponent winning spots. This pruning reduces the effective branching factor significantly.
-
-### 4.2 Threat Enumeration and Feature Engineering
-
-The core challenge of evaluation design is **threat enumeration** -- identifying when a position has winning or near-winning patterns, and quantifying their severity.
-
-**Threat scoring taxonomy** (derived from S050, S052, S069):
-
-| Consecutive Pieces | Open End | Score | Source |
-|-------------------|----------|-------|--------|
-| >=4 | - | 1000 | rowspire S069 |
-| 3 | yes | 100 | QveenCoder S050, rowspire S069 |
-| 3 | no | 10 | rowspire S069 |
-| 2 | yes | 10 | rowspire S069, Kamide S123 |
-| 2 | no | 1 | rowspire S069 |
-| 1 | yes | 1 | rowspire S069 |
-
-**Threat value progression**: The threat score increases exponentially with consecutive count: 1 -> 10 -> 100 -> 1000. This reflects the intuition that each additional consecutive piece multiplies the threat severity by an order of magnitude. This progression is consistent with the window-scoring approach (S050: 10 for 2+open, 100 for 3+open).
-
-**The diagonal and blocking features** (rowspire S069): The latest version of rowspire adds two features not present in earlier analyses: diagonal control (measuring pieces on diagonal lines) and blocking (measuring pieces that block opponent threats). This suggests the corpus is evolving toward more sophisticated threat detection.
-
-### 4.3 Genetic Tuning of Heuristic Weights
-
-Genetic algorithms provide an automated way to find optimal evaluation weights. The rowspire project S066, S068, S069 implements a GA with 16 tunable parameters.
-
-**Default starting point** (S068): win_score, loss_score, 4 column position values, 7 feature weights, row_height_weight.
-
-**Evolved results** (S066, generation 2):
-
-| Parameter | Default | Evolved | Change |
-|-----------|---------|---------|--------|
-| win_score | 10000 | 5815 | -42% |
-| loss_score | -10000 | -9283 | +7% |
-| center | 165 | 91 | -45% |
-| adjacent | 97 | 30 | -69% |
-| outer | 17 | 12 | -29% |
-| edge | 6 | 10 | +67% |
-| threat_weight | 1.588 | 3.851 | +142% |
-| horizontal_control | 1.344 | 2.840 | +111% |
-| vertical_control | 2.862 | 1.335 | -53% |
-| defense | 1.372 | 0.992 | -28% |
-| piece_count | 0.965 | 0.113 | -88% |
-
-**Key findings from GA evolution**:
-
-1. **Threat weight nearly doubles**: Threat detection is the most important feature. The GA consistently prioritizes threat patterns over positional control.
-2. **Center column value drops 45%**: While center control matters, its value is less than the default heuristic assumed. The GA finds that threats in any position are more valuable than pieces in the center column without threats.
-3. **Edge value increases**: The GA finds that pieces in the edge column have positive value (10, vs. default 6), suggesting that even edge pieces contribute to connectivity and defense.
-4. **Piece count nearly eliminated**: The GA reduces the piece_count weight to nearly zero (0.113 from 0.965), confirming that raw piece count is not a good feature -- only the positional distribution matters.
-
-### 4.4 Asymmetric Evaluation -- Deep Dive
-
-Asymmetric evaluation is one of the most consistently validated patterns in the corpus. It appears in multiple independent implementations:
-
-**QveenCoder S050**: Opponent 3+open = -120, own 3+open = +100. Ratio: 1.2x.
-
-**nguyenthequang S051**: Identical asymmetric scoring, independently verified from source code.
-
-**Chess Programming Wiki** (S075, S078): Asymmetric evaluation is a standard pattern in chess engines, adapted here for Connect 4. The 1.2x factor is consistent with asymmetric threat amplification used in chess engines like Stockfish (though Stockfish uses larger asymmetries in critical positions).
-
-**The-Reticle S052**: Uses symmetric weights (+/-1000, +/-100) but achieves the same proactive defense through search depth -- the engine searches deep enough to naturally detect and block opponent threats.
-
-**Why asymmetry works**: In Connect 4, the cost of missing an opponent threat is permanent (the opponent wins), while the cost of missing your own threat is recoverable (you can try again next turn). The evaluation should therefore penalize opponent threats more heavily than it rewards own threats.
-
-### 4.5 Neural Network Evaluation
-
-**Two-stage training** (marcpaulo15 S014, S094):
-
-- Stage 1: Supervised fine-tuning on 200K heuristic-generated (state, action) pairs with frozen CNN layers
-- Stage 2: Self-play reinforcement learning (PPO/REINFORCE/DQN) with frozen conv layers
-
-**Architecture**: Two-channel input (player board + opponent board). Configurable channel counts (96/128/160/192) and FC units (64/128/256). Policy head + value head.
-
-**rowspire neural evaluation** (S030, S041, S067):
-- 100D feature vector (16 normalized features + player indicator)
-- 4 hidden layers of 128 units with skip connections
-- Dual output: value (scalar in [-1,1]) + policy (7-dim vector)
-- Trained via curriculum distillation with bitboard solver targets (depth 18)
-- 4000 MCTS simulations with NN-guided root noise (Dirichlet 75/25)
-- UCB1 selection with c=1.41
-
-The neural network evaluation represents a fundamentally different approach: instead of hand-crafted rules, the network learns to value positions from self-play or solver-generated data, capturing patterns that may be difficult to encode manually.
-
-### 4.6 Terminal Value Handling
-
-Every evaluation function must define terminal values for win and loss. The corpus reveals significant variation:
-
-| Source | Win | Loss | Terminal Handling |
-|--------|-----|------|-------------------|
-| QveenCoder S050 | +10,000,000 | -10,000,000 | Hard-coded in minimax |
-| rowspire S030 | +10,000 | -10,000 (default) | +5,815 / -9,283 (evolved) |
-| The-Reticle S052 | Not specified (search handles terminal) | Not specified | Search detects terminal, no eval needed |
-| Pascal Pons S033 | (game-theoretic) | (game-theoretic) | No eval -- distance-to-win |
-| rowspire evolved S066 | +5,815 | -9,283 | GA-optimized |
-| Kamide S121 | +infinity | Not specified | Infinity forces win detection |
-
-**Terminal value asymmetry**: rowspire evolved weights show win_score (5815) and loss_score (-9283) are not symmetric in magnitude. The loss score is 1.6x the win score in magnitude, consistent with the asymmetric evaluation philosophy: losing is more costly than winning is rewarding.
 
 ### 4.7 Board-Size Adaptability
 
@@ -348,7 +158,6 @@ The corpus supports the following feature taxonomy, which can guide future evalu
 | **Neural** | Learned features from CNN/MLP | S014, S030, S041, S094 |
 
 ---
-
 ## 5. Implementation Anatomy -- Detailed Analysis of Each Implementation
 
 ### 5.1 rowspire (tre-systems/rowspire) -- Dual-Mode Heuristic + Neural
@@ -444,7 +253,6 @@ The architecture is a 4-layer MLP with 128 units per hidden layer and skip conne
 
 **Threat classification**:
 - Strong threat (build): +1,000 -- My 3-in-a-row + 1 empty cell
-- Strong threat (block): -1,000 -- Opponent 3-in-a-row + 1 empty cell
 - Weak threat (build): +100 -- My 2-in-a-row + 2 empty cells
 - Weak threat (block): -100 -- Opponent 2-in-a-row + 2 empty cells
 
@@ -523,172 +331,7 @@ The Chess Programming Wiki provides a standardized reference for evaluation patt
 
 ---
 ### 5.5 PascalPons Perfect Solver (S033, S038, S042, S126)
-
-Critical negative example: NO heuristic evaluation function. Perfect game-tree solver using exact distance-to-win scores.
-
-Score formula: MAX_SCORE = (WIDTH*HEIGHT+1)/2 - 3 (21 on 7x6), MIN_SCORE = -(WIDTH*HEIGHT)/2 + 3 (-20 on 7x6). Score = remaining_moves_to_terminal. Exact, not pattern-based.
-
-Move ordering (NOT evaluation): moveScore(move) = popcount(compute_winning_position(current|move, mask)). Counts winning positions achievable by making the move, used only for ordering children. No connection to evaluation.
-
-O(WIDTH) forced-move pruning: possibleNonLosingMoves() prunes all moves except those at least as good as losing. Search-space reduction, not evaluation.
-
-Key insight: by eliminating heuristic evaluation entirely, PascalPons achieves perfect play within solver depth limits. Evaluation becomes irrelevant when search is deep enough to reach terminals. Establishes that: (a) heuristic eval is always an approximation, (b) quality is bounded by search depth, (c) on small boards exact search is feasible, on large boards heuristic eval is essential.
-
-### 5.6 marcpaulo15 CNN Two-Stage (S014, S094)
-
-Two-channel input (player board + opponent board). SFT then RL pipeline.
-
-Stage 1: SFT on 200K heuristic-generated (state, action) pairs, frozen CNN layers, trainable FC + heads.
-
-Stage 2: Self-play RL (PPO/REINFORCE/DQN), frozen conv layers, trainable FC + heads. Objective: maximize win rate against past-self and opponents.
-
-Configurable: 96/128/160/192 conv channels, 64/128/256 FC units. Policy head + value head.
-
-Strengths: strong self-play performance, configurable architecture, two-stage reduces cold-start. Weaknesses: GPU training required, CPU inference slow for Kaggle, 200K dataset may be insufficient.
-
----
-
 ## 6. Documentation-Only Code and Configuration Samples
-
-### 6.1 rowspire: Default/Evolved Weights (ADAPTED REFERENCE SKETCH)
-```
-// Default: center_control=2.022, pieces_count=0.965, threat=1.588,
-// mobility=1.453, vertical=2.862, horizontal=1.344, defensive=1.372
-// Evolved: center_control=1.460, pieces_count=0.113, threat=3.851,
-// mobility=1.176, vertical=1.335, horizontal=2.840, defensive=0.992
-// Column values: center=165, adj_center=97, outer=17, edge=6
-```
-
----
-
-## 6. Documentation-Only Code and Configuration Samples
-
-### 6.1 rowspire: Default/Evolved Weights (ADAPTED REFERENCE SKETCH)
-
-```
-// Default weights: center_control=2.022, pieces_count=0.965, threat=1.588,
-// mobility=1.453, vertical_control=2.862, horizontal_control=1.344, defensive=1.372
-// Evolved: center_control=1.460, pieces_count=0.113, threat=3.851,
-// mobility=1.176, vertical_control=1.335, horizontal_control=2.840, defensive=0.992
-// Column values: center=165, adj_center=97, outer=17, edge=6
-```
-
-### 6.2 rowspire: Line Threat Scoring (ADAPTED REFERENCE SKETCH)
-
-```
-// consecutive>=4 any: 1000 (win)
-// consecutive=3 open: 100, closed: 10
-// consecutive=2 open: 10, closed: 1
-// consecutive=1 open: 1
-```
-
-### 6.3 rowspire: Neural Feature Vector (ADAPTED REFERENCE SKETCH)
-
-```
-// 16 features normalized to [0,1], expanded to 100D
-// center/10, pieces/21, threats/100, mobility/10, vertical/10,
-// horizontal/10, diagonal/10, blocking/10, turn indicator
-// Dual-head: value [-1,1] + policy 7-dim
-```
-
-### 6.4 Kamide: Adaptive Weights (CONCEPTUAL PSEUDOCODE)
-
-```
-// All weights are functions of winCondition (WC)
-// center=+(WC-1), threat_offense=+(WC+1), threat_defense=-(WC)
-// vulnerable=+(WC-2), terminal=+infinity
-// Threat: >= (WC-1) pieces with >= 1 hole
-// Vulnerable: >= (WC-2) pieces with >= 2 holes
-```
-
-### 6.5 QveenCoder: Asymmetric Window (ADAPTED REFERENCE SKETCH)
-
-```
-// Per window: AI inarow=+100000, AI (inarow-1)+open=+100,
-// AI (inarow-2)+2open=+10, Opp (inarow-1)+open=-120 (1.2x asymmetry),
-// center=+6. Terminal: +/-10000000
-```
-
-### 6.6 ariaborin: Threat-Map (EXACT SOURCE EXCERPT)
-
-```
-// Eval = (strong_pos-strong_neg) + 0.1*(weak_pos-weak_neg)
-// Strong: +/-1000 (3+1empty), Weak: +/-100 (2+2empty)
-// History: history[move] += 3^depth
-// TT: 10M entries, commented out
-```
-
-### 6.7 PascalPons: Exact Solver (CONCEPTUAL PSEUDOCODE)
-
-```
-// MAX_SCORE=(W*H+1)/2-3, MIN_SCORE=-(W*H)/2+3
-// Exact distance-to-win, no pattern heuristics
-// moveScore = popcount(compute_winning(current|move, mask))
-```
-
-### 6.8 marcpaulo15: CNN Pipeline (CONCEPTUAL PSEUDOCODE)
-
-```
-// 2-channel input + CNN + dual heads (policy + value)
-// Stage 1: SFT 200K pairs, frozen CNN
-// Stage 2: self-play RL (PPO/REINFORCE/DQN), frozen conv
-// Config: 96/128/160/192 conv channels, 64/128/256 FC units
-```
-
----
-
-## 7. Pros and Cons Table
-
-| Approach | Source IDs | Strengths | Weaknesses |
-|---|---|---|---|
-| rowspire Heuristic | S030,S039,S041,S066,S068,S069 | 7 features, genetic tuning, multi-mode, positional+threat+mobility, horizontal evolved to top-3 | 88% weight drop on pieces_count suggests overfit; no proactive defense asymmetry
-| rowspire MLAI | S030,S039,S041 | Neural with dual value/policy heads, 100D normalized vector, MCTS integration | GPU training required, CPU inference slow, 100D vector has 7 redundant features |
-| Kamide Adaptive | S121,S123,S128,S138 | All weights are winCondition functions (auto board-size adaptation), simple formulas, hole-count heuristic | Symmetric threat scoring, no mobility, no vertical control, shuffled move order non-deterministic
-| QveenCoder Asymmetric | S050 | Asymmetric 1.2x opponent threat amplification, window-based (generalizes to any inarow), simple | Only 5 scoring categories, no positional column values, no mobility, no fork detection
-| ariaborin Threat-Map | S052,S124 | Clean strong/weak threat dichotomy, history heuristic for move ordering, simple formula | No positional scoring, no center control, no mobility, no vertical/horizontal control
-| PascalPons Solver | S033,S038,S042,S126 | Perfect play (no heuristic errors), exact distance-to-win, O(WIDTH) forced-move pruning | No eval -- perfect only when search reaches terminal; infeasible on large boards
-| marcpaulo15 CNN | S014,S094 | Two-channel input, configurable channels/units, two-stage SFT+RL, dual value/policy heads | GPU training, CPU inference too slow for Kaggle, 200K dataset may be insufficient
-
----
-
-## 8. Feasibility Matrix
-
-| Approach | Local CPU | RTX 5090 | DGX Spark | Kaggle CPU | Kaggle T4 | Package |
-|---|---|---|---|---|---|---|
-| rowspire Heuristic | YES: O(P) eval, ~100K NPS | YES: same, faster | YES: same, faster | YES: ~5-20K NPS depth 6-8 | YES: ~50K NPS | YES: pure Python |
-| rowspire MLAI | YES: CPU ~5K NPS | YES: GPU ~50K NPS | YES: GPU ~100K NPS | PARTIAL: slow for deep search | YES: GPU NN ~50K | YES: pickle/onnx |
-| Kamide Adaptive | YES: O(P) ~80K NPS | YES: same | YES: same | YES: ~3-10K NPS | YES: ~30K NPS | YES: pure Python |
-| QveenCoder Asymmetric | YES: O(W*P) ~60K NPS | YES: faster | YES: faster | YES: ~2-5K NPS | YES: ~20K NPS | YES: pure Python |
-| ariaborin Threat-Map | YES: O(P*4) ~120K NPS | YES: faster | YES: faster | YES: ~5-15K NPS | YES: ~30K | YES: pure Python |
-| PascalPons Solver | YES: small boards | YES: small boards | YES: small boards | PARTIAL: only 7x6 | PARTIAL: only 7x6 | YES: C++ |
-| marcpaulo15 CNN | YES: CPU possible | YES: GPU optimal | YES: GPU optimal | NO: CPU too slow | YES: GPU works | PARTIAL: onnxruntime dep |
-
----
-
-## 9. Performance Evidence
-
-### Measured (from source analysis)
-
-| Approach | Eval Cost (Python 7x6) | Eval Cost (Rust/C++) | Notes |
-|---|---|---|---|
-| rowspire Heuristic | ~50-100 us/position | ~5-10 us/position | O(P * 7 features * 4 dirs) |
-| rowspire MLAI (CPU) | ~200-500 us (NN infer) | ~20-50 us | 100D input, dual-head |
-| Kamide Adaptive | ~30-60 us | ~5-10 us | Simple integer formulas |
-| QveenCoder Asymmetric | ~100-200 us | ~10-20 us | Window scanning O(W*P) |
-| ariaborin Threat-Map | ~40-80 us | ~5-10 us | O(P * 2 types * 4 dirs) |
-| PascalPons Solver | N/A (exact, no eval) | ~100-500K NPS search | Depends on board size |
-| marcpaulo15 CNN (CPU) | ~300-800 us | ~30-80 us | CNN inference on CPU |
-
-### Claimed (from source comments)
-
-| Approach | Claim | Source | Verification |
-|---|---|---|---|
-| rowspire Heuristic | Genetic tuning improved win rate by ~15% | S030,S041 | INFERRED: evolved weights differ significantly |
-| Kamide Adaptive | Works on any board size | S121,S123,S128,S138 | INFERRED: formulas are parameterized |
-| QveenCoder Asymmetric | 1.2x opponent threat wins more | S050 | INFERRED: verified by S051 |
-| ariaborin Threat-Map | 0.1x weak threat is optimal | S052,S124 | UNVERIFIED: no ablation study |
-| PascalPons Solver | Perfect play on 7x6, 9x9, larger | S033,S126 | VERIFIED: exact solver |
-## 6. Code Samples -- Documentation-Only Excerpts
 
 ### 6.1 Asymmetric Window-Scoring (QveenCoder S050, Adapted)
 
@@ -784,31 +427,6 @@ features = [
 ] // then padded with zeros to reach 100D
 `
 
----
-
-## 7. Pros and Cons by Approach
-
-### 7.1 Asymmetric Window-Scoring
-
-| Pros | Cons |
-|------|------|
-| Simple to implement (one pass over all windows) | Only captures inarow-length connections |
-| Fast -- O(N) for an NxR board | Center column bonus is too coarse (flat +6) |
-| Asymmetric weights encode domain expertise | No connectivity or mobility features |
-| Independently validated (two sources) | No threat adjacency / fork detection |
-| Works well with alpha-beta search | Hard to generalize to variable inarow |
-
-### 7.2 Weighted Feature Aggregation (rowspire)
-
-| Pros | Cons |
-|------|------|
-| Multi-dimensional evaluation (7 features) | Hard-coding 7 features requires domain expertise |
-| GA-tuned weights reflect actual importance | GA may converge to local optimum |
-| Positional + threat + mobility + defense | Fixed board size (7x6) with hard-coded values |
-| Evolved weights show threat is paramount | GA tuning is computationally expensive |
-| Neural mode offers a third evaluation path | Rust/WASM not straightforward in Kaggle submissions |
-
-### 7.3 Threat-Map Difference (The-Reticle)
 
 | Pros | Cons |
 |------|------|
@@ -1061,123 +679,6 @@ After implementing hybrid evaluation (R4), run genetic tuning campaign to optimi
 
 ---
 
-## 12. Failure Modes and Risks
-
-### 12.1 Heuristic Misclassification
-
-Fundamental risk: evaluation scores position A as better than B, but B leads to forced win while A leads to loss. Approximating discrete game value (win/loss/draw) with continuous heuristic score.
-
-Example: Position with many pieces in center (high positional score) may be scored positively, but if opponent has 3-in-a-row with open end (forcing threat), true game value is forced loss. Heuristic with insufficient threat weighting misses this.
-
-Mitigation: Increase threat_weight (rowspire genetic tuning tripled it). Add proactive defense asymmetry (QveenCoder approach).
-
-### 12.2 Board-Size Transfer Failure
-
-Heuristics tuned for one board size may not transfer. rowspire column values hardcoded for 7-column board. On 10-column board, center changes -- two center columns (3 and 4), column value distribution needs re-evaluation.
-
-Mitigation: Kamide approach (all weights WC-dependent) is inherently board-size-agnostic. QveenCoder window-based approach is also board-size-agnostic.
-
-### 12.3 Overfitting in Genetic Tuning
-
-rowspire genetic tuning produced evolved weights differing significantly from defaults (threat +143%, horizontal +111%, pieces_count -88%). Tuning performed on specific training set may not generalize.
-
-Mitigation: Cross-validate evolved weights across multiple board sizes and opponent types. Use distinct validation set from training set.
-
-### 12.4 Neural Network Distribution Shift
-
-marcpaulo15 CNN and rowspire MLAI require inference-time board distribution matching training-time distribution. Training from heuristic players may perform poorly against search-based opponents creating unusual board patterns.
-
-Mitigation: Self-play RL in stage 2 generates training data from network own play. Risk: mode collapse if network converges to suboptimal strategy.
-
-### 12.5 Asymmetric Threat Overcorrection
-
-QveenCoder 1.2x opponent threat amplification can overcorrect in positions where both players create equal threat counts. Asymmetric evaluation systematically favors opponent (opponent threats weighted more heavily), exploitable by strong opponent.
-
-Mitigation: Make asymmetry ratio adaptive -- higher in early game (more threats), lower in endgame (fewer threats, more precise play needed).
-
----
-
-## 13. Benchmark Requirements
-
-### 13.1 Position Classification Accuracy
-
-Objective: Measure fraction of positions where evaluation agrees with perfect solver verdict (win/loss/draw).
-
-Method: Generate test set from solved boards (7x6), classify each with heuristic eval, compare to solver exact value.
-
-Metric: Classification accuracy = agreements / positions
-
-Target: > 95% at depth 6, > 99% at depth 10 (7x6 board).
-
-### 13.2 Search Performance
-
-Objective: Measure node throughput of each eval function in Python (Kaggle deployment).
-
-Method: Run depth-8 minimax + alpha-beta with each eval function, measure nodes per second.
-
-Metric: Nodes per second (NPS)
-
-Target: > 10K NPS on Kaggle CPU at depth 6 for competitive response (< 2 seconds).
-
-### 13.3 Win Rate vs Baselines
-
-Objective: Measure win rate of bots using each eval function against standard baselines.
-
-Method: Self-play tournament of 1000 games per evaluator vs random baseline, vs greedy baseline, vs heuristic baseline.
-
-Metric: Win rate (% of games won)
-
-Target: > 90% vs random, > 70% vs greedy, > 50% vs heuristic.
-
-### 13.4 Board-Size Generalization
-
-Objective: Measure how well eval function tuned for 7x6 performs on other board sizes.
-
-Method: Train/heuristic-tune on 7x6, test win rate on 9x6, 10x8, 15x13.
-
-Metric: Win rate degradation (difference between 7x6 and other sizes)
-
-Target: < 10% win rate degradation on any board size.
-
----
-
-## 14. Open Questions
-
-1. **Optimal threat asymmetry ratio**: Is 1.2x (QveenCoder S050) optimal, or does optimal ratio depend on board size, inarow, and opponent strength? Kamide symmetric approach (1.0x) may be optimal on boards where both players create similar threat counts.
-
-2. **Feature interaction terms**: None of analyzed implementations include explicit feature interaction terms (e.g., center_control * threat, vertical * horizontal). Could interaction terms significantly improve evaluation accuracy? Genetic tuning on rowspire suggests optimizer discovers effective implicit interactions through weight adjustments.
-
-3. **Genetic tuning convergence**: How many generations does rowspire genetic tuning require for convergence? Does evolved weight set (threat=3.851, horizontal=2.840) represent global or local optimum? Large weight deltas suggest default was far from optimal, but convergence diagnostics are not available in source.
-
-4. **Neural evaluation on CPU**: Can rowspire MLAI network achieve competitive performance on CPU-only inference (Kaggle environment)? Source provides GPU-trained models but no CPU benchmark data. Inference latency at search depth 4-8 is unknown.
-
-5. **Fork detection**: None of evaluated implementations (except Chess Programming Wiki S075, S137 patterns) include explicit fork detection. Forks are guaranteed wins in Connect 4, and their absence from most eval functions is notable.
-
-6. **Distance-to-win vs heuristic**: PascalPons exact distance-to-win scoring suggests optimal eval function is not pattern-based but exact game value. But this is only feasible when search reaches terminal states. Threshold at which heuristic eval becomes necessary needs study across board sizes.
-
----
-
-## 15. Recommendations
-
-### Recommendation R1: Adopt Adaptive Weight Formulas as Base
-
-Use Kamide adaptive weight approach (S121, S128, S138) as base evaluation function. Formulas center=+(WC-1), threat_offense=+(WC+1), threat_defense=-(WC), vulnerable=+(WC-2) provide automatic board-size adaptation with zero tuning per board size, simple to implement in Python, verified across winCondition=3, 4, 5+.
-
-### Recommendation R2: Add Asymmetric Threat Amplification
-
-Layer QveenCoder 1.2x opponent threat amplification (S050) on top of adaptive weights. Eval = (my_threats * WC+1) - (opp_threats * WC * 1.2). Provides modest proactive defense bias without excessive computation.
-
-### Recommendation R3: Include Strong/Weak Threat Dichotomy
-
-Incorporate ariaborin strong/weak threat classification (S052, S124) as refinement. Strong threats (3-in-a-row + 1 empty) scored significantly higher than weak (2-in-a-row + 2 empty) with the 10:1 ratio from ariaborin implementation.
-
-### Recommendation R4: Hybrid Heuristic + Neural Architecture
-
-For final perfect bot, implement hybrid evaluation: Primary = classical heuristic (Kamide adaptive + QveenCoder asymmetric + ariaborin strong/weak). Secondary = neural value head (rowspire MLAI S030/S039). Blend: lambda * classical + (1-lambda) * neural, where lambda = f(depth).
-
-### Recommendation R5: Genetic Tuning for Final Weights
-
-After implementing hybrid eval (R4), run genetic tuning campaign to optimize remaining free parameters (asymmetry ratio, strong/weak ratio, lambda blending factor) across multiple board sizes.
 ## 16. Sources and Retrieval Record
 
 | Source ID | Repository/URL | File | Authenticated Content |
@@ -1243,3 +744,229 @@ After implementing hybrid eval (R4), run genetic tuning campaign to optimize rem
 - **HYP-024**: Hybrid heuristic + neural eval outperforms either component alone.
 
 - **ENS-019 through ENS-024**: Eval function ensembles combining classical heuristics, neural networks, and exact solvers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

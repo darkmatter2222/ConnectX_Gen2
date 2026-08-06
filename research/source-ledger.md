@@ -1,8 +1,8 @@
 # Source Ledger — ConnectX Bot Research
 
-> **Current Round**: 44
+> **Current Round**: 46
 > **Last Updated**: 2026-08-05
-> **NOTE**: Source IDs S130–S141 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S150. GOV-006 confirms all 5 collision clusters (A-E) persist unresolved.
+> **NOTE**: Source IDs S130–S146 have been reused across R38, R40, R42, R43 with different descriptions (Cluster E collision, CRITICAL risk). NN-002's S136-S141 reassigned to S142-S146 (R42). NN-003 uses S150-S157 (verified non-colliding). RI-002 uses S158-S165 (verified non-colliding). S142-S146 and S150-S157 added to ledger below. S132–S135 (original NN-002 R38/R40 entries) remain in cluster E for remediation tracking. New sources above S157. GOV-006/GOV-007 confirm all 5 collision clusters (A-E) persist unresolved. NN-004 claimed S160-S173 — S160-S165 overlap with NN-003/RI-002; unique IDs S166+ need de-duplication.
 
 ---
 
@@ -516,3 +516,17 @@ WebSearch is known broken (Round 5+): API error 400.
 | S163 | connectpuct/adversarial.py — game loop, match, policy wrappers | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/adversarial.py | Source code | ~2025 | play_game(), match_against_minimax(), puct_policy (Kaggle wrapper), minimax_wrapped. Color-swapping with alternating colors in match. |
 | S164 | connectpuct/benchmark.py — match evaluation and output | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/connectpuct/benchmark.py | Source code | ~2025 | print_results(), print_match_table() functions. Statistical output for match records. |
 | S165 | connectpuct/pyproject.toml — Python project metadata | raw.githubusercontent.com/ahmeddoghri/connectpuct/main/pyproject.toml | Config | ~2025 | Python project configuration; no external dependencies beyond stdlib. |
+
+
+## R45 New Sources (S166–S173) — CON-001 New Contenders and Benchmark Framework
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|--------|
+| S166 | ManuelFay/Alpha_Connect4 — PyTorch DQN architecture comparison study (DQN, Double DQN, Dueling DQN, Policy Gradient, A3C) | github.com/ManuelFay/Alpha_Connect4 | GitHub repo | ~2025 | Student project (DS669 course). Five DQN architectures compared. CNN with 3-channel board encoding. Key finding: lighter architectures converge faster with comparable accuracy. Kaggle-compatible (Python + PyTorch, Jupyter notebook). |
+| S167 | jesper-olsen/connect-four — Rust port of John Tromp's Fhourstones solver with interactive CLI (human, perfect, minimax, MCTS modes) | github.com/jesper-olsen/connect-four | GitHub repo | ~2025 | Rust port using u64 bitboards. Alpha-beta negamax with TT. Interactive CLI testing modes. NOT Kaggle-compatible (Rust). |
+| S168 | hemakumargokul/ai-game-agents — Java minimax + alpha-beta Connect Four agent (part of classic AI algorithms collection) | github.com/Hemakumargokul/ai-game-agents | GitHub repo | ~2026 | Java implementation. Basic minimax with alpha-beta. Also includes Wumpus World HPKC logic inference agent. Educational project. |
+| S169 | Woonderpipe/connect-4 — Next.js 16/React 19/TypeScript production-quality Connect 4 game with AI (8 difficulty modes, Capacitor mobile, E2E tested) | github.com/Woonderpipe/connect-4 | GitHub repo + AI hook | ~2025 | Apache 2.0. Minimax + alpha-beta with POSITIONAL_BONUS matrix. Center-first move ordering. 8 difficulty modes. NOT Kaggle-compatible (TypeScript/Next.js). |
+| S170 | Karthick-dev-cart/connectfour — Flutter/Dart mobile Connect 4 with configurable inarow (3-10) and tactical position testing | github.com/Karthick-dev-cart/connectfour | GitHub repo | ~2026 | Minimax with alpha-beta. Configurable inarow 3-10. Tactical position testing (winning drops, blocking threats). Up to 20x20 boards. |
+| S171 | sidhantagar/ConnectX — Kaggle ConnectX project extended with Pygame UI, minimax + alpha-beta + dynamic programming, configurable board sizes up to 20x20 | github.com/sidhantagar/ConnectX | GitHub repo + Kaggle notebook | ~2026 | MIT licensed. Most Kaggle-compatible new contender. Minimax with alpha-beta + memoization (DP). Pygame UI. Configurable board sizes and inarow. |
+| S172 | Kaggle ConnectX official reference — connectx_official.py (random_agent, negamax_agent with depth-4 and clustering eval) | kaggle-environments/connectx (local untracked) | Source code | 2026-08-05 | Apache 2.0. Canonical negamax_agent: depth=4, immediate-win shortcut, clustering eval (proximity bonus), random tie-breaking. Serves as Tier-1 benchmark baseline. |
+| S173 | Kaggle ConnectX official reference — connectx.py (play, is_win, interpreter, renderer) | kaggle-environments/connectx (local untracked) | Source code | 2026-08-05 | Apache 2.0. Canonical environment: O(4*inarow) win detection at last-placed piece only, row-major flat board indexing. |

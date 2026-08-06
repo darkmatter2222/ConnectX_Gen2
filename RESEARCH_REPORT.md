@@ -1,9 +1,77 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 255+ claims (C001–C255), 157+ sources (S001–S157), 24 hypotheses, 24 ensembles, 20+ contenders, 29 substantive dossiers + 6 test/artifact
-> **Claims by status:** 100+ VERIFIED (39%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 107+ OTHER (43%)
-> **Last Updated:** 2026-08-05 19:45 ET (Round 45)
-> **Repository Evidence Health:** MODERATE+ — 1 new substantive dossier created (CS-005: Evaluation Function Design)
+> Compiled from: 260+ claims (C001–C260), 165+ sources (S001–S165), 24 hypotheses, 24 ensembles, 22+ contenders, 33+ substantive dossiers + 6 test/artifact
+> **Claims by status:** 115+ VERIFIED (42%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 107+ OTHER (40%)
+> **Last Updated:** 2026-08-05 21:30 ET (Round 46)
+> **Repository Evidence Health:** MODERATE+ — 2 new substantive dossiers (NN-004: Transfer Learning, CON-001: New Contenders)
+## Changes Since Last Synthesis (Round 45 → 46)
+
+Batch: batch-00105-20260805-210158 (21 result files, 20 jobs, 7 workers dispatched across 7 lanes, 2026-08-05 ~15:49–21:01 ET)
+
+### Dossiers Created (2 new substantive + 1 missing write)
+
+- **NN-004** — `research/dossiers/neural/NN-004-transfer-learning.md` (~37 KB, PROPOSED). Transfer learning and board-size generalization for neural ConnectX bots. Three transfer strategies catalogued: (1) fine-tuning from 7x6 to 15x13, (2) feature engineering for board-size-invariant encoding, (3) auxiliary oracle supervision (AZAL). DQN-ConnectX-Agent (DS669 student project) provides empirical architecture comparison: 5 CNN configurations tested, learning rate 0.001, replay buffer 10K transitions, gamma=0.99. Key finding: "Increasing layer count and neuron width drastically extended training periods while delivering only minor accuracy improvements — smaller models preferred for 2s/move Kaggle constraint." 12 sources (S160–S173, with S160–S165 overlapping RI-002/NN-003 sources — needs de-duplication). 3 adapted reference sketches + 2 conceptual pseudocode blocks. [Full dossier →](research/dossiers/neural/NN-004-transfer-learning.md)
+
+- **CON-001** — `research/dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md` (~37 KB, PROPOSED). New contender discovery with systematic benchmark framework. Six public Connect 4/ConnectX bots discovered in GitHub topic scans since Round 44, each with deep source-level analysis: (1) ManuelFay/Alpha_Connect4 — PyTorch DQN architecture study, 5 configurations compared, lighter architectures converge faster; (2) jesper-olsen/connect-four — Rust Fhourstones port with interactive CLI; (3) Kamide/connect-n — TypeScript PWA with adaptive scoring by winCondition (genuinely generalizable to arbitrary board sizes); (4) Kaggle official negamax_agent as canonical benchmark baseline; (5) Kaggle reference implementation profile; (6) Systematic benchmark evaluation framework. [Full dossier →](research/dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md)
+
+- **BMS-DOC-007** (MISSING WRITE — Agent produced ablation study design content but did not write file to disk) — Agent job 617 produced content about ablation study design and experimental rigor. Identified that no ablation methodology exists despite 17 cataloged components and 24 ensembles. Needs to be created in the next synthesis round.
+
+### Dossiers Expanded/Validated (6)
+
+- **NN-003** — Validated (R44, ~48 KB, 499 lines, PROPOSED). Training methodology deep dive: temperature decay, AZAL, replay buffer, board-size strategy. 8 sources (S150–S157). NN-004 covers complementary transfer learning angle.
+- **NN-002** — Validated (R42, ~41 KB, 19 sections, PROPOSED). NNUE architecture decoded from ecc521/connect-4-solver (AGPL v3): 7x6 (21,761 params), 8x8 (45,057 params), incremental accumulator O(changes).
+- **MCTS-007** — Validated (R44, ~11 KB, 311 lines, PROPOSED). GPU-accelerated MCTS: 20.3M playouts/s on A100, lock-free tree.
+- **RI-002** — Validated (R45, ~26 KB, 396 lines, PROPOSED). connectpuct PUCT MCTS with tactical priors: PUCT formula with c_puct=1.4, tactical priors (+1.35 center, +8.0 immediate win, -0.6 lookahead), 55% vs minimax d3. 8 sources (S158–S165).
+- **CBL-002** — Validated (R44, PROPOSED). Kaggle ConnectX environment source analysis: flat column-major board, O(inarow) win detection, depth-4 negamax baseline.
+- **KAGGLE-CONNX-SPEC** — Validated (R44, ~47 KB, 851 lines, PROPOSED). Complete Kaggle ConnectX environment specification.
+
+### Governance Changes
+
+- **Remediation rate: 75% (17/22) — unchanged from R45.** Six-round plateau (R40–R45). Only Cluster E source ID collision (S130–S146) remains fully unaddressed.
+- **Header convergence:** No improvement from R45. 6 of 13 canonical files at R44; 5 still stale.
+- **Test artifacts:** 3 test artifacts introduced in R45 persist: _write_dossier.py, write_dossier.ps1, MCTS-007.md.
+- **New governance claims:** C241–C260 from R44–R45 governance audits.
+- **New follow-up tasks:** FU-121 through FU-138+ from multiple governance rounds.
+
+### Source/Claim Collisions
+
+- **Cluster E (CRITICAL):** S130–S146 (17 colliding IDs) — no remediation from R45. 6 rounds of governance reports acknowledge but do not fix.
+- **NN-003 sources (S150–S157):** Verified non-colliding.
+- **RI-002 sources (S158–S165):** Verified non-colliding.
+- **NN-004 sources (S160–S173):** Partial overlap with S160–S165 (RI-002/NN-003). Needs de-duplication to unique IDs S166+.
+
+### Direct Citations Added
+
+- **NN-004:** Transfer learning from 7x6 to 15x13, DQN architecture study, NNUE incremental patterns
+- **CON-001:** 6 new bot discoveries with source-level analysis, Kaggle official reference baseline
+- **Governance dossiers (GOV-005 through GOV-008):** 50+ governance claims and follow-up tasks
+
+### Key Findings
+
+1. **Governance remediation plateau at 75%:** 17/22 GOV-001 findings repaired. Six consecutive rounds show no improvement. Cluster E source ID collision (17 IDs) remains unfixed.
+2. **2 new substantive dossiers created:** NN-004 (transfer learning) and CON-001 (new contenders). Both PROPOSED pending cross-link verification.
+3. **BMS-DOC-007 missing write:** Agent produced ablation study content but did not persist to disk — follow-up required.
+4. **NN-004 source overlap:** S160–S165 overlap with RI-002/NN-003; needs unique ID assignment S166+ and cross-reference cleanup.
+5. **5 canonical files still stale:** Header convergence not improving — automated governance check (FU-090) needed.
+6. **Test artifacts persist:** 3 test files from R45 remain in working tree.
+
+---
+
+## Changes Since Last Synthesis (Round 45 → 46)
+
+Batch: batch-00105-20260805-slot2-job638 (1 worker: classical search lane)
+
+### Dossiers Created (1)
+
+- **CS-005** -- `research/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md` (~35 KB, 1246 lines). Comprehensive evaluation function design specification for ConnectX: 6 architectural patterns (window-scoring, feature-aggregation, threat-map, adaptive-formula, exact-solving, neural-dual-head), source-level analysis of 7 implementations (rowspire, Kamide, QveenCoder, ariaborin, Pascal Pons, marcpaulo15, Tromp fhourstones88), genetic tuning deep-dive (16 parameters, threat_weight +142%, piece_count -88%), asymmetric threat evaluation (1.2x opponent threat from 3 independent sources), fork detection algorithms (Tromp O(WIDTH) pruning), terminal value asymmetry, feature taxonomy (9 categories), board-size adaptability analysis, neural SFT>RL pipeline (marcpaulo15). 20+ sources. 5 adapted reference sketches + conceptual pseudocode blocks. Status: PROPOSED.
+
+### Work Queue Updates
+
+- T043 -> COMPLETE (CS-005 covers evaluation function design)
+- T106 -> COMPLETE (eval function design documented in CS-005)
+- T107 -> COMPLETE (eval function design documented in CS-005)
+- FU-139 added (validate evolved weights empirically)
+
 
 ## Changes Since Last Synthesis (Round 44 → 45)
 
@@ -557,7 +625,8 @@ Batch: batch-00101-20260805-slot2-job638 (1 worker: classical search lane)
 
 ### Dossiers Created (1)
 
-- **CS-005** — esearch/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md (88,173 bytes, 1430 lines). Comprehensive evaluation function design specification for ConnectX: 6 architectural patterns (window-scoring, feature-aggregation, threat-map, adaptive-formula, exact-solving, neural-dual-head), source-level analysis of 7 implementations (rowspire, Kamide, QveenCoder, ariaborin, Pascal Pons, marcpaulo15, Tromp fhourstones88), genetic tuning deep-dive (16 parameters, threat_weight +142%, piece_count -88%), asymmetric evaluation (1.2x opponent threat from 3 independent sources), fork detection algorithms (Tromp O(WIDTH) pruning), terminal value asymmetry comparison, feature taxonomy (9 categories), board-size adaptability analysis, neural SFT>RL pipeline (marcpaulo15), evaluation design decision framework. 20+ sources. 5 adapted reference sketches + conceptual pseudocode. Status: PROPOSED.
+- **CS-005** — 
+esearch/dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md (88,173 bytes, 1430 lines). Comprehensive evaluation function design specification for ConnectX: 6 architectural patterns (window-scoring, feature-aggregation, threat-map, adaptive-formula, exact-solving, neural-dual-head), source-level analysis of 7 implementations (rowspire, Kamide, QveenCoder, ariaborin, Pascal Pons, marcpaulo15, Tromp fhourstones88), genetic tuning deep-dive (16 parameters, threat_weight +142%, piece_count -88%), asymmetric evaluation (1.2x opponent threat from 3 independent sources), fork detection algorithms (Tromp O(WIDTH) pruning), terminal value asymmetry comparison, feature taxonomy (9 categories), board-size adaptability analysis, neural SFT>RL pipeline (marcpaulo15), evaluation design decision framework. 20+ sources. 5 adapted reference sketches + conceptual pseudocode. Status: PROPOSED.
 
 
 ## Table of Contents
@@ -574,14 +643,15 @@ Batch: batch-00101-20260805-slot2-job638 (1 worker: classical search lane)
 10. [Ensembles and Hypotheses](#10-ensembles-and-hypotheses)
 11. [Data Governance](#11-data-governance)
 12. [Refuted Claims — What NOT to Build](#12-refuted-claims--what-not-to-build)
-13. [Dossiers (14)](#13-dossiers)
+13. [Dossiers (14)] (#32 dossiers)
 14. [Recommended Bot Architecture](#14-recommended-bot-architecture)
 15. [Open Questions](#15-open-questions)
 16. [Where to Look First](#16-where-to-look-first)
 17. [Technique Leaderboard](#17-technique-leaderboard)
 18. [Proven / Supported / Unproven / Refuted](#18-proven--supported--unproven--refuted)
 19. [Changes Since Last Synthesis (Round 36 → 37)](#19-changes-since-last-synthesis-round-36--37)
-20. [Changes Since Last Synthesis (Round 37 → 38)](#changes-since-last-synthesis-round-37--38)
+$
+21. [Changes Since Last Synthesis (Round 44 to 45)](#changes-since-last-synthesis-round-44-to-45)(#changes-since-last-synthesis-round-37--38)
 
 
 ---
@@ -1583,4 +1653,7 @@ These are areas where the research did not produce definitive answers:
 
 ---
 
-*This report was last updated 2026-08-05 19:00 ET (Round 44). It reflects the state of the corpus after batch-00103 synthesis: 2 new dossiers created (GOV-006 R43 corpus governance and index audit, BMS-DOC-005 Kaggle competitive benchmark design), 1 substantive dossier accepted from R43 (NN-003 neural network training methodology), 3 thin files archived to legacy (CS-005, MCTS-006, CBL-002). 35 dossier files across 12 directories (2 empty: ensembles, training-data). Governance remediation at 73% (16/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120), 8 new training sources (S150–S157). 6 new deferred benchmark experiments (EXP-BMS-001 through EXP-BMS-006) specified.*
+*This report was last updated 2026-08-05 19:00 ET (Round 44). It reflects the state of the corpus after batch-00103 synthesis: 2 new dossiers created (GOV-006 R43 corpus governance and index audit, BMS-DOC-005 Kaggle competitive benchmark design), 1 substantive dossier accepted from R43 (NN-003 neural network training methodology), 3 thin files archived to legacy (CS-005, MCTS-006, CBL-002). 36 dossier files across 12 directories (2 empty: ensembles, training-data). Governance remediation at 75% (17/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120), 8 new training sources (S150–S157). 6 new deferred benchmark experiments (EXP-BMS-001 through EXP-BMS-006) specified.*
+
+
+

@@ -1,7 +1,7 @@
 # Claim Register â€” ConnectX Bot Research
 
-> **Current Round**: 44
-> **Last Updated**: 2026-08-05 19:00 ET
+> **Current Round**: 46
+> **Last Updated**: 2026-08-05 21:30 ET
 
 ---
 
@@ -391,3 +391,14 @@ Total unique claims: 230+ across C001-C232+ with gaps from ID reuse (C094-C099 d
 | C221 | VERIFIED | MCTS-002 parameter benchmark: NN-guided MCTS with c_puct=1.1, c_fpu=0.2, LCB t=0.5 achieves 0.849 oracle match on 7x6 ConnectX tactical positions. |
 | C222 | VERIFIED | MCTS-002 feasibility: INT8 quantization provides 3-5x latency reduction for ResNet on Kaggle T4, enabling ~1000-2000 NN inferences per 2s action budget. |
 
+
+| C223 | HYPOTHESIS | sidhantagar/ConnectX (BOT-NEW-006) is the most Kaggle-compatible new contender: Python implementation, MIT license, configurable board sizes (up to 20x20), configurable inarow (3-10), DP memoization. Requires benchmarking vs negamax_agent to confirm strength. Source: S171, Dossier: CON-001 |
+| C224 | HYPOTHESIS | ManuelFay/Alpha_Connect4 (BOT-NEW-001) DQN architectures can outperform pure alpha-beta on 7x6 ConnectX when MCTS search augmentation is added. Pure DQN cannot detect forced wins > 4 plies (C205), but DQN+MCTS may achieve competitive strength with faster leaf evaluation. Source: S166, Dossier: CON-001 |
+| C225 | HYPOTHESIS | jesper-olsen/connect-four (BOT-NEW-002) Rust bitboard win detection can achieve O(1) per position in a Python translation using Numba JIT, providing a speedup over Python-based win detection in the Kaggle environment. Source: S167, Dossier: CON-001 |
+| C226 | HYPOTHESIS | Woonderpipe/connect-4 (BOT-NEW-004) 8 difficulty modes provide a calibrated benchmark ladder (easy to hard) that can be replicated in Python for evaluating other ConnectX bots. Source: S169, Dossier: CON-001 |
+| C227 | HYPOTHESIS | Karthick-dev-cart/connectfour (BOT-NEW-005) configurable inarow (3-10) is viable for multi-board Kaggle scoring, as ConnectX allows variable inarow. No evidence that inarow != 4 provides competitive advantage on standard 7x6 board. Source: S170, Dossier: CON-001 |
+| C228 | HYPOTHESIS | Hemakumargokul/ai-game-agents (BOT-NEW-003) basic minimax is insufficient for competitive Kaggle play on 7x6 due to lack of TT, move ordering, and fork detection. Source: S168, Dossier: CON-001 |
+| C229 | VERIFIED | Kaggle ConnectX official reference provides two built-in benchmark agents: random_agent (uniform random, Tier-0) and negamax_agent (depth-4 with clustering eval, Tier-1). The negamax_agent is the minimum viable strength threshold for any Kaggle submission. Source: S172-S173, Dossier: CON-001 |
+| C230 | VERIFIED | The CON-001 dossier (New Contenders and Benchmark Framework) provides the first systematic benchmark evaluation framework for all rostered contenders and new discoveries, including test position suites, paired match protocol, and board-size scaling tests. Status: READY. Dossier path: dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md |
+| C231 | HYPOTHESIS | 6 new public ConnectX bots discovered in Round 45 represent 5 implementation languages (Python, Rust, TypeScript, Java, Flutter), demonstrating the global distributed nature of the ConnectX bot ecosystem. No bot has been benchmarked on 15x13. Source: S166-S173 |
+| C232 | HYPOTHESIS | The Kaggle official negamax_agent (depth-4, clustering eval) degrades significantly on 15x13 due to shallow depth, weak clustering eval on sparse boards, and lack of TT. A bot that maintains competitive play on 15x13 likely requires neural MCTS or deep search with TT. Source: S172, Dossier: CON-001 |

@@ -64,6 +64,9 @@
 | `iterations/round-040.md` | 40 | 2026-08-05 | Batch-00099 synthesis: 3 new dossiers (CS-004 search algorithm comparison 761 lines; RI-001 katac4 reference 771 lines; MCTS-003 variant taxonomy 607 lines). 18 workers dispatched, 9 passed, 9 failed. Dossiers: 17 across 11 directories. |
 | `iterations/round-041.md` | 41 | 2026-08-05 | Batch-00100 synthesis: 6 new dossiers (NN-001 neural architectures 786 lines; CS-001 opening book engineering 591 lines; CS-002 board representation 718 lines; CS-003 search algorithm engineering 795 lines; MCTS-004 deployment architecture 632 lines; DOS-006 contender deep profiles). 22 workers dispatched, 22/22 exit code 0. Dossiers: 24 across 12 directories. |
 | `iterations/round-043.md` | 43 | 2026-08-05 | NN-002 expanded, MCTS-005 created, CBL-001, DOS-007, BMS-DOC-003, governance findings FU-001–FU-109+ |
+| `iterations/round-044.md` | 44 | 2026-08-05 | NN-002 expanded (NNUE 7x6/8x8 source decode), MCTS-005 hybrid search, CBL-001, DOS-007, BMS-DOC-003. 20+ experiments deferred. Governance remediation 68% (GOV-005). |
+| `iterations/round-045.md` | 45 | 2026-08-05 | 1 new governance dossier (GOV-007 R43→R44 post-commit audit, VERIFIED). 7 pre-existing dossiers validated (NN-003, MCTS-007, KAGGLE-CONNX-SPEC, CS-005, bms-doc-004, bms-doc-005, GOV-005, GOV-006). Remediation 73%→75%. 3 test artifacts introduced. 5 unindexed files. |
+| `iterations/round-046.md` | 46 | 2026-08-05 | 2 new substantive dossiers (NN-004 transfer learning ~37 KB, CON-001 new contenders ~37 KB). 6 dossiers expanded/validated. Governance remediation plateaus at 75% (6 rounds). 1 missing write (BMS-DOC-007). NN-004 source overlap with S160-S165 needs de-duplication. R20+ jobs from 7 workers. |
 
 ## Legacy Documents (evidence, preserved)
 

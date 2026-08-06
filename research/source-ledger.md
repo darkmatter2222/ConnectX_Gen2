@@ -547,3 +547,55 @@ WebSearch is known broken (Round 5+): API error 400.
 | S183 | tre-systems/rowspire — evolved neural network weights and WASM deployment | github.com/tre-systems/rowspire/blob/main/worker/src/model.rs | Source code | Latest | rowspire evolved NN weights (NNUE-style). WASM deployment for browser. Trained neural eval for Connect 4. |
 
 **Cluster G Note**: S174–S176 in RI-007 reference sources (minimax.rs, haithameleuch/connect-four-ai, VierGewinnt.kt) COLLIDE with S174–S176 academic papers above. NN-005 sources S174-S183 are canonical academic/official-doc sources. RI-007's S174-S176 need re-indexing to S184-S186.
+
+---
+
+## Cluster F Remediation — Kamade Sources (R49)
+
+Kamide/connect-n sources have been assigned S184-S189, avoiding all collision clusters.
+
+| Source ID | Assignee | Status |
+|-----------|----------|--------|
+| S184 | RI-006 (Kamide PWA index + README) | REMEDIATED |
+| S185 | RI-006 (Kamide src/game.js) | REMEDIATED |
+| S186 | RI-006 (Kamide src/ai.js) | REMEDIATED |
+| S187 | RI-006 (Kamide src/ai-worker.js) | REMEDIATED |
+| S188 | RI-006 (Kamide src/board.js) | REMEDIATED |
+| S189 | RI-006 (Kamide src/app.js) | REMEDIATED |
+
+**Cluster F Status**: RI-002 (S158-S165) non-colliding. NN-004 (re-indexed to S166-S177) non-colliding. Kamade (S184-S189) non-colliding. Cluster F remediated in R49.
+
+## R49 New Sources (S184–S189) — Kamade/connect-n Source Dossier
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S184 | kamade/connect-n — Connection-board PWA game engine (index.html, package.json) | github.com/kamide/connect-n | GitHub repo | 2026-08-06 | MIT licensed, 3 stars. Vanilla JS/TS PWA with zero dependencies. |
+| S185 | kamade/connect-n — src/game.js (~200 lines) — Core game engine with connection graph board representation | raw.githubusercontent.com/kamide/connect-n/main/src/game.js | Source code | 2026-08-06 | O(1) incremental win detection via connection graph merge. Arbitrary board sizes. |
+| S186 | kamade/connect-n — src/ai.js (~80 lines) — Minimax with alpha-beta pruning, adaptive scoring | raw.githubusercontent.com/kamide/connect-n/main/src/ai.js | Source code | 2026-08-06 | All feature weights scale by winCondition. Random move shuffling via Fisher-Yates. |
+| S187 | kamade/connect-n — src/ai-worker.js (47 lines) — Web Worker AI lifecycle management | raw.githubusercontent.com/kamide/connect-n/main/src/ai-worker.js | Source code | 2026-08-06 | FinalizationRegistry auto-termination, AbortController signal propagation, import.meta URL module. |
+| S188 | kamade/connect-n — src/board.js (~300 lines) — SVG custom element renderer | raw.githubusercontent.com/kamide/connect-n/main/src/board.js | Source code | 2026-08-06 | Hardware-accelerated CSS animations, falling/bounce piece animation, winning line rendering. |
+| S189 | kamade/connect-n — src/app.js (~270 lines) — PWA application controller | raw.githubusercontent.com/kamide/connect-n/main/src/app.js | Source code | 2026-08-06 | Undo, history, restart, multiplayer (1-4 players), sound effects, vibration API. |
+
+---
+
+## R50 New Sources (S190–S199) — CS-006 Move Ordering + CS-007 Tactical Search
+
+### CS-006 Move Ordering Sources (S190–S191)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S190 | Tromp fhourstones88 — Alpha-beta with killer heuristic and quiescent move ordering | github.com/tromp/fhourstones88 | Source code | 2024 | Classical alpha-beta with killer heuristic. Quiescent move ordering prioritizes captures and checks. Reference for move ordering heuristics. |
+| S191 | QveenCoder/ConnectX — Python ConnectX bot with TT probe move ordering and history heuristic | github.com/qveencoder/connectx | Source code | 2026 | Alpha-beta search with transposition table probing for move ordering. History heuristic for recapture patterns. Kaggle ConnectX deployment. |
+
+### CS-007 Tactical Search Sources (S192–S199)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S192 | Tromp fhourstones88 — Fork detection algorithm (O(WIDTH) pruning via Tromp method) | github.com/tromp/fhourstones88 | Source code | 2024 | Fork detection: O(WIDTH) time complexity. Prunes search branches that contain opponent forks. Critical for ConnectX tactical play. |
+| S193 | QveenCoder/ConnectX — Fork detection and threat-map evaluation | github.com/qveencoder/connectx | Source code | 2026 | Threat-map: evaluates all lines for completion probability. Fork detection identifies positions with multiple simultaneous threats. |
+| S194 | ariaborin/ConnectX — Threat enumeration and quiescence search | github.com/ariaborin/connectx | Source code | 2026 | Threat enumeration: counts near-completion lines (2-in-a-row, 3-in-a-row, corner control). Quiescence search extends search for forced moves. |
+| S195 | Kaggle ConnectX official connectx.py — Quiescent move ordering (immediate win/block prioritization) | kaggle-environments/connectx (local untracked) | Source code | 2026 | Immediate-win shortcut: first checks for moves that create 4-in-a-row. Immediate-block shortcut: first checks for opponent's 4-in-a-row. |
+| S196 | Kaggle ConnectX official connectx.py — O(4*inarow) win detection algorithm | kaggle-environments/connectx (local untracked) | Source code | 2026 | Win detection at last-placed piece only. O(4*inarow) time complexity. Foundation for threat-map evaluation. |
+| S197 | rowspire/rowspire — Threat-map heuristic implementation (C++) | github.com/tre-systems/rowspire/blob/main/worker/src/search.rs | Source code | 2026 | Threat-map evaluation: scans all lines for completion probability. Heuristic weight for near-completion lines. Critical for ConnectX tactical search. |
+| S198 | connectx.py — Quiescence search reference implementation (forced-move sequences) | github.com/Karim-Ahmed/connectx | Source code | 2026 | Quiescence search: extends alpha-beta with forced-move sequences (win, block, fork, fork-block). Time-bounded quiescence search. |
+| S199 | Chess Programming Wiki — Quiescence search theory (quiescent nodes, futility pruning, forced moves) | chessprogramming.wikispaces.com/Quiescence_Search | Documentation | Latest | Theoretical foundation for quiescence search. Futility pruning, forced-move sequences, quiescent node definition. |

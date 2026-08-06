@@ -402,3 +402,13 @@ Total unique claims: 230+ across C001-C232+ with gaps from ID reuse (C094-C099 d
 | C230 | VERIFIED | The CON-001 dossier (New Contenders and Benchmark Framework) provides the first systematic benchmark evaluation framework for all rostered contenders and new discoveries, including test position suites, paired match protocol, and board-size scaling tests. Status: READY. Dossier path: dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md |
 | C231 | HYPOTHESIS | 6 new public ConnectX bots discovered in Round 45 represent 5 implementation languages (Python, Rust, TypeScript, Java, Flutter), demonstrating the global distributed nature of the ConnectX bot ecosystem. No bot has been benchmarked on 15x13. Source: S166-S173 |
 | C232 | HYPOTHESIS | The Kaggle official negamax_agent (depth-4, clustering eval) degrades significantly on 15x13 due to shallow depth, weak clustering eval on sparse boards, and lack of TT. A bot that maintains competitive play on 15x13 likely requires neural MCTS or deep search with TT. Source: S172, Dossier: CON-001 |
+
+## R50 Tactical Search Claims (C233-C237)
+
+| Claim ID | Status | Description |
+|----------|----------|---------|
+| C233 | HYPOTHESIS | Fork detection alone can improve alpha-beta search pruning by 30-50% in ConnectX midgame positions. Fork detection uses O(WIDTH) time complexity via the Tromp method, pruning branches that contain opponent forks before deeper search. Source: S192, S193, Dossier: CS-007 |
+| C234 | HYPOTHESIS | Quiescence search (forced-move extension) adds 10-20% depth-equivalent improvement on tactical positions but costs 2-3x wall-clock time. Time-bounded quiescence search (max 500ms) is recommended over fixed-depth extension. Source: S194, S198, S199, Dossier: CS-007 |
+| C235 | VERIFIED | Threat-map evaluation (scanning all lines for completion probability) is implemented in QveenCoder (S193), ariaborin (S194), and rowspire (S197). All three implementations use line-scanning with heuristic weights for near-completion lines. Source: S193-S197, Dossier: CS-007 |
+| C236 | HYPOTHESIS | A tactical search stack combining fork detection + threat-map + quiescence search can achieve 2-3x effective depth gain on ConnectX 7x6 boards within the 2-second Kaggle budget. Source: S192-S199, Dossier: CS-007 |
+| C237 | HYPOTHESIS | Fork-bluff is the primary failure mode of tactical search: the algorithm detects a fork but the fork is bluff-able (can be blocked or countered), wasting search depth on a false alarm. Source: CS-007 §9.1 |

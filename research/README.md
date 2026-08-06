@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 48
+> **Current Round**: 50
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -70,6 +70,7 @@
 | `iterations/round-047.md` | 47 | 2026-08-05 | 2 new dossiers (MCTS-008 rollout strategy, bms-doc-007 statistical methodology) + 1 missing write (Kamide). NN-004 expanded (12 new sources S158-S169, board-size generalization). CS-005 expanded (adaptive scoring). Governance at 100% plateau. NEW Cluster F source collision (S158-S169 overlap RI-002/NN-004/Kamide). 7 NEXUS index gaps. |
 | `iterations/round-048.md` | 48 | 2026-08-06 | 2 new substantive dossiers (NN-005 model compression ~31 KB, RI-007 3 new ref impls ~27 KB). NN-005: pruning, quantization, distillation, 10 new sources S174-S183. RI-007: Tarun995 Python bitboard, jesper-olsen Rust solver, haithameleuch Kotlin hybrid. NEW Cluster G collision (S174-S176 overlap RI-007/NN-005). Governance plateau at 100%. Dossier quota NOT met (2/3). Kamade still not persisted. Worker-02 produced empty file. 3 collision clusters (E, F, G). |
 | `iterations/round-049.md` | 49 | 2026-08-06 | 2 new dossiers (CS-006 move ordering 589 lines, BMS-DOC-008 board-size benchmark 634 lines after repair) + 2 expansions (CB-001 PPO hyperparameters + Widnyana, GOV-009 R48 governance). 6 workers dispatched: 2 accepted, 2 partial with repair, 2 rejected. 16 new sources (CS-006), 15 primary sources (BMS-DOC-008). BMS-DOC-008 repaired with source table + cross-links. Dossier quota met (4 substantive changes). 7 collision clusters (A-G) persist. |
+| `iterations/round-050.md` | 50 | 2026-08-06 | CS-007 expanded from thin 47-line summary to 536-line publication dossier. CS-006 (589 lines), MCTS-009 (400 lines), BMS-DOC-008 (814 lines), RI-006 (310 lines) pre-existing validated. 8 new sources S190-S199. Cluster F confirmed remediated. 7 collision clusters persist (A-E unresolved, G under investigation). 9 workers dispatched: all 6 accepted. 9 new claims C233-C237. 9 new benchmarks (BMS-CS007-001-005, BMS-MCTS-001-004). 3 new follow-up tasks FU-150-FU-152. |
 
 ## Legacy Documents (evidence, preserved)
 

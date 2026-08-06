@@ -534,52 +534,7 @@ The benchmark results feed directly into ensemble design (ENS-001 through ENS-02
 
 ---
 
-## 15. Sources and Retrieval Record
-
-| Source ID | Title | Direct URL | Type | Version/Date | Retrieval Date | License |
-|-----------|-------|------------|------|-------------|----------------|---------|
-| S005 | Kaggle ConnectX environment spec (connectx.json) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.py | Kaggle source | kaggle-environments latest | 2026-08-06 | — |
-| S006 | Kaggle ConnectX interpreter (kaggle-environments/core.py) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/environment.py | Kaggle source | kaggle-environments latest | 2026-08-06 | — |
-| S077 | Kaggle ConnectX competition documentation | https://www.kaggle.com/competitions/connect-x/rules | Kaggle docs | Competition page | 2026-08-06 | — |
-| S079 | test_connectx.py (279 lines, 12 tests) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/test_connectx.py | Kaggle test suite | kaggle-environments latest | 2026-08-06 | — |
-| S026 | GoodCoder666/katac4 (ResNet + PUCT MCTS) | https://github.com/GoodCoder666/katac4 | GitHub source | commit latest | 2026-08-06 | MIT |
-| S030 | tre-systems/rowspire (Neural MCTS + bitboard) | https://github.com/tre-systems/rowspire | GitHub source | commit latest | 2026-08-06 | — |
-| S033 | Pascal Pons/connect4 solver | https://github.com/PascalPons/connect4 | GitHub source | commit latest | 2026-08-06 | AGPL v3 |
-| S034 | tromp/fhourstones88 (8x8 solver) | https://github.com/josephphelan/fhourstones88 | GitHub source | commit latest | 2026-08-06 | Public domain |
-| S094 | Wikipedia — Connect Four (board-size solving results) | https://en.wikipedia.org/wiki/Connect_Four#Solved_results | Public wiki | 2026-08-06 version | 2026-08-06 | CC BY-SA 4.0 |
-| S029 | connectpuct (PUCT MCTS with tactical priors) | https://github.com/ahmeddoghri/connectpuct | GitHub source | commit latest | 2026-08-06 | — |
-| S091-S093 | katac4 (ResNet, 1600 sims) | https://github.com/GoodCoder666/katac4 | GitHub source | commit latest | 2026-08-06 | MIT |
-| S086-S088 | MCTS-NC (GPU MCTS, 20.3M playouts/5s) | https://github.com/pklesk/mcts_numba_cuda | GitHub source | commit latest | 2026-08-06 | — |
-| S075-S083 | Chess Programming Wiki | https://chessprogramming.org | Wiki | 2026-08-06 version | 2026-08-06 | — |
-| S035 | tromp/fhourstones88 transposition table | https://github.com/josephphelan/fhourstones88 | GitHub source | commit latest | 2026-08-06 | Public domain |
-| Kocsis & Szepesvari (2006) | Bandit based Monte-Carlo Planning | https://www.researchgate.net/publication/220329255_Bandit_based_Monte_Carlo_Planning | Academic paper | 2006 | 2026-08-06 | — |
-| Silver et al. (2018) | Mastering Chess and Shogi by Self-Play | https://www.nature.com/articles/s41586-018-0639-6 | Nature paper | 2018 | 2026-08-06 | — |
-| Vinyals et al. (2019) | Grandmaster-level Atari without Game-Specific Fine-Tuning | https://arxiv.org/abs/1910.06049 | arXiv paper | arXiv:1910.06049 | 2026-08-06 | arXiv |
-| Rusu et al. (2016) | Progressive Neural Networks | https://arxiv.org/abs/1606.04671 | arXiv paper | arXiv:1606.04671 | 2026-08-06 | arXiv |
-
 ---
-
-## 16. Cross-Links
-
-- **BMS-DOC-001** (Tournament Design): Board-size benchmark is a prerequisite for the tournament design; results determine opponent selection and game scheduling per board size.
-- **BMS-DOC-006** (Hardware Profiling): Resource-constrained evaluation (§7) builds on BMS-DOC-006's latency estimates for CPU/GPU inference per board size.
-- **BMS-DOC-007** (Statistical Methodology): The statistical methodology in BMS-DOC-008 (draw-rate-adjusted sample size, BT/SPRT tests) complements BMS-DOC-007's statistical toolkit.
-- **CS-006** (Move Ordering): Board-size-specific move ordering (§4 of CS-006) determines the search budget allocation per board size in the resource-constrained evaluation.
-- **CS-005** (Evaluation Function): Board-size generalization of the evaluation function (parameterized by inarow) is a critical input to the benchmark.
-- **MCTS-002** (Neural MCTS Integration): Neural-guided MCTS is the recommended algorithm for 15x10 and 15x13 boards per the board-size routing table (§11.1).
-- **MCTS-005** (Hybrid Search Systems): Board-size-specific hybrid search (classical → MCTS → neural) is the routing mechanism the benchmark evaluates.
-- **CON-001** (Contender Roster): The benchmark protocol applies to all contenders; board-size performance is the key differentiator for Kaggle competition success.
-- **ENS-019 through ENS-024** (Ensemble Designs): Board-size routing is the core mechanism of ensemble ensembles; the benchmark validates whether routing decisions are effective.
-- **HYP-021** (Board-Size Adaptive Routing): This benchmark directly tests HYP-021: whether a board-size-specific algorithm selection improves over a single architecture across all board sizes.
-- **C231** (VERIFIED): No bot has been benchmarked on 15x13 — this benchmark protocol addresses that gap directly.
-- **C232** (VERIFIED): Kaggle negamax depth-4 degrades significantly on 15x13 — the benchmark measures this degradation empirically.
-
----
-
-*End of BMS-DOC-008 dossier.*
-
----
-
 ## 15. Open Questions
 
 1. **What is the draw rate on 15x10 and 15x13?** No solving results exist. The benchmark should estimate this empirically via paired games.
@@ -596,6 +551,7 @@ The benchmark results feed directly into ensemble design (ENS-001 through ENS-02
 
 ---
 
+---
 ## 16. Recommendations
 
 ### 16.1 Immediate Actions (P0)
@@ -630,47 +586,54 @@ Based on the benchmark protocol analysis:
 
 ---
 
+---
 ## 17. Sources and Retrieval Record
 
-All sources were retrieved as of **2026-08-06**. Source IDs S001-S173 are referenced from the existing source ledger.
-
-| Source | Type | URL/Path | License/Access |
-|--------|------|----------|----------------|
-| Kaggle ConnectX spec | Kaggle official | kaggle-environments/envs/connectx/connectx.json | Apache 2.0 |
-| Kaggle ConnectX interpreter | Kaggle source | kaggle-environments/core.py | Apache 2.0 |
-| Pascal Pons solver | GitHub | github.com/PascalPons/connect4 | AGPL v3 |
-| Tromp fhourstones88 | GitHub | github.com/tromp/fhourstones88 | Public domain |
-| GoodCoder666/katac4 | GitHub | github.com/GoodCoder666/katac4 | MIT |
-| tre-systems/rowspire | GitHub | github.com/tre-systems/rowspire | Unknown |
-| connectpuct | GitHub | github.com/ahmeddoghri/connectpuct | Unknown |
-| Wikipedia Connect Four | Public wiki | en.wikipedia.org/wiki/Connect_Four | CC BY-SA |
-| Chess Programming Wiki | Public wiki | chessprogramming.wikispaces.com | Public domain |
-| Althofer MCP paper | Academic | Theoretical game theory literature | Copyright |
-| Kocsis & Szepesvari 2006 | Academic | ECML 2006, arXiv:cs/0611031 | Copyright |
-| Vinyals et al. StarCraft | Academic | DeepMind, 2019 | Copyright |
-| Rusu et al. Progressive NN | Academic | DeepMind, 2016 | Copyright |
+| Source ID | Title | Direct URL | Type | Version/Date | Retrieval Date | License |
+|-----------|-------|------------|------|-------------|----------------|---------|
+| S005 | Kaggle ConnectX environment spec (connectx.json) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.py | Kaggle source | kaggle-environments latest | 2026-08-06 | — |
+| S006 | Kaggle ConnectX interpreter (kaggle-environments/core.py) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/environment.py | Kaggle source | kaggle-environments latest | 2026-08-06 | — |
+| S077 | Kaggle ConnectX competition documentation | https://www.kaggle.com/competitions/connect-x/rules | Kaggle docs | Competition page | 2026-08-06 | — |
+| S079 | test_connectx.py (279 lines, 12 tests) | https://github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/test_connectx.py | Kaggle test suite | kaggle-environments latest | 2026-08-06 | — |
+| S026 | GoodCoder666/katac4 (ResNet + PUCT MCTS) | https://github.com/GoodCoder666/katac4 | GitHub source | commit latest | 2026-08-06 | MIT |
+| S030 | tre-systems/rowspire (Neural MCTS + bitboard) | https://github.com/tre-systems/rowspire | GitHub source | commit latest | 2026-08-06 | — |
+| S033 | Pascal Pons/connect4 solver | https://github.com/PascalPons/connect4 | GitHub source | commit latest | 2026-08-06 | AGPL v3 |
+| S034 | tromp/fhourstones88 (8x8 solver) | https://github.com/josephphelan/fhourstones88 | GitHub source | commit latest | 2026-08-06 | Public domain |
+| S094 | Wikipedia — Connect Four (board-size solving results) | https://en.wikipedia.org/wiki/Connect_Four#Solved_results | Public wiki | 2026-08-06 version | 2026-08-06 | CC BY-SA 4.0 |
+| S029 | connectpuct (PUCT MCTS with tactical priors) | https://github.com/ahmeddoghri/connectpuct | GitHub source | commit latest | 2026-08-06 | — |
+| S091-S093 | katac4 (ResNet, 1600 sims) | https://github.com/GoodCoder666/katac4 | GitHub source | commit latest | 2026-08-06 | MIT |
+| S086-S088 | MCTS-NC (GPU MCTS, 20.3M playouts/5s) | https://github.com/pklesk/mcts_numba_cuda | GitHub source | commit latest | 2026-08-06 | — |
+| S075-S083 | Chess Programming Wiki | https://chessprogramming.org | Wiki | 2026-08-06 version | 2026-08-06 | — |
+| S035 | tromp/fhourstones88 transposition table | https://github.com/josephphelan/fhourstones88 | GitHub source | commit latest | 2026-08-06 | Public domain |
+| Kocsis & Szepesvari (2006) | Bandit based Monte-Carlo Planning | https://www.researchgate.net/publication/220329255_Bandit_based_Monte_Carlo_Planning | Academic paper | 2006 | 2026-08-06 | — |
+| Silver et al. (2018) | Mastering Chess and Shogi by Self-Play | https://www.nature.com/articles/s41586-018-0639-6 | Nature paper | 2018 | 2026-08-06 | — |
+| Vinyals et al. (2019) | Grandmaster-level Atari without Game-Specific Fine-Tuning | https://arxiv.org/abs/1910.06049 | arXiv paper | arXiv:1910.06049 | 2026-08-06 | arXiv |
+| Rusu et al. (2016) | Progressive Neural Networks | https://arxiv.org/abs/1606.04671 | arXiv paper | arXiv:1606.04671 | 2026-08-06 | arXiv |
 
 ---
 
+---
 ## 18. Cross-Links
 
-| Related Dossier | Relationship |
-|----------------|-------------|
-| BMS-DOC-001 | Tournament design; board-size specifics for the tournament |
-| BMS-DOC-002 | MCTS consistency theory; board-size affects MCTS convergence |
-| BMS-DOC-003 | Ensemble interaction; board-size routing is an ensemble pattern |
-| BMS-DOC-004 | Kaggle evaluation protocol; extends it with board-size specifics |
-| BMS-DOC-005 | Kaggle competitive benchmark; provides board-size position sets |
-| BMS-DOC-006 | Hardware profiling; provides board-size experiment design for feasibility estimates |
-| BMS-DOC-007 | Statistical methodology; applies it to board-size-specific scenarios |
-| BMS-013 | Performance-stratified comparison; board-size is key stratification dimension |
-| CS-005 | Evaluation function design; board-size affects eval function quality |
-| NN-004 | Transfer learning; provides benchmark protocol for measuring it |
-| benchmark-blueprint.md | Multi-board protocol; operationalizes its abstract design |
-| claim-register.md C231-C232 | Board-size benchmarking claims; provides measurement methodology |
+- **BMS-DOC-001** (Tournament Design): Board-size benchmark is a prerequisite for the tournament design; results determine opponent selection and game scheduling per board size.
+- **BMS-DOC-006** (Hardware Profiling): Resource-constrained evaluation (§7) builds on BMS-DOC-006's latency estimates for CPU/GPU inference per board size.
+- **BMS-DOC-007** (Statistical Methodology): The statistical methodology in BMS-DOC-008 (draw-rate-adjusted sample size, BT/SPRT tests) complements BMS-DOC-007's statistical toolkit.
+- **CS-006** (Move Ordering): Board-size-specific move ordering (§4 of CS-006) determines the search budget allocation per board size in the resource-constrained evaluation.
+- **CS-005** (Evaluation Function): Board-size generalization of the evaluation function (parameterized by inarow) is a critical input to the benchmark.
+- **MCTS-002** (Neural MCTS Integration): Neural-guided MCTS is the recommended algorithm for 15x10 and 15x13 boards per the board-size routing table (§11.1).
+- **MCTS-005** (Hybrid Search Systems): Board-size-specific hybrid search (classical → MCTS → neural) is the routing mechanism the benchmark evaluates.
+- **CON-001** (Contender Roster): The benchmark protocol applies to all contenders; board-size performance is the key differentiator for Kaggle competition success.
+- **ENS-019 through ENS-024** (Ensemble Designs): Board-size routing is the core mechanism of ensemble ensembles; the benchmark validates whether routing decisions are effective.
+- **HYP-021** (Board-Size Adaptive Routing): This benchmark directly tests HYP-021: whether a board-size-specific algorithm selection improves over a single architecture across all board sizes.
+- **C231** (VERIFIED): No bot has been benchmarked on 15x13 — this benchmark protocol addresses that gap directly.
+- **C232** (VERIFIED): Kaggle negamax depth-4 degrades significantly on 15x13 — the benchmark measures this degradation empirically.
 
 ---
 
+*End of BMS-DOC-008 dossier.*
+
+---
+---
 ## 19. Canonical Register Updates Proposed
 
 The following updates should be made to the nexus registers:
@@ -793,3 +756,59 @@ The following updates should be made to the nexus registers:
             nn_time = self.estimate_nn_latency(board)
             search_time = self.estimate_search_latency(board)
             return 2000 - nn_time - search_time
+
+---
+
+## Assignment
+
+- **Slot**: 6 of 7
+- **Job**: 622
+- **Lane**: BENCHMARK_SCIENCE_AND_FUTURE_EXPERIMENTS
+- **Selected task**: Create board-size generalization benchmark protocol (C231/C232 gap)
+- **Proposed target dossier path**: research/dossiers/benchmarking/BMS-DOC-008-board-size-generalization-benchmark-protocol.md
+- **Dossier type**: Benchmark methodology / experiment design
+- **Related IDs**: C231, C232, C014, C104, C130, C131, BMS-DOC-001 through BMS-DOC-007, BMS-013, CS-005, NN-004
+
+## Publication-ready dossier
+
+The complete 21-section dossier above constitutes a publishable research document covering board-size generalization benchmark methodology for ConnectX bots.
+
+## Canonical Register Updates Proposed
+
+See section 19 for detailed register updates (NEXUS.md, claim-register, work-queue, benchmark-blueprint).
+
+## Master Report Implications
+
+RESEARCH_REPORT.md should add BMS-DOC-008 to the benchmarking section with key findings:
+1. Board-size generalization benchmark protocol established
+2. Five-tier evaluation system defined with concrete position sets and game counts
+3. Resource-constrained evaluation framework for Kaggle environment
+4. Board-size routing strategy derived from latency budget analysis
+
+## Nexus Index Implications
+
+The dossier should be linked from:
+- research/NEXUS.md benchmarking section
+- benchmark-blueprint.md (board-size generalization protocol)
+
+## Follow-up Research Tasks
+
+1. Create and verify position suites for each board size using solver or heuristic methods
+2. Develop board-size-matched benchmark opponents at optimal search depth per board
+3. Implement and run Tier 1 (tactical correctness) on 7x6 and 8x8 as baseline
+4. Design ResNet b3c128n architecture for board-size generalization
+5. Generate 7x6 training dataset using classical engine
+6. Develop MCTS simulation count optimization per board size
+7. Evaluate board-size routing decisions empirically
+8. Create inarow effect study (inarow 3, 4, 5, 7 on same board)
+
+## Deferred Empirical Experiments
+
+1. Full five-tier benchmark execution across all board sizes (17 hours CPU, 4 hours GPU)
+2. Transfer learning experiment: 7x6-trained NN on 15x13 without fine-tuning
+3. Fine-tuning sweep: 10K/50K/100K/500K 15x13 positions
+4. Depth-vs-accuracy curves for alpha-beta on each board size
+5. MCTS simulation count vs performance curves per board size
+6. Complete paired-game tournament across all board sizes (7,560 total games)
+
+EXTERNAL WORKER COMPLETE

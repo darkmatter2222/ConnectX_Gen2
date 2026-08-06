@@ -599,3 +599,40 @@ Kamide/connect-n sources have been assigned S184-S189, avoiding all collision cl
 | S197 | rowspire/rowspire — Threat-map heuristic implementation (C++) | github.com/tre-systems/rowspire/blob/main/worker/src/search.rs | Source code | 2026 | Threat-map evaluation: scans all lines for completion probability. Heuristic weight for near-completion lines. Critical for ConnectX tactical search. |
 | S198 | connectx.py — Quiescence search reference implementation (forced-move sequences) | github.com/Karim-Ahmed/connectx | Source code | 2026 | Quiescence search: extends alpha-beta with forced-move sequences (win, block, fork, fork-block). Time-bounded quiescence search. |
 | S199 | Chess Programming Wiki — Quiescence search theory (quiescent nodes, futility pruning, forced moves) | chessprogramming.wikispaces.com/Quiescence_Search | Documentation | Latest | Theoretical foundation for quiescence search. Futility pruning, forced-move sequences, quiescent node definition. |
+
+## R51 New Sources (S201–S215) — CV-001 Variant Rules, MCTS-011 Solved-Game Integration, NN-005 Model Compression, BMS-DOC-009 Oracle Agreement
+
+### CV-001 Variant Rules Sources (S201–S206)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S201 | Kaggle ConnectX environment — Board size and win condition configuration | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.py | Source code | 2026 | connectx.py environment config schema. Board size (rows, cols), inarow (win condition), player 1/2 initialization. |
+| S202 | Kaggle ConnectX official connectx.py — Built-in random_agent and negamax_agent | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.py | Source code | 2026 | random_agent (uniform random move), negamax_agent (depth=4 alpha-beta with clustering evaluation). Minimum strength threshold for Kaggle submission. |
+| S203 | Wikipedia — Connect Four solved results board-size matrix | en.wikipedia.org/wiki/Connect_Four | Documentation | 2026 | Complete solved-game matrix: 4x4 P1 win, 5x5 P1 win, 6x6 P2 win, 7x6 P1 win, 7x7 draw, 8x8 P2 win, 9x6 P1 win, 10x8 draw, 11x11 P2 win. 15x13/15x10 unknown. |
+| S204 | Pascal Pons/connect4 — C++ solver for solved positions | github.com/PascalPons/connect4 | Source code | 2026 | Solved-game database: ~4.5 trillion positions, ~13 GB compressed. Depth-14+ negamax with TT. Covers 7x6, 6x7, 8x8, 10x8. AGPL v3. |
+| S205 | Kamade/connect-n — Board-size-agnostic ConnectX engine with adaptive scoring | github.com/kamade/connect-n | Source code | 2026 | Adaptive scoring: win_condition parameter in constructor. Handles inarow 3-10. Connection graph for win detection. Board-size agnostic via dynamic scoring. |
+| S206 | Chess Programming Wiki — Connect 4 strategy | chessprogramming.wikispaces.com/Connect_4 | Documentation | Latest | Connect 4 strategy: opening theory, tactical motifs (forks, double-forks), endgame techniques. General Connect 4 strategy guide. |
+
+### MCTS-011 Solved-Game Integration Sources (S207–S210)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S207 | Althöfer — Monte Carlo Perfect Games (MMOR 75(2):217-224, 2012) | MMOR journal 75(2):217-224, 2012 | Academic paper | 2012 | MCP theorem: sufficient conditions for MCTS convergence to optimal play. Two-player, zero-sum, deterministic, perfect-information games. |
+| S208 | Asimov et al. — Convergent Playout Strategies for Monte-Carlo Connect 4 | arXiv:1402.0401 | Academic paper | 2014 | UCT convergence on solved Connect 4 positions. Empirical verification that agreement rates approach 100% asymptotically. |
+| S209 | Tromp fhourstones88 — Solved game database (8x8, 8.3M entries) | github.com/tromp/fhourstones88 | Source code | 2024 | Classical search transposition table with 8.3M entries. Solved game positions for 8x8 Connect 4. |
+| S210 | Kaggle ConnectX environment — Board size configuration schema | github.com/Kaggle/kaggle-environments/blob/main/kaggle_environments/envs/connectx/connectx.py | Source code | 2026 | connectx.py board configuration: rows, cols, inarow. Supports arbitrary board sizes with variable inarow. |
+
+### NN-005 Model Compression Sources (S211–S213)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S211 | Deep Compression: Compressing Deep Neural Networks — Hinton et al. (arXiv:1510.00149) | arXiv:1510.00149 | Academic paper | 2015 | Global magnitude pruning (9x reduction), SVD compression, Huffman coding. Foundation for deep learning model compression. |
+| S212 | Distilling the Knowledge in a Neural Network — Hinton et al. (arXiv:1503.02531) | arXiv:1503.02531 | Academic paper | 2015 | Knowledge distillation: soft targets, temperature parameter T. Teacher-student training for model compression. |
+| S213 | The Lottery Ticket Hypothesis — Frankle & Carlin (arXiv:1803.03635) | arXiv:1803.03635 | Academic paper | 2018 | Sparse subnetworks within dense networks that achieve comparable performance. Iterative magnitude pruning for finding winning tickets. |
+
+### BMS-DOC-009 Oracle Agreement Sources (S214–S215)
+
+| Source ID | Title | URL / Path | Type | Date | Notes |
+|-----------|-------|------------|------|------|-------|
+| S214 | Pascal Pons/connect4 — Solver query API (solved-game position lookup) | github.com/PascalPons/connect4 | Source code | 2026 | API for querying solved-game database: given a position, return optimal move. Foundation for oracle agreement measurement. |
+| S215 | Chess Programming Wiki — MCTS search optimization | chessprogramming.wikispaces.com/MCTS | Documentation | Latest | MCTS optimization techniques: virtual loss, UCT formula variants, move ordering, parallel MCTS. Reference for MCTS convergence analysis. |

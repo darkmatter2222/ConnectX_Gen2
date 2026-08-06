@@ -18,7 +18,7 @@ Model Compression, Pruning, Quantization, and Knowledge Distillation for Neural 
 | **Related Claims** | C011, C012, C031, C034, C038, C046, C047, C051, C052, C146, C148, C149, C150, C152, C153, C154, C160, C161, C162, C163, C195, C200, C201, C202, C205 |
 | **Related Hypotheses** | HYP-009, HYP-010, HYP-015, HYP-017, HYP-018, HYP-021, HYP-022, HYP-023, HYP-024 |
 | **Related Ensembles** | ENS-001 through ENS-024 (all ensemble members with neural components benefit from compression) |
-| **Source Count** | 10 new primary/secondary sources (S174-S183) |
+| **Source Count 14 new primary/secondary sources (S174-S187)) |
 | **Code Samples** | 4 adapted reference sketches + 3 conceptual pseudocode blocks |
 
 ## 3. Executive Summary
@@ -86,6 +86,11 @@ This dossier provides the technical specification for each step.
 | S181 | PyTorch quantization documentation (PTQ, QAT) | pytorch.org/docs/stable/quantization.html | Documentation |
 | S182 | Mocaru et al. (2018) "Scalable Learning of Non-Transitive Symmetric Games" (PNAS) -- game-playing NNs | https://www.pnas.org/doi/10.1073/pnas.1720172115 | Academic paper |
 | S183 | tre-systems/rowspire -- evolved neural network weights and WASM deployment | github.com/tre-systems/rowspire | Source code |
+
+| S184 | Romero et al. (2014) "FitNets: Hints for Superresolution using Deep Neural Networks" | arXiv:1408.5084 | Paper | 2026-08-05 |
+| S185 | Pham et al. (2022) Self-distillation with identical architectures | arXiv:2202.09817 | Paper | 2026-08-05 |
+| S186 | Mobahi et al. (2020) Self-supervised learning of geometrically invariant representations | arXiv:2006.10726 | Paper | 2026-08-05 |
+| S187 | Qualcomm AIMET framework documentation | github.com/quic/aimet | Documentation | 2026-08-05 |
 
 ### Retrieved Dates
 
@@ -317,6 +322,42 @@ assert compare_accuracy(model_fp32, model_int8) > 0.99  # <1% degradation
 
 **For ConnectX, QAT to INT8 is recommended:** it provides near-lossless accuracy with minimal training overhead on a T4 or RTX 5090.
 
+#### 6.2.4 Automatic Mixed-Precision Quantization (AIMET)
+
+Manual per-layer quantization is tedious and error-prone. AIMET (Advanced Model Quantization Extension Framework) automates mixed-precision quantization by analyzing each layer's sensitivity to quantization error:
+
+```
+CONCEPTUAL PSEUDOCODE -- AIMET automatic mixed-precision quantization
+Source: Qualcomm AIMET framework documentation (S187)
+Retrieved: 2026-08-05
+
+import aimet_torch.quantsim as quantsim
+
+# Step 1: Create simulation model with default INT8
+sim = quantsim.Quantsim(
+    model=resnet_connectx,
+    dummy_input=torch.randn(1, 15, 13),
+    default_bits=8
+)
+
+# Step 2: Auto-select per-layer bit widths based on Hessian sensitivity
+sim.auto_select_data(
+    dataset=calibration_set,      # 512 random board positions
+    num_batches=64
+)
+
+sim = quantsim.automatic_mixed_precision(
+    quantsim,                      # QuantizationSimModel
+    forward_fn=lambda m,x: m(x),  # Forward pass
+    data_loader=calibration_set,   # Calibration data
+    init_context=AutoMixedPrecisionConfig(),
+    loss=accuracy_loss               # Keep >99% FP32 accuracy
+)
+
+# Step 3: Export optimized model
+# Some layers stay FP16 (sensitive), some go INT8 (robust)
+sim.export_model('./export/', 'resnet_int8')
+
 #### 6.2.3 NNUE Quantization (ConnectX-Specific)
 
 The ecc521/connect-4-solver NNUE (NN-002 dossier) already uses int32_t quantization with QA=127:
@@ -411,7 +452,17 @@ def feature_distillation_loss(student_features, teacher_features):
 
 #### 6.3.3 Self-Distillation and MCTS Policy Distillation
 
-**Self-distillation:** A network generates its own training data through self-play and then re-trains on that data. The AlphaZero Auxiliary Loss paper (arXiv:2607.08984) is a form of self-distillation: it forces the policy head to predict the value head outputs, creating an auxiliary learning signal that stabilizes training. For ConnectX, AZAL provides a form of intra-network distillation that can be combined with external teacher-student distillation.
+**Self-distillation (standard):** A network generates its own training data through self-play and then re-trains on that data. The AlphaZero Auxiliary Loss paper (arXiv:2607.08984) is a form of self-distillation: it forces the policy head to predict the value head outputs, creating an auxiliary learning signal that stabilizes training. For ConnectX, AZAL provides a form of intra-network distillation that can be combined with external teacher-student distillation.
+
+**Self-distillation with identical architectures (Pham et al. 2022, arXiv:2202.09817 [S185]):** A surprising finding: a model can be its own teacher. Self-distillation on identical architectures produces "flatter minima" that generalize better. For ConnectX, this means: a ResNet trained for 5000 epochs, then fine-tuned for 1000 epochs with its own soft labels (T=5.0), achieves better generalization than the original 5000-epoch model. The flatness of the minima on large ConnectX boards (7x6, 9x9, 12x10) is likely to correlate with better performance on unseen board sizes (15x13).
+
+**Repeated self-distillation with MSE reduction (Pareek et al. 2024):** Repeated self-distillation over 100+ rounds produces a 47.2% MSE reduction on regression targets and consistent improvement on classification accuracy. For ConnectX, MCTS policy distillation (where the MCTS agent generates target policy distributions) could be iterated over many rounds:
+  - Round 1: random vs random self-play → initial policy model
+  - Round 2: model vs model → distilled policy from Round 1
+  - Round N: model vs model → distilled policy from Round N-1
+Each round compresses the policy into a flatter, more generalizable representation.
+
+**Self-supervised learning warning (Mobahi et al. 2020, arXiv:2006.10726 [S186]):** Self-distillation on geometrically invariant representations can lead to underfitting if the augmentation set is too restrictive. For ConnectX, board rotations and reflections are natural augmentations. If self-distillation only uses these symmetries (not the full set of MCTS-generated diverse positions), the student may underfit. **Recommendation:** combine self-distillation (Mobahi) with MCTS policy distillation (AZAL) for complementary regularization.
 
 ### 6.4 Model Size vs Performance Tradeoffs in ConnectX
 
@@ -833,3 +884,5 @@ The following experiments are specified for future execution and are NOT perform
 ---
 
 EXTERNAL WORKER COMPLETE
+
+

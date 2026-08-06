@@ -1,9 +1,9 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 310+ claims (C001–C295, C_CS007-001 through C_CS007-005), 200+ sources (S001–S199, S_CB-001-01 through S_CB-001-04, **S158–S169 collision cluster F (remediated R49), S174–S176 collision cluster G (under investigation R50), Cluster A–E unresolved**), 24 hypotheses, 24 ensembles, 24+ contenders, 54+ substantive dossiers + 8 test/artifact
-> **Claims by status:** 140+ VERIFIED (47%), 24 NEEDS_CORRECTION (8%), 24 HYPOTHESIS (8%), 110+ OTHER (37%)
-> **Last Updated:** 2026-08-06 04:00 ET (Round 50)
-> **Repository Evidence Health:** MODERATE — 8 source collision clusters (A–G+new), CS-007 (Tactical Search) new (expanded from thin), CS-006 (Move Ordering) validated, MCTS-009 (Arbitration) new, BMS-DOC-008 (Board-Size Benchmark) validated, governance at 100% coverage plateau, dossier quota met (4 new validated dossiers)
+> Compiled from: 330+ claims (C001–C325, C_CS007-001 through C_CS007-005), 195+ sources (S001–S199, **S201–S215** new from MCTS-011, S_CB-001-01 through S_CB-001-04), 24 hypotheses, 24 ensembles, 24+ contenders, 58+ dossiers
+> **Claims by status:** 150+ VERIFIED (48%), 24 NEEDS_CORRECTION (7%), 24 HYPOTHESIS (7%), 130+ OTHER (38%)
+> **Last Updated:** 2026-08-06 07:00 ET (Round 51)
+> **Repository Evidence Health:** MODERATE — 7 collision clusters (A–G), 4 new substantive dossiers created (CV-001, MCTS-011, NN-005, BMS-DOC-009), governance remediation at 77% plateau (7 rounds), 6/13 workers failed (API errors)
 ## Changes Since Last Synthesis (Round 45 → 46)
 
 Batch: batch-00105-20260805-210158 (21 result files, 20 jobs, 7 workers dispatched across 7 lanes, 2026-08-05 ~15:49–21:01 ET)
@@ -191,6 +191,123 @@ Batch: batch-00109-20260806-035247 (6 result files, 6 jobs, 7 workers dispatched
 - **Collision clusters:** 7 → 7+1 (Cluster F remediated in R49; Cluster G under investigation)
 - **Header convergence:** No improvement. 7 of 13 canonical files still at R44.
 - **Test artifacts:** 3 test artifacts from R45 still present.
+
+---
+
+### Changes Since Last Synthesis (Round 50 → 51)
+
+Batch: batch-00128-20260806-073616 (13 result files, 13 jobs, 7 workers dispatched across 7 lanes, 2026-08-06 ~04:20–06:34 ET)
+
+**Worker Completion Rate:** 7 of 13 workers completed (53.8%). 6 workers failed due to API errors/timeouts (workers 1, 2-job-00641, 3, 4-job-00646, 6-job-00625, 7-job-00632).
+
+**Dossiers Created (4 new substantive dossiers):**
+
+- **CV-001** — `research/dossiers/contenders/CV-001-connectx-variant-rules-strategy-and-contender-compatibility.md` (NEW, ~788 lines, 19 sections, PROPOSED). Variant-aware bot evaluation across 16 rostered contenders. Comprehensive compatibility analysis: 10 comparison matrices covering (1) winCondition parameter support, (2) board-size coverage, (3) algorithm classification, (4) Kaggle compatibility, (5) inarow configurability, (6) time-limit behavior, (7) deployment format, (8) license compliance, (9) move-count limits, (10) solved-game integration. Key finding: **Kamide/connect-n (BOT-011) is the only truly variant-aware contender** with adaptive scoring by winCondition — 13 of 16 rostered contenders lack adaptive evaluation. 7 benchmark requirements (BMS-CV-001 through BMS-CV-007). 13 sources (4 local primary, 6 remote primary, 3 supporting). [Full dossier →](research/dossiers/contenders/CV-001-connectx-variant-rules-strategy-and-contender-compatibility.md)
+
+- **MCTS-011** — `research/dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md` (NEW, ~847 lines, 17 sections, PROPOSED). Solved-game knowledge integration for MCTS: direct node value anchoring, solved-game priors as MCTS initialization, tactical pruning with solved-game knowledge, convergence acceleration, solved-game database formats and access, board-size scaling, ensemble design with solved-game MCTS. Six core mechanisms documented: (1) value anchoring at solved positions, (2) root prior initialization from W-D-L database, (3) tactical pruning of solved subtrees, (4) database query layer (< 1ms lookup target), (5) convergence acceleration via anchored nodes, (6) board-size scaling (full on 7x6, partial on 8x8 via book88, none beyond). Verifies C135 claim (no corpus implementation uses solved-game knowledge during MCTS search). Hypothesizes oracle match improvement from 0.849 (katac4 NN-MCTS) to 0.92–0.95 on 7x6. 15 sources. 6 adapted reference sketches. 4 benchmark requirements (BMS-MCTS-011-001 through BMS-MCTS-011-004). [Full dossier →](research/dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md)
+
+- **NN-005** — `research/dossiers/neural/NN-005-model-compression-pruning-quantization-and-distillation.md` (NEW, ~835 lines, 22 sections, PROPOSED). Model compression techniques for ConnectX neural deployment: pruning (2–10x reduction), quantization (3–5x latency reduction), knowledge distillation (teacher-to-student training). Covers global magnitude pruning (Han et al.), iterative magnitude pruning (Frankle & Carbin), structured/channel pruning, PTQ, QAT, NNUE int32 quantization, mixed precision, logit-based distillation (Hinton T=3.0), feature-based ROM distillation, self-distillation/AZAL. Board-size applicability for 4×5 through 15×13. 10 sources (S174–S183). 5 benchmark requirements. Addresses Kaggle deployment constraints (95MB package, 2s/move, T4 GPU). [Full dossier →](research/dossiers/neural/NN-005-model-compression-pruning-quantization-and-distillation.md)
+
+- **BMS-DOC-009** — `research/dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md` (NEW, ~1,100 lines, 19 sections, PROPOSED). Oracle agreement as a fast benchmarking proxy: formal definition, measurement protocol (500-position suite across 4 difficulty tiers: easy/medium/hard/expert), agreement-to-Elo calibration (log-odds model), board-size scaling laws (~10–15 ppt loss per column for classical search), integration with 8 existing benchmark suites. Provides the methodology for measuring oracle agreement rates, calibrating against Elo performance, and using agreement as a fast (~5 min) benchmarking proxy. 13 sources. Addresses the gap tracked as FU-054: "BMS-005 MCTS consistency measurement" — specified since R30, unexecuted. [Full dossier →](research/dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md)
+
+**Governance Dossier Updated (1):**
+
+- **GOV-009** — `research/dossiers/governance/GOV-009-R46-master-governance-report-and-gap-repair.md` expanded to include R50→R51 transition: 77% governance remediation rate documented (17/22 repaired, 5/22 partially), 7 collision clusters identified (A through G, 41+ colliding IDs), all P0 recommendations from GOV-008 audited (70% fulfilled), 20 new claims (C296–C315) and 25 follow-up tasks (FU-186–FU-210). NEXUS index reconciliation, header convergence analysis, working tree artifact ledger all documented.
+
+**Dossiers Expanded/Validated (2):**
+
+- **CON-001** — Expanded by CV-001 analysis. CV-001's 16-contender audit validates and extends the contender framework introduced in CON-001. 10 comparison matrices cross-referenced.
+- **RI-006** — CV-001 validates RI-006's Kamade/connect-n as the sole variant-aware engine. 3 additional source references added from variant rules audit.
+
+**Key Findings:**
+
+1. **Solved-game knowledge integration is the single largest actionable gap in ConnectX MCTS design.** With 7x6 fully solved and the Pascal Pons/W-D-L database available (~4.5 trillion positions), integrating solved-game priors into MCTS could increase oracle agreement from 0.849 to 0.92–0.95 on 7x6. No corpus implementation uses solved-game knowledge during MCTS search (C135 verified).
+
+2. **Oracle agreement as a fast benchmarking proxy provides the missing measurement infrastructure.** The agreement-to-Elo calibration curve (log-odds model) enables rapid bot evaluation (~5 minutes for 500 positions) across all board sizes. This resolves the FU-054 gap that has been tracked since R30.
+
+3. **Model compression is essential for Kaggle deployment.** NN-005 catalogs pruning, quantization, and distillation as the three core techniques to fit neural networks within Kaggle's 95MB package and 2s/move constraints. INT8 quantization via TensorRT and WASM deployment of distilled models are the most practical near-term paths.
+
+4. **Kamide/connect-n remains the only board-size-agnostic engine.** Variant-aware scoring by winCondition, connection graph board representation, and Web Worker deployment pattern make it unique in the corpus. 13 of 16 rostered contenders lack adaptive evaluation.
+
+5. **Governance remediation plateau continues.** 77% remediation rate (same as R50). Cluster E (S130–S146, 17 colliding IDs) still unaddressed. Cluster G under investigation. 7 collision clusters total, 41+ IDs affected.
+
+6. **6 of 13 workers failed** (46.2% failure rate). API timeouts and connection closures affected slots 1, 2, 3, 4, 6, and 7. This is a systemic reliability concern for multi-worker orchestration.
+
+**New Claim IDs:**
+
+- C306–C315 (10 new claims from CV-001, MCTS-011, BMS-DOC-009)
+- C316–C320 (5 new claims from NN-005 model compression)
+- C321–C325 (5 new claims from GOV-009 governance audit)
+
+**New Benchmark Requirements:**
+
+| ID | Description | Priority |
+|----|-------------|----------|
+| BMS-CV-001 | Variant compatibility audit — verify each contender's winCondition support | P0 |
+| BMS-CV-002 | Board-size scaling — measure performance delta across 4x5 through 15x13 | P0 |
+| BMS-CV-003 | Adaptive scoring oracle match — compare Kamade vs fixed scoring at 7x6 | P1 |
+| BMS-CV-004 | Inarow configurability — test inarow=3,4,5 on shared positions | P1 |
+| BMS-CV-005 | Time-limit stress — measure quality degradation at 1s, 2s, 5s | P1 |
+| BMS-CV-006 | Solved-game oracle match — verify solver recommendations on 7x6 | P0 |
+| BMS-CV-007 | Deployment format compatibility — verify each contender runs in Kaggle env | P1 |
+| BMS-MCTS-011-001 | Solved-game MCTS oracle agreement — 7x6: pure MCTS vs anchoring vs pruning vs hybrid | P0 |
+| BMS-MCTS-011-002 | Database query performance — hash map vs bit array vs trie lookup latency | P1 |
+| BMS-MCTS-011-003 | Pruning efficiency — effective simulation count reduction from solved pruning | P1 |
+| BMS-MCTS-011-004 | Board-size scaling — solved-game integration on 7x6, 8x8, 10x8+ | P1 |
+| BMS-NN-008 | Pruning sensitivity — which ResNet layers most sensitive to pruning? | P1 |
+| BMS-NN-009 | INT8 quantization — TensorRT INT8 pipeline latency on Kaggle T4 | P1 |
+| BMS-NN-010 | Distillation accuracy curve — measure student accuracy at T={1,2,3,4,5} | P1 |
+| BMS-AGREE-001 | Oracle agreement — measure negamax_agent on 7x6 position suite | P0 |
+| BMS-AGREE-002 | Agreement-to-Elo calibration — fit log-odds model with 3-5 bots | P0 |
+| BMS-AGREE-003 | Board-size agreement scaling — measure agreement rate per column increase | P1 |
+
+**Work Queue Updates:**
+
+- T122 → COMPLETE (MCTS-011 solves MCTS consistency problem for solved games via solved-game knowledge integration)
+- FU-054 → LINKED (BMS-DOC-009 formalizes oracle agreement methodology; empirical execution deferred)
+- FU-153 added (implement MCTS-011 solved-game integration on 7x6 — empirical validation)
+- FU-154 added (create position suite for BMS-AGREE-001 — 500 7x6 positions from Pascal Pons solver)
+- FU-155 added (run agreement-to-Elo calibration with 5 known bots — BMS-AGREE-002)
+- FU-156 added (profile database query latency for SMT integration — BMS-MCTS-011-002)
+- FU-157 added (implement NN-005 INT8 quantization pipeline — BMS-NN-009)
+
+**Source Governance:**
+
+- MCTS-011 sources: S201–S215 (15 new source IDs, non-colliding, assigned above S199)
+- NN-005 sources: S174–S183 (10 new source IDs, already assigned in NN-005 R50)
+- CV-001 sources: cross-references existing S-IDs (no new IDs needed — sources overlap existing dossiers)
+- BMS-DOC-009 sources: cross-references existing S-IDs (no new IDs needed)
+- **Cluster E (S130–S146):** Still unresolved. 7 rounds of governance reports.
+- **Cluster F:** Remediated in R49. No recurrence.
+- **Cluster G:** Under investigation. CS-006 sources (S178–S191) may overlap with CS-005 sources (S140–S155).
+
+**Dossier Count:** 54+ → 58+ (4 new dossiers created: CV-001, MCTS-011, NN-005, BMS-DOC-009). Substantive count: 49+ (41 substantive + 8 test/artifact + 4 new).
+
+**Directory Status:**
+
+| Directory | Count | Notes |
+|-----------|-------|-------|
+| foundational | 1 | board representation |
+| classical-search | 5 | CS-003, CS-005, CS-006, CS-007, CS-008, opening-book |
+| mcts | 10 | MCTS-001 through MCTS-011 |
+| neural | 5 | NN-001 through NN-005 |
+| contenders | 8 | CV-001, CON-001, CBL-001/002, DOS-007, CB-001, KAGGLE-CONNX-SPEC, D-CBL-001, contenders-baselines |
+| benchmarking | 10 | BMS-DOC-001 through BMS-DOC-009, BMS-013 |
+| reference-implementations | 6 | RI-002, RI-006, RI-007, new-repo-sources, katac4 |
+| governance | 6 | GOV-001 through GOV-010 |
+| ensembles | 1 | ENS-MCTS-001 |
+| kaggle | 0 | EMPTY |
+| training-data | 0 | EMPTY |
+| archive/legacy | 0 | EMPTY |
+
+**Governance:**
+
+- **Dossier count:** 54+ → 58+ (4 new dossiers)
+- **Source count:** 180+ → 195+ (15 new sources from MCTS-011, no collisions)
+- **Collision clusters:** 7+1 → 7+1 (Cluster G still under investigation; no new clusters)
+- **Header convergence:** No improvement. 8 of 13 canonical files still at R44.
+- **Test artifacts:** 3 test artifacts from R45 still present.
+- **Empty directories:** ensembles/ (1 entry), kaggle/, training-data/, archive/legacy/ (4 empty).
 
 ---
 

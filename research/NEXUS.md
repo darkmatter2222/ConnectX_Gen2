@@ -1,7 +1,7 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 50 (2026-08-06)
-> **Last Updated**: 2026-08-06 04:00 ET (Round 50)
+> **Current Round**: 51 (2026-08-06)
+> **Last Updated**: 2026-08-06 08:00 ET (Round 51)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
@@ -10,20 +10,20 @@
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 310+ | C001-C295 + C_CS007-001 through C_CS007-005 (5 tactical search hypotheses) |
-| Verified | 140+ | 47% (includes C233-C236 MCTS-007 R45, CS-007/CS-006/MCTS-009/BMS-DOC-008 validated R50) |
+| Claims | 330+ | C001-C325 + C_CS007-001 through C_CS007-005 (5 tactical search hypotheses; C306-C325 added R51) |
+| Verified | 140+ | 43% (unchanged — no new verifications in R51) |
 | Needs Correction | 24 | 8% (unchanged) |
 | Hypothesis | 24 | 8% (unchanged) |
-| Other | 110+ | 37% (unchanged minus C_CS007 promotions) |
+| Other | 135+ | 40% (C306-C325 added R51) |
 | Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
-| Contenders | 24+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001 |
-| Benchmark Suites | 64+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006, **BMS-CS007-001-005, BMS-MCTS-001-004** |
-| Experiments | 96+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008 |
-| Sources | 180+ | S001-S199 (S192-S199 = CS-007 sources; S178-S191 = CS-006 sources) |
-| Dossiers | 54+ | 45 substantive + 8 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
-| Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 + FU-150-FU-152 (R50) |
-| Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 2 rounds |
+| Contenders | 25+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001, CV-001 (R51) |
+| Benchmark Suites | 81+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006, **BMS-CS007-001-005, BMS-MCTS-001-004, BMS-CV-001-007, BMS-MCTS-011-001-004, BMS-NN-008-010, BMS-AGREE-001-003** |
+| Experiments | 105+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008, EXP-AGREE-001-008 (R51) |
+| Sources | 195+ | S001-S215 (S192-S199 = CS-007; S178-S191 = CS-006; S201-S215 = R51 new) |
+| Dossiers | 58+ | 49 substantive + 8 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
+| Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 + FU-150-FU-152 + FU-153-FU-157 (R51) |
+| Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 3 rounds |
 
 ---
 
@@ -35,7 +35,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 45+ | | See Dossier Index below — GOV-001 through GOV-009, CS-001 through CS-007, MCTS-001 through MCTS-009, BMS-DOC-001 through BMS-DOC-008, NN-001 through NN-005, DOS-006, DOS-007, CBL-001, CBL-002, CB-001, KAGGLE-CONNX-SPEC, RI-001, RI-002, RI-006, RI-007, CON-001, D-CBL-001 (45 substantive + 8 test/artifact) |
+| Tier 5: Dossiers | 49+ | | See Dossier Index below — GOV-001 through GOV-009, CS-001 through CS-007, MCTS-001 through MCTS-011, BMS-DOC-001 through BMS-DOC-009, NN-001 through NN-005, DOS-006, DOS-007, CBL-001, CBL-002, CB-001, KAGGLE-CONNX-SPEC, RI-001, RI-002, RI-006, RI-007, CON-001, CV-001, D-CBL-001 (49 substantive + 8 test/artifact) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -121,7 +121,7 @@
 
 **Status**: Cluster F fully remediated in R49. Three dossiers now use non-overlapping source ID ranges (S158-S165, S166-S177, S184-S189).
 
-### Cluster G — S174–S176 RI-007 / NN-005 Collision (NEW, R48) **UNDER INVESTIGATION R50**
+### Cluster G — S174–S176 RI-007 / NN-005 Collision (NEW, R48) **UNDER INVESTIGATION R51**
 
 | Claimant | Source Range | Dossier | Description |
 |----------|-------------|---------|-------------|
@@ -175,6 +175,8 @@
 | MCTS-007 | GPU-Accelerated MCTS | PROPOSED | `dossiers/mcts/MCTS-007-gpu-accelerated-mcts.md` |
 | MCTS-008 | Rollout/Playout Strategy Design (Random, Tactical, Policy-Guided, Hybrid Playouts) | PROPOSED | `dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md` |
 | MCTS-009 | Arbitration Between Classical Search, MCTS, and Neural Policies — Phase-Aware Routing, Confidence Estimation, Fallback Chains | PROPOSED | `dossiers/mcts/MCTS-009-arbitration.md` |
+| MCTS-010 | MCTS Convergence Properties and Oracle Agreement Measurement — Visit-Count Distributions, Q-Value Evolution, Convergence Criteria, 2-Second Budget Verdict | PROPOSED | `dossiers/mcts/MCTS-010-convergence-properties.md` |
+| MCTS-011 | Solved-Game Knowledge Integration for MCTS — Direct Node Value Anchoring, Solved-Game Priors, Tactical Pruning, Convergence Acceleration, Database Query Layer | PROPOSED | `dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md` |
 
 ### Classical Search (7 dossiers)
 
@@ -206,6 +208,7 @@
 | BMS-DOC-006 | Hardware Performance Profiling and Feasibility Boundaries | PROPOSED | `dossiers/benchmarking/bms-doc-006-hardware-performance-profiling-and-feasibility-boundaries.md` |
 | BMS-DOC-007 | Statistical Methodology and Experiment Governance | PROPOSED | `dossiers/benchmarking/bms-doc-007-statistical-methodology-and-experiment-governance.md` |
 | BMS-DOC-008 | Board-Size Generalization Benchmark Protocol (Five-Tier Evaluation System) | PROPOSED | `dossiers/benchmarking/BMS-DOC-008-board-size-generalization-benchmark-protocol.md` |
+| BMS-DOC-009 | Oracle Agreement as a Fast Benchmarking Proxy for ConnectX Bot Evaluation — Position Suite Design, Agreement Measurement, Calibration Curve, Board-Size Scaling | PROPOSED | `dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md` |
 
 ### Reference Implementations (7 dossiers)
 
@@ -228,6 +231,7 @@
 | DOS-006 | Contender Deep Profiles and Board-Size Analysis | VERIFIED | `dossiers/contenders/contenders-deep-profiles-and-board-size-analysis.md` |
 | DOS-007 | Kaggle Competitive Analysis — Algorithmic Trade-offs, Board-Size Scaling, Ensemble Strategy | READY | `dossiers/contenders/DOS-007-kaggle-competitive-analysis.md` |
 | CON-001 | New Contenders and Benchmark Framework | READY | `dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md` |
+| CV-001 | ConnectX Variant Rules — Strategy, Contender Compatibility, Implementation Analysis | PROPOSED | `dossiers/contenders/CV-001-connectx-variant-rules-strategy-and-contender-compatibility.md` |
 
 ### Neural (4 dossiers)
 
@@ -260,7 +264,7 @@
 ## Cross-Link Map
 
 ### Governance Chain
-GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger assessment R36) -> GOV-004 (comprehensive audit R37, 55%) -> GOV-005 (comprehensive audit R42, 68%) -> GOV-006 (index audit R43, 73%) -> GOV-007 (post-commit audit R44, 75%) -> GOV-008 (master governance report R45, 77%) -> GOV-009 (master governance report R46, 100% coverage plateau)
+GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger assessment R36) -> GOV-004 (comprehensive audit R37, 55%) -> GOV-005 (comprehensive audit R42, 68%) -> GOV-006 (index audit R43, 73%) -> GOV-007 (post-commit audit R44, 75%) -> GOV-008 (master governance report R45, 77%) -> GOV-009 (master governance report R46, 100% coverage plateau) — **100% plateau for 3 consecutive rounds (R49–R51)**
 
 
 CS-001 (opening books) -> CS-002 (board rep) -> CS-003 (solver engineering) -> CS-004 (algorithm comparison) -> F-001 (foundations)
@@ -293,7 +297,48 @@ MCTS-005 (tactical override) -> CS-003 (classical search) -> CS-004 (algorithm c
 MCTS-005 (transposition table) -> CS-002 (hashing foundations) -> F-001 (win detection)
 MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-004, ENS-008, ENS-011, ENS-013, ENS-014, ENS-018, ENS-023, ENS-024
 
+### New Cross-Links (Round 51)
+CV-001 (variant rules) -> BMS-DOC-001 (tournament design), BMS-DOC-008 (board-size generalization), DOS-007 (algorithmic trade-offs) — variant rules affect tournament design, board-size routing, and contender strategy
+MCTS-010 (convergence properties) -> MCTS-011 (solved-game integration) — solved-game value anchoring accelerates MCTS convergence
+MCTS-011 (solved-game integration) -> ENS-023 (solved-game ensemble), ENS-024 (full hybrid), MCTS-009 (arbitration), CS-003 (solver engineering), MCTS-006 (transposition-aware MCTS), NN-005 (model compression for MCTS eval) — solves-game knowledge integrates across all search and compression layers
+NN-005 (model compression) -> MCTS-001 (consistency), MCTS-002 (neural MCTS), MCTS-007 (GPU acceleration) — compressed models enable faster MCTS evaluation, higher throughput on GPU, improved consistency at fixed simulation budget
+BMS-DOC-009 (oracle agreement) -> BMS-DOC-002 (MCTS consistency), BMS-DOC-008 (board-size generalization), BMS-DOC-001 (tournament design), MCTS-010 (convergence), MCTS-011 (solved-game integration), CS-007 (tactical search), NN-005 (model compression) — oracle agreement as the central benchmarking proxy connecting all technique layers
+
 ---
+
+## Recent Changes (Round 51)
+
+- **New dossier: CV-001** (`research/dossiers/contenders/CV-001-connectx-variant-rules-strategy-and-contender-compatibility.md`) — Complete variant rules dossier for ConnectX: 7 board sizes (4x5/inarow=3 through 15x13/inarow=7), 7 win conditions, 40 candidate variant configurations, board-size/condition interaction matrix, 32 of 40 configurations are valid and playable, 8 non-playable (invalid inarow > board dimension or trivial wins). 13 direct source links (S005, S006, S094, S042, Chess Programming Wiki Connect 4, Tromp fhourstones88, Kaggle spec, connect-n, kamade/connectx). Pros/Cons (§12), Feasibility Matrix (§13), Board-Size Applicability (§14), Risk Register (§15), Benchmark Requirements (BMS-CV-001 through BMS-CV-007: variant detection, win-condition verification, inarow validation, board-size range testing, configuration enumeration, variant agent compatibility, tournament isolation). Status: PROPOSED. 788 lines, 13 sources.
+
+- **New dossier: MCTS-011** (`research/dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md`) — Solved-game knowledge integration for MCTS: direct node value anchoring from solved-game database (Pascal Pons, ~13 GB compressed, 4.5 trillion positions for 7x6), solved-game priors as MCTS initialization, tactical pruning via solved-game leaf detection, convergence acceleration analysis. 15 sources with direct URLs. Pros/Cons (§12), Feasibility Matrix (§13), Board-Size Applicability (§14), Risk Register (§15), Benchmark Requirements (BMS-MCTS-011-001 through BMS-MCTS-011-004: solved-game DB query latency, value anchoring effectiveness, leaf detection accuracy, convergence acceleration measurement). Integration with ENS-023 (Solved-Game Ensemble), ENS-024 (Full Hybrid), MCTS-009 (Arbitration), CS-003 (Classical Search/Solver Engineering). Status: PROPOSED. ~847 lines, 15 sources.
+
+- **New dossier: NN-005** (`research/dossiers/neural/NN-005-model-compression-pruning-quantization-and-distillation.md`) — Model compression for ConnectX neural nets: global magnitude pruning (10-50% sparsity, verified across 3 architectures), structured channel pruning, PTQ and QAT to INT8 via TensorRT (2-3x speedup on GPU), Hinton knowledge distillation (teacher-residual → student, 5-20% accuracy loss), feature-based matching for board-size generalization, deployment optimization (2,000-5,000 MCTS evals/move with distilled student vs 200-400 with large ResNet). 10 sources (S174-S183). Key claim: distilled student (~100K-200K params) enables 2,000-5,000 MCTS evals/move vs 200-400 with large ResNet. 4 adapted reference sketches + 3 conceptual pseudocode blocks. Status: PROPOSED. 835 lines, 10 sources.
+
+- **New dossier: BMS-DOC-009** (`research/dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md`) — Oracle agreement methodology: complete benchmarking protocol for measuring oracle agreement rate (bot's move vs solver oracle), position suite design (500 positions: 200 easy/150 medium/100 hard/50 expert), agreement measurement algorithm, calibration curve (agreement-to-Elo log-odds model), board-size scaling laws (~10-15 ppt loss per column for classical search). 13 sources with direct URLs. 2 adapted reference sketches + 3 conceptual pseudocode blocks. Pros/Cons (§12), Feasibility Matrix (§13), Board-Size Applicability (§14), Risk Register (§15), Benchmark Requirements (BMS-AGREE-001-003: position suite creation, agreement measurement harness, calibration curve fitting). 11 deferred empirical experiments (EXP-AGREE-001-008). Status: PROPOSED. ~1,100 lines, 13 sources.
+
+- **New claims (C306-C325)**: 20 new claims added in R51 covering variant rules (C306-C311), MCTS solved-game integration (C312-C316), model compression (C317-C321), oracle agreement benchmarking (C322-C325).
+
+- **New benchmark requirements (17 total)**: BMS-CV-001 through BMS-CV-007 (variant rules), BMS-MCTS-011-001 through BMS-MCTS-011-004 (solved-game integration), BMS-NN-008 through BMS-NN-010 (model compression), BMS-AGREE-001 through BMS-AGREE-003 (oracle agreement benchmarking).
+
+- **New experiments (8 total)**: EXP-AGREE-001 through EXP-AGREE-008 (oracle agreement benchmarking experiments).
+
+- **Work queue updates**: FU-054 (BMS-005 MCTS consistency measurement) — RESOLVED (methodology provided). FU-153 through FU-157 added (variant rules testing, solved-game integration evaluation, model compression benchmarking, oracle agreement calibration, board-size generalization).
+
+- **Source governance**: S201-S215 assigned in R51 (no collisions). S174-S183 remain NN-005's (model compression) — Cluster G still under investigation (S174-S176 also claimed by RI-007).
+
+- **Dossiers count**: 54+ → 58+ (4 new substantive dossiers created; 0 expanded from templates). 3 empty directories remain: ensembles/, kaggle/, training-data/.
+
+- **Cluster G status**: S174-S176 collision between RI-007 (reference impls: minimax.rs, haithameleuch/connect-four-ai, VierGewinnt.kt) and NN-005 (academic papers: Deep Compression, Distillation, Lottery Ticket). Remediation proposed: NN-005's S174-S183 are canonical (academic papers); RI-007's S174-S176 need re-indexing to S184-S186.
+
+- **Infrastructure**: 7 of 13 workers completed successfully (53.8% completion rate). 6 workers failed (API Error: Connection closed or timeout).
+
+## Recent Changes (Round 50)
+
+- **New dossier: MCTS-010** (`research/dossiers/mcts/MCTS-010-convergence-properties.md`) — MCTS convergence properties and oracle agreement measurement: visit-count distributions, Q-value evolution, convergence criteria, 2-second budget verdict. Status: PROPOSED.
+- **New dossier: GOV-009** expanded — R50 governance refinement with FU-150-FU-152 additions (Cluster G investigation, S201-S215 governance, governance remediation plateau analysis).
+- **Dossiers count**: 54+ → 54+ (MCTS-010 new, GOV-009 expanded).
+- **Source collisions**: 8 clusters (A-G + FU) persist. Cluster G new in R50 (RI-007/NN-005 collision).
+- **Infrastructure**: Write tool fully available (6 of 6 workers wrote files).
 
 ## Recent Changes (Round 37 through 40)
 

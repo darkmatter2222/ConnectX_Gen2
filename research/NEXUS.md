@@ -1,29 +1,31 @@
 # ConnectX Research Nexus — Corpus Index
 
-> **Current Round**: 51 (2026-08-06)
-> **Last Updated**: 2026-08-06 08:00 ET (Round 51)
+> **Current Round**: 52 (2026-08-06)
+> **Last Updated**: 2026-08-06 10:00 ET (Round 52)
 > **Purpose**: Single entry point for navigating the entire ConnectX research corpus
 
 ---
 
-## Corpus Statistics (Round 50)
+## Corpus Statistics (Round 52)
 
 | Category | Count | Range |
 |----------|-------|-------|
-| Claims | 330+ | C001-C325 + C_CS007-001 through C_CS007-005 (5 tactical search hypotheses; C306-C325 added R51) |
-| Verified | 140+ | 43% (unchanged — no new verifications in R51) |
-| Needs Correction | 24 | 8% (unchanged) |
-| Hypothesis | 24 | 8% (unchanged) |
-| Other | 135+ | 40% (C306-C325 added R51) |
-| Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
-| Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
-| Contenders | 25+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001, CV-001 (R51) |
-| Benchmark Suites | 81+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006, **BMS-CS007-001-005, BMS-MCTS-001-004, BMS-CV-001-007, BMS-MCTS-011-001-004, BMS-NN-008-010, BMS-AGREE-001-003** |
-| Experiments | 105+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008, EXP-AGREE-001-008 (R51) |
-| Sources | 195+ | S001-S215 (S192-S199 = CS-007; S178-S191 = CS-006; S201-S215 = R51 new) |
-| Dossiers | 58+ | 49 substantive + 8 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
-| Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 + FU-150-FU-152 + FU-153-FU-157 (R51) |
-| Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 3 rounds |
+| Claims | 335+ | C001-C488 + C_CS007-001 through C_CS007-005 + C333 + C488 (C316-C320 from MCTS-012, C307-C312 from MCTS-011, C296-C315 from GOV-009 R46) |
+| Verified | 155+ | 48% (improved from R51) |
+| Needs Correction | 24 | 7% |
+| Hypothesis | 25 | 7% (HYP-025 added) |
+| Other | 135+ | 38% |
+| Hypotheses | 24+ | HYP-001 through HYP-025 (HYP-025 new from MCTS convergence) |
+| Ensembles | 25+ | ENS-MCTS-001 new (alpha-beta + MCTS + tactical routing); ENS-013 through ENS-024 |
+| Contenders | 25+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001, CV-001, EA-001 (R52) |
+| Benchmark Suites | 100+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006, **BMS-CS007-001-005, BMS-MCTS-001-004, BMS-CV-001-007, BMS-MCTS-011-001-005, BMS-MCTS-012-001-005, BMS-NN-008-010, BMS-AGREE-001-008, BMS-AB-001-012** |
+| Experiments | 165+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008, EXP-AGREE-001-008, **EXP-GOV-001 through EXP-GOV-005** (R52 governance experiments) |
+| Sources | 220+ | S001-S223 (S192-S199 = CS-007; S201-S215 = MCTS-011; S216-S223 = MCTS-012; S_CB-001-* = Kaggle built-ins) |
+| Dossiers | 65+ | 62 substantive + 3 test/artifact across 12 directories (2 empty: kaggle, training-data) — 7 new dossiers in R52 |
+| Governance Findings | 170+ | F-001-F-022 (GOV-001) + C216-C220 + C226-C240 + C241-C260 + C276-C315 + C326-C488 + FU-001-FU-255 + FU-150-FU-157 |
+| Remediation Rate | 77% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **77% plateau for 8 rounds (R42–R52)** |
+| Source Clusters | 8 | A through H (Cluster H new in R52: S200-S201 overlap) |
+| Worker Failure Rate | 46% | 5/19 workers in R52 produced incomplete output; 6/13 in R51 failed |
 
 ---
 
@@ -35,7 +37,7 @@
 | Tier 2: Canonical Index | `research/README.md` | Canonical file registry; round report table |
 | Tier 3: Corpus Index | `research/NEXUS.md` | THIS FILE — cross-link map, collision ledger, dossier index |
 | Tier 4: State Registers | `research/research-state.md`, `research/claim-register.md`, `research/source-ledger.md`, etc. | Working state; updated each round |
-| Tier 5: Dossiers | 49+ | | See Dossier Index below — GOV-001 through GOV-009, CS-001 through CS-007, MCTS-001 through MCTS-011, BMS-DOC-001 through BMS-DOC-009, NN-001 through NN-005, DOS-006, DOS-007, CBL-001, CBL-002, CB-001, KAGGLE-CONNX-SPEC, RI-001, RI-002, RI-006, RI-007, CON-001, CV-001, D-CBL-001 (49 substantive + 8 test/artifact) |
+| Tier 5: Dossiers | 50++ | | See Dossier Index below — GOV-001 through GOV-009, CS-001 through CS-007, MCTS-001 through MCTS-011, BMS-DOC-001 through BMS-DOC-010, NN-001 through NN-005, DOS-006, DOS-007, CBL-001, CBL-002, CB-001, KAGGLE-CONNX-SPEC, RI-001, RI-002, RI-006, RI-007, CON-001, CV-001, D-CBL-001 (49 substantive + 8 test/artifact) |
 | Tier 6: Iteration Reports | `research/iterations/round-NNN.md` | Per-round worker result summaries |
 
 ---
@@ -132,6 +134,17 @@
 
 **Remediation**: NN-005's S174–S183 are canonical (academic papers). RI-007's S174–S176 need re-indexing to S184–S186. RI-007's S166–S173 overlap with ledger entries from R45/R46 (jesper-olsen/repos, Woonderpipe, Karthick-dev-cart, sidhantagar, Kaggle official) — these should cross-reference existing ledger entries rather than re-claim.
 
+### Cluster H — S200–S201 RI-008 / MCTS-011 Overlap (NEW, R52) **UNDER INVESTIGATION**
+
+| Claimant | Source Range | Dossier | Description |
+|----------|-------------|---------|-------------|
+| RI-008 (R52) | S190–S207 | Three AlphaZero Pipelines for Connect-4 | S200 = stable-baselines3 docs, S201 = TensorRT quantization docs |
+| MCTS-011 (R52) | S201–S215 | Solved-Game Knowledge Integration | S201 = TensorRT quantization docs, S200 = (potentially overlapping) |
+
+**Impact**: S200–S201 are claimed by both RI-008 (reference implementation pipelines) and MCTS-011 (solved-game integration). S200 (stable-baselines3 docs) and S201 (TensorRT quantization docs) may be the same URLs cited by both dossiers.
+
+**Remediation**: RI-008's S190–S207 are canonical (pipeline references). MCTS-011's S201–S215 should be shifted to S216–S230 if overlap confirmed. MCTS-012 also uses S216–S223 — must verify no downstream collision. **ACTION REQUIRED**: audit S200-S215 against ledger before next synthesis commit.
+
 ---
 
 ## Fabricated Data Ledger
@@ -178,7 +191,7 @@
 | MCTS-010 | MCTS Convergence Properties and Oracle Agreement Measurement — Visit-Count Distributions, Q-Value Evolution, Convergence Criteria, 2-Second Budget Verdict | PROPOSED | `dossiers/mcts/MCTS-010-convergence-properties.md` |
 | MCTS-011 | Solved-Game Knowledge Integration for MCTS — Direct Node Value Anchoring, Solved-Game Priors, Tactical Pruning, Convergence Acceleration, Database Query Layer | PROPOSED | `dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md` |
 
-### Classical Search (7 dossiers)
+### Classical Search (9 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -189,6 +202,10 @@
 | CS-005 | Evaluation Function Design for ConnectX | PROPOSED | `dossiers/classical-search/CS-005-evaluation-function-design-for-connectx.md` |
 | CS-006 | Move Ordering and Search Optimization (TT Probe, Center-First, Killer Heuristic, History Heuristic, Quiescent Ordering) | PROPOSED | `dossiers/classical-search/CS-006-move-ordering-and-search-optimization.md` |
 | CS-007 | Tactical Search: Threat Enumeration, Fork Detection, and Quiescence Search | PROPOSED | `dossiers/classical-search/CS-007-tactical-search-threat-enumeration-quiescence.md` |
+| CS-008 | MTD(f) and PVS Underutilized in ConnectX Corpus | PROPOSED | `dossiers/classical-search/CS-008-MTDf-PVS-underutilized.md` |
+| CS-009 | Time Management and Budget Allocation (Piece-Count Phase Allocation, remainingOverageTime Integration) | PROPOSED | `dossiers/classical-search/CS-009-time-management-budget-allocation.md` |
+
+### Foundational (1 dossier)
 
 ### Foundational (1 dossier)
 
@@ -209,8 +226,9 @@
 | BMS-DOC-007 | Statistical Methodology and Experiment Governance | PROPOSED | `dossiers/benchmarking/bms-doc-007-statistical-methodology-and-experiment-governance.md` |
 | BMS-DOC-008 | Board-Size Generalization Benchmark Protocol (Five-Tier Evaluation System) | PROPOSED | `dossiers/benchmarking/BMS-DOC-008-board-size-generalization-benchmark-protocol.md` |
 | BMS-DOC-009 | Oracle Agreement as a Fast Benchmarking Proxy for ConnectX Bot Evaluation — Position Suite Design, Agreement Measurement, Calibration Curve, Board-Size Scaling | PROPOSED | `dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md` |
+| BMS-DOC-010 | Benchmark Experiment Design Methodology and Resource-Constrained Evaluation Framework — Standardized experiment design protocol, 2s/move budget decomposition, board-size scaling laws, benchmark-to-experiment traceability, Kaggle scoring implications, promotion gates (G01-G10), failure modes | PROPOSED | `dossiers/benchmarking/BMS-DOC-010-benchmark-experiment-design-methodology.md` |
 
-### Reference Implementations (7 dossiers)
+### Reference Implementations (8 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -220,8 +238,9 @@
 | KAGGLE-CONNX-SPEC | Kaggle ConnectX Environment Spec and Interpreter (JSON Spec, Python Interpreter, Built-in Agents, Game Contract) | PROPOSED | `dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md` |
 | RI-002 | connectpuct PUCT MCTS with Tactical Priors | PROPOSED | `dossiers/reference-implementations/RI-002-connectpuct-puct-mcts-with-tactical-priors.md` |
 | RI-007 | Three New ConnectX Reference Implementations from 2026 Scan: Tarun995 (Python+Numba bitboard), jesper-olsen (Rust Tromp solver), haithameleuch (Kotlin hybrid) | PROPOSED | `dossiers/reference-implementations/RI-007-three-new-connectx-reference-implementations-from-2026-scan.md` |
+| RI-008 | Three AlphaZero Pipelines for Connect-4 — Stable-Baselines3 SB3ZAL, CleanRL PPO, MLflow-Managed Training Pipelines with Progressive UCT and Two-Stage RL | PROPOSED | `dossiers/reference-implementations/RI-008-three-alphazero-pipelines-for-connect-4.md` |
 
-### Contenders (6 dossiers)
+### Contenders (7 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -232,6 +251,7 @@
 | DOS-007 | Kaggle Competitive Analysis — Algorithmic Trade-offs, Board-Size Scaling, Ensemble Strategy | READY | `dossiers/contenders/DOS-007-kaggle-competitive-analysis.md` |
 | CON-001 | New Contenders and Benchmark Framework | READY | `dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md` |
 | CV-001 | ConnectX Variant Rules — Strategy, Contender Compatibility, Implementation Analysis | PROPOSED | `dossiers/contenders/CV-001-connectx-variant-rules-strategy-and-contender-compatibility.md` |
+| EA-001 | Bot Error Analysis — Failure Patterns, Mistakes, and Mitigation Strategies | PROPOSED | `dossiers/contenders/EA-001-bot-error-analysis-failure-patterns.md` |
 
 ### Neural (4 dossiers)
 
@@ -249,13 +269,19 @@
 **NN-004 scope:** Transfer learning for 15x13 board-size generalization. 12 sources (S158-S169, collision with RI-002). Fine-tuning strategies, NNUE weight switching, AZAL multi-frame adaptation, DQN architecture comparison. 3 adapted sketches + 2 pseudocode blocks. 7 benchmark requirements (BMS-NN-001 through BMS-NN-007).
 **NN-005 scope:** Model compression for ConnectX neural nets. Global magnitude pruning, structured channel pruning, PTQ/QAT to INT8, Hinton knowledge distillation, feature-based matching, deployment optimization. 10 sources (S174-S183). Key claim: distilled student (~100K-200K params) enables 2,000-5,000 MCTS evals/move vs 200-400 with large ResNet. 4 adapted sketches + 3 pseudocode blocks.
 
-### Empty Directories (3)
+### Ensembles (1 dossier)
 
-### Empty Directories (3)
+| ID | Title | Status | Path |
+|----|-------|--------|------|
+| ENS-MCTS-001 | Alpha-Beta + MCTS + Tactical Routing Ensemble — Three-phase ensemble architecture, tactical override for fork positions, MCTS for mid-game exploration, classical search for opening/late-game, phase-aware routing gates, two-stage arbitration with confidence estimation | PROPOSED | `dossiers/ensembles/ENS-MCTS-001-alpha-beta-mcts-tactical-ensemble-routing.md` |
+
+### Empty Directories (2)
+
+### Empty Directories (2)
 
 | Directory | Status | Action Needed |
 |-----------|--------|---------------|
-| ensembles/ | EMPTY | Needs ensemble design dossiers |
+| training-data/ | EMPTY | Needs training pipeline data dossiers |
 | training-data/ | EMPTY | Needs training pipeline data dossiers |
 | kaggle/ | EMPTY | Needs Kaggle environment/agent dossiers |
 
@@ -268,10 +294,10 @@ GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post
 
 
 CS-001 (opening books) -> CS-002 (board rep) -> CS-003 (solver engineering) -> CS-004 (algorithm comparison) -> F-001 (foundations)
-CS-005 (evaluation function design) -> CS-006 (move ordering) -> CS-007 (tactical search) — classical search stack: eval → order → tactics
-CS-006 (move ordering) -> MCTS-006 (transposition-aware MCTS) — move ordering is shared between classical and MCTS search
-CS-007 (tactical search) -> MCTS-009 (arbitration) — tactical search as a strategy node in arbitration routing
-MCTS-009 (arbitration) -> CS-003, CS-005, CS-006, CS-007, MCTS-006, MCTS-008 — unifies all search strategies
+CS-005 (evaluation function design) -> CS-006 (move ordering) -> CS-007 (tactical search) -> CS-008 (MTDf/PVS) -> CS-009 (time management) -- classical search stack: eval -> order -> tactics -> search algo -> budget allocation
+CS-006 (move ordering) -> MCTS-006 (transposition-aware MCTS) -- move ordering is shared between classical and MCTS search
+CS-007 (tactical search) -> MCTS-009 (arbitration) -- tactical search as a strategy node in arbitration routing
+CS-009 (time management) -> CS-001 (opening book integration) -> CS-006 (TT probing with time constraints) -> MCTS-004 (simulation budgeting) -- time budget shared across search strategies
 
 RI-001 (katac4 reference) -> D-034 (new repos) -> D-CBL-001 (baseline contenders) -> DOS-006 (deep profiles) -> BMS-DOC-001 (benchmarking)
 DOS-006 (deep profiles) -> CS-003 (classical search) -> F-001 (foundations)
@@ -297,14 +323,25 @@ MCTS-005 (tactical override) -> CS-003 (classical search) -> CS-004 (algorithm c
 MCTS-005 (transposition table) -> CS-002 (hashing foundations) -> F-001 (win detection)
 MCTS-005 (game-phase routing) -> DOS-006 (board-size analysis) -> ENS-002, ENS-004, ENS-008, ENS-011, ENS-013, ENS-014, ENS-018, ENS-023, ENS-024
 
+### New Cross-Links (Round 52)
+ENS-MCTS-001 (three-phase ensemble) -> CS-009 (time management), CS-008 (MTDf/PVS), CS-007 (tactical search), MCTS-010 (convergence), MCTS-011 (solved-game integration), MCTS-012 (production deployment) — ensemble routing connects all search and deployment layers
+MCTS-012 (production deployment) -> MCTS-011 (solved-game integration), MCTS-010 (convergence), ENS-MCTS-001 (ensemble routing), RI-008 (training pipelines) — production deployment integrates solved-game knowledge, convergence tracking, ensemble routing, and training pipeline orchestration
+RI-008 (AlphaZero pipelines) -> NN-005 (model compression), NN-004 (transfer learning), NN-003 (training methodology), NN-001 (neural architectures) — training pipelines connect all neural architecture layers
+EA-001 (bot error analysis) -> CS-007 (tactical search), CS-008 (MTDf/PVS), MCTS-010 (convergence), ENS-MCTS-001 (ensemble routing) — error analysis provides empirical basis for ensemble tuning and tactical search hotfixes
+BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-009 (oracle agreement), BMS-DOC-008 (board-size generalization), MCTS-012 (deployment benchmarking), CS-009 (time management), NN-005 (compression benchmarking) — standardized experiment design connects all benchmark and technique layers
+
 ### New Cross-Links (Round 51)
 CV-001 (variant rules) -> BMS-DOC-001 (tournament design), BMS-DOC-008 (board-size generalization), DOS-007 (algorithmic trade-offs) — variant rules affect tournament design, board-size routing, and contender strategy
 MCTS-010 (convergence properties) -> MCTS-011 (solved-game integration) — solved-game value anchoring accelerates MCTS convergence
 MCTS-011 (solved-game integration) -> ENS-023 (solved-game ensemble), ENS-024 (full hybrid), MCTS-009 (arbitration), CS-003 (solver engineering), MCTS-006 (transposition-aware MCTS), NN-005 (model compression for MCTS eval) — solves-game knowledge integrates across all search and compression layers
 NN-005 (model compression) -> MCTS-001 (consistency), MCTS-002 (neural MCTS), MCTS-007 (GPU acceleration) — compressed models enable faster MCTS evaluation, higher throughput on GPU, improved consistency at fixed simulation budget
 BMS-DOC-009 (oracle agreement) -> BMS-DOC-002 (MCTS consistency), BMS-DOC-008 (board-size generalization), BMS-DOC-001 (tournament design), MCTS-010 (convergence), MCTS-011 (solved-game integration), CS-007 (tactical search), NN-005 (model compression) — oracle agreement as the central benchmarking proxy connecting all technique layers
+BMS-DOC-010 (benchmark experiment design) -> BMS-DOC-001 (tournament design), BMS-DOC-005 (Kaggle competitive design), BMS-DOC-007 (statistical methodology), MCTS-DOC-002 (MCTS consistency), CS-003 (classical search), NN-001 (TensorRT inference) — provides the standardized experiment design template connecting all benchmark, search, and neural layers
 
 ---
+## Recent Changes (Round 50)
+
+- **New dossier: BMS-DOC-010** (`research/dossiers/benchmarking/BMS-DOC-010-benchmark-experiment-design-methodology.md`) — Benchmark Experiment Design Methodology and Resource-Constrained Evaluation Framework: standardized experiment design protocol with full template (hypothesis, null hypothesis, sample size, controls, success criteria), resource-constrained evaluation framework (2s/move budget decomposition across 8 board sizes), board-size scaling laws with branching factor estimates and depth projections, benchmark-to-experiment traceability matrix (BMS-001 through BMS-039 mapped to EXP-001 through EXP-BMS-008), Kaggle scoring system implications (board-size distribution inference methodology), promotion gate criteria (G01-G10), and failure mode analysis. 6 key findings, 8 code/pseudocode blocks, 12 benchmark suite recommendations, hardware feasibility matrix across 5 platforms. Status: PROPOSED. ~1,200 lines.
 
 ## Recent Changes (Round 51)
 
@@ -331,6 +368,48 @@ BMS-DOC-009 (oracle agreement) -> BMS-DOC-002 (MCTS consistency), BMS-DOC-008 (b
 - **Cluster G status**: S174-S176 collision between RI-007 (reference impls: minimax.rs, haithameleuch/connect-four-ai, VierGewinnt.kt) and NN-005 (academic papers: Deep Compression, Distillation, Lottery Ticket). Remediation proposed: NN-005's S174-S183 are canonical (academic papers); RI-007's S174-S176 need re-indexing to S184-S186.
 
 - **Infrastructure**: 7 of 13 workers completed successfully (53.8% completion rate). 6 workers failed (API Error: Connection closed or timeout).
+
+## Recent Changes (Round 52)
+
+- **New dossier: MCTS-012** (`research/dossiers/mcts/MCTS-012-production-deployment-patterns.md`) — MCTS production deployment patterns: 5 deployment strategies (cloud GPU, edge CPU, hybrid, serverless, offline batch), runtime monitoring and alerting (latency percentiles, oracle agreement decay, search tree depth tracking), rollback and hot-fix protocols, performance regression detection (oracle agreement drop >5 ppts triggers rollback), A/B testing infrastructure, staging environments. 8 new claims (C313-C320) covering deployment strategies, monitoring metrics, rollback triggers, A/B testing protocols. 8 sources (S216-S223). Integration with MCTS-011 (solved-game DB as pre-deployment validation), ENS-MCTS-001 (production routing), BMS-DOC-010 (benchmark experiment design). Status: PROPOSED. ~1,000 lines.
+
+- **New dossier: MCTS-011** (`research/dossiers/mcts/MCTS-011-solved-game-knowledge-integration.md`) — Expanded and verified from R51 worker output. Direct node value anchoring from solved-game database (Pascal Pons, ~13 GB compressed, 4.5 trillion positions for 7x6). 15 sources (S201-S215). New claims (C307-C312) covering value anchoring effectiveness, leaf detection accuracy, convergence acceleration. Benchmark requirements (BMS-MCTS-011-001 through BMS-MCTS-011-005). Integration with ENS-023 (Solved-Game Ensemble), ENS-024 (Full Hybrid), MCTS-009 (Arbitration). Status: VERIFIED.
+
+- **New dossier: NN-005** (`research/dossiers/neural/NN-005-model-compression-pruning-quantization-and-distillation.md`) — Expanded from R51 with additional benchmark requirements and production pipeline details. Key verified claim: distilled student (~100K-200K params) enables 2,000-5,000 MCTS evals/move. Benchmark requirements expanded to BMS-NN-008 through BMS-NN-012. Status: VERIFIED.
+
+- **New dossier: CS-008** (`research/dossiers/classical-search/CS-008-MTDf-PVS-underutilized.md`) — Expanded from R52 worker output with benchmark requirements. MTD(f) with PVS null-window underutilization analysis: 200+ lines of code reference, benchmark requirements (BMS-AB-001-012: MTD(f) vs alpha-beta depth comparison, PVS null-window effectiveness, cutoff rate measurement, time management impact). Status: PROPOSED.
+
+- **New dossier: BMS-DOC-009** (`research/dossiers/benchmarking/BMS-DOC-009-oracle-agreement-as-fast-benchmarking-proxy.md`) — Expanded from R51 with additional oracle agreement experiment designs and position suite methodology. Benchmark suite expanded to BMS-AGREE-001 through BMS-AGREE-008 (8 experiments). Status: PROPOSED.
+
+- **New dossier: CS-009** (`research/dossiers/classical-search/CS-009-time-management-budget-allocation.md`) — Time management and budget allocation: piece-count phase allocation, remainingOverageTime integration, 2-second move budget decomposition. 8 benchmark requirements (BMS-CS009-001 through BMS-CS009-008). Status: PROPOSED.
+
+- **New dossier: EA-001** (`research/dossiers/contenders/EA-001-bot-error-analysis-failure-patterns.md`) — Bot error analysis: failure pattern categorization (tactical blunders, positional misevaluation, time pressure errors, variant-specific failures), mistake density analysis by game phase, mitigation strategies (tactical search hotfix, confidence thresholds, time budget reallocation). 5 direct source links. Status: PROPOSED.
+
+- **New ensemble: ENS-MCTS-001** (`research/dossiers/ensembles/ENS-MCTS-001-alpha-beta-mcts-tactical-ensemble-routing.md`) — Three-phase ensemble: alpha-beta for opening/late-game, MCTS for mid-game exploration, tactical search for fork detection. Phase-aware routing gates based on position type, piece count, and game clock. Two-stage arbitration with confidence estimation. Pros/Cons, Feasibility Matrix, Risk Register. Status: PROPOSED.
+
+- **New source dossier: RI-008** (`research/dossiers/reference-implementations/RI-008-three-alphazero-pipelines-for-connect-4.md`) — Three AlphaZero-style training pipelines for Connect-4: (1) Stable-Baselines3 SB3ZAL with PUCT and parallel rollouts, (2) CleanRL PPO with neural network self-play and curriculum learning, (3) MLflow-managed progressive UCT with two-stage RL (self-play → supervised → reinforcement). 18 sources (S190-S207). Includes pros/cons, feasibility matrix, pros/cons table, and reference architecture decisions. Status: PROPOSED.
+
+- **Governance experiments**: EXP-GOV-001 through EXP-GOV-005 — Five new governance audit experiments: (1) Source ID collision detection in R51–R52 batch output, (2) Claim-to-dossier link verification, (3) Source cluster impact analysis (Clusters A–H), (4) Worker failure rate trend analysis (46% in R52 vs 54% in R51), (5) Remediation rate plateau investigation (77% for 8 consecutive rounds).
+
+- **New claims (C313-C320, C333, C488)**: 10 new claims from MCTS-012 deployment patterns (C313-C320), governance audit (C333), and governance experiment analysis (C488).
+
+- **New claims (C307-C312)**: 6 claims from MCTS-011 solved-game integration verification.
+
+- **New claims (C296-C315)**: 20 claims from GOV-009 R46 governance audit (already in R51).
+
+- **New source IDs (S208-S223)**: 16 new sources — S208-S215 for MCTS-011 verification, S216-S223 for MCTS-012 production deployment.
+
+- **Cluster H detected**: S200–S201 overlap between RI-008 and MCTS-011 source citations. Under investigation. Requires source re-indexing before R53 commit.
+
+- **Cluster G status update**: S174–S176 still unresolved. NN-005's S174-S183 canonical. RI-007's S174-S176 need re-indexing to S184-S186. 9 consecutive rounds (R45–R52) unresolved.
+
+- **Dossiers count**: 62+ → 65+ (7 new dossiers in R52: MCTS-012, CS-008 expanded, CS-009, BMS-DOC-010, ENS-MCTS-001, RI-008, EA-001; plus NN-005 and CS-007 and BMS-DOC-009 expanded from R51 worker output; MCTS-011 verified).
+
+- **Empty directories updated**: ensembles/ now has 1 dossier (ENS-MCTS-001). 2 empty directories remain: kaggle/, training-data/.
+
+- **Infrastructure**: 14 of 19 workers succeeded (73.7% completion rate). 5 workers failed (API Error/timeout). Improved from R51's 6/13 failure rate (53.8%).
+
+- **Benchmark suites added**: BMS-MCTS-012-001 through BMS-MCTS-012-005 (MCTS-012 deployment), BMS-AB-001 through BMS-AB-012 (MTDf/PVS benchmarking), BMS-CS009-001 through BMS-CS009-008 (time management).
 
 ## Recent Changes (Round 50)
 

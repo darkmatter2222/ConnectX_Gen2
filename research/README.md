@@ -1,6 +1,6 @@
 # Research Repository — ConnectX Bot
 
-> **Current Round**: 47
+> **Current Round**: 48
 > **Goal**: Build the world's best Kaggle ConnectX bot through iterative research
 
 ---
@@ -67,6 +67,8 @@
 | `iterations/round-044.md` | 44 | 2026-08-05 | NN-002 expanded (NNUE 7x6/8x8 source decode), MCTS-005 hybrid search, CBL-001, DOS-007, BMS-DOC-003. 20+ experiments deferred. Governance remediation 68% (GOV-005). |
 | `iterations/round-045.md` | 45 | 2026-08-05 | 1 new governance dossier (GOV-007 R43→R44 post-commit audit, VERIFIED). 7 pre-existing dossiers validated (NN-003, MCTS-007, KAGGLE-CONNX-SPEC, CS-005, bms-doc-004, bms-doc-005, GOV-005, GOV-006). Remediation 73%→75%. 3 test artifacts introduced. 5 unindexed files. |
 | `iterations/round-046.md` | 46 | 2026-08-05 | 2 new substantive dossiers (NN-004 transfer learning ~37 KB, CON-001 new contenders ~37 KB). 6 dossiers expanded/validated. Governance remediation plateaus at 75% (6 rounds). 1 missing write (BMS-DOC-007). NN-004 source overlap with S160-S165 needs de-duplication. R20+ jobs from 7 workers. |
+| `iterations/round-047.md` | 47 | 2026-08-05 | 2 new dossiers (MCTS-008 rollout strategy, bms-doc-007 statistical methodology) + 1 missing write (Kamide). NN-004 expanded (12 new sources S158-S169, board-size generalization). CS-005 expanded (adaptive scoring). Governance at 100% plateau. NEW Cluster F source collision (S158-S169 overlap RI-002/NN-004/Kamide). 7 NEXUS index gaps. |
+| `iterations/round-048.md` | 48 | 2026-08-06 | 2 new substantive dossiers (NN-005 model compression ~31 KB, RI-007 3 new ref impls ~27 KB). NN-005: pruning, quantization, distillation, 10 new sources S174-S183. RI-007: Tarun995 Python bitboard, jesper-olsen Rust solver, haithameleuch Kotlin hybrid. NEW Cluster G collision (S174-S176 overlap RI-007/NN-005). Governance plateau at 100%. Dossier quota NOT met (2/3). Kamade still not persisted. Worker-02 produced empty file. 3 collision clusters (E, F, G). |
 
 ## Legacy Documents (evidence, preserved)
 

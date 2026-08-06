@@ -1,10 +1,9 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 280+ claims (C001–C295), 165+ sources (S001–S165, **S158–S169 collision cluster F**), 24 hypotheses, 24 ensembles, 23+ contenders, 38+ substantive dossiers + 7 test/artifact
+> Compiled from: 280+ claims (C001–C295), 187+ sources (S001–S187, S_CB-001-01 through S_CB-001-04, **S158–S169 collision cluster F, S174–S176 collision cluster G**), 24 hypotheses, 24 ensembles, 24+ contenders, 39+ substantive dossiers + 7 test/artifact
 > **Claims by status:** 135+ VERIFIED (48%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 97+ OTHER (35%)
-> **Last Updated:** 2026-08-05 22:00 ET (Round 47)
-> **Repository Evidence Health:** MODERATE — 6 source collision clusters (A–F), NN-004 substantive, bms-doc-007 new, MCTS-008 new, governance at 100% coverage plateau
-> **Repository Evidence Health:** MODERATE+ — 2 new substantive dossiers (NN-004: Transfer Learning, CON-001: New Contenders)
+> **Last Updated:** 2026-08-06 01:30 ET (Round 48)
+> **Repository Evidence Health:** MODERATE — 7 source collision clusters (A–G), NN-005 (Model Compression) new, RI-007 (3 new ref impls) new, governance at 100% coverage plateau, dossier quota not met (2/3)
 ## Changes Since Last Synthesis (Round 45 → 46)
 
 Batch: batch-00105-20260805-210158 (21 result files, 20 jobs, 7 workers dispatched across 7 lanes, 2026-08-05 ~15:49–21:01 ET)
@@ -12,6 +11,8 @@ Batch: batch-00105-20260805-210158 (21 result files, 20 jobs, 7 workers dispatch
 ### Dossiers Created (2 new substantive + 1 missing write)
 
 - **NN-004** — `research/dossiers/neural/NN-004-transfer-learning.md` (~37 KB, PROPOSED). Transfer learning and board-size generalization for neural ConnectX bots. Three transfer strategies catalogued: (1) fine-tuning from 7x6 to 15x13, (2) feature engineering for board-size-invariant encoding, (3) auxiliary oracle supervision (AZAL). DQN-ConnectX-Agent (DS669 student project) provides empirical architecture comparison: 5 CNN configurations tested, learning rate 0.001, replay buffer 10K transitions, gamma=0.99. Key finding: "Increasing layer count and neuron width drastically extended training periods while delivering only minor accuracy improvements — smaller models preferred for 2s/move Kaggle constraint." 12 sources (S160–S173, with S160–S165 overlapping RI-002/NN-003 sources — needs de-duplication). 3 adapted reference sketches + 2 conceptual pseudocode blocks. [Full dossier →](research/dossiers/neural/NN-004-transfer-learning.md)
+
+- **MCTS-008** -- research/dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md (~28 KB, PROPOSED). Rollout/Playout Strategy Design for ConnectX: four-category taxonomy (random playouts, tactical-aware playouts with win/block priority, NN-policy-guided playouts at oracle match 0.849, hybrid phase-adaptive). 6 new sources (S158-S163). Board-size/inarow applicability for 4x5 through 15x13. [Full dossier](research/dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md)
 
 - **CON-001** — `research/dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md` (~37 KB, PROPOSED). New contender discovery with systematic benchmark framework. Six public Connect 4/ConnectX bots discovered in GitHub topic scans since Round 44, each with deep source-level analysis: (1) ManuelFay/Alpha_Connect4 — PyTorch DQN architecture study, 5 configurations compared, lighter architectures converge faster; (2) jesper-olsen/connect-four — Rust Fhourstones port with interactive CLI; (3) Kamide/connect-n — TypeScript PWA with adaptive scoring by winCondition (genuinely generalizable to arbitrary board sizes); (4) Kaggle official negamax_agent as canonical benchmark baseline; (5) Kaggle reference implementation profile; (6) Systematic benchmark evaluation framework. [Full dossier →](research/dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md)
 
@@ -73,6 +74,47 @@ Batch: batch-00105-20260805-slot2-job638 (1 worker: classical search lane)
 - T107 -> COMPLETE (eval function design documented in CS-005)
 - FU-139 added (validate evolved weights empirically)
 
+
+### Changes Since Last Synthesis (Round 47 to 48)
+
+Batch: batch-00107-20260806 (1 worker dispatched - slot 5 of 7, job 595, Contenders/Baselines lane)
+
+**Dossiers Created (1 new):**
+
+- **CB-001** - research/dossiers/contenders/CB-001-kaggle-official-builtin-agents.md (NEW). Complete source-level analysis of Kaggle official built-in agents (random_agent, negamax_agent, is_win()). Includes full source excerpts from Kaggle ConnectX game engine (connectx.py, Apache 2.0), JSON spec, and E2E test suite. Covers all 6 missing contender deep profiles (connectX-bitboard-agent, MCTS-NC, neurofour, IncludeAI, marcpaulo15, Widnyana), benchmark baseline methodology, progressive difficulty ladder, board-size scaling tests, statistical test design, pros/cons comparison, feasibility matrix, performance evidence table, integration/ensemble opportunities, failure modes, benchmark requirements (BMS-CB-001 through BMS-CB-007), open questions, and recommendations. 1,077 lines total.
+
+---
+
+
+**Dossiers Updated:**
+
+- **NEXUS.md** - Contenders directory index expanded from 5 to 6 dossiers. Top-level contenders count updated from 23+ to 24+. CB-001 added to dossier index table.
+
+**Key Findings:**
+
+1. **Kaggle negamax_agent uses NO alpha-beta** - pure negamax with depth 4 and naive adjacency heuristic (+1 per 4 neighboring cells). This is a critical baseline characterization - previously assumed to be minimax with AB.
+
+2. **Leaf heuristic does not scale to 15x13** - adjacency counting (4 neighbors per cell) is board-size-agnostic but provides no positional value. On 15x13 boards, the leaf heuristic becomes meaningless.
+
+3. **is_win() uses O(columns x inarow) directional sweep** - standard approach, not bitboard-based. Fill-trick approaches (neurofour) could be faster.
+
+4. **connectX-bitboard-agent is the most sophisticated pure-Python classical engine** - 5 optimization features (Numba-JIT, PVS, 16M TT, history heuristic, killer moves) - unmatched by any other pure-Python engine in the corpus.
+
+5. **No contender benchmarked on 15x13** - This is the single largest benchmark gap in the entire corpus.
+
+**New Benchmark Requirements:**
+
+| ID | Description | Priority |
+|----|-------------|----------|
+| BMS-CB-001 | Measure negamax_agent win rate vs all classical agents | P0 |
+| BMS-CB-002 | Profile connectX-bitboard-agent depth/NPS on Kaggle T4 | P0 |
+| BMS-CB-003 | Measure MCTS-NC playouts/second on Kaggle T4 | P0 |
+| BMS-CB-004 | Test all neural agents on 15x13 | P0 |
+| BMS-CB-005 | Create progressive difficulty ladder test suite | P1 |
+| BMS-CB-006 | Measure fill-trick vs directional sweep speed in Python | P1 |
+| BMS-CB-007 | Profile Numba JIT warm-up on Kaggle | P1 |
+---
+
 ### Changes Since Last Synthesis (Round 46 → 47)
 
 Batch: batch-00106-20260805-223654 (5 result files, 5 jobs, 4 workers dispatched across 5 lanes, 2026-08-05 ~21:39–22:26 ET)
@@ -127,7 +169,6 @@ Batch: batch-00106-20260805-223654 (5 result files, 5 jobs, 4 workers dispatched
 5. **Governance at 100% plateau:** Zero fully unaddressed but 5 partially repaired unchanged for 6+ rounds.
 6. **Source collision clusters: 6 (A–F)** — double the count from R46 (5 clusters).
 
----
 
 ## Changes Since Last Synthesis (Round 44 → 45)
 
@@ -1710,6 +1751,8 @@ These are areas where the research did not produce definitive answers:
 ---
 
 *This report was last updated 2026-08-05 19:00 ET (Round 44). It reflects the state of the corpus after batch-00103 synthesis: 2 new dossiers created (GOV-006 R43 corpus governance and index audit, BMS-DOC-005 Kaggle competitive benchmark design), 1 substantive dossier accepted from R43 (NN-003 neural network training methodology), 3 thin files archived to legacy (CS-005, MCTS-006, CBL-002). 36 dossier files across 12 directories (2 empty: ensembles, training-data). Governance remediation at 75% (17/22). 15 new governance claims (C226–C240), 20 new follow-up tasks (FU-099–FU-120), 8 new training sources (S150–S157). 6 new deferred benchmark experiments (EXP-BMS-001 through EXP-BMS-006) specified.*
+
+
 
 
 

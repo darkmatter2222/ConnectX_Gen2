@@ -17,11 +17,11 @@
 | Other | 97+ | 35% (unchanged minus C276-C295 promotion) |
 | Hypotheses | 24 | HYP-001 through HYP-024 (unchanged) |
 | Ensembles | 24 | E-001 through E-012, ENS-013 through ENS-024 (unchanged) |
-| Contenders | 23+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001 |
+| Contenders | 24+ | BOT-001 through BOT-017, DOS-006, DOS-007, CBL-002, KAGGLE-CONNX-SPEC, CON-001 |
 | Benchmark Suites | 54+ | BMS-001-BMS-012, BMS-016-BMS-021, BMS-029-BMS-039, EXP-BMS-001-008, BMS-NN-001-007, BMS-KAM-001-006, BMS-CON-001-006 |
 | Experiments | 96+ | EXP-001-046, EXP-NEW-001-010, EXP-NN-001-006, EXP-TS-001-004, EXP-BMS-001-008 |
 | Sources | 165+ | S001-S165 (NN-004 claimed S158-S169 — **COLLISION** with RI-002 S158-S165; Kamide claimed S158-S163 — **COLLISION** with RI-002) |
-| Dossiers | 45+ | 38 substantive + 7 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
+| Dossiers | 46+ | 39 substantive + 7 test/artifact across 12 directories (3 empty: ensembles, kaggle, training-data) |
 | Governance Findings | 110+ | F-001-F-022 (GOV-001) + C216-C220 (GOV-004) + C226-C240 (GOV-006 R43) + C241-C260 (GOV-007 R44-R45) + C276-C295 (GOV-009 R46) + FU-001-FU-186 |
 | Remediation Rate | 100% | 17/22 fully + 5/22 partially repaired (GOV-009 R46). **100% coverage plateau** — 0 fully unaddressed for 2 rounds |
 
@@ -42,7 +42,7 @@
 
 ## Source ID Collision Map
 
-6 collision clusters identified across rounds R16–R47. **38+ source IDs affected.**
+7 collision clusters identified across rounds R16–R48. **41+ source IDs affected.**
 
 ### Cluster F — RI-002 / NN-004 / Kamade source overlap (R45, R46, R47) **NEW**
 
@@ -51,7 +51,7 @@
 | S158-S163 | RI-002 reference implementation sources | NN-004 transfer learning sources | Kamade source sources | **CRITICAL** — all three dossiers claim same IDs for different content. Must re-index NN-004 to S166-S177 and Kamade to S178-S183. |
 | S164-S165 | RI-002 sources | NN-004 claims | — | Overlap with NN-004 |
 
-**Remediation**: Cluster F re-indexing sprint required in R48. NN-004 sources must be re-indexed to S166-S177. Kamade sources must be re-indexed to S178-S183.
+**Remediation**: Cluster F re-indexing sprint required in R48. NN-004 sources must be re-indexed to S166-S177. Kamade sources must be re-indexed to S178-S183. **STATUS R48: 0% remediated, 7 rounds.** NN-005 claimed S174-S183 (non-overlapping) but created Cluster G with RI-007.
 
 ### Cluster A — katac4 / TensorRT Inference (R16, R25, R30)
 
@@ -111,6 +111,29 @@
 
 **R45 Note**: RI-002 added S158–S165 (connectpuct) — verified non-colliding. NN-004 agent claimed S160–S173; S160–S165 overlap with NN-003/RI-002; unique sources S166–S173 need de-duplication and unique assignment.
 
+### Cluster F — S158–S169 Cross-Dossier Collision (R45–R47)
+
+| Claimant | Source Range | Dossier | Ledger Assigned |
+|----------|-------------|---------|-----------------|
+| RI-002 (R45) | S158–S165 | connectpuct PUCT MCTS | connectpuct engine, mcts, minimax, adversarial, benchmark, pyproject.toml, README.md |
+| NN-004 (R46) | S158–S169 (overlaps S158–S165) | Transfer Learning — 15x13 | **COLLISION** — NN-004's S158–S165 overlap with RI-002's S158–S165. NN-004's S166–S169 are verified non-colliding. |
+| Kamade (planned R47) | S158–S163 (overlaps) | Contender dossier (NOT PERSISTED) | **COLLISION** — Kamade planned but never persisted to disk. |
+
+**Impact**: Any dossier citing S160 (NNUE spec) or S163 (adversarial.py) could resolve to RI-002 or NN-004 content. **CRITICAL for implementers.**
+
+**Remediation**: NN-004 sources S158–S169 need re-indexing to S166–S177. Kamade sources need re-indexing to S178–S183. RI-002 sources S158–S165 verified as canonical — no change needed.
+
+### Cluster G — S174–S176 RI-007 / NN-005 Collision (NEW, R48)
+
+| Claimant | Source Range | Dossier | Description |
+|----------|-------------|---------|-------------|
+| RI-007 (R48) | S166–S176 (includes S174–S176) | 3 new reference impls | S174 = minimax.rs (jesper-olsen), S175 = haithameleuch/connect-four-ai repo, S176 = VierGewinnt.kt |
+| NN-005 (R48) | S174–S183 | Model Compression | S174 = Deep Compression (arXiv:1510.00149), S175 = Distillation (arXiv:1503.02531), S176 = Lottery Ticket (arXiv:1803.03635) |
+
+**Impact**: S174–S176 are claimed by both RI-007 (reference source files) and NN-005 (academic papers). **CRITICAL** — these IDs must be disambiguated.
+
+**Remediation**: NN-005's S174–S183 are canonical (academic papers). RI-007's S174–S176 need re-indexing to S184–S186. RI-007's S166–S173 overlap with ledger entries from R45/R46 (jesper-olsen/repos, Woonderpipe, Karthick-dev-cart, sidhantagar, Kaggle official) — these should cross-reference existing ledger entries rather than re-claim.
+
 ---
 
 ## Fabricated Data Ledger
@@ -127,7 +150,7 @@
 
 ## Dossier Index
 
-### Governance (7 dossiers)
+### Governance (9 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -138,8 +161,10 @@
 | GOV-005 | R42 Comprehensive Corpus Governance Audit | VERIFIED | `dossiers/governance/GOV-005-R42-comprehensive-corpus-governance-audit.md` |
 | GOV-006 | R43 Corpus Governance and Index Audit | VERIFIED | `dossiers/governance/GOV-006-R43-corpus-governance-and-index-audit.md` |
 | GOV-007 | R43→R44 Post-Commit Governance Audit | VERIFIED | `dossiers/governance/GOV-007-R43-to-R44-post-commit-governance-audit.md` |
+| GOV-008 | R45 Master Governance Report — 77% Remediation | PROPOSED | `dossiers/governance/GOV-008-R45-master-governance-report.md` |
+| GOV-009 | R46 Master Governance Report — 100% Coverage Plateau | PROPOSED | `dossiers/governance/GOV-009-R46-master-governance-report.md` |
 
-### MCTS (7 dossiers)
+### MCTS (8 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -148,7 +173,9 @@
 | MCTS-003 | MCTS Variant Taxonomy (UCT, PUCT, LCB, FPU, PCR) | PROPOSED | `dossiers/mcts/mcts-003-mcts-variant-taxonomy.md` |
 | MCTS-004 | MCTS Deployment Architecture (Board-Size Templates, Timing Governance, Ensemble Integration) | PROPOSED | `dossiers/mcts/MCTS-004-MCTS-deployment-architecture.md` |
 | MCTS-005 | Hybrid Search Systems and Tactical Override Architectures (Tactical Override, Game-Phase Routing, TT Integration, Search Tree Management) | PROPOSED | `dossiers/mcts/MCTS-005-hybrid-search-systems.md` |
+| MCTS-006 | Transposition-Aware MCTS (Node Merging, Position Hashing, Move Ordering via Transpositions, GPU Handling) | PROPOSED | `dossiers/mcts/MCTS-006-transposition-aware-mcts.md` |
 | MCTS-007 | GPU-Accelerated MCTS | PROPOSED | `dossiers/mcts/MCTS-007-gpu-accelerated-mcts.md` |
+| MCTS-008 | Rollout/Playout Strategy Design (Random, Tactical, Policy-Guided, Hybrid Playouts) | PROPOSED | `dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md` |
 
 
 
@@ -179,7 +206,7 @@
 | BMS-DOC-005 | Kaggle Competitive Benchmark Design and Evaluation Protocol | PROPOSED | `dossiers/benchmarking/bms-doc-005-kaggle-competitive-benchmark-design-and-evaluation.md` |
 | BMS-DOC-006 | Hardware Performance Profiling and Feasibility Boundaries | PROPOSED | `dossiers/benchmarking/bms-doc-006-hardware-performance-profiling-and-feasibility-boundaries.md` |
 
-### Reference Implementations (4 dossiers)
+### Reference Implementations (5 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
@@ -187,44 +214,51 @@
 | RI-001 | katac4 Reference Implementation (AlphaZero + KataGo) | VERIFIED | `dossiers/reference-implementations/katac4-reference-implementation.md` |
 | KAGGLE-CONNX-SPEC | Kaggle ConnectX Environment Spec and Interpreter (JSON Spec, Python Interpreter, Built-in Agents, Game Contract) | PROPOSED | `dossiers/reference-implementations/KAGGLE-CONNX-SPEC.md` |
 | RI-002 | connectpuct PUCT MCTS with Tactical Priors | PROPOSED | `dossiers/reference-implementations/RI-002-connectpuct-puct-mcts-with-tactical-priors.md` |
+| RI-007 | Three New ConnectX Reference Implementations from 2026 Scan: Tarun995 (Python+Numba bitboard), jesper-olsen (Rust Tromp solver), haithameleuch (Kotlin hybrid) | PROPOSED | `dossiers/reference-implementations/RI-007-three-new-connectx-reference-implementations-from-2026-scan.md` |
 
-### Contenders (5 dossiers)
+### Contenders (6 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | CBL-001 | Contenders, Baselines, and Benchmark References | PROPOSED | `dossiers/contenders/CBL-001-contenders-baselines-benchmark-comprehensive.md` |
+| CB-001 | Kaggle Official Built-in Agents — Complete Source Analysis | PROPOSED | `dossiers/contenders/CB-001-kaggle-official-builtin-agents.md` |
 | D-CBL-001 | Baseline Contender Comparison | PROPOSED | `dossiers/contenders/contenders-baselines-benchmark-references.md` |
 | DOS-006 | Contender Deep Profiles and Board-Size Analysis | VERIFIED | `dossiers/contenders/contenders-deep-profiles-and-board-size-analysis.md` |
 | DOS-007 | Kaggle Competitive Analysis — Algorithmic Trade-offs, Board-Size Scaling, Ensemble Strategy | READY | `dossiers/contenders/DOS-007-kaggle-competitive-analysis.md` |
 | CON-001 | New Contenders and Benchmark Framework | READY | `dossiers/contenders/CON-001-new-contenders-and-benchmark-framework.md` |
 
-### Neural (3 dossiers)
+### Neural (4 dossiers)
 
 | ID | Title | Status | Path |
 |----|-------|--------|------|
 | NN-001 | Neural Network Architectures, Training Pipelines, and Data | READY | `dossiers/neural/NN-001-neural-networks-architectures-training-pipelines-and-data.md` |
 | NN-002 | NNUE Architecture Deep Dive — 7x6/8x8 source decode, incremental accumulator, ResNet specification | PROPOSED | `dossiers/neural/NN-002-train-deep-dive.md` |
 | NN-003 | Training Methodology Deep Dive — Temperature Schedules, Replay Buffer Dynamics, AZAL, Board-Size Training | PROPOSED | `dossiers/neural/NN-003-training-methodology-deep-dive.md` |
+| NN-004 | Transfer Learning — 7x6→15x13 Fine-Tuning, Board-Size Invariant CNN, AZAL Multi-Frame Adaptation | PROPOSED | `dossiers/neural/NN-004-transfer-learning.md` |
+| NN-005 | Model Compression: Pruning, Quantization, and Distillation — Global Magnitude Pruning, INT8 PTQ/QAT, Hinton Distillation, 100K-Param Students for 2000-5000 MCTS Eval/Move | PROPOSED | `dossiers/neural/NN-005-model-compression-pruning-quantization-and-distillation.md` |
 
 **NN-001 scope:** 5 architecture families (ResNet, MLP, CNN, DQN, NNUE), 3 training pipelines, 18 sources, inference optimization (TensorRT INT8), board-size generalization.
 **NN-002 scope:** NNUE incremental evaluation (O(changes) cost, QA=127 quantization), 7x6 vs 8x8 board size analysis, ResNet vs NNUE comparison.
 **NN-003 scope:** Temperature decay formulas (corrected katac4: max(1.03, 1.35*pow(0.66, step/bs))), replay buffer dynamics (alpha=0.75, beta=0.4, 250K capacity), AZAL auxiliary loss (0.785 oracle match), board-size training strategy (9x9 through 12x12 randomization), Kaggle T4/CPU training feasibility, 8 sources (S150-S157).
+**NN-004 scope:** Transfer learning for 15x13 board-size generalization. 12 sources (S158-S169, collision with RI-002). Fine-tuning strategies, NNUE weight switching, AZAL multi-frame adaptation, DQN architecture comparison. 3 adapted sketches + 2 pseudocode blocks. 7 benchmark requirements (BMS-NN-001 through BMS-NN-007).
+**NN-005 scope:** Model compression for ConnectX neural nets. Global magnitude pruning, structured channel pruning, PTQ/QAT to INT8, Hinton knowledge distillation, feature-based matching, deployment optimization. 10 sources (S174-S183). Key claim: distilled student (~100K-200K params) enables 2,000-5,000 MCTS evals/move vs 200-400 with large ResNet. 4 adapted sketches + 3 pseudocode blocks.
 
-### Empty Directories (2)
+### Empty Directories (3)
 
-### Empty Directories (2)
+### Empty Directories (3)
 
 | Directory | Status | Action Needed |
 |-----------|--------|---------------|
 | ensembles/ | EMPTY | Needs ensemble design dossiers |
 | training-data/ | EMPTY | Needs training pipeline data dossiers |
+| kaggle/ | EMPTY | Needs Kaggle environment/agent dossiers |
 
 ---
 
 ## Cross-Link Map
 
 ### Governance Chain
-GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger assessment R36) -> GOV-004 (comprehensive audit R37, 55%) -> GOV-005 (comprehensive audit R42, 68%) -> GOV-006 (index audit R43, 73%) -> GOV-007 (post-commit audit R44, 75%) -> GOV-008 (master governance report R45, 77%)
+GOV-001 (22 findings R34) -> GOV-002 (remediation tracking R36) -> GOV-003 (post-merger assessment R36) -> GOV-004 (comprehensive audit R37, 55%) -> GOV-005 (comprehensive audit R42, 68%) -> GOV-006 (index audit R43, 73%) -> GOV-007 (post-commit audit R44, 75%) -> GOV-008 (master governance report R45, 77%) -> GOV-009 (master governance report R46, 100% coverage plateau)
 
 
 CS-001 (opening books) -> CS-002 (board rep) -> CS-003 (solver engineering) -> CS-004 (algorithm comparison) -> F-001 (foundations)

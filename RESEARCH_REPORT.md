@@ -1,8 +1,9 @@
 # ConnectX Bot Research Report — The Path to the Perfect Agent
 
-> Compiled from: 260+ claims (C001–C260), 165+ sources (S001–S165), 24 hypotheses, 24 ensembles, 22+ contenders, 33+ substantive dossiers + 6 test/artifact
-> **Claims by status:** 115+ VERIFIED (42%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 107+ OTHER (40%)
-> **Last Updated:** 2026-08-05 21:30 ET (Round 46)
+> Compiled from: 280+ claims (C001–C295), 165+ sources (S001–S165, **S158–S169 collision cluster F**), 24 hypotheses, 24 ensembles, 23+ contenders, 38+ substantive dossiers + 7 test/artifact
+> **Claims by status:** 135+ VERIFIED (48%), 24 NEEDS_CORRECTION (9%), 24 HYPOTHESIS (9%), 97+ OTHER (35%)
+> **Last Updated:** 2026-08-05 22:00 ET (Round 47)
+> **Repository Evidence Health:** MODERATE — 6 source collision clusters (A–F), NN-004 substantive, bms-doc-007 new, MCTS-008 new, governance at 100% coverage plateau
 > **Repository Evidence Health:** MODERATE+ — 2 new substantive dossiers (NN-004: Transfer Learning, CON-001: New Contenders)
 ## Changes Since Last Synthesis (Round 45 → 46)
 
@@ -72,6 +73,61 @@ Batch: batch-00105-20260805-slot2-job638 (1 worker: classical search lane)
 - T107 -> COMPLETE (eval function design documented in CS-005)
 - FU-139 added (validate evolved weights empirically)
 
+### Changes Since Last Synthesis (Round 46 → 47)
+
+Batch: batch-00106-20260805-223654 (5 result files, 5 jobs, 4 workers dispatched across 5 lanes, 2026-08-05 ~21:39–22:26 ET)
+
+**Dossiers Created (2 new substantive + 1 missing write):**
+
+- **MCTS-008** — `research/dossiers/mcts/MCTS-008-rollout-playout-strategy-design.md` (NEW). Rollout and playout strategy design for ConnectX MCTS: domain-specific rollout heuristics, threat-aware playout policies, board-size adaptive rollouts, transposition-aware MCTS integration with MCTS-006. Substantive MCTS variant dossier.
+
+- **bms-doc-007** — `research/dossiers/benchmarking/bms-doc-007-statistical-methodology-and-experiment-governance.md` (NEW). Statistical methodology and experiment governance for ConnectX benchmarking: ablation study design, statistical rigor, experiment lifecycle, governance integration. Completes the bms-doc series (001–007).
+
+- **KAMIDE-CONNECT-N** (MISSING WRITE — Worker 01 job-00591 produced detailed Kamade/connect-n dossier planning with 20 sections, 6 sources (S158-S163), and adaptive scoring analysis, but the file was NOT persisted to disk. Kamade's adaptive scoring engine (any board geometry, any winCondition) is highly relevant to 15x13 board-size generalization. **This is a critical missed opportunity.**)
+
+**Dossiers Expanded/Validated (4):**
+
+- **NN-004** — Significantly expanded. Transfer learning and board-size generalization dossier (492 lines, ~31 KB). Now covers marcpaulo15 CustomNetwork with board_shape parameter, AZAL multi-frame adaptation, katac4 random board-size self-play, 7x6→15x13 fine-tuning hypothesis, NNUE incremental weight switching. 12 new sources claimed (S158-S169 — **COLLISION with RI-002 S158-S165**). 3 adapted reference sketches + 2 conceptual pseudocode blocks. 7 benchmark requirements (BMS-NN-001 through BMS-NN-007). Critical gap addressed: no neural architecture generalizes to 15x13 boards.
+
+- **CS-005** — Expanded with classical search improvements: adaptive scoring patterns, move ordering analysis, EXP-KAM-001 through EXP-KAM-005 deferred experiments.
+
+- **MCTS-006** — Expanded: transposition-aware MCTS enhancements, node merging, position hashing, transposition volume analysis for 7x6/8x8/10x8/15x13 boards. **NOTE: MCTS-006 uses 3 Cluster E colliding sources (S131, S132, S135) — flagged for Cluster E remediation.**
+
+- **bms-doc-007** — New statistical methodology dossier added to benchmarking.
+
+**Governance Changes:**
+
+- **Remediation rate: 100% (17/22 fully + 5/22 partially).** First time 100% coverage achieved. Zero fully unaddressed findings. **But** 5 partially repaired findings unchanged for 6+ rounds (Cluster E, fabricated data, NEXUS index accuracy, empty directories, stale headers). Governance at 100% coverage plateau.
+
+- **NEW Source Collision Cluster F (CRITICAL):** NN-004 claimed sources S158-S169 which overlap RI-002's S158-S165 and Kamade's S158-S163. All three dossiers cite the same source IDs for different content. Re-indexing required: NN-004 → S166-S177, Kamade → S178-S183.
+
+- **NEXUS index gaps: 7 missing entries** (unchanged from R46). New dossiers created without corresponding NEXUS index updates — systemic pattern.
+
+- **kaggle/ directory: NEW empty directory** (3rd). ensembles/, training-data/, kaggle/ all empty.
+
+- **Header convergence: 7/13 core files current or within 1 round (54%).** Improved from 5/13 in R45.
+
+**New Benchmark Requirements:**
+
+| ID | Description | From |
+|----|-------------|------|
+| BMS-NN-001 | 15x13 transfer learning: fine-tune ResNet on 50K positions | NN-004 |
+| BMS-NN-002 | Catastrophic forgetting measurement | NN-004 |
+| BMS-NN-003 | End-to-end: transfer-learned CNN vs. negamax on 15x13 | NN-004 |
+| BMS-NN-007 | AZAL oracle consistency on 15x13 | NN-004 |
+| BMS-KAM-001–006 | Kamade engine benchmarks (depth scaling, move ordering, board generalization) | Kamade |
+| BMS-CON-001–006 | Contender benchmarks (6 bots vs negamax on 7x6/15x13) | CON-001 |
+
+**Key Findings:**
+
+1. **Cluster F source collision NEW:** S158-S169 overlap across RI-002, NN-004, Kamade. 8 colliding IDs. **CRITICAL** — implementers will get wrong content. R48 remediation required.
+2. **NN-004 substantive:** 492 lines, transfer learning for 15x13 — the most critical gap. Covers 5 distinct approaches (marcpaulo15 CNN, AZAL, katac4 self-play, 7x6→15x13 fine-tuning, NNUE weight switching).
+3. **Kamide dossier not persisted:** Worker planned but did not write file. Kamade's adaptive scoring engine is relevant to board-size generalization. **Action: create Kamade dossier in R48.**
+4. **MCTS-006 stale archive:** archive/legacy/MCTS-006-thin-shell-archived.md conflicts with substantive MCTS-006 in mcts/. NEXUS should reference substantive version.
+5. **Governance at 100% plateau:** Zero fully unaddressed but 5 partially repaired unchanged for 6+ rounds.
+6. **Source collision clusters: 6 (A–F)** — double the count from R46 (5 clusters).
+
+---
 
 ## Changes Since Last Synthesis (Round 44 → 45)
 

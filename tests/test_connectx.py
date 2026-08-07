@@ -934,3 +934,84 @@ class TestWinSeekBlockTactics:
         legal = [0, 6]    # cols 0 and 6 are open
         action = win_seek_block_bot(b, PLAYER_1, legal, COLS)
         assert action == 0  # win at col 0 (completes row-0 cols 0-3)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 13. Bitboard AB improved (v2) bot tests
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class TestBitboardAbV2:
+    """Tests for the improved bitboard_ab_bot_v2 with iterative deepening,
+    killer moves, history heuristic, and null-move pruning."""
+
+    def test_v2_returns_legal_move(self):
+        """v2 must return a legal move on an empty board."""
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2
+        b = make_board()
+        legal = valid_moves(b, COLS)
+        action = bitboard_ab_bot_v2(b, PLAYER_1, legal, COLS)
+        assert action in legal
+
+    def test_v2_detects_immediate_win(self):
+        """v2 must detect and take an immediate win."""
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2
+        b = make_board()
+        # Stack 3 in a row at bottom row (properly: rows 0-5)
+        for r in range(ROWS):
+            b[r * COLS + 0] = PLAYER_1
+            b[r * COLS + 1] = PLAYER_1
+            b[r * COLS + 2] = PLAYER_1
+        legal = valid_moves(b, COLS)
+        action = bitboard_ab_bot_v2(b, PLAYER_1, legal, COLS)
+        assert action == 3, f"v2 should win at col 3, got {action}"
+
+    def test_v2_detects_immediate_block(self):
+        """v2 must block an immediate opponent win."""
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2
+        b = make_board()
+        for r in range(ROWS):
+            b[r * COLS + 0] = PLAYER_2
+            b[r * COLS + 1] = PLAYER_2
+            b[r * COLS + 2] = PLAYER_2
+        legal = valid_moves(b, COLS)
+        action = bitboard_ab_bot_v2(b, PLAYER_1, legal, COLS)
+        assert action == 3, f"v2 should block at col 3, got {action}"
+
+    def test_v2_faster_variant(self):
+        """v2 fast variant must also return valid moves."""
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_fast_v2
+        b = make_board()
+        legal = valid_moves(b, COLS)
+        action = bitboard_ab_bot_fast_v2(b, PLAYER_1, legal, COLS)
+        assert action in legal
+
+    def test_v2_does_not_mutate_board(self):
+        """v2 must not mutate the input board during search."""
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2
+        b = make_board()
+        # Fill column 0 fully
+        for r in range(ROWS):
+            b[r * COLS + 0] = PLAYER_1 if r % 2 == 0 else PLAYER_2
+        legal = valid_moves(b, COLS)
+        board_before = list(b)
+        action = bitboard_ab_bot_v2(b, PLAYER_1, legal, COLS)
+        board_after = list(b)
+        assert board_before == board_after, "v2 must not mutate input board"
+        assert action in legal, f"v2 returned {action} which is not in legal {legal}"
+
+    def test_v2_vs_random_wins(self):
+        """v2 should win most games as first player against random."""
+        import random as rand_mod
+        from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2
+        rand_mod.seed(42)
+        v2_first_wins = 0
+        for _ in range(50):
+            g = play_game_seated(bitboard_ab_bot_v2, random_bot)[0]  # g1 = v2 first
+            if g.winner == 1:  # v2 as mark 1 (first)
+                v2_first_wins += 1
+        # v2 as first player should win a significant fraction against random
+        assert v2_first_wins > 30, (
+            f"v2 as first player should beat random >30%: "
+            f"first-player wins={v2_first_wins}/50"
+        )

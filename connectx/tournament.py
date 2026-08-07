@@ -70,13 +70,28 @@ class MatchResult:
     bot_a_wins: int = 0
     bot_b_wins: int = 0
     draws: int = 0
-    bot_a_win_pct: float = 0.0
-    bot_b_win_pct: float = 0.0
-    draw_pct: float = 0.0
 
     @property
     def total_games(self) -> int:
         return len(self.games)
+
+    @property
+    def bot_a_win_pct(self) -> float:
+        if self.total_games == 0:
+            return 0.0
+        return self.bot_a_wins / self.total_games * 100
+
+    @property
+    def bot_b_win_pct(self) -> float:
+        if self.total_games == 0:
+            return 0.0
+        return self.bot_b_wins / self.total_games * 100
+
+    @property
+    def draw_pct(self) -> float:
+        if self.total_games == 0:
+            return 0.0
+        return self.draws / self.total_games * 100
 
     def summary(self) -> str:
         n = self.total_games

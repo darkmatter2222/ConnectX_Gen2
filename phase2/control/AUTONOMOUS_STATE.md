@@ -20,6 +20,35 @@
 7. **v2 null-move safety fix** — added opponent-threat check before null-move pruning, try/except resilience
 8. **Full performance profiling** — v2 timing (61ms empty board), vs random (87%), vs mcts (75%)
 
+## Cycle 10: Neural Network Evaluation (Knowledge Distillation)
+
+### Training Results
+- **Dataset:** 5000 games × 50% noise = 115,421 positions labeled by v2 eval
+- **Architecture:** 84 → 128 → 1 (ReLU hidden, tanh output)
+- **Training:** 50 epochs, batch_size=512, RTX 5090
+- **Val loss:** 0.22 (vs 0.81 for outcome-based training)
+- **MAE:** 0.31
+
+### NN Bot Results
+- **NN vs v2:** 50/50 (expected — NN trained to mimic v2)
+- **NN vs mcts:** 40% win (vs v2's 75%) — NN bot UNDERPERFORMS MCTS
+
+### Key Finding: NN evaluation quality insufficient
+MAE of 0.31 in a [-1, 1] range causes suboptimal move selection in alpha-beta.
+Small leaf evaluation errors cascade into wrong pruning decisions.
+**Knowledge distillation from v2 heuristic ≠ better than v2** — the NN is a
+compressed, noisy version of v2's evaluation.
+
+### Knowledge Distillation vs Outcome Training
+| Metric | Outcome-based | Knowledge Distillation |
+|--------|--------------|----------------------|
+| Val loss | 0.81 | 0.22 |
+| MAE | 0.83 | 0.31 |
+| Labels | 3 classes (+1/-1/0) | Continuous [-1, 1] |
+
+Distillation vastly improves label diversity but the NN still underperforms
+v2 because of compression loss.
+
 ## Cycle 9: Evaluation & Search Improvement Research
 
 ### Key Discovery: 20ms Full Search
@@ -40,9 +69,11 @@ is vastly overkill. **The game is solved within milliseconds.**
 
 ### Conclusion
 **The limiting factor is evaluation quality, not search speed or depth.**
-Further alpha-beta improvements (search variants, eval speed) are useless at this
-board size. The only remaining path to improvement is a trained neural network
-evaluator (nn_evaluator.py exists but is untrained).
+Alpha-beta improvements don't matter at this board size.
+
+### Neural Network Path
+nn_evaluator.py and training pipeline exist but the trained NN (MAE 0.31)
+underperforms v2. Next: improve training data quality.
 
 ## Cycle 8: v2 Performance Analysis — Key Findings
 
@@ -76,10 +107,13 @@ MCTS, which plays more strategically than random.
 
 ## Next Highest-Value Unblocked Actions
 
-1. **Install PyTorch** — prepare for neural network bots (GPU not used yet)
-2. **Build v3 with alpha-beta + learned evaluation** — use v2 as base, add neural leaf eval
-3. **Build v2 ensemble** — combine v2 with mcts via confidence-gated hybrid
-4. **Fix original bitboard_ab invalid-move bug** — use board copy approach
-5. **Build opening book** for bitboard or MCTS
+1. **Improve NN evaluation quality** — train with v2 self-play data (competitive, not random)
+   - Generate 10,000+ games of v2 vs v2 with 0.1s per move (deeper search)
+   - Or generate mixed-depth self-play data (depth 10-14) for more varied evaluations
+2. **Ensemble: v2 + NN** — combine v2's heuristic with NN evaluation
+   - Weighted average: 0.7 × v2 + 0.3 × NN (if NN captures patterns v2 misses)
+3. **PyTorch in project venv** — set up GPU training at `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
+4. **Build v2 ensemble** — combine v2 with mcts via confidence-gated hybrid
+5. **Fix original bitboard_ab invalid-move bug** — use board copy approach
 6. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
-7. **Time-aware search tuning** — adjust depth based on elapsed game time
+7. **Build opening book** for bitboard or MCTS

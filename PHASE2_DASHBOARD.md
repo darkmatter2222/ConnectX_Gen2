@@ -138,6 +138,28 @@ and solve the game identically.
 But at this board size, all competent evaluations suffice because the search is
 deep enough to find forced wins. Only a trained neural network can surpass this.
 
+## Cycle 10: Neural Network Evaluation (Knowledge Distillation)
+
+**Approach:** Train a neural network to predict v2's evaluation function.
+- Dataset: 5000 games × 50% noise = 115,421 positions labeled by v2 eval
+- Architecture: 84 → 128 → 1 (ReLU hidden, tanh output)
+- GPU training (RTX 5090): 50 epochs, batch_size=512
+
+**Results:**
+| Metric | Outcome-based | Knowledge Distillation |
+|--------|--------------|----------------------|
+| Validation loss | 0.81 | **0.22** |
+| MAE | 0.83 | **0.31** |
+| Label diversity | 3 classes (+1/-1/0) | **Continuous [-1, 1]** |
+
+**NN bot vs v2:** 50/50 (expected — NN was trained to mimic v2)
+**NN bot vs mcts:** 40% win (worse than v2's 75%)
+
+**Key Finding:** NN evaluation (MAE 0.31) is too coarse for alpha-beta search.
+Small evaluation errors at leaf positions cause suboptimal move selection.
+Need: higher-quality training data (v2 self-play at deeper depths) or
+larger network/more training epochs.
+
 ## Known Issues
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug

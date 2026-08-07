@@ -14,12 +14,13 @@
 | 2 | Python environment setup | COMPLETE |
 | 3 | Core ConnectX 7×6/4 engine | COMPLETE |
 | 4 | Deterministic replay & game records | COMPLETE |
-| 5 | Timing, overage, crash handling | PENDING |
+| 5 | Timing, overage, crash handling | COMPLETE |
 | 6 | Tactical position tests | COMPLETE |
 | 7 | Baseline bots | COMPLETE (10 bots) |
 | 8 | Tournament scheduling & results | COMPLETE |
 | 9 | Seat-reversed paired evaluation | COMPLETE |
 | 10 | Measured leaderboards | COMPLETE |
+| 11 | Larger board support (8×7/5) | IN PROGRESS |
 
 ## Latest Results: Full Leaderboard Tournament (Cycle 19)
 
@@ -41,7 +42,7 @@ Every pairing produces exactly 50% win rate for both bots (win as P1, lose as P2
 | 2 | Python environment setup | COMPLETE |
 | 3 | Core ConnectX 7×6/4 engine | COMPLETE |
 | 4 | Deterministic replay & game records | COMPLETE |
-| 5 | Timing, overage, crash handling | PENDING |
+| 5 | Timing, overage, crash handling | COMPLETE |
 | 6 | Tactical position tests | COMPLETE |
 | 7 | Baseline bots | COMPLETE (10 bots) |
 | 8 | Tournament scheduling & results | COMPLETE |

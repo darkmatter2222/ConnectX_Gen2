@@ -2,6 +2,7 @@
 
 **Session:** Cycle 12
 **Date:** 2026-08-07
+**Status:** All imitation learning approaches (KD, BC, ensemble) match v2 but can't exceed it.
 
 ## What Was Last Completed
 

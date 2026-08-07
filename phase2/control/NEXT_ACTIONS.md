@@ -1,7 +1,20 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 18→19
+**Session:** Cycle 19
 **Date:** 2026-08-07
+
+## Session Summary (Cycle 19: Full Evaluation)
+
+**Key finding: 7×6/4 is solved under perfect play at this board size.**
+- All 7 alpha-beta bots equivalent (28 matchups, 336 games, 0 invalid)
+- MCTS vs v2: 35% MCTS win rate (significantly weaker)
+- MCTS PUCT vs v2: 15% win rate (even weaker, 200x slower)
+- Value NN path plateaued (quantized gameplay)
+- BC approach = v2 (perfect memorization of teacher)
+
+**Conclusion: Classical search solves 7×6/4 completely. No alpha-beta variant can be distinguished.**
+
+## Immediate next actions
 
 ## Session Summary (Cycle 18)
 

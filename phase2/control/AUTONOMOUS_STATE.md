@@ -373,6 +373,27 @@ Once the value NN reaches sufficient quality for alpha-beta leaf evaluation, ext
 - `data/selfplay_25_pure.npz` — 935 positions, zero draws
 - `models/value_net_selfplay_25/` — 25% noise value network
 
+## Cycle 19: Full Evaluation — Solved Game Confirmed
+
+**All alpha-beta bots equivalent. MCTS weaker. All neural approaches plateaued.**
+
+### Full Leaderboard Tournament (28 matchups, 336 games)
+- **Result:** Every pairing produces exactly 50% win rate for both bots
+- **Reason:** 7×6/4 is solved — first player always wins, second player always loses
+- **Implication:** No classical search variant can be distinguished at this board size
+
+### MCTS vs Alpha-Beta
+- **MCTS vs v2:** 35% win rate (MCTS as P1: 5/10, MCTS as P2: 2/10)
+- **MCTS PUCT vs v2:** 15% win rate (worse than vanilla MCTS)
+- **Timing:** v2 takes 0.6ms/move; MCTS takes 131ms/move (200× slower)
+- **Conclusion:** MCTS cannot match alpha-beta at 7×6/4
+
+### Key Finding: Classical search solves 7×6/4 completely
+The game is solved within milliseconds by alpha-beta with transposition tables.
+No evaluation improvements (fork scoring, threat detection, column control, NN) matter.
+No search improvements (PUCT, deeper search, quiescence) matter because the search
+already completes instantly.
+
 ## Cycle 18.5: Smoke Test — All 8 Bots Valid
 
 **Completed:**

@@ -11,10 +11,13 @@ Each bot is a callable with this signature:
 from connectx.bots.random_bot import random_bot
 from connectx.bots.win_seek_block import win_seek_block_bot
 from connectx.bots.shallow_minimax import shallow_minimax_bot, depth2_minimax_bot
+from connectx.bots.bitboard_ab import bitboard_ab_bot, bitboard_ab_bot_fast
 
 __all__ = [
     "random_bot",
     "win_seek_block_bot",
     "shallow_minimax_bot",
     "depth2_minimax_bot",
+    "bitboard_ab_bot",
+    "bitboard_ab_bot_fast",
 ]

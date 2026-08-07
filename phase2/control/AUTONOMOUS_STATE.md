@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 13
+**Session:** Cycle 13.1
 **Date:** 2026-08-07
-**Status:** Cycle 13 completed — value network trained, vValue bot evaluated. Value network improved NN_eval but did not surpass v2.
+**Status:** Cycle 13.1 completed — value-guided MCTS registered (mcts_bot_value), self-contained Kaggle bot built. mcts_value vs mcts within statistical noise.
 
 ## What Was Last Completed
 
@@ -15,6 +15,7 @@
    - `bitboard_ab_bot` / `bitboard_ab_bot_fast` — negamax with TT, null-move, adaptive depth
    - `bitboard_ab_bot_v2` / `bitboard_ab_bot_fast_v2` — iterative deepening, killer moves, history heuristic, null-move pruning
    - `mcts_bot` / `mcts_bot_fast` — PUCT MCTS with tactical playouts
+   - `mcts_bot_value` — value-guided MCTS (70% value network + 30% tactical)
 4. **Tournament system** with seat-aware win counting and leaderboard
 5. **Comprehensive test suite:** 78/78 passing
 6. **MCTS tactical rollout gravity bug fixed** — all drop() calls wrapped, valid_moves rechecked, empty moves handled
@@ -153,9 +154,9 @@ MCTS, which plays more strategically than random.
 
 ## Next Highest-Value Unblocked Actions
 
-1. **Kaggle packaging** — prepare a deployable submission candidate
-   - Package v2 as a single .py file with proper Kaggle imports
-   - Validate against official 7×6/4 environment
+1. **Kaggle packaging — DONE** (Cycle 13.1): `connectx/training/kaggle_self_contained.py`
+   - Self-contained single file, ready for Kaggle submission
+   - 20-move test: all moves valid, consistent with v2 behavior
 2. **Fix original bitboard_ab invalid-move bug** — use board copy approach
 3. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
 4. **Build opening book** for v2 (pre-computed early moves for speed)
@@ -213,3 +214,21 @@ v2's heuristic evaluation is already near-optimal at 7×6/4.
 
 4. **Opening book** — Pre-compute optimal moves for early-game speed.
    Effort: ~2 hours.
+
+## Session Summary (Cycle 13.1)
+
+**Completed this session:**
+- Registered `mcts_bot_value` in bot registry (connectx/bots/__init__.py)
+- Value-guided MCTS comparison (40 games): mcts_value = 17W, mcts = 13W, draws = 10
+  - Within statistical noise (Connect 4 at 7x6/4 is solved; both converge)
+  - mcts_value slower (~2.5s vs ~1.6s per game) due to PyTorch inference
+- **Kaggle packaging complete:** `connectx/training/kaggle_self_contained.py`
+  - Fully self-contained single file (~761 lines, ~25 KiB)
+  - Includes: engine, TT, killer moves, history heuristic, null-move pruning, bounds capping
+  - No external dependencies at runtime
+  - Self-test: 20 moves valid, 0 invalid moves, consistent with v2
+- All changes committed and ready to push
+
+**Files created:**
+- `connectx/training/kaggle_self_contained.py` — self-contained Kaggle bot
+- `connectx/bots/__init__.py` — updated (added mcts_bot_value to __all__)

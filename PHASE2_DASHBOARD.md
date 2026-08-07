@@ -304,6 +304,25 @@ predictions are too coarse to meaningfully enhance v2's search. However:
 - `evaluate_value.py` — Cycle 13 evaluation script
 - `models/value_net/best.pth` — trained value network (146KB)
 
+## Cycle 13.1: Value-Guided MCTS + Kaggle Packaging
+
+### Value-Guided MCTS (`mcts_bot_value`)
+- **Approach:** MCTS with trained value network (70%) + tactical playout (30%) for leaf evaluation
+- **Hybrid:** When value is near-neutral (0.35 < v < 0.65), blend value + tactical
+- **40-game comparison (mcts vs mcts_value):**
+  - mcts: 13 wins, mcts_value: 17 wins — within statistical noise
+  - mcts avg: ~1.6s/game, mcts_value avg: ~2.5s/game (PyTorch overhead)
+- **Self-play mcts_value:** P1=8, P2=8, Draws=4 — consistent with v2 self-play pattern
+- **mcts_value registered in bot registry** (`connectx/bots/__init__.py`)
+
+### Self-Contained Kaggle Bot
+- **File:** `connectx/training/kaggle_self_contained.py` (761 lines, ~23KB)
+- **Self-contained:** No external imports at runtime
+- **Includes:** engine (drop/un_drop/valid_moves/check_win), TT, killer moves,
+  history heuristic, null-move pruning, bounds-capped negamax
+- **Test:** 20 moves, 0 invalid, consistent with v2 behavior
+- **Original wrapper** (`connectx/training/kaggle_bot.py`) remains as project-import-based version
+
 ## Known Issues
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug

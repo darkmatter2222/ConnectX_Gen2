@@ -1143,3 +1143,65 @@ meaningful scores (-900 to +1800 vs original's near ±1.5).
 | Opening book + booked bot tests | 11 |
 | V2 improved eval tests | 11 |
 | V2 vs original benchmark tests | 11 |
+
+## Cycle 27: 8×7/5 Opening Book v2 + Tactical MCTS
+
+**Opened book with 13× more entries; built MCTS with threat-aware playouts.**
+
+### Opening Book v2: 3,069 entries
+
+- **Old book:** 237 entries (branching=5, depth=8, 120s)
+- **New book:** 3,069 entries (branching=4, depth=7, 600s)
+- **Hit rate:** 40% at depth 1, 23% at depth 2, 16% at depth 3, 11% at depth 4
+- **Coverage:** Extends to depth 7 ply (~14 moves per side)
+- **Book size:** ~295 KB JSON
+- **Booked bot:** `bitboard_ab_bot_fast_8x7_5_booked` uses book + AB fallback
+
+### Tactical MCTS: `mcts_tactical_bot_8x7_5`
+
+- **Threat-aware playouts:**
+  1. Win detection (immediate win search)
+  2. Block detection (block opponent's win)
+  3. **Threat creation** (new — create 4-in-a-line threats)
+  4. **Threat blocking** (new — block opponent's threats proactively)
+  5. **Heuristic terminal eval** (new — center control + adjacency + height)
+- **Performance:** 0.19-0.31s per move, fast variant 2,500 iterations
+- **10 tests pass** (import, package, empty board, legal moves, timing, game, full depth, seat-reversed, invalid check)
+
+### Tests: 10 new tests
+
+| Test | Description |
+|------|-------------|
+| `test_import` | Imports work |
+| `test_from_package` | Package import works |
+| `test_empty_board` | Legal first move |
+| `test_legal_moves` | 16 turns, all legal |
+| `test_timing` | < 5s on empty board |
+| `test_timing_after_pieces` | < 3s with pieces |
+| `test_game` | 16-move game, no crashes |
+| `test_full_depth` | Full depth variant works |
+| `test_seat_reversed` | Two bots play valid game |
+| `test_no_crash_invalid` | 30 turns, no invalid moves |
+
+**Total test count: 78 passing (35 + 11 + 11 + 11 + 10)**
+
+### Files Created/Modified
+
+| File | Description |
+|------|-------------|
+| `connectx/bots/mcts_8x7_5_tactical.py` | New tactical MCTS bot (433 lines) |
+| `connectx/tests/test_mcts_8x7_5_tactical.py` | 10 test cases |
+| `connectx/bots/__init__.py` | Registered new bot |
+| `book_8x7_5.json` | Updated: 237 → 3,069 entries |
+| `connectx/benchmarks/compare_8x7_5_v2_vs_original.py` | Invalid-move fix |
+
+### Key Findings
+
+1. **Opening book coverage matters** — 13× more entries provides better early-game coverage.
+   Hit rate drops at deeper depths due to combinatorial explosion, but depth 1-3 still
+   has 11-40% hit rate, saving AB search time in the opening.
+2. **Tactical MCTS is fundamentally different** — instead of just looking for wins/blocks,
+   it creates threats and blocks opponent threats during playouts.
+3. **Tactical MCTS is ~0.25s per move** — comparable to standard PUCT MCTS. Threat
+   detection adds modest overhead (O(cols × lines) per threat check).
+4. **Next step:** Compare tactical MCTS vs standard PUCT MCTS head-to-head.

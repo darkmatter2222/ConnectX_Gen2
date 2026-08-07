@@ -3,6 +3,26 @@
 **Session:** Cycle 16
 **Date:** 2026-08-07
 
+## Session Summary (Cycle 16)
+
+**Completed:**
+- Generated v2 self-play at 10%/15%/25% noise (background task bglndsrv2)
+- Generated v2 self-play at 20% noise: 2,696 positions (Cycle 15: 776)
+- Generated WSB self-play at 15%/30% noise: 8,356 positions (blazing fast!)
+- Combined v2 + WSB dataset: 11,890 positions
+- Key finding: **Domain mismatch** — WSB data degrades quality
+  - Combined (v2+WSB, 11,890): val_mae=0.75 — WORSE than v2-only (776 pos)
+- Larger v2 dataset (3,472 positions, 10-30%): val_mae=0.56
+  - Worse than 20% noise only (val_mae=0.41)
+- **20% noise is the sweet spot** — mixing noise levels hurts quality
+- On shared test set:
+  - 20% model (776): MAE 0.36, sign_acc 78%
+  - Mixed model (3,472): MAE 0.56, sign_acc 71%
+
+**Decision: Stick with Cycle 15 model (20% noise, 776 positions)**
+  - Best validation metrics, best gameplay performance (70% vs MCTS)
+  - More data from different noise levels → worse model (noise pollution)
+
 ## Session Summary (Cycle 15)
 
 **Completed:**
@@ -16,17 +36,11 @@
 
 ## Immediate (next session)
 
-1. **Combined dataset training — IN PROGRESS (Cycle 16)**
-   - 11,890 positions from v2 (15%/20%/25% noise) + WSB (15%/30% noise)
-   - Balanced: 5,863 W / 5,565 L / 462 D
-   - Training on combined data now running
+1. **Evaluate Cycle 15 vValue (776 pos, 20% noise) vs mcts (20 games)**
+   - Confirm 70% win rate with confidence intervals
+   - Register vValue with Cycle 15 NN as default
 
-2. **Evaluate value model on combined data**
-   - Compare vs Cycle 15 model (776 positions, 74% sign accuracy)
-   - Expected: improved accuracy with 11,890 positions
-   - Evaluate vValue and mcts_value with new model
-
-3. **Register vValue with new NN in bot registry**
+2. **Register vValue with new NN in bot registry**
    - Currently old NN is default for vValue
    - New NN should be the default
 

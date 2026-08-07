@@ -481,6 +481,17 @@ During play, the bot checks the book first for instant move selection.
 - **Mid-game:** Falls back to full v2 search (time-limited)
 - **Empty board:** Returns center column (col 3 or 4)
 
+### Quick Comparison: Booked v2 vs Regular v2
+
+| Matchup | P1 Wins | P2 Wins | Draws |
+|---------|---------|---------|-------|
+| Booked(P1) vs Regular(P2) | — | — | 1 |
+| Regular(P1) vs Booked(P2) | — | — | 1 |
+
+**Finding:** Booked and regular v2 produce identical results (both draw) — the v2 book
+(1,209 entries) provides limited coverage. Most early-game positions don't appear in the
+v2 book and fall through to the original book or full AB search.
+
 ### Tests: 13 new tests (all passing)
 
 | Test | Description |

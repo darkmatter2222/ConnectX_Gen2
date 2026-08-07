@@ -187,13 +187,13 @@ def _evaluate(board: list[int], mark: int, cols: int = COLS) -> float:
         if o_count == INAROW:
             return -100000.0
 
-        if p_count == 3:
+        if p_count == 3 and e_count == 1:
             score += 300.0 + _open_end_bonus(board, line_mask, mark, cols)
         elif p_count == 3:
             score += 100.0
 
         if o_count == 3 and e_count == 1:
-            score -= 300.0
+            score -= 300.0 - _open_end_bonus(board, line_mask, mark, cols)  # opponent threat
         elif o_count == 3:
             score -= 100.0
 

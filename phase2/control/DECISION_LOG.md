@@ -99,3 +99,25 @@
   3. All bots make diverse moves (columns 0-6, not just col 0)
   4. **v2 vs Kaggle negamax after fix: v2 wins 14/20 (70%), kaggle 2/20, 4 draws** (previously v2 won 0/20 — both playing random)
   5. **MCTS vs Kaggle after fix: MCTS 1/20, kaggle 11/20** (MCTS was 0/20 before due to 0.05s budget)
+
+## D2026-08-07-012: v2 Opening Book — Depth 5, Not 7
+
+- **Decision:** Build v2 evaluation opening book at max_depth=5 (not depth 7 like original book)
+- **Rationale:** v2 evaluation is ~1.56× slower than original eval. Depth 7 build at 600s produced
+  no entries (process killed). Depth 5 at 300s produced 1,209 entries (build completed ~600s due to
+  repeated timeouts from v2 eval overhead).
+- **Parameters:** max_depth=5, branching=4, timeout=300s → 1,209 unique positions
+- **Comparison:** Original book at depth 7, branching 4, 600s → 3,069 entries
+- **Booked bot design:** Dual-book fallback (v2 book → original book → full AB search)
+  - Ensures the bot always has early-game moves even if v2 book has no match for a position
+- **Next book builds:** Consider depth 6 at 600s timeout for better coverage
+- **Evidence:** Book builds at depths 5-6, quick comparison (5+3 games)
+
+## D2026-08-07-013: PUCT Selection + Tactical Playouts Not the Solution for MCTS
+
+- **Finding:** PUCT MCTS (2500 sims) as P2 loses to AB faster (33 moves avg) than UCB1 MCTS (500 sims, 54 moves avg)
+- **Finding:** PUCT as P1 draws same as UCB1 MCTS (10/10 draws each)
+- **Conclusion:** PUCT converges on AB's forced-win lines more efficiently — deeper search
+  helps AB's side, not MCTS's. The bottleneck is search paradigm: AB solves millions of
+  positions/move via bitboard ops; MCTS explores thousands via full board copies.
+- **Decision:** Stop pursuing pure MCTS variants as the primary improvement path.

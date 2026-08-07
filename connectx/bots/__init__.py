@@ -49,6 +49,14 @@ from connectx.bots.bitboard_ab_8x7_5_booked import (
     bitboard_ab_bot_8x7_5_booked,
     bitboard_ab_bot_fast_8x7_5_booked,
 )
+from connectx.bots.bitboard_ab_8x7_5_v2_booked import (
+    bitboard_ab_bot_8x7_5_v2_booked,
+    bitboard_ab_bot_fast_8x7_5_v2_booked,
+)
+from connectx.bots.opening_book_8x7_5_v2 import (
+    OpeningBook_8x7_5_v2,
+    build_book as build_book_v2,
+)
 
 __all__ = [
     "random_bot",
@@ -81,5 +89,8 @@ __all__ = [
     "bitboard_ab_bot_fast_8x7_5_booked",
     "bitboard_ab_bot_8x7_5_v2",
     "bitboard_ab_bot_fast_8x7_5_v2",
+    "bitboard_ab_bot_8x7_5_v2_booked",
+    "bitboard_ab_bot_fast_8x7_5_v2_booked",
     "OpeningBook_8x7_5",
+    "OpeningBook_8x7_5_v2",
 ]

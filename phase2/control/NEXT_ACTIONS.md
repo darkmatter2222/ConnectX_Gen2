@@ -396,6 +396,58 @@ After fixing the critical time_limit bug and improving MCTS, we've confirmed:
   13,520 biased v2-vs-MCTS positions
 - **New value network improves vValue (56%→70% vs MCTS)** but doesn't help MCTS
 - **Kaggle self-contained bot ready** (20-move test: 0 invalid)
+## Cycle 29: 8×7/5 Opening Book for v2 Evaluation
+
+**Completed:**
+- **v2 opening book built** (`opening_book_8x7_5_v2.py`) — DFS from empty board, v2 eval bot as search oracle
+  - 1,209 unique board positions (2,418 total entries for both marks)
+  - Book size: ~116 KB JSON
+  - Parameters: max_depth=5, branching=4, timeout=300s (depth 7 failed — v2 eval ~1.56× slower than original)
+- **Booked bot built** (`bitboard_ab_bot_8x7_5_v2_booked`) — dual-book fallback:
+  1. v2 book first (better quality moves)
+  2. Original book as fallback (3,069 entries)
+  3. Full v2 AB search for non-book positions
+- **13 new tests pass** (total: 91 passing)
+- **Quick comparison (5+3 games):** v2_regular dominated booked variant in small sample; more data needed
+
+### Book Build Analysis
+
+| Parameter | Depth 5 Result |
+|-----------|---------------|
+| max_depth | 5 (6 killed at depth 6) |
+| branching | 4 |
+| timeout | 300s |
+| entries | 1,209 unique positions |
+| build time | ~600s (double timeout due to v2 eval speed) |
+
+Original book (depth 7, branching 4, 600s timeout): 3,069 entries.
+v2 book is smaller because v2 eval is ~1.56× slower than original eval.
+
+### Quick Comparison (3 pairings × 3-5 games each)
+
+| Matchup | Winner | Loser | Draws |
+|---------|--------|-------|-------|
+| v2_regular as P1 vs v2_booked as P2 | v2_regular: 2 | — | 3 |
+| v2_booked as P1 vs v2_regular as P2 | — | v2_regular: 1 | 2 |
+| v2_regular as P1 vs v2_booked as P2 (2nd run) | v2_regular: 1 | — | 2 |
+
+**Note:** Very small sample. v2_regular may have first-player advantage in these matchups.
+No statistically meaningful conclusions yet.
+
+### Files Added
+- `connectx/bots/opening_book_8x7_5_v2.py` — v2 eval book builder (235 lines)
+- `connectx/bots/bitboard_ab_8x7_5_v2_booked.py` — v2 booked bot (101 lines)
+- `connectx/tests/test_opening_book_8x7_5_v2.py` — 13 tests
+- `connectx/benchmarks/compare_8x7_5_v2_booked.py` — comparison benchmark
+- `connectx/bots/__init__.py` — registered v2 booked bots and book class
+- `book_8x7_5_v2.json` — v2 evaluation opening book (1,209 entries)
+
+**Next actions:**
+1. **Run full comparison (20 games)** — `compare_8x7_5_v2_booked.py` exists but was killed by timeout; needs longer timeout or fewer games
+2. **Consider rebuilding book at depth 6** — better coverage than depth 5; may need 600s timeout
+3. **Compare booked bot vs regular AB** — measure if early-game book moves provide practical advantage
+4. **Consider deeper book build** — if book quality is the bottleneck, a deeper book may help
+
 ## Cycle 28: AB-Guided MCTS + MCTS Comparison
 
 **Completed:**

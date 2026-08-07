@@ -8,3 +8,4 @@
 | R004 | GPU work starts before gym is tested | LOW | HIGH | Do not launch training until engine tests pass and baselines are registered |
 | R005 | Time budget exhausted before meaningful progress | MEDIUM | HIGH | Each session focuses on one concrete milestone (engine → tests → baselines → tournament) |
 | R006 | Research-only accumulation continues | HIGH | HIGH | Dashboard explicitly tracks engineering milestones; research stops when implementation begins |
+| R007 | v2 eval too slow for deep opening book builds | MEDIUM | LOW | Use fallback to original book; build books at lower depth with longer timeout |

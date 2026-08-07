@@ -727,6 +727,78 @@ already completes instantly.
    detection adds modest overhead (O(cols × lines) per threat check).
 4. **Next step:** Compare tactical MCTS vs standard PUCT MCTS head-to-head to measure
    if threat-aware playouts actually improve MCTS performance.
+## Cycle 29: 8×7/5 Opening Book for v2 Evaluation
+
+### New Deliverables
+
+**1. v2 Opening Book** (`connectx/bots/opening_book_8x7_5_v2.py`)
+
+- DFS from empty board, v2 eval as search oracle
+- Parameters: max_depth=5, branching=4, timeout=300s
+- Result: 1,209 unique board positions (2,418 total entries for both marks)
+- Book size: ~116 KB JSON
+- Book build time: ~600s (v2 eval is ~1.56× slower than original eval, so depth 5 took ~2× the expected time)
+- Book saved to: `book_8x7_5_v2.json`
+
+**Why depth 5, not 7?**
+- Depth 7 at 600s timeout: no entries produced (process killed)
+- Depth 5 at 300s timeout: 1,209 entries
+- Original book (depth 7, branching 4, 600s): 3,069 entries with original eval
+- v2 eval slowdown makes depth 7 builds impractical without extended timeout
+
+**2. Booked Bot** (`connectx/bots/bitboard_ab_8x7_5_v2_booked.py`)
+
+- Dual-book fallback: v2 book → original book → full v2 AB search
+- Ensures instant early-game moves even if v2 book has no match
+- Two exported variants: `bitboard_ab_bot_8x7_5_v2_booked` (full) and `bitboard_ab_bot_fast_8x7_5_v2_booked` (fast)
+
+**3. Quick Comparison (5+3 games)**
+
+| Matchup | P1 Wins | P2 Wins | Draws |
+|---------|---------|---------|-------|
+| v2_regular as P1 vs v2_booked as P2 | 2 | 0 | 3 |
+| v2_booked as P1 vs v2_regular as P2 | 0 | 1 | 2 |
+| v2_regular as P1 vs v2_booked as P2 (2nd) | 1 | 0 | 2 |
+
+Very small sample — v2_regular may have first-player advantage.
+
+**4. Tests: 13 new tests (all pass)**
+
+| Test | Description |
+|------|-------------|
+| test_opening_book_v2_import | v2 book module imports |
+| test_opening_book_v2_build_small | Small book builds correctly |
+| test_booked_v2_bot_import | Booked bot imports |
+| test_booked_v2_bot_from_package | Package import works |
+| test_booked_v2_bot_without_book | Works without book file |
+| test_booked_v2_bot_empty_board | Returns center on empty board |
+| test_booked_v2_bot_legal_moves | All moves legal |
+| test_booked_v2_bot_timing_empty | Book move instant |
+| test_booked_v2_bot_timing_with_pieces | Non-book move within budget |
+| test_booked_v2_full_depth | Full-depth variant works |
+| test_booked_v2_seat_reversed | Two bots play valid game |
+| test_booked_v2_no_crash_invalid | 30 turns, no invalid moves |
+| test_booked_v2_game | Full game to conclusion |
+
+**Total test count: 91 passing**
+
+### Files Created/Modified
+
+| File | Lines | Description |
+|------|-------|-------------|
+| `connectx/bots/opening_book_8x7_5_v2.py` | 235 | v2 eval book builder |
+| `connectx/bots/bitboard_ab_8x7_5_v2_booked.py` | 101 | v2 booked bot |
+| `connectx/tests/test_opening_book_8x7_5_v2.py` | 150 | 13 tests |
+| `connectx/benchmarks/compare_8x7_5_v2_booked.py` | 190 | comparison benchmark |
+| `connectx/bots/__init__.py` | +4 | registered v2 booked bots + book class |
+| `book_8x7_5_v2.json` | 116KB | v2 evaluation opening book |
+
+### Next Actions
+
+1. **Run full comparison (20 games)** — `compare_8x7_5_v2_booked.py` exists; was killed by timeout
+2. **Build depth 6 book** — better coverage than depth 5; may need 600s timeout
+3. **Compare booked bot vs regular AB** — measure practical advantage of book moves
+
 ## Cycle 28: AB-Guided MCTS + MCTS Variant Comparison
 
 ### New Bot: AB-Guided MCTS (`mcts_ab_bot_8x7_5`)

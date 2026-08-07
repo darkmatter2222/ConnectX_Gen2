@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 28 — **AB-guided MCTS + MCTS variant comparison benchmark**)
+**Last Updated:** 2026-08-07 (Cycle 29 — **8×7/5 v2 evaluation opening book + booked bot**)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -457,6 +457,60 @@ During play, the bot checks the book first for instant move selection.
 - Book must be regenerated with `python -m connectx.bots.opening_book build` for updates
 
 ## Known Issues
+
+## Cycle 29: 8×7/5 Opening Book for v2 Evaluation
+
+**Built an opening book using v2 evaluation + a booked bot with dual-book fallback.**
+
+### Book Build
+
+- **Method:** DFS from empty board, branching=4, max_depth=5, timeout=300s
+- **Result:** 1,209 unique board positions (2,418 entries for both marks)
+- **Book size:** ~116 KB JSON
+- **Note:** v2 evaluation is ~1.56× slower than original eval, so the book is smaller
+  than the original book (3,069 entries at depth 7, branching 4). A full depth-7 book
+  would require ~900s timeout.
+
+### Booked Bot: `bitboard_ab_bot_8x7_5_v2_booked`
+
+- **Dual-book fallback:**
+  1. v2 book (`book_8x7_5_v2.json`) — if available
+  2. Original book (`book_8x7_5.json`) — 3,069 entries, always available
+  3. Full v2 AB search — for non-book positions
+- **Early-game:** Book lookup is instant (~0ms)
+- **Mid-game:** Falls back to full v2 search (time-limited)
+- **Empty board:** Returns center column (col 3 or 4)
+
+### Tests: 13 new tests (all passing)
+
+| Test | Description |
+|------|-------------|
+| `test_opening_book_v2_import` | v2 book module imports |
+| `test_opening_book_v2_build_small` | Small book builds correctly |
+| `test_booked_v2_bot_import` | Booked bot imports |
+| `test_booked_v2_bot_from_package` | Package import works |
+| `test_booked_v2_bot_without_book` | Works without book file |
+| `test_booked_v2_bot_empty_board` | Returns center on empty board |
+| `test_booked_v2_bot_legal_moves` | All moves legal |
+| `test_booked_v2_bot_timing_empty` | Book move instant |
+| `test_booked_v2_bot_timing_with_pieces` | Non-book move within budget |
+| `test_booked_v2_full_depth` | Full-depth variant works |
+| `test_booked_v2_seat_reversed` | Two bots play valid game |
+| `test_booked_v2_no_crash_invalid` | 30 turns, no invalid moves |
+| `test_booked_v2_game` | Full game to conclusion |
+
+**Total test count: 91 passing (78 + 13)**
+
+### Files Created/Modified
+
+| File | Description |
+|------|-------------|
+| `connectx/bots/opening_book_8x7_5_v2.py` | v2 eval book builder (235 lines) |
+| `connectx/bots/bitboard_ab_8x7_5_v2_booked.py` | v2 booked bot with dual-book fallback |
+| `connectx/tests/test_opening_book_8x7_5_v2.py` | 13 test cases |
+| `connectx/benchmarks/compare_8x7_5_v2_booked.py` | Comparison benchmark script |
+| `connectx/bots/__init__.py` | Registered v2 booked bots and book class |
+| `book_8x7_5_v2.json` | v2 evaluation opening book (1,209 entries) |
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug
 - `mcts_fast` underperforms vs bitboard — shallower MCTS loses to deeper negamax

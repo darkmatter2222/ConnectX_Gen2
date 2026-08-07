@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files (large)
+O:/
+O:
+data/
+models/
+checkpoints/
+*.pt
+*.pth
+*.onnx
+*.pb
+*.h5
+*.hdf5
+*.bin
+*.npz
+*.npy
+
+# Kaggle
+.kaggle/
+
+# Git
+*.jsonl
+*.md.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Engine runtime logs
+*.log
+*.out
+
+# Test results
+results/

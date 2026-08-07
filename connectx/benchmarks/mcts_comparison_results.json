@@ -1,0 +1,106 @@
+{
+  "params": {
+    "num_games": 20,
+    "time_limit": 1.5
+  },
+  "rounds": {
+    "Tactical MCTS_vs_Standard PUCT": {
+      "Tactical MCTS": {
+        "first_w": 18,
+        "first_d": 5,
+        "first_l": 17,
+        "first_time": 80256.14929199219,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      },
+      "Standard PUCT": {
+        "first_w": 17,
+        "first_d": 5,
+        "first_l": 18,
+        "first_time": 54497.02835083008,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      }
+    },
+    "AB-guided MCTS_vs_Standard PUCT": {
+      "AB-guided MCTS": {
+        "first_w": 16,
+        "first_d": 5,
+        "first_l": 19,
+        "first_time": 108946.1145401001,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      },
+      "Standard PUCT": {
+        "first_w": 19,
+        "first_d": 5,
+        "first_l": 16,
+        "first_time": 55873.74258041382,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      }
+    },
+    "Tactical MCTS_vs_AB-guided MCTS": {
+      "Tactical MCTS": {
+        "first_w": 16,
+        "first_d": 8,
+        "first_l": 16,
+        "first_time": 77415.35520553589,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      },
+      "AB-guided MCTS": {
+        "first_w": 16,
+        "first_d": 8,
+        "first_l": 16,
+        "first_time": 108776.77845954895,
+        "second_w": 0,
+        "second_d": 0,
+        "second_l": 0,
+        "second_time": 0.0
+      }
+    }
+  },
+  "aggregated": {
+    "Tactical MCTS": {
+      "first_w": 34,
+      "first_d": 13,
+      "first_l": 33,
+      "first_time": 157671.50449752808,
+      "second_w": 0,
+      "second_d": 0,
+      "second_l": 0,
+      "second_time": 0.0
+    },
+    "AB-guided MCTS": {
+      "first_w": 32,
+      "first_d": 13,
+      "first_l": 35,
+      "first_time": 217722.89299964905,
+      "second_w": 0,
+      "second_d": 0,
+      "second_l": 0,
+      "second_time": 0.0
+    },
+    "Standard PUCT": {
+      "first_w": 36,
+      "first_d": 10,
+      "first_l": 34,
+      "first_time": 110370.7709312439,
+      "second_w": 0,
+      "second_d": 0,
+      "second_l": 0,
+      "second_time": 0.0
+    }
+  }
+}

@@ -33,6 +33,10 @@ from connectx.bots.mcts_8x7_5_tactical import (
     mcts_tactical_bot_8x7_5,
     mcts_tactical_bot_fast_8x7_5,
 )
+from connectx.bots.mcts_8x7_5_ab import (
+    mcts_ab_bot_8x7_5,
+    mcts_ab_bot_fast_8x7_5,
+)
 from connectx.bots.bitboard_ab_8x7_5_v2 import (
     bitboard_ab_bot_8x7_5_v2,
     bitboard_ab_bot_fast_8x7_5_v2,
@@ -71,6 +75,8 @@ __all__ = [
     "mcts_puct_bot_fast_8x7_5",
     "mcts_tactical_bot_8x7_5",
     "mcts_tactical_bot_fast_8x7_5",
+    "mcts_ab_bot_8x7_5",
+    "mcts_ab_bot_fast_8x7_5",
     "bitboard_ab_bot_8x7_5_booked",
     "bitboard_ab_bot_fast_8x7_5_booked",
     "bitboard_ab_bot_8x7_5_v2",

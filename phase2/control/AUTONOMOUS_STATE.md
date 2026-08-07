@@ -727,3 +727,47 @@ already completes instantly.
    detection adds modest overhead (O(cols × lines) per threat check).
 4. **Next step:** Compare tactical MCTS vs standard PUCT MCTS head-to-head to measure
    if threat-aware playouts actually improve MCTS performance.
+## Cycle 28: AB-Guided MCTS + MCTS Variant Comparison
+
+### New Bot: AB-Guided MCTS (`mcts_ab_bot_8x7_5`)
+
+- **Same playout hierarchy as Tactical MCTS:** win > block > threat creation > block-threat > center preference
+- **AB terminal evaluation at playout end:** Instead of binary ±1.0, uses AB-style eval:
+  - Threat scoring: +5000 per threat, -5000 per opponent threat
+  - Column control: center=2.0, adjacent=1.0, edges=0.5
+  - Normalized to [-1, 1] via `eval / 30.0` clamped
+- **Performance:** 0.27-0.33s per move (fast variant: 2500 sims)
+- **10 tests pass**
+
+### MCTS Comparison Benchmark (120 games total)
+
+**Setup:** 20 seat-reversed pairs × 3 pairings = 120 games, 1.5s/move limit
+
+| Pairing | Bot A First-W% | Bot B First-W% | Draws |
+|---------|---------------|---------------|-------|
+| Tactical MCTS vs PUCT | 45% (18/40) | 43% (17/40) | 13 |
+| AB-guided vs PUCT | 40% (16/40) | 48% (19/40) | 9 |
+| Tactical vs AB-guided | 40% (16/40) | 40% (16/40) | 20 |
+
+### Key Findings
+
+1. **AB-guided MCTS does NOT improve strength** — AB eval adds ~3s/move overhead with no strength gain. At 2500 sims, the tree is too shallow for AB signal to matter.
+2. **All three MCTS variants comparable** — first-player win rates within 5-8% of each other
+3. **PUCT is fastest** (~3s/move) but competitively strong — no enhancement tested so far beats pure PUCT
+4. **Second-player win rate: 0%** across all bots — none can exploit first-player errors
+5. **Tactical MCTS has most draws** (23/120) — most stable, least volatile
+
+### Tests: 10 new AB-guided MCTS tests
+
+Total test count: **88 passing** (35 + 11 + 11 + 11 + 10 + 10)
+
+### Decision: MCTS enhancement path REJECTED
+
+The hypothesis that AB-guided terminal evaluation or threat-aware playouts would improve MCTS
+performance is **NOT SUPPORTED** by the benchmark data. All three MCTS variants perform
+within measurement noise of each other. 
+
+**Next viable paths:**
+- Increase AB-guided MCTS simulations to 10000+ (test if deeper search makes AB eval matter)
+- Alpha-beta with learned evaluation (the solved board problem requires beating imperfect bots)
+- Consider 8×7/6 variant (more room for MCTS exploration advantage)

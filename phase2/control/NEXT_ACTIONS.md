@@ -1,6 +1,6 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 27
+**Session:** Cycle 28
 **Date:** 2026-08-07
 
 ## Cycle 24: PUCT MCTS vs AB — Does Full Tree Search Help?
@@ -396,3 +396,22 @@ After fixing the critical time_limit bug and improving MCTS, we've confirmed:
   13,520 biased v2-vs-MCTS positions
 - **New value network improves vValue (56%→70% vs MCTS)** but doesn't help MCTS
 - **Kaggle self-contained bot ready** (20-move test: 0 invalid)
+## Cycle 28: AB-Guided MCTS + MCTS Comparison
+
+**Completed:**
+- AB-guided MCTS bot built (`mcts_ab_bot_8x7_5`) — AB terminal eval + tactical playouts
+- 10 tests pass (import, package, empty board, legal moves, timing, game, full depth, seat-reversed, invalid check)
+- MCTS comparison benchmark (120 games, 3 pairings): Tactical MCTS vs PUCT vs AB-guided
+
+**MCTS comparison findings:**
+- All three variants are within 5-8% of each other in first-player win rate
+- AB-guided MCTS is slowest (~7s/move) with no strength advantage
+- PUCT is fastest (~3s/move) and competitively strongest
+- MCTS enhancement hypothesis REJECTED — no variant beats pure PUCT
+
+**Next actions:**
+1. **Increase AB-guided MCTS to 10000+ simulations** — test if deeper search makes AB eval signal matter
+2. **Shift focus to alpha-beta with learned evaluation** — the board is solved; the question is about beating imperfect bots
+3. **Consider 8×7/6 variant** — even larger board for more MCTS exploration room
+4. **Test v2 booked bot** — rebuild opening book with v2 eval for better opening quality
+5. **Investigate second-player win strategies** — none of the three MCTS variants can win as second player

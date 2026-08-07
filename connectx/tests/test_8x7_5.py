@@ -333,3 +333,58 @@ def test_mcts_8x7_5_vs_ab():
             m = mcts_bot_fast_8x7_5(board, mark, legal, 8, seed=turn)
         assert m in legal
         connectx.drop(board, m, mark, 7, 8)
+
+
+# ── PUCT variant tests ─────────────────────────────────────────────────────────
+
+def test_puct_8x7_5_import():
+    from connectx.bots.mcts_8x7_5_puct import (
+        mcts_puct_bot_8x7_5,
+        mcts_puct_bot_fast_8x7_5,
+    )
+    assert callable(mcts_puct_bot_8x7_5)
+    assert callable(mcts_puct_bot_fast_8x7_5)
+
+
+def test_puct_8x7_5_from_package():
+    from connectx.bots import mcts_puct_bot_8x7_5, mcts_puct_bot_fast_8x7_5
+    assert callable(mcts_puct_bot_8x7_5)
+    assert callable(mcts_puct_bot_fast_8x7_5)
+
+
+def test_puct_8x7_5_first_move():
+    from connectx.bots.mcts_8x7_5_puct import mcts_puct_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    legal = connectx.valid_moves(board, 8)
+    m = mcts_puct_bot_fast_8x7_5(board, 1, legal, 8, seed=42)
+    assert m in legal
+
+
+def test_puct_8x7_5_legal_moves():
+    from connectx.bots.mcts_8x7_5_puct import mcts_puct_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    for turn in range(6):
+        mark = 1 if turn % 2 == 0 else 2
+        legal = connectx.valid_moves(board, 8)
+        if not legal:
+            break
+        m = mcts_puct_bot_fast_8x7_5(board, mark, legal, 8, seed=turn)
+        assert m in legal, f'Turn {turn}: move {m} not in legal {legal}'
+        connectx.drop(board, m, mark, 7, 8)
+
+
+def test_puct_8x7_5_vs_ab():
+    """PUCT MCTS should play legal moves vs AB at 8×7/5."""
+    from connectx.bots.mcts_8x7_5_puct import mcts_puct_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    for turn in range(6):
+        mark = 1 if turn % 2 == 0 else 2
+        legal = connectx.valid_moves(board, 8)
+        if not legal:
+            break
+        if mark == 1:
+            m = bitboard_ab_bot_fast_8x7_5(board, mark, legal, 8)
+        else:
+            m = mcts_puct_bot_fast_8x7_5(board, mark, legal, 8, seed=turn)
+        assert m in legal
+        connectx.drop(board, m, mark, 7, 8)

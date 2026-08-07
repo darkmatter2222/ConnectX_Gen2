@@ -25,6 +25,10 @@ from connectx.bots.mcts_8x7_5 import (
     mcts_bot_fast_8x7_5,
     mcts_bot_heuristic_8x7_5,
 )
+from connectx.bots.mcts_8x7_5_puct import (
+    mcts_puct_bot_8x7_5,
+    mcts_puct_bot_fast_8x7_5,
+)
 
 __all__ = [
     "random_bot",
@@ -47,4 +51,6 @@ __all__ = [
     "mcts_bot_8x7_5",
     "mcts_bot_fast_8x7_5",
     "mcts_bot_heuristic_8x7_5",
+    "mcts_puct_bot_8x7_5",
+    "mcts_puct_bot_fast_8x7_5",
 ]

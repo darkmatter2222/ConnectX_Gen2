@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 17
+**Session:** Cycle 18
 **Date:** 2026-08-07
-**Status:** Cycle 17 completed — value network noise level comparison and gameplay evaluation. Found that gameplay performance is quantized: 20% noise 776 pos model (MAE 0.412) and 25% noise 935 pos model (MAE 0.496) give identical gameplay. vValue (Cycle 15 NN) = 60% P1, 70% P2 vs MCTS. mcts_value remains inferior (30%).
+**Status:** Cycle 18 completed — two critical bugs fixed. 1) vValue model loading: trained NN now loads correctly (was random before). 2) bitboard_ab invalid moves: TT and null-move early-exit paths now return legal[0] instead of 0 (fixed ~20% invalid move rate). Value network research continues: gameplay is quantized — trained NN doesn't improve beyond heuristic.
 
 ## What Was Last Completed
 
@@ -289,7 +289,31 @@ fallback handles all positions not in the book.
 - `data/selfplay_high_noise.csv` — 776 positions, balanced W/L labels
 - `data/selfplay_high_noise.npz` — NPZ format for training
 - `models/value_net_selfplay/best.pth` — New value network (142KB)
-- `models/value_net_selfplay/final.pth` — Final model (142KB)
+- `models/value_net_selfplay/final.pth` — Final model
+
+## Cycle 18: Bug Fixes
+
+**Bug 1: vValue model never loaded**
+- The trained value network weights were saved to `.pth` files but never loaded
+- `bitboard_ab_value.py` created a fresh untrained `GPUValueNet()` with random weights
+- Fix: Added `vn.load(_DEFAULT_MODEL_PATH)` in `_get_predictor()`
+- Result: Trained NN now loads correctly. Gameplay unchanged (quantized performance).
+
+**Bug 2: bitboard_ab returned invalid moves (~20% of games)**
+- Root cause: `_negamax` function returned hardcoded `col=0` in several early-exit paths:
+  1. TT exact lookup (line 375)
+  2. TT lower bound cutoff (line 377)
+  3. TT upper bound cutoff (line 379)
+  4. Null-move prune (line 407)
+- When column 0 was already full, the bot would try to drop there → invalid move → error
+- Fix: All early-exit paths now return `legal[0]` instead of `0`
+- Verified: 380 moves across 20 games, 0 invalid
+
+**Key Finding: Game play is quantized**
+- Trained NN doesn't improve vValue beyond random-weights NN (both ~60% vs MCTS)
+- The v2 heuristic already dominates leaf evaluation
+- The NN contributes ~10% of leaf score (0.2 weight × ±500 scale = ±100 of ~±1000)
+- Extra NN precision (lower MAE) doesn't change search outcomes (142KB)
 
 ## Cycle 17: Noise Level Comparison and Quantized Gameplay
 

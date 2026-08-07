@@ -58,3 +58,16 @@
 - **Conclusion:** Once value NN quality reaches a threshold, extra precision is irrelevant for alpha-beta gameplay. The NN only needs to be good enough to guide leaf evaluation; beyond that, the heuristic dominates.
 - **Decision:** Keep Cycle 15 model as default. No need to pursue more data or hyperparameter tuning.
 - **Evidence:** 120 games (3×40), 3 models compared (Cycle 15, 25% noise, 20% 2696)
+## D2026-08-07-009: vValue model loading bug
+
+- **Bug:** The trained value network weights (saved to `.pth` files) were never loaded into the inference model. `bitboard_ab_value.py` created a fresh `GPUValueNet()` with random weights.
+- **Impact:** All vValue evaluations (Cycle 13-17) used random-weights NN. The "trained model" results were really from random noise.
+- **Fix:** Added `vn.load(_DEFAULT_MODEL_PATH)` in `_get_predictor()`.
+- **Result:** Trained NN loads correctly. Gameplay unchanged — both trained and untrained NN give ~60% vs MCTS. Game play is quantized.
+
+## D2026-08-07-010: bitboard_ab invalid-move bug
+
+- **Bug:** `_negamax` in `bitboard_ab.py` returned hardcoded `col=0` in TT lookup and null-move prune paths. When column 0 was full, the bot returned an invalid move.
+- **Impact:** ~20% of games failed with invalid move (column full) or crashed with ValueError.
+- **Fix:** All early-exit paths in `_negamax` now return `legal[0]` instead of `0`.
+- **Verified:** 380 moves across 20 games, 0 invalid moves.

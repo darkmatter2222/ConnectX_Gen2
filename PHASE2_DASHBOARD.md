@@ -490,6 +490,20 @@ This produces balanced W/L labels instead of the draw-only data from zero-noise 
 **Key Finding:** **20% noise is the sweet spot.** Mixing noise levels or domain data
 degrades model quality. Quality > quantity.
 
+## Cycle 18: Bug Fixes
+
+### Bug 1: vValue Model Loading (fixed)
+- **Problem:** `bitboard_ab_value.py` created a fresh `GPUValueNet()` but never called `vn.load()` to load trained weights
+- **Impact:** All previous vValue evaluations (Cycle 13-17) used random-weights NN
+- **Fix:** Added `vn.load(_DEFAULT_MODEL_PATH)` in `_get_predictor()`
+- **Verification:** Trained NN loads correctly and predicts near-zero for empty board
+
+### Bug 2: bitboard_ab Invalid Moves (fixed)
+- **Problem:** `_negamax` returned hardcoded `col=0` in 4 early-exit paths (TT exact, TT cutoff, null-move prune)
+- **Impact:** ~20% of games produced invalid moves (column already full)
+- **Fix:** All early-exit paths now return `legal[0]` (valid move)
+- **Verification:** 380 moves across 20 games, 0 invalid
+
 ## Cycle 17: Noise Level Comparison and Quantized Gameplay
 
 **Approach:** Compare value networks trained at different noise levels.

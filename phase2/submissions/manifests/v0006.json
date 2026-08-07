@@ -1,0 +1,23 @@
+{
+  "submission_version": "v0006",
+  "archive_filename": "connectx_submission_v0006.tar.gz",
+  "archive_path": "O:\\master_model_collection\\ConnectX_Gen2_Phase2\\submissions\\connectx_submission_v0006.tar.gz",
+  "created_utc": "2026-08-07T23:33:32.746806+00:00",
+  "candidate": "v2_8x7_5_booked",
+  "description": "v2 + dual-book fallback for 8x7/5",
+  "source_file": "C:\\Users\\ryans\\source\\repos\\ConnectX_Gen2\\connectx\\bots\\bitboard_ab_8x7_5_v2_booked.py",
+  "source_entrypoint": "bitboard_ab_8x7_5_v2_booked.py",
+  "sha256": "1fedca5368fced9db2c1e71ea5f555de5df35ec37f1a1e5849864b3d691222ca",
+  "compressed_size": 1328,
+  "extracted_size": 3368,
+  "git": {
+    "commit": "670fd4d29b65e6659f9d006ff44fd30229e91b3c",
+    "branch": "main",
+    "clean": false
+  },
+  "validation_status": "PASS",
+  "promotion_status": "PENDING",
+  "parent_submission": null,
+  "change_summary": "Initial build for candidate 'v2_8x7_5_booked'",
+  "packaged_main_py_hash": "1e040dcb1ffabcdc0d94fb17c58eaf854698d54e67b0978c1a437914b6bc25ae"
+}

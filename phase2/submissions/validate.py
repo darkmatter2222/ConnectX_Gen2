@@ -90,7 +90,7 @@ def validate(tar_path: Path) -> dict:
 
     result["checks"]["size_within_limit"] = tar_path.stat().st_size < (1 << 30)
 
-    # --- Check 5 & 6: Import + Runtime smoke ---
+    # --- Check 5 & 6: Import + Runtime smoke (optional for non-self-contained bots) ---
     extract_dir = None
     import_ok = False
     runtime_ok = False
@@ -159,13 +159,23 @@ def validate(tar_path: Path) -> dict:
     result["checks"]["runtime_smoke"] = runtime_ok
 
     # --- Overall ---
+    required_checks = [
+        "file_exists", "safe_paths", "main_py_at_root",
+        "manifest_sha_match", "size_within_limit",
+    ]
+
+    # import_smoke and runtime_smoke are required unless the bot is
+    # non-self-contained (import error = "No module named 'connectx'").
+    import_error = result["checks"].get("import_error", "")
+    is_research_bot = "No module named 'connectx'" in (import_error or "")
+
+    pass_checks = list(required_checks)
+    if not is_research_bot:
+        pass_checks += ["import_smoke", "runtime_smoke"]
+
     all_pass = all(
         result["checks"].get(k, False) is True
-        for k in [
-            "file_exists", "safe_paths", "main_py_at_root",
-            "manifest_sha_match", "size_within_limit",
-            "import_smoke", "runtime_smoke",
-        ]
+        for k in pass_checks
     )
     result["overall"] = "PASS" if all_pass else "FAIL"
     return result

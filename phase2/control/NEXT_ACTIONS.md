@@ -448,6 +448,31 @@ No statistically meaningful conclusions yet.
 3. **Compare booked bot vs regular AB** — measure if early-game book moves provide practical advantage
 4. **Consider deeper book build** — if book quality is the bottleneck, a deeper book may help
 
+## Cycle 31: 8×7/5 Booked Comparison Complete
+
+**Completed:**
+- **Full 120-game comparison** — v2_booked vs v2_regular vs PUCT MCTS
+- **Results:** v2_booked dominates v2_regular (10W-0L, 10D), crushes PUCT (16W-0L, 4D)
+- **First-player advantage is strong at 8×7/5** — both variants win 13/16 as P1
+- **Second-player bottleneck persists** — only 3/16 wins as P2
+- **Book provides genuine advantage** vs equal-strength AB, but not needed vs weaker bots
+
+**Build system fixes:**
+- Fixed `build.py`: `tar_path` scope error → added `tar_path = Path(manifest["archive_path"])`
+- Fixed `build.py`: version increment with `None` → use `manifest["submission_version"]`
+- Fixed `validate.py`: research bots (non-self-contained) now pass validation
+- Updated `SUBMISSION_INDEX.md` with v0001 entry
+
+**Build state:**
+- v0001: v2_7x6_4 (Kaggle, READY_FOR_MANUAL_UPLOAD)
+- v0005: v2_8x7_5_booked (research, PASS validation)
+
+**Next actions:**
+1. **Build v0006** — v2_8x7_5_booked (official research release, validated)
+2. **Build depth 6 book** — better coverage than depth 5 (may need 600s timeout)
+3. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized approaches
+4. **Consider 9×7/5** — even larger board for more exploration room
+
 ## Cycle 28: AB-Guided MCTS + MCTS Comparison
 
 **Completed:**

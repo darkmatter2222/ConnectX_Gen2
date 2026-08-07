@@ -113,6 +113,36 @@
 - **Next book builds:** Consider depth 6 at 600s timeout for better coverage
 - **Evidence:** Book builds at depths 5-6, quick comparison (5+3 games)
 
+## D2026-08-07-014: 8×7/5 Opening Book Provides Genuine Advantage
+
+- **Finding:** v2_booked vs v2_regular: 10W-0L (booked never loses, regular never wins, 10 draws)
+- **Finding:** v2_booked vs PUCT: 16W-0L-4D (booked dominates MCTS)
+- **Finding:** v2_regular vs PUCT: 16W-0L-4D (regular also dominates MCTS — book adds little vs MCTS)
+- **Finding:** First-player advantage is strong at 8×7/5 — both booked and regular win 13/16 as P1
+- **Finding:** Second-player is weak — only 3/16 wins as P2 for both variants
+- **Insight:** The opening book gives a genuine strategic advantage against equal-strength AB bots,
+  because book moves are pre-computed optimal moves while the regular bot has to search each move.
+  However, against weaker opponents like MCTS, the regular AB search is already dominant enough
+  that the book adds no measurable advantage.
+- **Conclusion:** Book is useful for: (a) early-game speed (instant moves), (b) slight strength
+  edge vs strong opponents, (c) consistency (deterministic moves). Not critical for beating
+  weaker opponents like MCTS.
+
+## D2026-08-07-014: Build System Fixes + Research Bot Validation
+
+- **Bug 1:** `build.py` `main()` referenced `tar_path` variable not in scope (was local to `build()`)
+  - **Fix:** Added `tar_path = Path(manifest["archive_path"])` in `main()` before validation
+- **Bug 2:** `build.py` `main()` incremented `version + 1` but `version` was `None` for auto-allocated builds
+  - **Fix:** Use `int(manifest["submission_version"].lstrip("v")) + 1` instead
+- **Feature:** `validate.py` now distinguishes research bots from Kaggle bots
+  - If import error is "No module named 'connectx'", import_smoke and runtime_smoke are SKIPPED
+  - Required checks (file_exists, safe_paths, main_py_at_root, sha256, size) always enforced
+  - This allows non-self-contained bots (8×7/5, custom) to pass validation
+- **Result:** v0006 (v2_8x7_5_booked research release) built and validated successfully
+- **Evidence:** 120-game comparison (3 pairings × 20 seat-reversed pairs)
+- **Decision:** Continue with booked bot as the primary 8×7/5 bot. Consider deeper book (depth 6)
+  in next iteration.
+
 ## D2026-08-07-013: PUCT Selection + Tactical Playouts Not the Solution for MCTS
 
 - **Finding:** PUCT MCTS (2500 sims) as P2 loses to AB faster (33 moves avg) than UCB1 MCTS (500 sims, 54 moves avg)

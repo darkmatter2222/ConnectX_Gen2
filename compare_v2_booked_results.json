@@ -1,0 +1,49 @@
+{
+  "board": "8x7/5",
+  "n_games_per_pairing": 20,
+  "total_games": 120,
+  "comparisons": [
+    {
+      "bot1": "v2_booked",
+      "bot2": "v2_regular",
+      "n_games": 20,
+      "bot1_as_p1_wins": 10,
+      "bot1_as_p2_wins": 0,
+      "bot1_wins_total": 10,
+      "bot2_wins_total": 0,
+      "draws": 10,
+      "invalid": 0,
+      "bot1_p1_win_rate": "10/10",
+      "bot1_p2_win_rate": "0/10",
+      "total_time": 700.98
+    },
+    {
+      "bot1": "v2_booked",
+      "bot2": "puct",
+      "n_games": 20,
+      "bot1_as_p1_wins": 13,
+      "bot1_as_p2_wins": 3,
+      "bot1_wins_total": 16,
+      "bot2_wins_total": 0,
+      "draws": 4,
+      "invalid": 0,
+      "bot1_p1_win_rate": "13/16",
+      "bot1_p2_win_rate": "3/16",
+      "total_time": 322.32
+    },
+    {
+      "bot1": "v2_regular",
+      "bot2": "puct",
+      "n_games": 20,
+      "bot1_as_p1_wins": 13,
+      "bot1_as_p2_wins": 3,
+      "bot1_wins_total": 16,
+      "bot2_wins_total": 0,
+      "draws": 4,
+      "invalid": 0,
+      "bot1_p1_win_rate": "13/16",
+      "bot1_p2_win_rate": "3/16",
+      "total_time": 295.41
+    }
+  ]
+}

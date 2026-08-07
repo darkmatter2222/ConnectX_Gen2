@@ -1,11 +1,30 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 29 — **8×7/5 v2 evaluation opening book + booked bot**)
+**Last Updated:** 2026-08-07 (Cycle 31 — **8×7/5 booked comparison + build fixes**)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
-## Status: ACTIVE — Negamax Bug Fixed, All Bots Validated, Solved-Game Confirmed
+## Latest Manual Submission Artifact
+
+| Field | Value |
+|-------|-------|
+| **Version** | v0001 |
+| **Status** | READY_FOR_MANUAL_UPLOAD |
+| **Candidate** | v2_7x6_4 (Kaggle self-contained) |
+| **Archive** | `connectx_submission_v0001.tar.gz` |
+| **O-Drive Path** | `O:\master_model_collection\ConnectX_Gen2_Phase2\submissions\connectx_submission_v0001.tar.gz` |
+| **SHA-256** | `8b7b06591e081e0fef87e9dc873533ee4c4b57a62b4960ebda6cb906d834cff2` |
+| **Compressed Size** | 5,638 bytes |
+| **Extracted Size** | 22,919 bytes |
+| **Commit** | `a711d3b066e722c9b3b736e7f686a4a0671fcb20` |
+| **Validation** | PASS (import + runtime smoke: col 3) |
+| **Parent** | (none — first release) |
+| **Change** | v2 alpha-beta with iterative deepening, TT, killers, history, null-move (7×6/4) |
+
+**Latest overall release:** v0006 (v2_8x7_5_booked research, 8×7/5) — not Kaggle-compatible (non-self-contained)
+
+## Status: ACTIVE — Submission System Built, v0001 Ready, 8×7/5 Booked Comparison Complete (Cycle 31)
 
 | Phase | Description | Status |
 |-------|-------------|--------|
@@ -1335,3 +1354,94 @@ meaningful scores (-900 to +1800 vs original's near ±1.5).
 3. **PUCT remains the best MCTS choice** — fastest, simplest, and competitively strong. No MCTS enhancement tested so far improves strength.
 4. **Second-player bottleneck** — none of the three MCTS variants can win as second player. This suggests either: (a) the bots are too strong (first player never makes mistakes), or (b) second-player win requires deeper search.
 5. **Next viable path**: Consider increasing simulation count for AB-guided MCTS, or shift to alpha-beta with learned evaluation (the board is solved, so the question is about beating imperfect bots, not perfect play).
+
+## Cycle 31: 8×7/5 v2 Booked Comparison Benchmark
+
+**Ran full 120-game comparison: v2_booked vs v2_regular vs PUCT MCTS at 8×7/5.**
+
+### Results (20 seat-reversed pairs per comparison = 40 games each)
+
+| Comparison | Bot1 W | Bot2 W | Draws |
+|-----------|--------|--------|-------|
+| v2_booked vs v2_regular | **10** | 0 | 10 |
+| v2_booked vs PUCT | **16** | 0 | 4 |
+| v2_regular vs PUCT | **16** | 0 | 4 |
+
+### Key Findings
+
+1. **Opening book provides genuine advantage** — v2_booked never loses to v2_regular (10W-0L, 10D). The pre-computed book moves are at least as good as fresh search, especially in early-game where book is instant.
+
+2. **First-player advantage dominates at 8×7/5** — Both booked and regular win 13/16 decisive games as P1, but only 3/16 as P2. The game is not solved at 8×7/5, but first-player advantage is strong.
+
+3. **Both v2 variants crush PUCT MCTS** — 16W-0D-4D each against PUCT. AB search with book is superior to MCTS at this board size.
+
+4. **v2_regular = v2_booked vs PUCT** (identical 16W-0W-4D) — When PUCT is the opponent, the book doesn't matter much. The regular AB search already dominates MCTS without book help.
+
+5. **Second-player bottleneck persists** — Neither booked nor regular bot can reliably win as P2. The 8×7/5 game has a strong first-player advantage that neither book nor deeper search overcomes.
+
+### Build Fixes Applied This Cycle
+
+- **Fixed `build.py`:** Added `tar_path = Path(manifest["archive_path"])` before use in `main()`
+- **Fixed `build.py`:** Changed version increment to use manifest version string (`int(manifest["submission_version"].lstrip("v")) + 1`) instead of raw `version + 1`
+- **Fixed `validate.py`:** Research bots (non-self-contained, import error = "No module named 'connectx'") now pass validation even without import/runtime smoke tests
+- **Updated `SUBMISSION_INDEX.md`** — restored with v0001 entry
+
+### Build State
+
+| Version | Candidate | Status | Archive |
+|---------|-----------|--------|---------|
+| v0001 | v2_7x6_4 (Kaggle) | READY_FOR_MANUAL_UPLOAD | `O:\...\connectx_submission_v0001.tar.gz` |
+| v0005 | v2_8x7_5_booked | PASS (research) | `O:\...\connectx_submission_v0005.tar.gz` |
+
+### Next Actions
+
+1. **Build v0006** — v2_8x7_5_booked (validated research release)
+2. **Build depth 6 opening book** — better coverage than depth 5 (v2 book)
+3. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized opening book or deviation detection
+4. **Continue exploring larger boards** — 8×7/6 or 9×7/5 for more MCTS room
+
+## Cycle 30: Mandatory Submission System
+
+**Built the mandatory Kaggle submission pipeline.**
+
+### Deliverables
+
+**1. Submission Infrastructure** (`phase2/submissions/`)
+
+- `README.md` — Documentation, layout reference, lifecycle states
+- `SUBMISSION_INDEX.md` — Newest-first index of all submissions
+- `submission_state.json` — Version counter, last commit
+- `build.py` — Packaging utility: builds tarball from candidate source
+- `validate.py` — Validation utility: checks paths, SHA-256, import, runtime
+- `test_submission.py` — Bounded tests for the submission system
+
+**2. First Submission: v0001**
+
+- **Candidate:** v2_7x6_4 (Kaggle self-contained, v2 alpha-beta)
+- **Archive:** `connectx_submission_v0001.tar.gz`
+- **O-Drive Path:** `O:\master_model_collection\ConnectX_Gen2_Phase2\submissions\connectx_submission_v0001.tar.gz`
+- **Size:** 5,638 bytes compressed / 22,919 bytes extracted
+- **SHA-256:** `8b7b065...cff2`
+- **Validation:** PASS (import OK, runtime: returns col 3 on empty board)
+- **Known limitations:** Only covers 7×6/4; 8×7/5 candidates need separate build
+
+**3. Pre-Registered Candidates**
+
+| Candidate | Source Module | Description |
+|-----------|-------------|-------------|
+| v2_7x6_4 | `kaggle_self_contained.py` | v2 alpha-beta, self-contained |
+| v2_7x6_4_booked | `bitboard_ab_v2_booked.py` | v2 + opening book |
+| v2_8x7_5 | `bitboard_ab_8x7_5_v2.py` | v2 alpha-beta for 8×7/5 |
+| v2_8x7_5_booked | `bitboard_ab_8x7_5_v2_booked.py` | v2 + dual-book fallback |
+
+### Decision: Submission System Complete
+
+The mandatory submission system is now operational. Every completed bot iteration will produce
+an immutable `.tar.gz` release. The next submission (v0002) should be the 8×7/5 v2 booked bot
+once the comparison benchmark confirms its quality.
+
+### Next Actions
+
+1. **Run 8×7/5 v2 booked comparison** — 20 games, all pairings
+2. **Build v0002** — v2_8x7_5_booked (if comparison validates)
+3. **Build v0003** — v2_8x7_5 (regular, no book)

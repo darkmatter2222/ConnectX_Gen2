@@ -279,6 +279,8 @@ def main():
     from validate import validate
     val = validate(Path(manifest["archive_path"]))
 
+    tar_path = Path(manifest["archive_path"])
+
     # Write validation JSON alongside archive
     val_path = tar_path.with_suffix(".validation.json")
     val_path.write_text(json.dumps(val, indent=2))
@@ -289,7 +291,7 @@ def main():
 
     # Update state
     state = json.loads(STATE_FILE.read_text())
-    state["next_version"] = version + 1
+    state["next_version"] = int(manifest["submission_version"].lstrip("v")) + 1
     state["last_commit"] = manifest["git"].get("commit", "")
     STATE_FILE.write_text(json.dumps(state, indent=2))
 

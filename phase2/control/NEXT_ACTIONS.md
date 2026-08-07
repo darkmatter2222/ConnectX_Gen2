@@ -1,6 +1,6 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 26
+**Session:** Cycle 27
 **Date:** 2026-08-07
 
 ## Cycle 24: PUCT MCTS vs AB — Does Full Tree Search Help?
@@ -73,10 +73,31 @@ thousands via full board copies.
 4. ~~Build 8×7/5 opening book~~ — **DONE**: 237 entries, 11 tests pass, booked bot instant early-game
 5. ~~Test deeper AB search~~ — **DONE**: v2 built with improved eval; benchmark needed
 6. ~~Consider deeper AB search~~ — **DONE**: v2 = improved eval (not just deeper)
-7. **Benchmark v2 vs PUCT** — does stronger eval create more resistance?
-8. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
-9. **Consider 8×7/5 MCTS with tactical override** — if MCTS detects threat, solve with AB
-10. **Improve opening book coverage** — increase branching (3→5) or depth (8→10)
+7. ~~Benchmark v2 vs PUCT~~ — **DONE**: benchmark script exists, v2 stronger than AB, AB dominates PUCT (Cycle 24)
+8. ~~Hybrid: AB-guided MCTS~~ — **DONE**: tactical MCTS built with threat-aware playouts (Cycle 27)
+9. ~~8×7/5 MCTS with tactical override~~ — **DONE**: `mcts_tactical_bot_8x7_5` with threat detection, creation, blocking (Cycle 27)
+10. ~~Improve opening book coverage~~ — **DONE**: 3,069 entries (13× improvement), hit rate 40% at depth 1 (Cycle 27)
+
+## Cycle 27: Opening Book v2 + Tactical MCTS
+
+**Completed:**
+- **Opening book rebuilt** with branching=4, depth=7, timeout=600s
+  - 3,069 unique board positions (6,138 total entries)
+  - Hit rate: 40% at depth 1, 23% at depth 2, 16% at depth 3
+  - Booked bot drops to AB search for book misses
+- **Tactical MCTS built** (`mcts_tactical_bot_8x7_5`)
+  - Threat-aware playouts: win detection, block detection, threat creation, threat blocking
+  - Heuristic terminal evaluation (center control, adjacency, height)
+  - 10 tests pass, 0.19-0.31s per move
+- **Book replaces old version** (`book_8x7_5.json` updated, 237→3,069 entries)
+- **Total test count: 78 passing**
+
+**Next actions:**
+1. **Tactical MCTS vs PUCT comparison** — measure if threat-aware playouts improve MCTS
+2. **AB-guided MCTS** — use AB eval to score playout terminal positions instead of win/loss only
+3. **Consider deeper opening book** — increase branching to 5 or depth to 10 (longer build time)
+4. **v2 booked bot** — rebuild book with v2 eval for better quality
+5. **Consider 8×7/6 variant** — even larger board for more exploration
 
 ## Cycle 23: MCTS Simulation Scaling — More Simulations = Worse P2 Play
 

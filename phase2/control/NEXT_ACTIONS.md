@@ -17,13 +17,21 @@
   - 8×7/5: MCTS 40-60% vs AB (unsolved, meaningful exploration)
 - **30 tests pass** (21 original + 9 new)
 
-## Immediate next actions
+## Cycle 22: MCTS Mark Tracking Bug Fix — AB Dominates 100%
 
-1. **Commit all changes** — TODO
-2. **Update dashboard** — DONE
-3. **Run full 8×7/5 MCTS vs AB comparison (10 games)** — TODO
-4. **Tune MCTS** — increase simulations, add leaf heuristic — TODO
-5. **Build 8×7/5 opening book** — TODO
+**Completed:**
+- Fixed comparison script mark-tracking bug (turn-based mark → explicit P1/P2 assignment)
+- 20-game balanced comparison: AB wins 100% (20-0) vs Regular MCTS (500 sims)
+- 20-game balanced comparison: AB wins 100% (20-0) vs Heuristic MCTS (500 sims)
+- 20-game MCTS_REG vs MCTS_HEUR: Bot2 wins 10, draws 10
+- Heuristic leaf evaluation provides no meaningful improvement at 500 sims
+- Previous Cycle 21 MCTS results (81% AB, 19% MCTS) invalidated by mark-tracking bug
+
+**Next actions:**
+1. **Increase MCTS to 1000+ simulations** — test if more budget closes the gap
+2. **Implement PUCT** — replace UCB1 with policy-value upper confidence bound
+3. **Test PUCT + heuristic leaf** — combined MCTS improvements
+4. **Build 8×7/5 opening book** — pre-compute AB early-game optimal moves
 
 ## Session Summary (Cycle 19)
 

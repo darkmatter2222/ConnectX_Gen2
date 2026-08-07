@@ -1,8 +1,35 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→21
+**Session:** Cycle 18→22
 **Date:** 2026-08-07
 **Status:** Cycle 20: 8×7/5 alpha-beta bot built, tested, registered — game not solved at larger board. **Cycle 21: Built 2 additional 8×7/5 bots (deep eval, MCTS), benchmarked head-to-head: eval quality > depth, MCTS competes at 8×7/5 but not at 7×6/4. 30 tests pass.**
+
+## Cycle 22: 8×7/5 MCTS — Mark Tracking Bug Fixed, AB Still Dominates 100%
+
+### Critical Fix: Comparison Script Mark Tracking Bug
+
+- **Bug:** Previous comparison scripts used turn-based `mark` (`mark=1 if turn%2==0 else 2`)
+  instead of bot-assigned mark. When bots alternated P1/P2 roles, the mark was wrong.
+- **Fix:** New `play_game` takes explicit `bot1_is_p1` — bot always receives its own mark.
+- **Impact:** Previous "MCTS 81% vs AB" was misleading — corrected to **AB 100%**.
+
+### Balanced Comparison Results (20 games each)
+
+| Matchup | Bot1 | Bot2 | Draws |
+|---------|------|------|-------|
+| Regular MCTS (500) vs AB | **0/20** | **20/20** | 0 |
+| Heuristic MCTS (500) vs AB | **0/20** | **20/20** | 0 |
+| Regular MCTS vs Heuristic MCTS | 0/20 | **10/20** | **10/20** |
+
+### Key Findings
+1. **AB dominates MCTS at 8×7/5 — 100% win rate (20-0)** — not 81% as previously reported
+2. **Heuristic leaf evaluation provides no improvement** — MCTS_HEUR vs AB = 0/20
+3. **MCTS vs MCTS_HEUR** — Bot2 wins 50%, 50% draws (heuristic playouts less aggressive)
+4. **Previous Cycle 21 MCTS results were invalidated by mark-tracking bug**
+
+### Files Added
+- `connectx/benchmarks/compare_8x7_5_mcts_balanced_v2.py` — Corrected mark tracking
+- `connectx/benchmarks/compare_8x7_5_mcts_heuristic.py` — Fixed comparison script
 
 ## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
 

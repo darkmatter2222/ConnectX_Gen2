@@ -17,3 +17,16 @@
 
 ## D2026-08-06-005: Standard Kaggle rules only
 - **Rationale:** Focus on 7×6/4: 7 columns, 6 rows, 4 in a row, 2 seconds/action, 60s cumulative overage. No variant boards.
+
+## D2026-08-07-006: Value network trained on v2-vs-MCTS data not useful for MCTS
+- **Finding:** mcts_value (value-guided MCTS, 34.5 pts) underperforms vanilla mcts (43 pts) in 130-game tournament
+- **Root causes:**
+  1. Value network trained on v2-vs-MCTS self-play → first-player bias, 100% P1-wins
+  2. High MAE (0.786) → predictions too coarse for MCTS node selection
+  3. PyTorch overhead (~2.5s/game) reduces search budget vs ~1.6s for vanilla MCTS
+  4. Most leaf evaluations fall into "near-neutral" blend zone, negating value advantage
+- **Decision:** Pivot from supervised training to AlphaZero-style self-play refinement
+  - Self-play data will be balanced (50/50 seats)
+  - Iterative: train NN → self-play → collect data → retrain → repeat
+- **Rejected:** Keeping value-guided MCTS as-is (inferior to vanilla MCTS)
+- **Evidence:** Cycle 13.1 quick tournament (130 games, 12 matchups)

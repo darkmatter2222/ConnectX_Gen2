@@ -1,6 +1,6 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 8
+**Session:** Cycle 11
 **Date:** 2026-08-06
 
 ## What Was Last Completed
@@ -48,6 +48,31 @@ compressed, noisy version of v2's evaluation.
 
 Distillation vastly improves label diversity but the NN still underperforms
 v2 because of compression loss.
+
+## Cycle 11: Ensemble Evaluation (v2 + NN)
+
+**Hypothesis:** Ensemble (0.7 × v2 + 0.3 × NN) improves over v2 alone.
+
+**Results (20-game seat-reversed matchups):**
+| Matchup | Result | Notes |
+|---------|--------|-------|
+| ensemble vs v2 | 50/50 | ensemble = v2 |
+| ensemble vs mcts | 67.5% | ensemble beats MCTS |
+| v2 vs mcts | 70% | v2 beats MCTS |
+| nn vs mcts | 72.5% | NN bot also strong vs MCTS |
+
+**Key Finding: ENSEMBLE MATCHES V2 — no measurable improvement.**
+
+The NN component is too noisy (MAE 0.31) and is trained on random-player data.
+v2's heuristic dominates (70% weight). Even the NN-only bot performs comparably
+to v2 (72.5% vs mcts).
+
+**Conclusion:** Ensemble doesn't help. NN needs fundamentally better training data.
+
+## What Failed
+- **Tournament bot selection bug** — used `env._player == 0` mapping when `_player` is 1-indexed
+- **Ensemble evaluation** — 0.3×NN is too noisy to improve over 0.7×v2
+- **NN evaluation only** — while comparable to v2, doesn't surpass it
 
 ## Cycle 9: Evaluation & Search Improvement Research
 
@@ -107,13 +132,13 @@ MCTS, which plays more strategically than random.
 
 ## Next Highest-Value Unblocked Actions
 
-1. **Improve NN evaluation quality** — train with v2 self-play data (competitive, not random)
-   - Generate 10,000+ games of v2 vs v2 with 0.1s per move (deeper search)
-   - Or generate mixed-depth self-play data (depth 10-14) for more varied evaluations
-2. **Ensemble: v2 + NN** — combine v2's heuristic with NN evaluation
-   - Weighted average: 0.7 × v2 + 0.3 × NN (if NN captures patterns v2 misses)
-3. **PyTorch in project venv** — set up GPU training at `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
-4. **Build v2 ensemble** — combine v2 with mcts via confidence-gated hybrid
-5. **Fix original bitboard_ab invalid-move bug** — use board copy approach
-6. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
-7. **Build opening book** for bitboard or MCTS
+1. **NN self-play training** — generate v2 vs v2 self-play data (competitive, not random)
+   - Current NN trained on random-player data → limited positional knowledge
+   - Self-play data would have more varied, competitive positions
+   - This is the key lever to improve NN quality
+2. **PyTorch in project venv** — set up GPU training at project venv
+3. **Fix original bitboard_ab invalid-move bug** — use board copy approach
+4. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
+5. **Build opening book** for bitboard or MCTS
+6. **Ensemble with higher w_nn** — if NN improves, try 0.5 × v2 + 0.5 × NN
+7. **Bigger network** — try 84 → 256 → 128 → 1 or 84 → 512 → 1 architecture

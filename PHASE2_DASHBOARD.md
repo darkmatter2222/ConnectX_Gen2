@@ -160,14 +160,42 @@ Small evaluation errors at leaf positions cause suboptimal move selection.
 Need: higher-quality training data (v2 self-play at deeper depths) or
 larger network/more training epochs.
 
+## Cycle 11: Ensemble Evaluation (v2 + NN)
+
+**Hypothesis:** Weighted ensemble of v2 heuristic + NN evaluation (w_heuristic=0.7, w_nn=0.3)
+improves over v2 alone by combining robust heuristic with learned positional patterns.
+
+**Results (20-game seat-reversed matchups):**
+| Matchup | Result | Notes |
+|---------|--------|-------|
+| ensemble vs v2 | 50/50 | ensemble = v2 (as expected, 0.7×v2 + 0.3×NN) |
+| ensemble vs mcts | 67.5% | ensemble beats MCTS |
+| v2 vs mcts | 70% | v2 beats MCTS (matches historical 75%) |
+| nn vs mcts | 72.5% | NN bot also strong vs MCTS |
+| ensemble vs wsb | 50/50 | all strong bots solve first-player |
+| nn vs v2 | 50/50 | all solve first-player advantage |
+
+**Key Finding: ENSEMBLE MATCHES V2 — no measurable improvement.**
+
+The ensemble evaluation is dominated by v2's heuristic (70% weight). The NN
+component (30% weight) is too noisy to help. Even the NN-only bot performs
+comparably to v2 (72.5% vs mcts).
+
+**Why no improvement:**
+1. NN evaluation (MAE 0.31) is noisy — alpha-beta pruning amplifies small errors
+2. NN trained on random-player data → limited positional knowledge
+3. v2's heuristic is already excellent at 7×6/4 — no room for improvement
+
+**Conclusion:** Ensemble doesn't help. The NN needs fundamentally better training
+data to be useful.
+
 ## Known Issues
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug
 - `mcts_fast` underperforms vs bitboard — shallower MCTS loses to deeper negamax
-- No PyTorch/GPU packages installed yet
 - No Kaggle packaging
 - `shallow_minimax` and `depth2_minimax` have known drop() bugs (column-full handling)
-- **Next bottleneck: need PyTorch for neural network training**
+- **Next path forward: NN needs self-play training data (not random-player data)**
 
 ## Files Created
 

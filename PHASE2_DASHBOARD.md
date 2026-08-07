@@ -635,6 +635,39 @@ The true ordering of bot strength (post-fix):
 4. **Random** — baseline
 
 | `connectx/engine.py` | Core rule engine + ConnectXEnv + GameRecord |
+
+## Cycle 19: MCTS Improvement — Heuristic Leaf Evaluation
+
+### Improvement: `_simulate_heuristic` function
+
+- **Added:** Positional heuristic evaluation (`_heuristic_eval`) that scores:
+  - Center column control (columns 2-4 worth 2x)
+  - Height advantage (pieces more advanced = better)
+  - Adjacency bonus (pieces next to own pieces)
+- **New simulation:** `_simulate_heuristic` replaces the 0.0/1.0 win-only
+  evaluation with a continuous score from playout terminal positions
+- **New bot:** `mcts_bot_heuristic` — MCTS with heuristic leaf evaluation
+
+### Expected improvement
+
+The heuristic evaluation gives MCTS much better feedback signals during
+playouts. Instead of "did I win? 1.0 or 0.0", MCTS now receives nuanced
+feedback about position quality:
+- "I controlled the center, opponent didn't" → 0.8
+- "We both played badly" → 0.5
+- "Opponent controlled everything" → 0.2
+
+This should improve MCTS move selection significantly, potentially
+closing the gap against alpha-beta.
+
+### Files created/modified
+
+- `connectx/bots/mcts.py` — Added `_heuristic_eval`, `_simulate_heuristic`,
+  `_mcts_search_heuristic`, `mcts_bot_heuristic`
+- `connectx/bots/__init__.py` — Registered `mcts_bot_heuristic`
+- Registered in `__all__` list
+
+## Files Created
 | `connectx/bots/random_bot.py` | Random baseline |
 | `connectx/bots/win_seek_block.py` | Priority tactical (win > block > center) |
 | `connectx/bots/shallow_minimax.py` / `depth2_minimax.py` | Negamax depth 2/3 |

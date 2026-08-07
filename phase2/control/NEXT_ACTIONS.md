@@ -26,10 +26,57 @@
 
 ## Immediate next actions
 
-1. **Update dashboard with time_limit bug findings**
-2. **Verify existing test suite still passes**
-3. **Commit all changes**
-4. **Consider next productive direction**
+1. **Commit all changes** — DONE (time_limit fix + MCTS heuristic)
+2. **Update dashboard** — DONE
+3. **Commit mcts_heuristic** — DONE (c57ae12)
+4. **Run test suite** — TODO: verify no regressions
+5. **Decide next productive direction** — See below
+
+## Next Productive Direction (Decision Pending)
+
+After fixing the critical time_limit bug and improving MCTS, we've confirmed:
+
+### What we know for certain
+1. **7×6/4 is solved** — all alpha-beta bots play perfectly
+2. **Time_limit bug invalidated all prior results** — v2=14/20 vs Kaggle
+   is the first true measurement post-fix
+3. **MCTS is weaker than alpha-beta** — even with heuristic evaluation
+4. **NN/value network plateaued** — quantized gameplay
+5. **BC approach matches teacher** — no surprise
+
+### Three viable paths forward
+
+**Path A: Larger board sizes (8×7/5 or 8×7/6)**
+- 8×7/4 is NOT solved (unknown)
+- 8×7/5 is definitely unsolved (larger branching factor)
+- Alpha-beta at deeper depths may not solve it
+- Neural networks might provide real value at larger sizes
+- High research potential, but needs new engine support
+
+**Path B: Opponent-error exploitation at 7×6/4**
+- Design bots that play perfectly when opponent plays well
+- But exploit mistakes (forks, open3, etc.) when opponent plays poorly
+- "Confidence-gated hybrid": alpha-beta for strong positions, MCTS for uncertain ones
+- Only meaningful improvement path at solved board size
+
+**Path C: AlphaZero-style self-play training**
+- Train value network on mixed-strength self-play (v2 + noise + random)
+- Use trained value as MCTS leaf evaluation (not just random playout)
+- Requires significant compute and careful design
+- Risk: may plateau like previous NN attempts
+
+### Recommended: Path A (Larger board sizes)
+- Most novel research direction
+- Opens up new solution space where NN could help
+- 8×7/5 is a well-known interesting Connect Four variant
+- Can start with small experiments before full training pipeline
+
+### Files updated
+- `connectx/bots/mcts.py` — Added heuristic evaluation
+- `connectx/bots/__init__.py` — Registered mcts_bot_heuristic
+- `PHASE2_DASHBOARD.md` — Added Cycle 19 sections
+- `phase2/control/DECISION_LOG.md` — Added D2026-08-07-011
+- `phase2/control/NEXT_ACTIONS.md` — Updated with next steps
 
 ## Session Summary (Cycle 18)
 

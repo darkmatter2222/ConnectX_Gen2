@@ -78,6 +78,26 @@ After fixing the critical time_limit bug and improving MCTS, we've confirmed:
 - `phase2/control/DECISION_LOG.md` — Added D2026-08-07-011
 - `phase2/control/NEXT_ACTIONS.md` — Updated with next steps
 
+## Cycle 20: 8×7/5 Bot Built — Path A Underway
+
+**Completed:**
+- **8×7/5 bitboard alpha-beta bot** — full v2 adaptation for 8×7/5
+- **Engine seat_reverse made generic** (rows/cols params)
+- **21 tests pass** — config, engine compatibility, win detection, bot behavior, timing, evaluation, bitboard
+- **Key evidence: two identical 8×7/5 bots DRAW** (56 moves) — game not solved
+
+**Files:**
+- `connectx/bots/bitboard_ab_8x7_5.py` — 660 lines, 56-bit bitboards
+- `connectx/tests/test_8x7_5.py` — 21 tests
+- `connectx/engine.py` — generic seat_reverse
+
+**Next 8×7/5 work:**
+1. Profile search speed on 8×7/5 (empty board, mid-game, endgame)
+2. Build a second 8×7/5 bot with different strategy (e.g., shallower but broader)
+3. Compare two 8×7/5 bots against each other (P1 vs P2, seat-reversed)
+4. If one strategy clearly dominates, begin deepening the stronger variant
+5. Consider MCTS for 8×7/5 (where search is not solved, MCTS may shine)
+
 ## Session Summary (Cycle 18)
 
 **Completed:**

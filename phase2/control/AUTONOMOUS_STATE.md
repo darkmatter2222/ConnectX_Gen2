@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→19
+**Session:** Cycle 18→20
 **Date:** 2026-08-07
-**Status:** Cycle 18: negamax bug fixed across ALL 8 bots. Cycle 18.5: smoke test passes (1680 moves, 0 invalid). Cycle 19: full leaderboard tournament — 28 matchups, 336 games, 0 invalid. **Confirmed: 7×6/4 is solved at this board size — all alpha-beta bots produce identical results (P1 always wins, P2 always loses). All evaluation differences are irrelevant. Value NN path plateaued. BC approach equivalent to v2.**
+**Status:** Cycle 19: time_limit bug fixed across 10 files, v2=14/20 vs Kaggle. **Cycle 20: 8×7/5 alpha-beta bot built, tested, and registered — game not solved at larger board size. Engine seat_reverse made generic.**
 
 ## What Was Last Completed
 
@@ -440,3 +440,37 @@ already completes instantly.
 - `connectx/bots/__init__.py` — updated (added mcts_bot_value to __all__)
 - `connectx/training/selfplay_generate.py` — v2-vs-v2 self-play generator
 - `connectx/training/selfplay_pipeline.py` — self-play → train pipeline
+
+## Cycle 20: 8×7/5 Bot + Engine Generic-ness
+
+**New direction: larger board sizes where the game is NOT solved.**
+
+### Key Findings
+
+1. **Engine already supports arbitrary board sizes** — `ConnectXEnv(rows, cols, inarow)` handles any configuration. Verified with 8 cols × 7 rows × 5-in-a-row.
+
+2. **Seat reverse fix** — `seat_reverse()` now accepts `rows`/`cols` params (previously hardcoded).
+
+3. **New bot: bitboard_ab_bot_8x7_5** — full v2 adaptation for 8×7/5:
+   - 56-cell boards, 56-bit bitboards
+   - ~76 win-line masks (horizontal, vertical, two diagonals)
+   - Iterative deepening with time management, TT, killer moves, history heuristic
+   - Fast variant (depth 10) and full variant (time-limited depth 8)
+   - First move: center column (col 3 or 4) ✓
+
+4. **Game not solved at 8×7/5**: two identical bots produce a draw (full board, 56 moves).
+   - This contrasts sharply with 7×6/4 where identical bots always produce a first-player win.
+   - Evidence that larger boards open room for search/NN enhancements.
+
+5. **Timing**: fast bot returns in ~1s per move on empty board; mid-game faster.
+
+### Files Created
+- `connectx/bots/bitboard_ab_8x7_5.py` — New 8×7/5 bot (660 lines)
+- `connectx/tests/test_8x7_5.py` — 21 tests (config, engine, bot behavior, timing, evaluation)
+- `connectx/bots/__init__.py` — Updated registry
+
+### Results
+- **21/21 tests pass**
+- **Bot picks center column first** (col 3)
+- **Two identical bots draw** at 8×7/5 (56 moves, no winner)
+- **Engine `seat_reverse` now generic**

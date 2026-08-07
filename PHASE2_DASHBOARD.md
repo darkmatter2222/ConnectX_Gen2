@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 19 — **time_limit bug fixed across 10 files**, v2=14/20 vs Kaggle)
+**Last Updated:** 2026-08-07 (Cycle 20 — **8×7/5 bot built and tested, game not solved at larger board**)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -678,3 +678,65 @@ closing the gap against alpha-beta.
 | `tests/test_connectx.py` | 78 tests across 13 classes |
 | `run_tournament.py` | Comprehensive tournament runner with v2 variants |
 | `.gitignore` | Python/ML ignores |
+
+## Cycle 20: 8×7/5 Bot — Game Not Solved at Larger Board
+
+**Path A: Larger board sizes — 8×7/5 alpha-beta bot built and tested.**
+
+### New Bot: `bitboard_ab_bot_8x7_5`
+
+- **Board:** 8 columns × 7 rows × 5-in-a-row (56 cells, 56-bit bitboards)
+- **Algorithm:** Full v2 adaptation — iterative deepening, TT, killer moves, history heuristic, null-move pruning, threat-space search
+- **Depth selection:** max depth 8 for >1s deadline, scaling down for tighter limits
+- **Fast variant:** `bitboard_ab_bot_fast_8x7_5` — depth 10 max
+
+### Engine Fix
+
+- **`seat_reverse()`** now accepts `rows`/`cols` parameters (previously hardcoded to `ROWS`/`COLS` module globals)
+
+### Key Result: Game Not Solved
+
+- **Two identical 8×7/5 bots → draw** (board fills to 56 moves)
+- Unlike 7×6/4 where two identical alpha-beta bots always result in P1 win (solved),
+  the 8×7/5 game ends as a draw because neither side can force a win at this search depth.
+- **This confirms 8×7/5 is NOT solved** under perfect play at this search depth.
+- Opens the door for: deeper search, neural networks, MCTS, and other enhancements.
+
+### Tests: 21 passed
+
+| Test | Description |
+|------|-------------|
+| `test_board_config` | ROWS=7, COLS=8, INAROW=5, SIZE=56 |
+| `test_line_masks_count` | ~76 unique win-line masks |
+| `test_vertical_win_8x7_5` | 5-in-a-row vertical detected |
+| `test_horizontal_win_8x7_5` | 5-in-a-row horizontal detected |
+| `test_diagonal_win_8x7_5` | 5-in-a-row diagonal detected |
+| `test_game_end_no_win_8x7_5` | Full board = terminal (draw) |
+| `test_fast_bot_first_move` | Picks center column (3) |
+| `test_fast_bot_legal_moves` | All moves valid across 6 moves |
+| `test_fast_bot_diverse_columns` | Uses center columns (3, 4) |
+| `test_fast_bot_timing` | Completes within time budget |
+| `test_fast_bot_time_limit_respected` | Respects 0.2s deadline |
+| `test_evaluate_empty_board` | Near-zero score |
+| `test_evaluate_detects_win` | ±100000 for wins |
+| `test_to_bitboard` | Bitboard encoding correct |
+| `test_full_game_8x7_5_draw` | Full game ends terminal |
+| `test_two_bots_vs_each_other` | 7×6/4 and 8×7/5 bots coexist |
+| `test_seat_reverse_8x7_5` | Column mirroring works |
+| `test_smoke_8x7_5` | 10 moves vs random, 0 invalid |
+
+### Files Created/Modified
+
+| File | Description |
+|------|-------------|
+| `connectx/bots/bitboard_ab_8x7_5.py` | New bot module (650 lines) |
+| `connectx/tests/test_8x7_5.py` | 21 test cases |
+| `connectx/bots/__init__.py` | Registered 8×7/5 bots |
+| `connectx/engine.py` | `seat_reverse` made generic |
+
+### Next: 8×7/5 Benchmarking
+
+With a working 8×7/5 bot, the next steps are:
+1. Build MCTS for 8×7/5 (currently only works on 7×6/4)
+2. Build neural network approaches for 8×7/5
+3. Benchmark: is 8×7/5 still "easy" for alpha-beta, or does it open room for NN/MCTS?

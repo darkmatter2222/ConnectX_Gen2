@@ -29,6 +29,14 @@ from connectx.bots.mcts_8x7_5_puct import (
     mcts_puct_bot_8x7_5,
     mcts_puct_bot_fast_8x7_5,
 )
+from connectx.bots.opening_book_8x7_5 import (
+    OpeningBook_8x7_5,
+    build_book,
+)
+from connectx.bots.bitboard_ab_8x7_5_booked import (
+    bitboard_ab_bot_8x7_5_booked,
+    bitboard_ab_bot_fast_8x7_5_booked,
+)
 
 __all__ = [
     "random_bot",
@@ -53,4 +61,7 @@ __all__ = [
     "mcts_bot_heuristic_8x7_5",
     "mcts_puct_bot_8x7_5",
     "mcts_puct_bot_fast_8x7_5",
+    "bitboard_ab_bot_8x7_5_booked",
+    "bitboard_ab_bot_fast_8x7_5_booked",
+    "OpeningBook_8x7_5",
 ]

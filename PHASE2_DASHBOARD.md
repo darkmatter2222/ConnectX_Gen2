@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 20 — **8×7/5 bot built and tested, game not solved at larger board**)
+**Last Updated:** 2026-08-07 (Cycle 25 — **8×7/5 opening book built and tested, booked bot ready**)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -1011,3 +1011,49 @@ The bottleneck is **search paradigm**, not MCTS hyperparameters:
 2. **Test deeper AB search** — is depth 8 the limit, or can depth 12+ beat PUCT/MCTS?
 3. **Consider hybrid: AB-guided MCTS** — use AB evaluation to seed MCTS playouts
 4. **Tactical override MCTS** — if MCTS detects immediate threat, use AB to solve
+
+## Cycle 25: 8×7/5 Opening Book
+
+**Built and tested an opening book for the 8×7/5 alpha-beta bot.**
+
+### New Bot: `bitboard_ab_bot_fast_8x7_5_booked`
+
+- **Combines:** AB search + pre-computed opening book
+- **Early-game:** Book lookup is instant (~0ms)
+- **Mid-game:** Falls back to full AB search (time-limited)
+- **Empty board:** Returns center column (col 3)
+- **Book:** `book_8x7_5.json` (237 entries, ~16KB)
+
+### Book Generation
+
+- **Method:** DFS from empty board, branching=3, max_depth=8
+- **AB time limit:** 0.1s per call (shallow search sufficient for early game)
+- **Total build time:** ~5 seconds
+- **Entries:** 237 board states with best moves for both marks
+
+### Test Results
+
+- **11 new tests added** — import, load, in_book, best_move, booked bot behavior, timing, game play
+- **Empty board:** Returns col 3 from book ✓
+- **Book lookup:** Instant (< 10ms) ✓
+- **Non-book fallback:** AB search works correctly ✓
+- **Full game:** 12 moves, all legal, 0 crashes ✓
+
+### Files Created/Modified
+
+| File | Description |
+|------|-------------|
+| `connectx/bots/opening_book_8x7_5.py` | Book generation + lookup (230 lines) |
+| `connectx/bots/bitboard_ab_8x7_5_booked.py` | Booked AB bot (120 lines) |
+| `connectx/tests/test_opening_book_8x7_5.py` | 11 test cases |
+| `book_8x7_5.json` | 237 entries opening book |
+| `connectx/bots/__init__.py` | Registered new bots and book class |
+| `connectx/benchmarks/compare_8x7_5_puct_vs_ab.py` | PUCT vs AB comparison |
+| `connectx/benchmarks/compare_8x7_5_all_mcts.py` | Full 3-way comparison |
+
+### Total Test Count: 46 passing (35 + 11)
+
+| Category | Tests |
+|----------|-------|
+| 8×7/5 engine + bot tests | 35 |
+| Opening book + booked bot tests | 11 |

@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→24
+**Session:** Cycle 18→25
 **Date:** 2026-08-07
-**Status:** Cycle 20: 8×7/5 alpha-beta bot built and tested, game not solved at larger board. **Cycle 24: PUCT MCTS built for 8×7/5 with tactical playouts — but it does NOT beat AB. PUCT as P2 loses faster (33 moves) than UCB1 MCTS (54 moves). Both draw as P1. 35 tests pass.**
+**Status:** Cycle 20: 8×7/5 alpha-beta bot built and tested, game not solved at larger board. **Cycle 25: 8×7/5 opening book built (237 entries) + booked AB bot. 46 tests pass (35 + 11). Cycle 24: PUCT MCTS with tactical playouts does NOT beat AB.**
 
 ## Cycle 22: 8×7/5 MCTS — Mark Tracking Bug Fixed, AB Still Dominates 100%
 
@@ -104,6 +104,43 @@ The bottleneck is search paradigm, not exploration strategy:
 2. **Test deeper AB search** — can depth 12+ beat PUCT/MCTS?
 3. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
 4. **Tactical override MCTS** — if MCTS detects threat, solve with AB
+
+## Cycle 25: 8×7/5 Opening Book
+
+### New Bot: `bitboard_ab_bot_fast_8x7_5_booked`
+
+- **Algorithm:** Book lookup (instant) → AB search fallback
+- **Book:** `book_8x7_5.json` — 237 entries, ~16KB
+- **Book generation:** DFS from empty board, branching=3, max_depth=8, 0.1s AB time limit per node
+- **Build time:** ~5 seconds
+- **Empty board:** Returns center column (col 3)
+- **Book coverage:** Early-game positions up to ~8 ply deep
+
+### Test Results (11 new tests)
+
+| Test | Result |
+|------|--------|
+| Import + load | ✓ |
+| In book lookup | ✓ |
+| Best move from book | ✓ |
+| Booked bot empty board | ✓ (col 3) |
+| Booked bot legal moves (8 turns) | ✓ |
+| Booked bot timing (< 10ms) | ✓ |
+| Booked bot non-book fallback | ✓ |
+| Full 12-move game | ✓ |
+
+### Key Finding
+
+Book lookup is instant (< 10ms) vs AB search (~60ms on empty board). Opening book eliminates early-game search entirely.
+
+### Files Added
+
+- `connectx/bots/opening_book_8x7_5.py` — Book generation + lookup (230 lines)
+- `connectx/bots/bitboard_ab_8x7_5_booked.py` — Booked AB bot (120 lines)
+- `connectx/tests/test_opening_book_8x7_5.py` — 11 test cases
+- `book_8x7_5.json` — 237 entries opening book
+
+### Total Test Count: 46 passing (35 + 11)
 
 ## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
 

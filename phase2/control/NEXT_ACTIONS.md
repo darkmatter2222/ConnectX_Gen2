@@ -70,10 +70,11 @@ thousands via full board copies.
 1. ~~Increase MCTS to 1000+ simulations~~ — **DONE**: 1000 sims = 10 draws as P1, 2000 = worse P1 play
 2. ~~Implement PUCT~~ — **DONE**: PUCT bot built for 8x7/5
 3. ~~Test PUCT vs UCB1~~ — **DONE**: PUCT as P2 loses faster (33 moves) than UCB1 (54 moves)
-4. **Build 8×7/5 opening book** — pre-compute AB early-game optimal moves
-5. **Consider deeper AB search** — can depth 12+ beat PUCT/MCTS?
+4. ~~Build 8×7/5 opening book~~ — **DONE**: 237 entries, 11 tests pass, booked bot instant early-game
+5. **Test deeper AB search** — can depth 12+ beat PUCT/MCTS?
 6. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
 7. **Consider 8×7/5 MCTS with tactical override** — if MCTS detects threat, solve with AB
+8. **Improve opening book coverage** — increase branching (3→5) or depth (8→10)
 
 ## Cycle 23: MCTS Simulation Scaling — More Simulations = Worse P2 Play
 

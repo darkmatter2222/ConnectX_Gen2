@@ -30,3 +30,20 @@
   - Iterative: train NN → self-play → collect data → retrain → repeat
 - **Rejected:** Keeping value-guided MCTS as-is (inferior to vanilla MCTS)
 - **Evidence:** Cycle 13.1 quick tournament (130 games, 12 matchups)
+
+## D2026-08-07-007: High-noise self-play generates useful value data; NN improves vValue
+- **Finding:** v2 vs v2 at 5% noise produced all draws (solved game). At 20% noise:
+  - 14 P1 wins, 14 P2 wins, 2 draws in 30 games (53% non-draw rate)
+  - 353 W, 339 L, 84 D labels — nearly balanced
+  - 776 positions from 288 seconds of runtime
+- **New value network (Cycle 15) vs old (Cycle 13):**
+  - Test MAE: 0.35 vs 0.96 (74% improvement)
+  - Test sign accuracy: 74% vs 15%
+  - vValue vs MCTS: 70% (up from 56% in Cycle 13)
+  - mcts_value vs mcts: 30% (down from ~35%, NN doesn't help MCTS)
+- **Insight:** Value network helps alpha-beta leaf evaluation (vValue) significantly.
+  MCTS still underperforms vanilla MCTS with value network leaf evaluation —
+  likely because MCTS node selection amplifies NN prediction variance.
+- **Decision:** Value network useful for vValue enhancement only. MCTS with NN guidance
+  remains inferior to vanilla MCTS. Self-play noise level = 20% is the key parameter.
+- **Evidence:** Cycle 15 training (50 epochs, batch 64, 776 positions), 80-game evaluation

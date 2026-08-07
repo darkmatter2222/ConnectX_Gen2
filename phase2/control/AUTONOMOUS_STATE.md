@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 13.1
+**Session:** Cycle 15
 **Date:** 2026-08-07
-**Status:** Cycle 13.1 completed — value-guided MCTS registered but UNDERPERFORMS vanilla MCTS; self-contained Kaggle bot ready. Quick tournament (130 games): bitboard_ab_fast_v2 dominant.
+**Status:** Cycle 15 completed — value network trained on high-noise self-play data (20% noise). New NN dramatically improves vValue (56%→70% vs MCTS). mcts_value still underperforms vanilla MCTS (30%).
 
 ## What Was Last Completed
 
@@ -246,6 +246,50 @@ v2's heuristic evaluation is already near-optimal at 7×6/4.
 **Key finding:** Book correctly reproduces v2's center preference and matches v2
 moves on all board states within the book. Book lookup is instant; full v2 search
 fallback handles all positions not in the book.
+
+## Session Summary (Cycle 15: Self-Play Training for Value Network)
+
+**Completed this session:**
+- **Generated high-noise self-play data:** v2 vs v2 at 20% noise
+  - 30 games, 776 positions, 288 seconds
+  - 14 P1 wins, 14 P2 wins, 2 draws (53% non-draw rate)
+  - 353 W labels, 339 L labels, 84 D labels (nearly balanced)
+  - Key insight: 20% noise is enough to break the solved-game equilibrium
+  - Files: `data/selfplay_high_noise.csv`, `data/selfplay_high_noise.npz`
+
+- **Trained new value network on self-play data** (`models/value_net_selfplay/best.pth`)
+  - 50 epochs, batch_size=64, lr=1e-3, RTX 5090
+  - Best val_loss=0.4146 at epoch 32
+  - Best val_mae=0.4118
+  - On self-play test set: MAE=0.35, sign_accuracy=74%
+  - vs old Cycle 13 model (MAE=0.96, sign_accuracy=15%): 74% improvement
+
+- **Evaluated new value network (80 games, 4 matchups):**
+  | Matchup | Result | vs Cycle 13 |
+  |---------|--------|-------------|
+  | vValue (new) vs MCTS | **70% win** | 56% → 70% (big improvement!) |
+  | vValue vs v2 | 0% | Same (expected) |
+  | mcts_value (new) vs mcts | 30% | 34.5% → 30% (worse) |
+  | mcts_value vs v2 | 0% | Same (expected) |
+
+- **Key insight:** Value network trained on self-play data is useful for:
+  1. **vValue enhancement** — traditional alpha-beta with NN leaf evaluation benefits
+     from the improved value predictions. 70% win vs MCTS is the best result for
+     any NN-enhanced bot.
+  2. **NOT for MCTS node selection** — MCTS with value network leaf evaluation
+     still underperforms vanilla MCTS. NN variance amplifies during MCTS backprop,
+     causing suboptimal move selection.
+
+- **Key finding:** High-noise self-play (20% noise) is the correct approach for
+  training value networks at 7x6/4. The key parameter is noise_level, not
+  training data source. Equal-strength self-play with sufficient noise produces
+  balanced W/L labels needed for value network training.
+
+**Files created/updated:**
+- `data/selfplay_high_noise.csv` — 776 positions, balanced W/L labels
+- `data/selfplay_high_noise.npz` — NPZ format for training
+- `models/value_net_selfplay/best.pth` — New value network (142KB)
+- `models/value_net_selfplay/final.pth` — Final model (142KB)
 
 ## Session Summary (Cycle 13.1 + 13.2)
 

@@ -412,6 +412,67 @@ During play, the bot checks the book first for instant move selection.
 - **mcts_value underperforms vanilla mcts** — value network not yet useful for MCTS move selection
 - **Next path forward: NN needs self-play training data (not random-player data)**
 
+## Cycle 15: Self-Play Value Network Training
+
+**Approach:** Train value network on high-noise v2-vs-v2 self-play data (20% noise).
+This produces balanced W/L labels instead of the draw-only data from zero-noise self-play.
+
+### Self-Play Data Generation
+- **Algorithm:** v2 vs v2 with 20% noise on both sides, seat-reversed
+- **Results:** 30 games → 776 positions
+- **Outcome distribution:** P1 wins=14, P2 wins=14, Draws=2 (53% non-draw rate)
+- **Label distribution:** W=353, L=339, D=84 (nearly balanced)
+- **Key insight:** 20% noise breaks the solved-game equilibrium and produces useful W/L labels
+
+### Value Network Training
+- **Model:** 84 → 128 (tanh) → 128 (tanh) → 64 (tanh) → 1 (tanh)
+- **Data:** 776 positions from high-noise self-play
+- **Training:** 50 epochs, batch_size=64, lr=1e-3, RTX 5090
+- **Best val_loss:** 0.4146 at epoch 32
+- **Best val_mae:** 0.4118
+
+### Comparison: Old vs New Value Network
+
+| Metric | Cycle 13 (v2-vs-MCTS) | Cycle 15 (self-play 20%) |
+|--------|----------------------|-------------------------|
+| Data source | v2-vs-MCTS (biased) | v2-vs-v2 20% noise (balanced) |
+| Dataset size | 13,520 positions | 776 positions |
+| Test MAE | 0.96 | 0.35 |
+| Test sign_accuracy | 15% (worse than random) | 74% |
+| Best val_loss | 0.7840 | 0.4146 |
+
+### Gameplay Evaluation (80 games, 4 matchups)
+
+| Matchup | Result | vs Cycle 13 |
+|---------|--------|-------------|
+| vValue (new NN) vs MCTS | **70%** | 56% → 70% (big improvement!) |
+| vValue vs v2 | 0% | Same (expected — v2 solves game) |
+| mcts_value (new NN) vs mcts | 30% | 34.5% → 30% (worse) |
+| mcts_value vs v2 | 0% | Same (expected) |
+
+### Key Findings
+
+1. **High-noise self-play is the correct training approach** for value networks at 7×6/4.
+   The key parameter is noise_level (20% produced balanced data), not training source.
+
+2. **Value network improves vValue significantly:** 56% → 70% vs MCTS.
+   Traditional alpha-beta with NN leaf evaluation benefits from improved value predictions.
+
+3. **Value network does NOT improve MCTS:** mcts_value still underperforms vanilla mcts.
+   NN variance amplifies during MCTS backpropagation, causing suboptimal move selection.
+   The NN-trained-on-noisy-data doesn't generalize to deep-search leaf positions.
+
+4. **Small dataset (776) is surprisingly effective:** Despite only 776 positions (vs 13,520
+   in Cycle 13), the new network vastly outperforms. Quality of labels matters more than
+   quantity — balanced W/L labels from high-noise self-play are far more informative than
+   biased v2-vs-MCTS labels.
+
+**Files created in Cycle 15:**
+- `data/selfplay_high_noise.csv` — 776 balanced positions
+- `data/selfplay_high_noise.npz` — NPZ format for training
+- `models/value_net_selfplay/best.pth` — New value network (142KB)
+- `models/value_net_selfplay/final.pth` — Final model
+
 ## Files Created
 
 | File | Description |

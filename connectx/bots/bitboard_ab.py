@@ -193,7 +193,7 @@ def _evaluate(board: list[int], mark: int, cols: int = COLS) -> float:
             score += 100.0
 
         if o_count == 3 and e_count == 1:
-            score -= 300.0 - _open_end_bonus(board, line_mask, mark, cols)  # opponent threat
+            score -= 300.0  # opponent threat (open end)
         elif o_count == 3:
             score -= 100.0
 

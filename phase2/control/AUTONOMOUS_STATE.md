@@ -192,8 +192,19 @@ MCTS, which plays more strategically than random.
 does not enhance v2. The network's high MAE (0.786) makes it too noisy for alpha-beta.
 v2's heuristic evaluation is already near-optimal at 7×6/4.
 
-**Next viable paths:**
-1. **Kaggle packaging**: Package v2 as deployable submission
-2. **Value-guided MCTS**: Use value network as MCTS leaf evaluation (not alpha-beta)
-3. **Larger network + more data**: Deeper value network, self-play refinement
-4. **Opening book**: Pre-compute optimal moves for early-game speed
+**Next viable paths (ranked by expected impact):**
+
+1. **Value-guided MCTS** — Use the trained value network as leaf evaluation for
+   MCTS instead of tactical playouts. MCTS can tolerate coarse value predictions
+   better than alpha-beta. Expected: 60%+ vs MCTS (improving over vValue's 56%).
+   Effort: ~2 hours (modify mcts.py to call nn_value_predict at rollout).
+
+2. **Self-play refinement** — Train value network through AlphaZero-style self-play:
+   train NN, use it to guide MCTS self-play, collect data, retrain. Loop 5-10 times.
+   Expected: Lower MAE, stronger play. Effort: ~4 hours.
+
+3. **Kaggle packaging** — Package v2 as deployable submission.
+   Effort: ~1 hour.
+
+4. **Opening book** — Pre-compute optimal moves for early-game speed.
+   Effort: ~2 hours.

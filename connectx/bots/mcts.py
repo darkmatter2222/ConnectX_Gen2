@@ -124,14 +124,14 @@ def _simulate(
             except ValueError:
                 continue
             if check_win(board, col, mark, ROWS, cols):
-                un_drop(board, col, ROWS, cols)
+                un_drop(board, col, ROWS, cols, row=row)
                 win_move = col
                 break
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
 
         if win_move is not None:
             try:
-                row = drop(board, win_move, mark, ROWS, cols)
+                drop(board, win_move, mark, ROWS, cols)
             except ValueError:
                 # Column became full — skip
                 mark, opp = opp, mark
@@ -146,14 +146,14 @@ def _simulate(
             except ValueError:
                 continue
             if check_win(board, col, opp, ROWS, cols):
-                un_drop(board, col, ROWS, cols)
+                un_drop(board, col, ROWS, cols, row=row)
                 block_move = col
                 break
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
 
         if block_move is not None:
             try:
-                row = drop(board, block_move, mark, ROWS, cols)
+                drop(board, block_move, mark, ROWS, cols)
                 steps += 1
                 mark, opp = opp, mark
                 continue

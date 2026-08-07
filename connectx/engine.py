@@ -89,13 +89,20 @@ def drop(board: list[int], col: int, mark: int,
 
 
 def un_drop(board: list[int], col: int, rows: int = ROWS,
-           cols: int = COLS) -> int:
+           cols: int = COLS, row: int | None = None) -> int:
     """
-    Remove the top piece from ``col``.
+    Remove a piece from ``col`` at ``row``.
 
+    If ``row`` is given, clears that exact row.
+    If ``row`` is None, clears the lowest non-empty cell (original behavior).
     Returns the (row, col) of the removed piece.
-    Raises ValueError if column is empty.
+    Raises ValueError if the column is empty or the specified row is not occupied.
     """
+    if row is not None:
+        if board[index(row, col, cols)] == EMPTY:
+            raise ValueError(f"Column {col} row {row} is empty")
+        board[index(row, col, cols)] = EMPTY
+        return row, col
     for r in range(rows - 1, -1, -1):
         if board[index(r, col, cols)] != EMPTY:
             board[index(r, col, cols)] = EMPTY

@@ -73,6 +73,7 @@ class TTEntry:
     depth: int
     value: float
     flag: int  # 0=exact  1=lower  2=upper
+    mark: int  # which player's perspective the value is stored under
 
 
 class TranspositionTable:
@@ -88,9 +89,9 @@ class TranspositionTable:
             return entry
         return None
 
-    def put(self, key: int, depth: int, value: float, flag: int) -> None:
+    def put(self, key: int, depth: int, value: float, flag: int, mark: int) -> None:
         self._table[key & (self._size - 1)] = TTEntry(
-            hash_key=key, depth=depth, value=value, flag=flag
+            hash_key=key, depth=depth, value=value, flag=flag, mark=mark
         )
 
     def clear(self) -> None:
@@ -323,25 +324,25 @@ def _order_moves(
 
     wins, blocks, threats = [], [], []
     for col in legal:
-        drop(board, col, mark, ROWS, cols)
+        row = drop(board, col, mark, ROWS, cols)
         if check_win(board, col, mark, ROWS, cols):
             wins.append(col)
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
             continue
-        un_drop(board, col, ROWS, cols)
+        un_drop(board, col, ROWS, cols, row=row)
 
-        drop(board, col, opp, ROWS, cols)
+        row = drop(board, col, opp, ROWS, cols)
         if check_win(board, col, opp, ROWS, cols):
             blocks.append(col)
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
             continue
-        un_drop(board, col, ROWS, cols)
+        un_drop(board, col, ROWS, cols, row=row)
 
         try:
-            drop(board, col, mark, ROWS, cols)
+            row = drop(board, col, mark, ROWS, cols)
             if _has_threat(board, col, mark, ROWS, cols):
                 threats.append(col)
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
         except ValueError:
             pass
 
@@ -383,6 +384,14 @@ def _negamax(
 
     is_root=True: skip TT lookup (used by iterative deepening at the root).
     """
+    # Cap infinite bounds to prevent propagation issues.
+    # When negamax calls itself with -beta, -alpha, bounds that are
+    # already at -inf/+inf can propagate infinity through the search.
+    # Capping to ±100000 (±evaluation scale) is safe since only
+    # actual wins/losses use ±100000.
+    alpha = max(alpha, -100000.0)
+    beta = min(beta, 100000.0)
+
     legal = valid_moves(board, cols)
     if not legal:
         return 0.0, 0
@@ -398,22 +407,24 @@ def _negamax(
 
     # Check immediate win — always first
     for col in legal:
-        drop(board, col, mark, ROWS, cols)
+        row = drop(board, col, mark, ROWS, cols)
         w = check_win(board, col, mark, ROWS, cols)
         if w:
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=row)
             if tt is not None:
-                tt.put(hash_key, depth, 100000.0, 0)
+                tt.put(hash_key, depth, 100000.0, 0, mark)
             return 100000.0, col
-        un_drop(board, col, ROWS, cols)
+        un_drop(board, col, ROWS, cols, row=row)
 
     # TT lookup — skip at root (iterative deepening manages TT at root)
+    # In negamax, scores are perspective-dependent: store the mark used,
+    # and negate the retrieved value if the mark differs.
     tt_entry = None
     if tt is not None and not is_root:
         tt_entry = tt.get(hash_key, depth)
 
     if tt_entry is not None:
-        val = tt_entry.value
+        val = -tt_entry.value if tt_entry.mark != mark else tt_entry.value
         if tt_entry.flag == 0:
             return val, 0
         if tt_entry.flag == 1 and val >= beta:
@@ -427,25 +438,40 @@ def _negamax(
     best_score = float("-inf")
     best_col = legal[0]
 
+    # Check if opponent already has 4-in-a-row on the board.
+    # check_win only detects wins from the last move, but _evaluate
+    # scans the entire board. If the opponent has a winning line that
+    # existed before this turn (e.g. from a piece placed earlier),
+    # the game is already lost for the current player.
+    opp = 3 - mark
+    opp_bb = _to_bitboard(board, opp)
+    if opp_bb:
+        for line_mask in _LINE_MASKS:
+            if bin(opp_bb & line_mask).count('1') == INAROW:
+                return -100000.0, legal[0]
+
     # Null-move pruning — only when no immediate tactical moves exist.
     # If opponent can win next turn, null-move would skip past that win
     # and incorrectly evaluate the position as safe.
+    #
+    # The bounds-capping at the top of negamax prevents infinity
+    # propagation through (-beta, -beta+1) tight bounds.
     null_ok = True
     if depth >= 3 and len(legal) > 1:
         try:
             opp = 3 - mark
             for col in legal:
                 try:
-                    drop(board, col, opp, ROWS, cols)
+                    opp_row = drop(board, col, opp, ROWS, cols)
                     if check_win(board, col, opp, ROWS, cols):
                         null_ok = False  # opponent has a winning threat
-                        un_drop(board, col, ROWS, cols)
+                        un_drop(board, col, ROWS, cols, row=opp_row)
                         break
                 except (ValueError, IndexError):
                     pass  # column state inconsistent, skip
                 else:
                     try:
-                        un_drop(board, col, ROWS, cols)
+                        un_drop(board, col, ROWS, cols, row=opp_row)
                     except (ValueError, IndexError):
                         pass  # board corrupted, continue
             if not null_ok:
@@ -456,9 +482,10 @@ def _negamax(
     if null_ok:
         null_board = list(board)
         score = -_negamax(
-            null_board, mark, depth - 3,
+            null_board, 3 - mark, depth - 3,
             -beta, -beta + 1,
             cols, tt, time_limit, counter, start_time,
+            is_root=True,
         )[0]
         if score >= beta:
             return beta, 0
@@ -467,7 +494,7 @@ def _negamax(
 
     for col in ordered:
         try:
-            drop(board, col, mark, ROWS, cols)
+            drop_row = drop(board, col, mark, ROWS, cols)
         except ValueError:
             continue  # column is unexpectedly full, skip
         score, _ = _negamax(
@@ -477,7 +504,7 @@ def _negamax(
         )
         score = -score
         try:
-            un_drop(board, col, ROWS, cols)
+            un_drop(board, col, ROWS, cols, row=drop_row)
         except ValueError:
             pass  # board was corrupted, best effort
 
@@ -491,12 +518,12 @@ def _negamax(
         if alpha >= beta:
             _record_killer(depth, col)
             if tt is not None:
-                tt.put(hash_key, depth, beta, 2)
+                tt.put(hash_key, depth, beta, 2, mark)
             break
 
     if tt is not None:
         flag = 2 if best_score >= beta else (1 if best_score <= alpha else 0)
-        tt.put(hash_key, depth, best_score, flag)
+        tt.put(hash_key, depth, best_score, flag, mark)
 
     return best_score, best_col
 

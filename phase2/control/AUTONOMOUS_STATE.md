@@ -2,7 +2,7 @@
 
 **Session:** Cycle 18
 **Date:** 2026-08-07
-**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). Value network path plateaued. Next: full leaderboard tournament, evaluate v3 bot, consider alternative improvements.
+**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). BC model trained (100% val accuracy, captures v2's moves perfectly). MCTS+BC hybrid evaluated vs v2 = 20W-20W-0D (equivalent). Value NN path plateaued. BC approach is promising alternative. Next: full leaderboard tournament with all bots.
 
 ## What Was Last Completed
 

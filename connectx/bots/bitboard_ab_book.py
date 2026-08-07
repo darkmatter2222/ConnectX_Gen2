@@ -40,8 +40,9 @@ def bitboard_ab_bot_v2_book(
         return 0
 
     # Try opening book first
-    book_move = _opening_book.get_move(board_list, mark, legal, prefer_random=False)
-    if book_move is not None:
+    board_str = "".join(str(c) for c in board_list)
+    book_move = _opening_book.best_move(board_str, mark)
+    if book_move is not None and book_move in legal:
         return book_move
 
     # Fall back to full v2 search (same as bitboard_ab_bot_v2)

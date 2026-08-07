@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 18 — negamax bug fix across all bots, BC model, MCTS+BC hybrid)
+**Last Updated:** 2026-08-07 (Cycle 18→19 — negamax bug fix, smoke test all 8 bots PASS, BC model, MCTS+BC)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 

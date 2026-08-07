@@ -1,6 +1,6 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 18
+**Session:** Cycle 18→19
 **Date:** 2026-08-07
 
 ## Session Summary (Cycle 18)
@@ -20,6 +20,21 @@
   - **Impact:** ~20% of v1 games produced invalid moves (column 0 was full, but bot returned 0). v2 also affected but iterative deepening + final safety check reduced impact. vValue, v3, ensemble, and kaggle bots all had the same bug.
   - **Fix:** All 4 early-exit paths in each file now return `legal[0]` instead of `0`
   - **Verified:** 8 bots × 3 games = 1008 moves across 8 different bitboard implementations, 0 invalid moves after fix
+
+## Session Summary (Cycle 18.5: Smoke Test)
+
+**Completed:**
+- Fixed `bitboard_ab_book` opening book API: changed `get_move(board, mark, legal, prefer_random=False)` → `best_move(board_str, mark)` + `in legal` guard
+- Ran smoke test across ALL 8 bots against random opponent: **1680 moves, 0 invalid**
+- All 8 bots verified passing:
+  1. `bitboard_ab` — 210/210 valid
+  2. `bitboard_ab_book` — 210/210 valid
+  3. `bitboard_ab_ensemble` — 210/210 valid
+  4. `bitboard_ab_improved` (v2) — 210/210 valid
+  5. `bitboard_ab_improved_v3` (v3) — 210/210 valid
+  6. `bitboard_ab_value` (vValue) — 210/210 valid
+  7. `bitboard_ab_with_nn` — 210/210 valid
+  8. `mcts_bc` — 210/210 valid
 
 ## Session Summary (Cycle 17)
 

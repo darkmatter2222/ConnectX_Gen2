@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18
+**Session:** Cycle 18→19
 **Date:** 2026-08-07
-**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). BC model trained (100% val accuracy, captures v2's moves perfectly). MCTS+BC hybrid evaluated vs v2 = 20W-20W-0D (equivalent). Value NN path plateaued. BC approach is promising alternative. Next: full leaderboard tournament with all bots.
+**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). BC model trained (100% val accuracy). MCTS+BC hybrid = equivalent to v2. Value NN path plateaued. Cycle 18.5: Smoke test passed for all 8 bots (1680 moves, 0 invalid). Next: full leaderboard tournament, v3 evaluation, MCTS+BC tournament integration.
 
 ## What Was Last Completed
 
@@ -372,6 +372,23 @@ Once the value NN reaches sufficient quality for alpha-beta leaf evaluation, ext
 **Files created/updated:**
 - `data/selfplay_25_pure.npz` — 935 positions, zero draws
 - `models/value_net_selfplay_25/` — 25% noise value network
+
+## Cycle 18.5: Smoke Test — All 8 Bots Valid
+
+**Completed:**
+- Fixed `bitboard_ab_book` opening book API: changed `get_move(board, mark, legal)` → `best_move(board_str, mark)` + `in legal` guard
+- Ran smoke test across all 8 bots: **1680 moves, 0 invalid** — all PASS
+- Bots verified:
+  1. `bitboard_ab` — 210/210 valid
+  2. `bitboard_ab_book` — 210/210 valid
+  3. `bitboard_ab_ensemble` — 210/210 valid
+  4. `bitboard_ab_improved` (v2) — 210/210 valid
+  5. `bitboard_ab_improved_v3` (v3) — 210/210 valid
+  6. `bitboard_ab_value` (vValue) — 210/210 valid
+  7. `bitboard_ab_with_nn` — 210/210 valid
+  8. `mcts_bc` — 210/210 valid
+
+**Key Finding:** The negamax bug fix is complete across all files. No more invalid moves in any early-exit path.
 
 ## Session Summary (Cycle 13.1 + 13.2)
 

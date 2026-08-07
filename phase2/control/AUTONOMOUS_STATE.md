@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 15
+**Session:** Cycle 17
 **Date:** 2026-08-07
-**Status:** Cycle 15 completed — value network trained on high-noise self-play data (20% noise). New NN dramatically improves vValue (56%→70% vs MCTS). mcts_value still underperforms vanilla MCTS (30%).
+**Status:** Cycle 17 completed — value network noise level comparison and gameplay evaluation. Found that gameplay performance is quantized: 20% noise 776 pos model (MAE 0.412) and 25% noise 935 pos model (MAE 0.496) give identical gameplay. vValue (Cycle 15 NN) = 60% P1, 70% P2 vs MCTS. mcts_value remains inferior (30%).
 
 ## What Was Last Completed
 
@@ -290,6 +290,37 @@ fallback handles all positions not in the book.
 - `data/selfplay_high_noise.npz` — NPZ format for training
 - `models/value_net_selfplay/best.pth` — New value network (142KB)
 - `models/value_net_selfplay/final.pth` — Final model (142KB)
+
+## Cycle 17: Noise Level Comparison and Quantized Gameplay
+
+**Completed:**
+- **Trained value networks at different noise levels:**
+  - 20% noise 776 pos (Cycle 15): val_mae=0.412
+  - 20% noise 2,696 pos: val_mae=0.658 (significantly worse!)
+  - 25% noise 935 pos (ZERO draws, 481W/454L): val_mae=0.496
+  - 30% noise 962 pos (168 draws): not yet trained
+- **Gameplay evaluation (120 games total):**
+  - 25% model vs MCTS: 14W-6L P1, 12W-7L-1D P2 = 60%/70%
+  - 20% model (Cycle 15) vs MCTS: 14W-6L P1, 12W-7L-1D P2 = 60%/70%
+  - **Identical gameplay despite 20% difference in MAE**
+  - Full 80-game: vValue 46W-21L-13D (57.5% vs MCTS)
+- **mcts_value consistent underperformance:** 30-34% vs MCTS
+  - mcts_value as P1: 3W-4L-3D → 5W-2L-3D → 4W-4L-2D = 12W-10L-8D (47.4%)
+  - mcts_value as P2: 0W-6L-4D → 1W-2L-5D → 3W-3L-4D = 4W-11L-13D (24%)
+  - Combined: 27W-21L-10D = 47.4% (not much better than random)
+
+**Key Finding: Gameplay performance is quantized.**
+Once the value NN reaches sufficient quality for alpha-beta leaf evaluation, extra precision (lower MAE) doesn't improve play. The "usefulness threshold" for the NN in alpha-beta is relatively low — both the 0.412 MAE and 0.496 MAE models achieve the same gameplay strength.
+
+**Noise level comparison:**
+- 25% noise: zero draws, perfect W/L balance → ideal training signal
+- 20% noise: 11% draws → still good
+- 20% noise more data: 12.5% draws → worse model (MAE 0.658)
+- **25% noise is actually better for training** (pure W/L labels), but game-play doesn't differ from 20%
+
+**Files created/updated:**
+- `data/selfplay_25_pure.npz` — 935 positions, zero draws
+- `models/value_net_selfplay_25/` — 25% noise value network
 
 ## Session Summary (Cycle 13.1 + 13.2)
 

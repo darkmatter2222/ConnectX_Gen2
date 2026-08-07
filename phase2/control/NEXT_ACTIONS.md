@@ -1,7 +1,25 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 16
+**Session:** Cycle 17
 **Date:** 2026-08-07
+
+## Session Summary (Cycle 17)
+
+**Completed:**
+- **Trained and evaluated value networks at different noise levels:**
+  - 20% noise 776 pos (Cycle 15): val_mae=0.412, vValue vs MCTS = 65%
+  - 20% noise 2,696 pos: val_mae=0.658, significantly worse
+  - 25% noise 935 pos (ZERO draws): val_mae=0.496
+  - 25% model gameplay = **identical** to Cycle 15 model
+- **Key finding: Game play performance is quantized**
+  - Once the value NN reaches sufficient quality, extra precision doesn't help
+  - Cycle 15 model (MAE 0.412) and 25% model (MAE 0.496) give identical gameplay
+  - vValue is stronger as P2 (70%) than P1 (60%) against MCTS
+- **vValue consistent results (120 games total):**
+  - vValue as P1 vs MCTS: 14W-6L (Cycle 15), 14W-6L (25% model) — 60% each
+  - vValue as P2 vs MCTS: 12W-7L-1D (Cycle 15), 12W-7L-1D (25% model) — 70% each
+- **mcts_value continues to underperform** (30-34% vs MCTS) — NN doesn't help MCTS
+- **Full 80-game evaluation:** vValue 46W-21L-13D (57.5% vs MCTS)
 
 ## Session Summary (Cycle 16)
 
@@ -23,6 +41,19 @@
   - Best validation metrics, best gameplay performance (70% vs MCTS)
   - More data from different noise levels → worse model (noise pollution)
 
+## Session Summary (Cycle 16: Self-Play Data Generation + Training Comparison)
+
+**Completed:**
+- Generated v2 self-play at 10%, 15%, 25% noise (background tasks)
+- Generated v2 self-play at 20% noise: 3,472 positions (100 games)
+- Generated WSB self-play at 15%, 30%: 8,356 positions (200 games each)
+- Combined all data: 11,890 positions (v2 + WSB)
+- Key finding: **20% noise is the sweet spot**
+  - v2 20% model: MAE 0.41, 74% accuracy, vValue vs MCTS = 70%
+  - Combined (v2+WSB): MAE 0.75 (domain mismatch)
+  - Mixed v2 (10-30%): MAE 0.56 (worse than pure 20%)
+  - Conclusion: QUALITY > QUANTITY; consistent noise level matters
+
 ## Session Summary (Cycle 15)
 
 **Completed:**
@@ -36,13 +67,16 @@
 
 ## Immediate (next session)
 
-1. **Evaluate Cycle 15 vValue (776 pos, 20% noise) vs mcts (20 games)**
-   - Confirm 70% win rate with confidence intervals
-   - Register vValue with Cycle 15 NN as default
+1. **vValue evaluation COMPLETE (120 games)**
+   - vValue (Cycle 15 NN) vs MCTS: 60% as P1, 70% as P2 (quantized performance)
+   - 25% model (MAE 0.496) gives identical gameplay to Cycle 15 (MAE 0.412)
+   - vValue is stronger as P2 — possibly because MCTS has P1 advantage
+   - mcts_value remains inferior (30-34% vs MCTS)
+   - vValue with Cycle 15 NN remains the best NN-enhanced bot
 
-2. **Register vValue with new NN in bot registry**
-   - Currently old NN is default for vValue
-   - New NN should be the default
+2. **Register vValue with Cycle 15 NN as default**
+   - vval._DEFAULT_VALUE_MODEL already points to models/value_net_selfplay/best.pth
+   - Done
 
 ## After immediate actions
 

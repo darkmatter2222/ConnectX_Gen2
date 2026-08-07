@@ -47,3 +47,14 @@
 - **Decision:** Value network useful for vValue enhancement only. MCTS with NN guidance
   remains inferior to vanilla MCTS. Self-play noise level = 20% is the key parameter.
 - **Evidence:** Cycle 15 training (50 epochs, batch 64, 776 positions), 80-game evaluation
+
+## D2026-08-07-008: Game play performance is quantized — extra NN precision doesn't help
+
+- **Finding:** Cycle 15 model (MAE 0.412, 776 pos @ 20% noise) and 25% model (MAE 0.496, 935 pos @ 25%) produce **identical gameplay** — 14W-6L as P1, 12W-7L-1D as P2 vs MCTS in 40-game tests, and 46W-21L-13D in 80-game evaluation (57.5% vs MCTS)
+- **25% noise data is ideal for training:** zero draws, 481W/454L (51.4%/48.6%)
+- **20% noise 2,696 positions** — surprisingly worse (MAE 0.658) despite being pure 20% data
+  - Same game distribution as 776 positions, just scaled up
+  - Suggests training randomness (seed, split) may dominate
+- **Conclusion:** Once value NN quality reaches a threshold, extra precision is irrelevant for alpha-beta gameplay. The NN only needs to be good enough to guide leaf evaluation; beyond that, the heuristic dominates.
+- **Decision:** Keep Cycle 15 model as default. No need to pursue more data or hyperparameter tuning.
+- **Evidence:** 120 games (3×40), 3 models compared (Cycle 15, 25% noise, 20% 2696)

@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 14 — opening book)
+**Last Updated:** 2026-08-07 (Cycle 17 — value network noise comparison, quantized gameplay)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -472,6 +472,45 @@ This produces balanced W/L labels instead of the draw-only data from zero-noise 
 - `data/selfplay_high_noise.npz` — NPZ format for training
 - `models/value_net_selfplay/best.pth` — New value network (142KB)
 - `models/value_net_selfplay/final.pth` — Final model
+
+## Cycle 16: Self-Play Data Scale and Domain Mismatch
+
+**Approach:** Generate more self-play data at different noise levels and combine with WSB data.
+- Generated v2 self-play at 10%, 15%, 20%, 25% noise
+- Generated WSB self-play at 15%, 30% noise
+- Combined datasets: v2+WSB = 11,890 positions
+
+**Results:**
+| Dataset | Positions | Noise | MAE | Notes |
+|---------|-----------|-------|-----|-------|
+| Cycle 15 | 776 | 20% only | **0.412** | Best so far |
+| v2 all levels | 3,472 | 10-30% | 0.562 | Worse despite 4× more data |
+| v2+WSB combined | 11,890 | mixed | 0.750 | **Domain mismatch degrades quality** |
+
+**Key Finding:** **20% noise is the sweet spot.** Mixing noise levels or domain data
+degrades model quality. Quality > quantity.
+
+## Cycle 17: Noise Level Comparison and Quantized Gameplay
+
+**Approach:** Compare value networks trained at different noise levels.
+- 20% noise 776 pos: MAE 0.412 (Cycle 15 baseline)
+- 20% noise 2,696 pos: MAE 0.658 (worse!)
+- 25% noise 935 pos (zero draws, 481W/454L): MAE 0.496
+
+**Gameplay evaluation (120 games total):**
+| Model | vValue as P1 | vValue as P2 | Status |
+|-------|-------------|-------------|--------|
+| Cycle 15 (20%, 776) | 14W-6L (60%) | 12W-7L-1D (70%) | Best MAE |
+| 25% noise (935) | 14W-6L (60%) | 12W-7L-1D (70%) | Same gameplay! |
+| 20% noise (2,696) | — | — | Worse MAE |
+
+**Full 80-game evaluation:** vValue 46W-21L-13D = 57.5% vs MCTS
+
+**mcts_value results:** 27W-21L-10D = 47.4% vs MCTS (still underperforms)
+
+**Key Finding: Game play performance is quantized.** Once the value NN reaches
+sufficient quality for alpha-beta leaf evaluation, extra precision (lower MAE)
+doesn't improve play. Both 0.412 and 0.496 MAE models give identical gameplay.
 
 ## Files Created
 

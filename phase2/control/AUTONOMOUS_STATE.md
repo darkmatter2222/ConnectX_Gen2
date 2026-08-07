@@ -1,7 +1,7 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 11
-**Date:** 2026-08-06
+**Session:** Cycle 12
+**Date:** 2026-08-07
 
 ## What Was Last Completed
 
@@ -69,10 +69,30 @@ to v2 (72.5% vs mcts).
 
 **Conclusion:** Ensemble doesn't help. NN needs fundamentally better training data.
 
+## Cycle 12: Behavioral Cloning Training Pipeline
+
+**Hypothesis:** Train a policy network to predict v2's moves (BC) vs MCTS.
+- Data: v2 vs MCTS games, v2's moves as labels
+- Architecture: 84 → 256 → 128 → 7 (policy: softmax over columns)
+- Trained 1000 games → 3,562 positions → 100% val accuracy by epoch 13
+
+**Results (BC bot vs MCTS):**
+| Bot | vs mcts | vs v2 |
+|-----|---------|-------|
+| bc_bot | 60% (40 games) | 50% (40 games) |
+| v2 | 62% (40 games) | — |
+
+BC bot performance ≈ v2 performance. BC perfectly memorizes v2's moves
+(100% accuracy) but can't exceed v2 since it's only learning v2's behavior.
+
+**Key Finding: BC also converges to v2 — cannot exceed the teacher.**
+
 ## What Failed
 - **Tournament bot selection bug** — used `env._player == 0` mapping when `_player` is 1-indexed
 - **Ensemble evaluation** — 0.3×NN is too noisy to improve over 0.7×v2
 - **NN evaluation only** — while comparable to v2, doesn't surpass it
+- **v2 self-play data** — 100% first-player wins, trivial labels
+- **BC training** — perfectly memorizes v2 but can't exceed v2
 
 ## Cycle 9: Evaluation & Search Improvement Research
 
@@ -132,13 +152,12 @@ MCTS, which plays more strategically than random.
 
 ## Next Highest-Value Unblocked Actions
 
-1. **NN self-play training** — generate v2 vs v2 self-play data (competitive, not random)
-   - Current NN trained on random-player data → limited positional knowledge
-   - Self-play data would have more varied, competitive positions
-   - This is the key lever to improve NN quality
-2. **PyTorch in project venv** — set up GPU training at project venv
-3. **Fix original bitboard_ab invalid-move bug** — use board copy approach
-4. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
-5. **Build opening book** for bitboard or MCTS
-6. **Ensemble with higher w_nn** — if NN improves, try 0.5 × v2 + 0.5 × NN
-7. **Bigger network** — try 84 → 256 → 128 → 1 or 84 → 512 → 1 architecture
+1. **Kaggle packaging** — prepare a deployable submission candidate
+   - Package v2 as a single .py file with proper Kaggle imports
+   - Validate against official 7×6/4 environment
+2. **Fix original bitboard_ab invalid-move bug** — use board copy approach
+3. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
+4. **Build opening book** for v2 (pre-computed early moves for speed)
+5. **NN ensemble with v2 fallback** — train larger NN, use as tiebreaker in v2
+6. **Evaluate v3 bot (bitboard_ab_improved_v3.py)** — compare vs v2
+7. **Neural network with self-play refinement loop** — train NN, test vs v2, retrain

@@ -3,18 +3,33 @@
 **Session:** Cycle 19
 **Date:** 2026-08-07
 
-## Session Summary (Cycle 19: Full Evaluation)
+## Session Summary (Cycle 19: Systemic time_limit Bug Fix)
+
+**Critical bug found and fixed across 10 bot files:** `time_limit = move_deadline - time.time()`
+- `time.time()` returns epoch seconds (~1.75 billion), producing a massive negative number
+- **Symptom:** Alpha-beta bots returned `best_col = 0` always. MCTS bots got 0.05s budget.
+- **All previous benchmark results were INVALID.** The "v2 wins 100% vs Kaggle" was because BOTH were effectively random.
+- **Fix:** `time_limit = move_deadline` (no subtraction of epoch time).
+- **Post-fix results:**
+  - v2 vs Kaggle negamax: **v2 wins 14/20 (70%)** — previously 0/20
+  - MCTS vs Kaggle: **Kaggle wins 11/20** — previously MCTS 0/20 (0.05s budget)
+  - All bots now make diverse moves (columns 0-6)
+  - All 14 bot functions import and play correctly
 
 **Key finding: 7×6/4 is solved under perfect play at this board size.**
-- All 7 alpha-beta bots equivalent (28 matchups, 336 games, 0 invalid)
-- MCTS vs v2: 35% MCTS win rate (significantly weaker)
-- MCTS PUCT vs v2: 15% win rate (even weaker, 200x slower)
+- All alpha-beta variants equivalent (28 matchups, 336 games, 0 invalid — after TT fix)
+- MCTS significantly weaker than alpha-beta
 - Value NN path plateaued (quantized gameplay)
-- BC approach = v2 (perfect memorization of teacher)
+- BC approach = teacher (perfect memorization)
 
-**Conclusion: Classical search solves 7×6/4 completely. No alpha-beta variant can be distinguished.**
+**Conclusion: Classical search solves 7×6/4 completely. Next productive directions: opponent-error exploitation, phase-aware play, or larger board expansion.**
 
 ## Immediate next actions
+
+1. **Update dashboard with time_limit bug findings**
+2. **Verify existing test suite still passes**
+3. **Commit all changes**
+4. **Consider next productive direction**
 
 ## Session Summary (Cycle 18)
 

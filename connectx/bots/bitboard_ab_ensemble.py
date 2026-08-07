@@ -481,7 +481,7 @@ def bitboard_ab_ensemble_bot(
 
     time_limit = None
     if move_deadline is not None:
-        time_limit = move_deadline - time.time()
+        time_limit = move_deadline
 
     w_nn = 0.3  # weight for NN evaluation
     if move_deadline and move_deadline < 0.2:

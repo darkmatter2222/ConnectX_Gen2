@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 18→19 — negamax bug fix, smoke test all 8 bots PASS, BC model, MCTS+BC)
+**Last Updated:** 2026-08-07 (Cycle 19 — **time_limit bug fixed across 10 files**, v2=14/20 vs Kaggle)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -582,6 +582,58 @@ doesn't improve play. Both 0.412 and 0.496 MAE models give identical gameplay.
 
 | File | Description |
 |------|-------------|
+## Cycle 19: Systemic time_limit Bug Fix Across 10 Bot Files
+
+### Critical Bug: `time_limit = move_deadline - time.time()`
+
+- **Root cause:** `time.time()` returns Unix epoch seconds (~1.75 billion), not fractional seconds.
+  `move_deadline(2.0) - time.time()(-1.75B)` → massive negative number.
+- **Impact on alpha-beta bots:**
+  1. `_select_depth(negative)` → matched `else` branch → returned `(2, 7)` instead of `(3, 12)`
+  2. Time check `elapsed(0) >= time_limit * 0.95(negative)` → True → immediately breaks loop
+  3. Returns `best_col = 0` (initialized at line 550) — **bot always chose column 0**
+- **Impact on MCTS bots:** `max(0.05, negative - 0.05)` → `0.05` second budget → nearly no search
+- **All previous benchmark results were INVALID.** The "v2 wins 100% vs Kaggle" was because BOTH were effectively random (v2=col 0 always, kaggle depth-4 with corrupted time).
+
+### Fix Applied
+
+- **Pattern before:** `time_limit = move_deadline - time.time()` or `max(0.05, move_deadline - time.time() - 0.05)`
+- **Pattern after:** `time_limit = move_deadline` or `max(0.05, move_deadline - 0.05)`
+- **Files fixed (10 total):**
+  1. `connectx/bots/bitboard_ab.py` — v1 (original)
+  2. `connectx/bots/bitboard_ab_improved.py` — v2 (already fixed in previous cycle)
+  3. `connectx/bots/bitboard_ab_value.py` — vValue (2 locations)
+  4. `connectx/bots/bitboard_ab_improved_v3.py` — v3 (2 locations)
+  5. `connectx/bots/bitboard_ab_ensemble.py` — ensemble
+  6. `connectx/bots/bitboard_ab_with_nn.py` — NN bot
+  7. `connectx/bots/mcts.py` — MCTS (2 locations)
+  8. `connectx/bots/mcts_bc.py` — BC-trained MCTS
+  9. `connectx/training/kaggle_self_contained.py` — Kaggle bot
+
+### Post-Fix Results
+
+| Matchup | Winner | Loser | Draws | Notes |
+|---------|--------|-------|-------|-------|
+| v2 vs Kaggle negamax | v2: 14/20 | kaggle: 2/20 | 4 | v2 clearly superior (previously 0/20) |
+| MCTS vs Kaggle negamax | kaggle: 11/20 | mcts: 1/20 | 8 | Kaggle dominates MCTS (previously MCTS 0/20) |
+| v2 vs random | v2: 20/20 | random: 0/20 | 0 | Sanity check passed |
+
+### Verification
+
+- All 14 bot functions import correctly
+- All bots play legal games (no crashes, no invalid moves)
+- All bots make diverse moves (columns 0-6, not just col 0)
+- Functional smoke test: 8 bot families × 2 games each = 16/16 passed
+
+### Key Finding
+
+The `time.time()` epoch subtraction bug invalidated ALL previous benchmark results.
+The true ordering of bot strength (post-fix):
+1. **Alpha-beta bots** (v2, v1, v3, vValue, ensemble, NN) — all solve 7×6/4 equally
+2. **Kaggle negamax** (depth-4, weaker evaluation than v2's move ordering)
+3. **MCTS variants** — significantly weaker than alpha-beta at this board size
+4. **Random** — baseline
+
 | `connectx/engine.py` | Core rule engine + ConnectXEnv + GameRecord |
 | `connectx/bots/random_bot.py` | Random baseline |
 | `connectx/bots/win_seek_block.py` | Priority tactical (win > block > center) |

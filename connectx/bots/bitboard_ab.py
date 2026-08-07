@@ -628,7 +628,7 @@ def bitboard_ab_bot(
     # Compute time budget
     time_limit = None
     if move_deadline is not None:
-        time_limit = move_deadline - time.time()
+        time_limit = move_deadline
 
     depth = _select_depth(board_list, time_limit, cols)
 

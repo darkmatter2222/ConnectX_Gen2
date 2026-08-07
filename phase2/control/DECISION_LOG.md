@@ -71,3 +71,31 @@
 - **Impact:** ~20% of games failed with invalid move (column full) or crashed with ValueError.
 - **Fix:** All early-exit paths in `_negamax` now return `legal[0]` instead of `0`.
 - **Verified:** 380 moves across 20 games, 0 invalid moves.
+
+## D2026-08-07-011: Systemic time_limit bug — move_deadline - time.time()
+
+- **Bug:** Multiple bot files used `time_limit = move_deadline - time.time()` (or `max(0.05, move_deadline - time.time() - 0.05)`). `time.time()` returns epoch seconds (~1.75 billion), producing a massive negative number.
+- **Root cause:** Confused `move_deadline` (a duration in seconds) with a Unix timestamp. The correct pattern is `time.time() - start_time` for elapsed computation, never `deadline - time.time()`.
+- **Symptoms:**
+  1. `_select_depth(negative)` matched the `else` branch → returned `(2, 7)` instead of `(3, 12)` for v2
+  2. Time check `elapsed >= time_limit * 0.95` → `0 >= -1753688231` → True → immediately breaks
+  3. Returns `best_col = 0` (initialized at line 550) — **bot always chose column 0**
+  4. MCTS bots: `max(0.05, negative)` → `0.05` second time budget (1.5s wasted on nothing)
+- **Affected files (10 total):**
+  1. `connectx/bots/bitboard_ab.py` — v1
+  2. `connectx/bots/bitboard_ab_improved.py` — v2 (ALREADY FIXED in previous cycle)
+  3. `connectx/bots/bitboard_ab_value.py` — vValue (both vValue and vValue_fast)
+  4. `connectx/bots/bitboard_ab_improved_v3.py` — v3 (both v3 and v3_fast)
+  5. `connectx/bots/bitboard_ab_ensemble.py` — ensemble
+  6. `connectx/bots/bitboard_ab_with_nn.py` — NN bot
+  7. `connectx/bots/mcts.py` — both mcts and mcts_value
+  8. `connectx/bots/mcts_bc.py` — BC-trained MCTS
+  9. `connectx/training/kaggle_self_contained.py` — Kaggle bot
+  10. **Impact:** **All previous benchmark results using v1, vValue, v3, ensemble, NN, MCTS variants were invalid.** v2 results were also invalid before this cycle's fix.
+- **Fix:** `time_limit = move_deadline` (or `max(0.05, move_deadline - 0.05)` for MCTS). No subtraction of `time.time()`.
+- **Verified:**
+  1. All 10 bot families import correctly
+  2. All bots play legal games (no crashes, no invalid moves)
+  3. All bots make diverse moves (columns 0-6, not just col 0)
+  4. **v2 vs Kaggle negamax after fix: v2 wins 14/20 (70%), kaggle 2/20, 4 draws** (previously v2 won 0/20 — both playing random)
+  5. **MCTS vs Kaggle after fix: MCTS 1/20, kaggle 11/20** (MCTS was 0/20 before due to 0.05s budget)

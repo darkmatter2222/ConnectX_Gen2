@@ -457,13 +457,12 @@ def bitboard_ab_nn_bot(
 
     time_limit = None
     if move_deadline is not None:
-        time_limit = move_deadline - time.time()
+        time_limit = move_deadline
 
     _clear_killer_history()
     _HISTORY_TABLE[:] = [0] * len(_HISTORY_TABLE)
     TT.clear()
 
-    start_time = time.time()
     best_col = 0
     counter = [0]
 

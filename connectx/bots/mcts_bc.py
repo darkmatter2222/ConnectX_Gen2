@@ -361,7 +361,7 @@ def mcts_bc_bot(
     # Set time budget
     time_limit = 0.15
     if move_deadline is not None:
-        time_limit = max(0.05, move_deadline - time.time() - 0.05)
+        time_limit = max(0.05, move_deadline - 0.05)
 
     if seed is not None:
         random.seed(seed)

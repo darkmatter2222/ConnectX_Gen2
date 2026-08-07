@@ -59,6 +59,10 @@ def index(row: int, col: int, cols: int = COLS) -> int:
 
 def valid_moves(board: Sequence[int], cols: int = COLS) -> list[int]:
     """Return list of column indices where a drop is legal."""
+    # A column is legal if its top cell (row 0) is empty.
+    # Pieces stack from the bottom (gravity), so if the top cell
+    # is occupied, the entire column is full. If it's empty,
+    # there's at least one empty slot below.
     return [c for c in range(cols) if board[c] == EMPTY]
 
 

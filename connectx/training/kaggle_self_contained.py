@@ -704,7 +704,7 @@ def bitboard_ab_bot_v2(
 
     time_limit = None
     if move_deadline is not None:
-        time_limit = max(0.01, move_deadline - time.time())
+        time_limit = max(0.01, move_deadline)
 
     min_d, max_d = _select_depth(time_limit)
     col = _iterative_deepening(

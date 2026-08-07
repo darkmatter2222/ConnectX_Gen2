@@ -629,9 +629,7 @@ def bitboard_ab_bot_v2(
     if not legal:
         return 0
 
-    time_limit = None
-    if move_deadline is not None:
-        time_limit = move_deadline - time.time()
+    time_limit = move_deadline
 
     min_d, max_d = _select_depth(time_limit)
     col = _iterative_deepening(
@@ -658,9 +656,7 @@ def bitboard_ab_bot_fast_v2(
     if not legal:
         return 0
 
-    time_limit = None
-    if move_deadline is not None:
-        time_limit = move_deadline - time.time()
+    time_limit = move_deadline
 
     col = _iterative_deepening(
         board_list, mark, cols, time_limit, 1, 8,

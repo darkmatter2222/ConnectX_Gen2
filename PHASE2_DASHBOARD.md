@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-06 (Cycle 8)
+**Last Updated:** 2026-08-07 (Cycle 13 — inf fix + value network)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -23,7 +23,8 @@
 
 ## Current Work
 
-- **Tests passing:** 78/78
+- **Tests passing:** 77/78 (last test times out due to deep search)
+- **Critical fix applied:** negamax inf score bug (bounds capping + opponent 4-in-a-row check)
 - **10 bots:** random, win_seek_block, depth2_minimax, shallow_minimax, bitboard_ab_fast, bitboard_ab, bitboard_ab_v2, bitboard_ab_fast_v2, mcts_fast, mcts
 - **Tournament system** with seat-aware leaderboard
 - **Cycle 8:** v2 vs wsb measured — both solve first-player advantage; v2 dominates wsb against MCTS

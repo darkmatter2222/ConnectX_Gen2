@@ -187,6 +187,11 @@ MCTS, which plays more strategically than random.
 - Trained value network (30 epochs, best val_loss=0.784)
 - Evaluated vValue vs v2 (50/50), vValue vs MCTS (56%), v2 vs MCTS (57.5%)
 - Updated dashboard and autonomous state
+- **CRITICAL FIX: negamax inf score bug** — Two fixes: (1) bounds capping at top of
+  _negamax (alpha=max(alpha,-100000), beta=min(beta,100000)) to prevent infinity
+  propagation through alpha-beta; (2) opponent 4-in-a-row scan before search via
+  bitboard masks. All 78 tests pass. Fixed: TT mark field, un_drop row param,
+  null-move mark (3-mark), is_root=True for null-move.
 
 **Key finding:** Value network improves NN_eval (44% vs MCTS, up from 40%) but
 does not enhance v2. The network's high MAE (0.786) makes it too noisy for alpha-beta.

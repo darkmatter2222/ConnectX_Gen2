@@ -201,6 +201,174 @@ def _simulate(
     return 0.0  # no win found — draw or opponent wins
 
 
+# ── Heuristic Evaluation ───────────────────────────────────────────────────────
+
+def _heuristic_eval(board: list[int], mark: int, cols: int, rows: int = ROWS) -> float:
+    """
+    Evaluate board position from *mark*'s perspective.
+
+    Simple heuristic:
+      - Center column control (columns 2-4 worth more)
+      - Height advantage (avoid being blocked)
+      - Column occupancy (more of your pieces = better)
+      - Adjacency bonus (pieces next to own pieces are harder to block)
+
+    Returns a score in [-1, +1] range from mark's perspective.
+    """
+    score = 0.0
+    opp = 3 - mark
+
+    # Center column control (columns 2, 3, 4 are worth 2x)
+    center_cols = {2, 3, 4}
+    for c in range(cols):
+        # Find height of column c (topmost filled cell)
+        h = 0
+        for r in range(rows):
+            if board[r * cols + c] != 0:
+                h = r + 1
+        if h == 0:
+            continue  # empty column
+
+        piece = board[(h - 1) * cols + c]
+        height_score = h / rows  # 0-1, higher = more advanced
+        center_bonus = 2.0 if c in center_cols else 1.0
+
+        if piece == mark:
+            score += height_score * center_bonus
+        elif piece == opp:
+            score -= height_score * center_bonus
+
+    # Adjacency bonus: pieces adjacent to own pieces
+    for c in range(cols):
+        for r in range(rows):
+            cell = board[r * cols + c]
+            if cell != mark:
+                continue
+            # Check horizontal neighbor
+            if c + 1 < cols and board[r * cols + c + 1] == mark:
+                score += 0.1
+            # Check vertical neighbor
+            if r + 1 < rows and board[(r + 1) * cols + c] == mark:
+                score += 0.1
+
+    # Normalize to [-1, 1] range
+    # The max possible score is roughly cols * 2 * 2 (all mark in center, height 1)
+    # plus adjacency. Use a rough normalization.
+    return max(-1.0, min(1.0, score * 0.1))
+
+
+def _simulate_heuristic(
+    board: list[int], mark: int, cols: int,
+    max_steps: int = 42,
+) -> float:
+    """
+    Tactical rollout with heuristic evaluation at terminal positions.
+
+    Unlike _simulate which returns 1.0 only on immediate win (draw=0.0),
+    this evaluates the final board position using a heuristic when no win
+    is found, giving MCTS much better feedback signals.
+
+    Returns:
+        1.0 if mark wins, 0.0 if opponent wins, or heuristic value for draws
+        from mark's perspective (centered around 0.5 for equal positions).
+    """
+    opp = 3 - mark
+    steps = 0
+
+    while steps < max_steps:
+        legal = valid_moves(board, cols)
+        if not legal:
+            # Evaluate from mark's perspective
+            raw = _heuristic_eval(board, mark, cols)
+            # Convert to [0, 1] scale: (-1→0, 0→0.5, +1→1)
+            return 0.5 + raw * 0.5
+
+        # Priority 1: find a winning move
+        win_move: Optional[int] = None
+        for col in list(legal):
+            try:
+                row = drop(board, col, mark, ROWS, cols)
+            except ValueError:
+                continue
+            if check_win(board, col, mark, ROWS, cols):
+                un_drop(board, col, ROWS, cols, row=row)
+                win_move = col
+                break
+            un_drop(board, col, ROWS, cols, row=row)
+
+        if win_move is not None:
+            try:
+                drop(board, win_move, mark, ROWS, cols)
+            except ValueError:
+                mark, opp = opp, mark
+                continue
+            return 1.0  # mark wins
+
+        # Priority 2: block opponent's win
+        block_move: Optional[int] = None
+        for col in list(legal):
+            try:
+                row = drop(board, col, opp, ROWS, cols)
+            except ValueError:
+                continue
+            if check_win(board, col, opp, ROWS, cols):
+                un_drop(board, col, ROWS, cols, row=row)
+                block_move = col
+                break
+            un_drop(board, col, ROWS, cols, row=row)
+
+        if block_move is not None:
+            try:
+                drop(board, block_move, mark, ROWS, cols)
+                steps += 1
+                mark, opp = opp, mark
+                continue
+            except ValueError:
+                mark, opp = opp, mark
+                continue
+
+        # Priority 3: prefer center columns (with some noise)
+        center = cols // 2
+        ordered: list[int] = []
+        for offset in range(cols):
+            left = center - offset
+            if left >= 0 and left in legal:
+                ordered.append(left)
+            right = center + 1 + offset
+            if right < cols and right in legal:
+                ordered.append(right)
+
+        if ordered:
+            if random.random() < 0.8:
+                col = ordered[0]
+            else:
+                col = random.choice(ordered)
+        elif legal:
+            col = random.choice(legal)
+        else:
+            return 0.5  # no moves — draw
+
+        # Filter out full columns
+        available = valid_moves(board, cols)
+        while col not in available:
+            if not available:
+                return 0.5
+            col = random.choice(available)
+            available = valid_moves(board, cols)
+
+        try:
+            drop(board, col, mark, ROWS, cols)
+        except ValueError:
+            continue
+
+        steps += 1
+        mark, opp = opp, mark
+
+    # No win found — evaluate terminal position
+    raw = _heuristic_eval(board, mark, cols)
+    return 0.5 + raw * 0.5  # convert [-1,+1] → [0,+1]
+
+
 # ── MCTS Search ────────────────────────────────────────────────────────────────
 
 
@@ -686,3 +854,180 @@ def _mcts_search_value(
         return 0, root
     best = max(root.children.values(), key=lambda c: c.visits)
     return best.col, root
+
+
+def _mcts_search_heuristic(
+    root_board: list[int],
+    mark: int,
+    time_limit: float,
+    cols: int = COLS,
+    c: float = 1.4,
+    max_iterations: int = 5000,
+) -> tuple[int, MCTSNode]:
+    """
+    MCTS search with heuristic leaf evaluation.
+
+    Same structure as _mcts_search but replaces the random SIMULATION
+    phase with _simulate_heuristic, which evaluates the final board
+    position using a positional heuristic instead of checking only
+    for immediate wins.
+
+    This gives MCTS much better feedback signals from playouts,
+    significantly improving move selection quality.
+    """
+    root_board = list(root_board)
+    legal = valid_moves(root_board, cols)
+    if not legal:
+        return 0, MCTSNode(col=0, mark=mark, board_snapshot=list(root_board))
+
+    root_children: dict[int, MCTSNode] = {}
+    for col in legal:
+        board_copy = list(root_board)
+        drop(board_copy, col, mark, ROWS, cols)
+        if check_win(board_copy, col, mark, ROWS, cols):
+            node = MCTSNode(
+                col=col, mark=mark, board_snapshot=list(board_copy),
+            )
+            node.visits = 1
+            node.wins = 1.0
+            root_children[col] = node
+            continue
+
+        node = MCTSNode(
+            col=col, mark=mark, board_snapshot=list(board_copy),
+        )
+        root_children[col] = node
+
+    root = MCTSNode(
+        col=-1, mark=mark, board_snapshot=list(root_board),
+        children=root_children,
+    )
+
+    start_time = time.time()
+    iterations = 0
+
+    while iterations < max_iterations:
+        if time.time() - start_time > time_limit:
+            break
+
+        iterations += 1
+
+        # --- SELECTION ---
+        current = root
+        path: list[MCTSNode] = [root]
+
+        while current.children:
+            best_puct = float('-inf')
+            best_child = None
+            for child in current.children.values():
+                p = child.puct_score(c, current.visits)
+                if p > best_puct:
+                    best_puct = p
+                    best_child = child
+                elif p == best_puct and child.visits > (best_child.visits if best_child else 0):
+                    best_child = child
+
+            if best_child is None:
+                break
+
+            current = best_child
+            path.append(current)
+
+        # --- EXPANSION ---
+        if not current.is_terminal:
+            legal = valid_moves(current.board_snapshot, cols)
+            if legal:
+                explored = set(current.children.keys())
+                unexplored = [col for col in legal if col not in explored]
+                if unexplored:
+                    col = min(unexplored)
+                    board_copy = list(current.board_snapshot)
+                    drop(board_copy, col, current.mark, ROWS, cols)
+
+                    if check_win(board_copy, col, current.mark, ROWS, cols):
+                        child = MCTSNode(
+                            col=col, mark=current.mark,
+                            board_snapshot=list(board_copy),
+                        )
+                    else:
+                        child = MCTSNode(
+                            col=col, mark=current.mark,
+                            board_snapshot=list(board_copy),
+                        )
+
+                    current.children[col] = child
+                    path.append(child)
+                    current = child
+                elif current.visits == 0:
+                    col = min(legal)
+                    board_copy = list(current.board_snapshot)
+                    drop(board_copy, col, current.mark, ROWS, cols)
+                    child = MCTSNode(
+                        col=col, mark=current.mark,
+                        board_snapshot=list(board_copy),
+                    )
+                    current.children[col] = child
+                    path.append(child)
+                    current = child
+
+        # --- SIMULATION (with heuristic evaluation) ---
+        sim_board = list(current.board_snapshot)
+        sim_mark = 3 - current.mark
+        reward = _simulate_heuristic(sim_board, sim_mark, cols, max_steps=42)
+
+        # Convert: 1.0 = sim_mark won → our_value = 0
+        #          0.5 = draw (eval) → our_value = 0.5
+        #          0.0 = sim_mark lost → our_value = 1
+        our_value = 1.0 - reward
+
+        # --- BACK-PROPAGATION ---
+        for node in reversed(path):
+            if node.mark == mark:
+                node.wins += our_value
+            else:
+                node.wins += 1.0 - our_value
+            node.visits += 1
+
+    # Return the most-visited child
+    if not root.children:
+        return 0, root
+    best = max(root.children.values(), key=lambda c: c.visits)
+    return best.col, root
+
+
+def mcts_bot_heuristic(
+    board: Sequence[int],
+    mark: int,
+    legal: Sequence[int],
+    cols: int = COLS,
+    move_deadline: Optional[float] = None,
+    remaining_overage: float = 0.0,
+    seed: Optional[int] = None,
+) -> int:
+    """
+    MCTS bot with heuristic leaf evaluation.
+
+    Uses _simulate_heuristic which evaluates terminal board positions
+    using a positional heuristic (center control, height advantage,
+    adjacency bonus) instead of checking only for immediate wins.
+
+    This provides much stronger feedback signals during playouts,
+    significantly improving MCTS move selection.
+    """
+    board_list = list(board)
+    legal = valid_moves(board_list, cols)
+    if not legal:
+        return 0
+
+    # Compute time budget (leave 50ms margin)
+    time_limit = 0.15
+    if move_deadline is not None:
+        time_limit = max(0.05, move_deadline - 0.05)
+
+    if seed is not None:
+        random.seed(seed)
+
+    best_col, _ = _mcts_search_heuristic(
+        board_list, mark, time_limit, cols, c=1.4
+    )
+    return best_col

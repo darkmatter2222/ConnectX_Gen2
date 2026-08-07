@@ -14,6 +14,7 @@ from connectx.bots.shallow_minimax import shallow_minimax_bot, depth2_minimax_bo
 from connectx.bots.bitboard_ab import bitboard_ab_bot, bitboard_ab_bot_fast
 from connectx.bots.bitboard_ab_improved import bitboard_ab_bot_v2, bitboard_ab_bot_fast_v2
 from connectx.bots.mcts import mcts_bot, mcts_bot_fast, mcts_bot_value
+from connectx.bots.mcts_puct import mcts_puct_bot
 
 __all__ = [
     "random_bot",
@@ -27,4 +28,5 @@ __all__ = [
     "mcts_bot",
     "mcts_bot_fast",
     "mcts_bot_value",
+    "mcts_puct_bot",
 ]

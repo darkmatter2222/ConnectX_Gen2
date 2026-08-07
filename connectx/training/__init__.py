@@ -1,0 +1,1 @@
+"""ConnectX training module — self-play data generation and neural network training."""

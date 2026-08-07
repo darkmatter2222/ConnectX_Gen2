@@ -32,7 +32,7 @@ from connectx.engine import (
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 
-_MAX_DEPTH: int = 12
+_MAX_DEPTH: int = 16
 _EMPTY_MASK: int = (1 << SIZE) - 1  # lowest 42 bits
 
 # Precomputed bit index for each flat-cell index
@@ -146,73 +146,6 @@ def _to_bitboard(board: Sequence[int], mark: int) -> int:
     return bb
 
 
-def _evaluate(board: list[int], mark: int, cols: int = COLS) -> float:
-    """
-    Bitboard-based positional evaluation.
-
-    Converts the board to bitboards for the player and opponent, then
-    evaluates each winning line using bitwise AND/OR operations.
-
-    Scoring scheme (higher = better for ``mark``):
-      +100000  immediate win
-      +300     3-in-a-row with open end (threat)
-      +100     3-in-a-row blocked (still valuable)
-      +30      2-in-a-row (setup)
-      +1       per piece in center column
-      -300     opponent threat
-      -100     opponent 3-in-a-row blocked
-      -30      opponent 2-in-a-row
-    """
-    opp = 3 - mark
-    player_bb = _to_bitboard(board, mark)
-    opp_bb = _to_bitboard(board, opp)
-    empty_bb = ~(player_bb | opp_bb) & _EMPTY_MASK
-
-    score = 0.0
-    center_col = cols // 2
-
-    for line_mask in _LINE_MASKS:
-        player_in = player_bb & line_mask
-        opp_in = opp_bb & line_mask
-
-        if not player_in and not opp_in:
-            continue
-
-        p_count = bin(player_in).count('1')
-        o_count = bin(opp_in).count('1')
-        e_count = bin(empty_bb & line_mask).count('1')
-
-        if p_count == INAROW:
-            return 100000.0
-        if o_count == INAROW:
-            return -100000.0
-
-        if p_count == 3 and e_count == 1:
-            score += 300.0 + _open_end_bonus(board, line_mask, mark, cols)
-        elif p_count == 3:
-            score += 100.0
-
-        if o_count == 3 and e_count == 1:
-            score -= 300.0  # opponent threat (open end)
-        elif o_count == 3:
-            score -= 100.0
-
-        if p_count == 2 and e_count == 2:
-            score += 30.0
-        if o_count == 2 and e_count == 2:
-            score -= 30.0
-
-        if p_count == 1:
-            for bit in _set_bits(player_in):
-                r, c = _row_col(bit, cols)
-                if c == center_col:
-                    score += 1.0
-                elif abs(c - center_col) == 1:
-                    score += 0.5
-
-    return score
-
-
 def _set_bits(x: int) -> list[int]:
     """Return indices of set bits in x."""
     bits = []
@@ -262,6 +195,145 @@ def _open_end_bonus(board: list[int], line_mask: int, mark: int,
     return bonus
 
 
+# ── Fork and threat-weighted evaluation ────────────────────────────────────────
+
+def _evaluate(
+    board: list[int], mark: int, cols: int = COLS,
+    depth: int = 0,
+) -> float:
+    """
+    Fork-aware positional evaluation with threat weighting.
+
+    Scoring (higher = better for ``mark``):
+      +100000  immediate win
+      +800     threat (3-in-row with open end)
+      +200     blocked threat (3-in-row)
+      +100     fork (2+ threats sharing a cell)
+      +30      good 2-in-row (2 pieces + 2 empty cells)
+      +1       per piece in center column
+      -800     opponent threat
+      -200     opponent blocked threat
+      -100     opponent fork
+      -30      opponent 2-in-row
+    """
+    opp = 3 - mark
+    player_bb = _to_bitboard(board, mark)
+    opp_bb = _to_bitboard(board, opp)
+    empty_bb = ~(player_bb | opp_bb) & _EMPTY_MASK
+
+    score = 0.0
+    center_col = cols // 2
+
+    # Track open 3s and 2s
+    player_threats = 0
+    player_block3 = 0
+    player_open2 = 0
+
+    opp_threats = 0
+    opp_block3 = 0
+    opp_open2 = 0
+
+    # Count cells participating in threats (for fork detection)
+    player_threat_cells = [0] * SIZE
+    opp_threat_cells = [0] * SIZE
+
+    for line_mask in _LINE_MASKS:
+        player_in = player_bb & line_mask
+        opp_in = opp_bb & line_mask
+        empty_in = empty_bb & line_mask
+
+        if not player_in and not opp_in:
+            continue
+
+        p_count = bin(player_in).count('1')
+        o_count = bin(opp_in).count('1')
+        e_count = bin(empty_in).count('1')
+
+        if p_count == INAROW:
+            return 100000.0
+        if o_count == INAROW:
+            return -100000.0
+
+        # Track open 3s (threats)
+        if p_count == 3 and e_count >= 1:
+            player_threats += 1
+            for bit in _set_bits(player_in):
+                player_threat_cells[bit] += 1
+        elif p_count == 3:
+            player_block3 += 1
+
+        if o_count == 3 and e_count >= 1:
+            opp_threats += 1
+            for bit in _set_bits(opp_in):
+                opp_threat_cells[bit] += 1
+        elif o_count == 3:
+            opp_block3 += 1
+
+        if p_count == 2 and e_count >= 2:
+            player_open2 += 1
+        if o_count == 2 and e_count >= 2:
+            opp_open2 += 1
+
+    # ── Threat scoring ──
+    score += player_threats * 800.0
+    score += opp_threats * (-800.0)
+
+    # ── Blocked threats ──
+    score += player_block3 * 200.0
+    score += opp_block3 * (-200.0)
+
+    # ── Fork detection ──
+    max_p = 0
+    max_o = 0
+    for i in range(SIZE):
+        if player_threat_cells[i] > max_p:
+            max_p = player_threat_cells[i]
+        if opp_threat_cells[i] > max_o:
+            max_o = opp_threat_cells[i]
+    if max_p >= 2:
+        score += 100.0
+    if max_o >= 2:
+        score -= 100.0
+
+    # ── Open 2-in-row scoring ──
+    score += player_open2 * 30.0
+    score += opp_open2 * (-30.0)
+
+    # ── Center control ──
+    for bit in _set_bits(player_bb):
+        r, c = _row_col(bit, cols)
+        if c == center_col:
+            score += 1.0
+        elif abs(c - center_col) == 1:
+            score += 0.5
+
+    return score
+
+
+def _line_participation(board: list[int], r: int, c: int,
+                        rows: int, cols: int) -> int:
+    """
+    Count how many winning lines pass through cell (r, c).
+    Higher weight = more strategic value for center control.
+    """
+    count = 0
+    # Horizontal
+    if c + INAROW <= cols:
+        count += 1
+    if c >= INAROW - 1:
+        count += 1
+    # Vertical
+    if r + INAROW <= rows:
+        count += 1
+    # Diagonal down-right
+    if r + INAROW <= rows and c + INAROW <= cols:
+        count += 1
+    # Diagonal down-left
+    if r + INAROW <= rows and c >= INAROW - 1:
+        count += 1
+    return count
+
+
 # ── Negamax with alpha-beta ────────────────────────────────────────────────────
 
 
@@ -308,7 +380,7 @@ def _negamax(
 
     # Depth reached — evaluate
     if depth <= 0:
-        return _evaluate(board, mark, cols), legal[0]
+        return _evaluate(board, mark, cols, depth=depth), legal[0]
 
     # Check immediate win
     for col in legal:
@@ -378,13 +450,15 @@ def _order_moves(board: list[int], legal: Sequence[int], mark: int,
     Order legal moves for better alpha-beta pruning.
 
     Priority:
-      1. Moves that win immediately
-      2. Moves that block opponent's win
-      3. Center-biased moves (columns 3, 2, 4, 1, 5, 0, 6)
+      1. Immediate wins
+      2. Blocking opponent's immediate wins
+      3. Moves that create forks or major threats
+      4. Center-biased moves
     """
     opp = 3 - mark
     wins: list[int] = []
     blocks: list[int] = []
+    threats: list[int] = []  # moves creating threats
     others: list[int] = []
 
     for col in legal:
@@ -402,13 +476,84 @@ def _order_moves(board: list[int], legal: Sequence[int], mark: int,
             continue
         un_drop(board, col, ROWS, cols)
 
+        # Check if placing here creates a threat (3-in-row with open end)
+        try:
+            drop(board, col, mark, ROWS, cols)
+            if _has_threat(board, col, mark, ROWS, cols):
+                threats.append(col)
+            un_drop(board, col, ROWS, cols)
+        except ValueError:
+            pass
+
         others.append(col)
 
     center = cols // 2
     others.sort(key=lambda c: abs(c - center))
+    threats.sort(key=lambda c: abs(c - center))
     blocks.sort(key=lambda c: abs(c - center))
 
-    return wins + blocks + others
+    return wins + blocks + threats + others
+
+
+def _has_threat(board: list[int], last_col: int, mark: int,
+                rows: int, cols: int) -> bool:
+    """
+    Check if placing a piece in last_col creates a threat
+    (3-in-row with at least one open end).
+    """
+    last_row = 0
+    for r in range(rows - 1, -1, -1):
+        if board[r * cols + last_col] == mark:
+            last_row = r
+            break
+
+    # Check all lines through this cell
+    cell_idx = last_row * cols + last_col
+    return _is_threat_at(board, cell_idx, mark, rows, cols)
+
+
+def _is_threat_at(board: list[int], idx: int, mark: int,
+                  rows: int, cols: int) -> bool:
+    """Check if placing at idx creates a threat in any direction."""
+    r = idx // cols
+    c = idx % cols
+
+    directions = [
+        (0, 1),   # horizontal
+        (1, 0),   # vertical
+        (1, 1),   # diagonal down-right
+        (1, -1),  # diagonal down-left
+    ]
+
+    for dr, dc in directions:
+        # Count consecutive pieces in both directions
+        count = 1  # count the piece itself
+
+        # Forward direction
+        fr, fc = r + dr, c + dc
+        while 0 <= fr < rows and 0 <= fc < cols and board[fr * cols + fc] == mark:
+            count += 1
+            fr += dr
+            fc += dc
+
+        # Check open end in forward direction
+        if count >= 3:
+            if 0 <= fr < rows and 0 <= fc < cols and board[fr * cols + fc] == 0:
+                return True
+
+        # Backward direction
+        br, bc = r - dr, c - dc
+        while 0 <= br < rows and 0 <= bc < cols and board[br * cols + bc] == mark:
+            count += 1
+            br -= dr
+            bc -= dc
+
+        # Check open end in backward direction
+        if count >= 3:
+            if 0 <= br < rows and 0 <= bc < cols and board[br * cols + bc] == 0:
+                return True
+
+    return False
 
 
 # ── Time-aware depth selector ──────────────────────────────────────────────────
@@ -426,22 +571,22 @@ def _select_depth(board: list[int], time_limit: Optional[float],
     pieces = sum(1 for cell in board if cell != 0)
 
     if time_limit is not None and time_limit > 1.0:
-        base = 8
+        base = 10
     elif time_limit is not None and time_limit > 0.5:
-        base = 7
+        base = 9
     elif time_limit is not None and time_limit > 0.2:
-        base = 6
+        base = 8
     elif time_limit is not None and time_limit > 0.1:
-        base = 5
+        base = 7
     else:
-        base = 4
+        base = 6
 
     # Early game: fewer pieces → fewer branches → can go deeper
     # But also: early game has more moves to search → shallower
     if pieces < 8:
-        base = max(4, base - 2)
+        base = max(6, base - 1)
     elif pieces > 32:
-        base = min(10, base + 1)
+        base = min(14, base + 2)
 
     return base
 
@@ -510,7 +655,7 @@ def bitboard_ab_bot_fast(
     seed: Optional[int] = None,
 ) -> int:
     """
-    Fast bitboard bot — fixed depth 5, no time management.
+    Fast bitboard bot — fixed depth 7, no time management.
 
     For matches where the full bot might exceed the action deadline.
     """
@@ -523,7 +668,7 @@ def bitboard_ab_bot_fast(
 
     TT.clear()
     _, col = _negamax(
-        board_list, mark, 5,
+        board_list, mark, 7,
         float("-inf"), float("inf"),
         cols, TT, None,
         [0], None,

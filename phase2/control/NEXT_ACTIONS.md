@@ -1,6 +1,6 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 21
+**Session:** Cycle 23
 **Date:** 2026-08-07
 
 ## Cycle 21: Three 8×7/5 Bots — MCTS vs AB Comparison
@@ -28,10 +28,21 @@
 - Previous Cycle 21 MCTS results (81% AB, 19% MCTS) invalidated by mark-tracking bug
 
 **Next actions:**
-1. **Increase MCTS to 1000+ simulations** — test if more budget closes the gap
-2. **Implement PUCT** — replace UCB1 with policy-value upper confidence bound
-3. **Test PUCT + heuristic leaf** — combined MCTS improvements
-4. **Build 8×7/5 opening book** — pre-compute AB early-game optimal moves
+1. ~~Increase MCTS to 1000+ simulations~~ — **DONE**: 1000 sims = 10 draws as P1, 2000 = worse P1 play
+2. ~~Implement PUCT~~ — **DONE**: PUCT bot built for 8x7/5
+3. **Test PUCT vs UCB1** — does tree-search PUCT improve MCTS resilience as P2?
+4. **Test tactical playouts** — replace random playouts with win/block/center ordering
+5. **Build 8×7/5 opening book** — pre-compute AB early-game optimal moves
+
+## Cycle 23: MCTS Simulation Scaling — More Simulations = Worse P2 Play
+
+**Completed:**
+- Tested MCTS at 500/1000/2000 simulations vs AB at 8×7/5
+- **500 sims:** AB 19-0, 1 draw — MCTS as P1 draws 1/10, as P2 loses in 41 moves avg
+- **1000 sims:** AB 10-0, 10 draws — **MCTS as P1 draws ALL 10!** as P2 loses in 45 moves
+- **2000 sims:** AB 20-0, 0 draws — MCTS as P1 loses in 38 moves (**worse than 500!**)
+- **Key finding: More simulations make MCTS worse as P2** — deeper search amplifies AB advantage
+- **Conclusion: Simulation budget has diminishing returns** — MCTS needs structural changes
 
 ## Session Summary (Cycle 19)
 

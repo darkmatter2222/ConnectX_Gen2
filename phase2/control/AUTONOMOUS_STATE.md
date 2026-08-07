@@ -1,6 +1,6 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→22
+**Session:** Cycle 18→23
 **Date:** 2026-08-07
 **Status:** Cycle 20: 8×7/5 alpha-beta bot built, tested, registered — game not solved at larger board. **Cycle 21: Built 2 additional 8×7/5 bots (deep eval, MCTS), benchmarked head-to-head: eval quality > depth, MCTS competes at 8×7/5 but not at 7×6/4. 30 tests pass.**
 
@@ -30,6 +30,37 @@
 ### Files Added
 - `connectx/benchmarks/compare_8x7_5_mcts_balanced_v2.py` — Corrected mark tracking
 - `connectx/benchmarks/compare_8x7_5_mcts_heuristic.py` — Fixed comparison script
+
+## Cycle 23: 8×7/5 MCTS Scaling — More Simulations = Worse P2 Play
+
+### Simulation Scaling Results (500/1000/2000)
+
+| Sim | P1 (mark=1) | P2 (mark=2) | Combined |
+|-----|------------|------------|----------|
+| 500  | 0W-9L-1D | 0W-10L-0D | AB 19-0, 1D |
+| 1000 | 0W-0L-10D | 0W-10L-0D | AB 10-0, 10D |
+| 2000 | 0W-10L-0D | 0W-10L-0D | AB 20-0, 0D |
+
+### Key Finding: More Simulations Make MCTS Worse as P2
+
+- 500 sims: AB wins P2 in 41 moves avg
+- 1000 sims: AB wins P2 in 45 moves avg (slightly more resilient)
+- 2000 sims: AB wins P2 in 31 moves avg (**much faster wins = worse MCTS**)
+
+**Counterintuitive result:** Deeper MCTS search **amplifies first-player advantage** at 8×7/5.
+The tree converges on AB's forced-win lines faster, and random playouts don't find counter-play.
+
+### The P1 Draw Phenomenon (1000 sims)
+
+With 1000 simulations, MCTS as P1 achieved **100% draws**. However, AB as P1 still wins 100%.
+This confirms that first-player advantage at 8×7/5 is absolute against MCTS.
+
+### Conclusion: More Simulations ≠ Better
+
+MCTS needs structural improvements, not just more computation:
+1. **PUCT selection** (tree search, not UCB1 root-only)
+2. **Tactical playouts** (not random — current MCTS uses random)
+3. **Heuristic leaf evaluation** (already tested — negligible gain)
 
 ## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
 

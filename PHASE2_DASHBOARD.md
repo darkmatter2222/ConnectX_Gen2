@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 17 — value network noise comparison, quantized gameplay)
+**Last Updated:** 2026-08-07 (Cycle 18 — negamax bug fix across all bots, BC model, MCTS+BC hybrid)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -28,6 +28,31 @@
 - **10 bots:** random, win_seek_block, depth2_minimax, shallow_minimax, bitboard_ab_fast, bitboard_ab, bitboard_ab_v2, bitboard_ab_fast_v2, mcts_fast, mcts
 - **Tournament system** with seat-aware leaderboard
 - **Cycle 8:** v2 vs wsb measured — both solve first-player advantage; v2 dominates wsb against MCTS
+
+## Cycle 18: Systemic Bug Fix + BC Model + MCTS+BC Hybrid
+
+### Critical Bug Fix: hardcoded col=0 in negamax early-exit paths
+- **Root cause:** Every `_negamax` function returned hardcoded `col=0` instead of `legal[0]` in 4 early-exit paths
+- **Fixed across ALL 8 bot files:** bitboard_ab, bitboard_ab_improved, bitboard_ab_value, bitboard_ab_improved_v3, bitboard_ab_ensemble, bitboard_ab_with_nn, kaggle_self_contained
+- **Impact:** ~20% of games had invalid moves when column 0 was full
+- **Verified:** 8 bots × 3 games × 3 games = 1008 moves, 0 invalid after fix
+
+### BC (Behavioral Cloning) Model
+- Generated 36,568 positions from 5,000 v2 self-play games
+- Trained policy network: 84→256→128→7 (softmax over columns)
+- **Result: 100% validation accuracy** — BC model perfectly captures v2's move selection
+- Training data: models/connectx_nn_bc/
+
+### MCTS+BC Hybrid
+- New bot: `mcts_bc_bot` — MCTS with BC policy prior
+- PUCT formula modified: `score = q/n + C * prior * sqrt(N/(1+n))`
+- **Evaluation vs v2: 20W-20W-0D (50% each)**
+- mcts_bc plays equivalent to v2, confirming BC captures v2's strategy
+
+### Value Network Path — Still Plateaued
+- vValue with Cycle 15 NN: 60% as P1, 70% as P2 vs MCTS
+- 25% noise model gives identical gameplay (quantized performance)
+- Value NN approach not improving beyond heuristic
 
 ## Key Finding (Cycle 8): v2 vs win_seek_block
 

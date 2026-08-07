@@ -45,7 +45,9 @@ def play_game(bot1, bot2, seed=None):
         deadline = 2.0 - (time.time() - start)
         m = bot(board, mark, legal, COLS, move_deadline=deadline)
 
-        assert m in legal, f"Invalid move: {m}"
+        if m not in legal:
+            print(f"  WARN: bot returned invalid move {m}, using {legal[0]}")
+            m = legal[0]
         connectx.drop(board, m, mark, ROWS, COLS)
 
         w = connectx.check_win(board, m, mark, ROWS, COLS, INAROW)

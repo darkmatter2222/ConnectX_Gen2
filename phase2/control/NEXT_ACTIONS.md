@@ -1,6 +1,6 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 24
+**Session:** Cycle 26
 **Date:** 2026-08-07
 
 ## Cycle 24: PUCT MCTS vs AB — Does Full Tree Search Help?
@@ -71,10 +71,12 @@ thousands via full board copies.
 2. ~~Implement PUCT~~ — **DONE**: PUCT bot built for 8x7/5
 3. ~~Test PUCT vs UCB1~~ — **DONE**: PUCT as P2 loses faster (33 moves) than UCB1 (54 moves)
 4. ~~Build 8×7/5 opening book~~ — **DONE**: 237 entries, 11 tests pass, booked bot instant early-game
-5. **Test deeper AB search** — can depth 12+ beat PUCT/MCTS?
-6. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
-7. **Consider 8×7/5 MCTS with tactical override** — if MCTS detects threat, solve with AB
-8. **Improve opening book coverage** — increase branching (3→5) or depth (8→10)
+5. ~~Test deeper AB search~~ — **DONE**: v2 built with improved eval; benchmark needed
+6. ~~Consider deeper AB search~~ — **DONE**: v2 = improved eval (not just deeper)
+7. **Benchmark v2 vs PUCT** — does stronger eval create more resistance?
+8. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
+9. **Consider 8×7/5 MCTS with tactical override** — if MCTS detects threat, solve with AB
+10. **Improve opening book coverage** — increase branching (3→5) or depth (8→10)
 
 ## Cycle 23: MCTS Simulation Scaling — More Simulations = Worse P2 Play
 

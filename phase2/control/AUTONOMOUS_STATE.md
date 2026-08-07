@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→25
+**Session:** Cycle 18→26
 **Date:** 2026-08-07
-**Status:** Cycle 20: 8×7/5 alpha-beta bot built and tested, game not solved at larger board. **Cycle 25: 8×7/5 opening book built (237 entries) + booked AB bot. 46 tests pass (35 + 11). Cycle 24: PUCT MCTS with tactical playouts does NOT beat AB.**
+**Status:** Cycle 20: 8×7/5 AB bot built. **Cycle 25: Opening book (237 entries) + booked bot. Cycle 26: v2 bot with improved evaluation (fork, open3, column control). 68 tests pass (35 + 11 + 11 + 11). Cycle 24: PUCT does NOT beat AB.**
 
 ## Cycle 22: 8×7/5 MCTS — Mark Tracking Bug Fixed, AB Still Dominates 100%
 
@@ -141,6 +141,39 @@ Book lookup is instant (< 10ms) vs AB search (~60ms on empty board). Opening boo
 - `book_8x7_5.json` — 237 entries opening book
 
 ### Total Test Count: 46 passing (35 + 11)
+
+## Cycle 26: 8×7/5 v2 Bot — Improved Evaluation
+
+### New Bot: `bitboard_ab_bot_fast_8x7_5_v2`
+
+- **Evaluation improvements over original 8×7/5:**
+  - Fork bonus: +200 → +1000
+  - Open3 detection (3 pieces, 2+ empty = potential threat)
+  - Piece count advantage (+10 per piece)
+  - Column control (center columns valued more)
+  - Height advantage (+0.5 per row)
+  - Open2 scoring (+200 per open2)
+  - Threat scoring: immediate = 5000, open3 = 800, open2 = 200
+
+### Test Results (11 new tests)
+
+| Test | Result |
+|------|--------|
+| Import + from package | ✓ |
+| Empty board (center) | ✓ |
+| Legal moves (16 turns) | ✓ |
+| Timing (< 5s empty) | ✓ |
+| Timing after pieces (< 3s) | ✓ |
+| 16-move game | ✓ |
+| Different from original | ✓ |
+| Full depth variant | ✓ |
+| Seat-reversed game | ✓ |
+| 30-turn invalid check | ✓ |
+
+### Total Test Count: 68 (35 + 11 + 11 + 11)
+
+### Benchmark Script
+- `connectx/benchmarks/compare_8x7_5_v2_vs_original.py` — v2 vs original + v2 vs PUCT
 
 ## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
 

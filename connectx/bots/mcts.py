@@ -9,10 +9,12 @@ exploration:
 
     score(q, n, N) = q / n + C * sqrt(ln(N) / n)
 
-where q = accumulated reward, n = node visits, N = parent visits,
-C = exploration constant.
+The rollout phase uses a **tactical playout**: each player prefers
+winning moves, then blocking, then center columns, then random.
+This produces far more informative simulations than pure random
+play.
 
-Strength: strong tactical awareness through deep random playouts.
+Strength: strong tactical awareness through deep simulation search.
 """
 
 from __future__ import annotations
@@ -37,11 +39,10 @@ class MCTSNode:
     col: int  # move that led to this node
     mark: int  # which mark placed this move
     board_snapshot: list[int]  # board state AFTER this move
-    wins: float = 0.0  # total wins from this node's perspective
+    wins: float = 0.0  # total wins from current player's perspective
     visits: int = 0
     children: dict[int, 'MCTSNode'] = field(default_factory=dict)
     is_terminal: bool = False
-    terminal_value: float = 0.0  # 1.0 = current player won, -1.0 = lost, 0.0 = draw
 
     @property
     def best_child(self) -> Optional['MCTSNode']:
@@ -63,14 +64,14 @@ class MCTSNode:
         return q + c_term
 
 
-# ── Board hash for fast lookup ─────────────────────────────────────────────────
+# ── Board hash ─────────────────────────────────────────────────────────────────
 
 _ZOBRIST: list[list[int]] = []
 
 
 def _init_zobrist() -> None:
-    import random
-    rng = random.Random(42)
+    import random as _rng
+    rng = _rng.Random(42)
     SIZE = ROWS * COLS
     _ZOBRIST.append([rng.getrandbits(64) for _ in range(SIZE)])
     _ZOBRIST.append([rng.getrandbits(64) for _ in range(SIZE)])
@@ -87,37 +88,118 @@ def _hash_board(board: Sequence[int]) -> int:
     return h
 
 
-# ── MCTS Search ────────────────────────────────────────────────────────────────
-
+# ── Tactical rollout ───────────────────────────────────────────────────────────
 
 def _simulate(
     board: list[int], mark: int, cols: int,
     max_steps: int = 42,
 ) -> float:
     """
-    Random rollout from current position to terminal.
+    Tactical rollout from current position to terminal.
+
+    Each player prefers:
+      1. Immediate wins
+      2. Blocking opponent's wins
+      3. Center column preference (with 80/20 noise)
+      4. Otherwise random
 
     Returns:
         1.0 if mark wins, 0.0 if draw/opponent wins
     """
     opp = 3 - mark
-    legal = valid_moves(board, cols)
     steps = 0
 
-    while legal and steps < max_steps:
-        # Simple: pick a random legal move
-        col = random.choice(legal)
-        drop(board, col, mark, ROWS, cols)
+    while steps < max_steps:
+        legal = valid_moves(board, cols)
+        if not legal:
+            return 0.0  # no moves left — draw or opponent wins
 
-        if check_win(board, col, mark, ROWS, cols):
+        # Priority 1: find a winning move
+        win_move: Optional[int] = None
+        for col in list(legal):
+            try:
+                row = drop(board, col, mark, ROWS, cols)
+            except ValueError:
+                continue
+            if check_win(board, col, mark, ROWS, cols):
+                un_drop(board, col, ROWS, cols)
+                win_move = col
+                break
+            un_drop(board, col, ROWS, cols)
+
+        if win_move is not None:
+            try:
+                row = drop(board, win_move, mark, ROWS, cols)
+            except ValueError:
+                # Column became full — skip
+                mark, opp = opp, mark
+                continue
             return 1.0  # mark wins
 
-        # Switch player
-        mark, opp = opp, mark
-        legal = valid_moves(board, cols)
-        steps += 1
+        # Priority 2: block opponent's win
+        block_move: Optional[int] = None
+        for col in list(legal):
+            try:
+                row = drop(board, col, opp, ROWS, cols)
+            except ValueError:
+                continue
+            if check_win(board, col, opp, ROWS, cols):
+                un_drop(board, col, ROWS, cols)
+                block_move = col
+                break
+            un_drop(board, col, ROWS, cols)
 
-    return 0.0  # no win found → draw or opponent wins
+        if block_move is not None:
+            try:
+                row = drop(board, block_move, mark, ROWS, cols)
+                steps += 1
+                mark, opp = opp, mark
+                continue
+            except ValueError:
+                mark, opp = opp, mark
+                continue
+
+        # Priority 3: prefer center columns (left-to-right from center)
+        center = cols // 2
+        ordered: list[int] = []
+        for offset in range(cols):
+            left = center - offset
+            if left >= 0 and left in legal:
+                ordered.append(left)
+            right = center + 1 + offset
+            if right < cols and right in legal:
+                ordered.append(right)
+
+        if ordered:
+            if random.random() < 0.8:
+                col = ordered[0]
+            else:
+                col = random.choice(ordered)
+        elif legal:
+            col = random.choice(legal)
+        else:
+            return 0.0
+
+        # Filter out full columns (gravity may have filled them)
+        available = valid_moves(board, cols)
+        while col not in available:
+            if not available:
+                return 0.0  # no moves left — draw or opponent wins
+            col = random.choice(available)
+            available = valid_moves(board, cols)
+
+        try:
+            drop(board, col, mark, ROWS, cols)
+        except ValueError:
+            continue  # shouldn't happen after filtering
+
+        steps += 1
+        mark, opp = opp, mark
+
+    return 0.0  # no win found — draw or opponent wins
+
+
+# ── MCTS Search ────────────────────────────────────────────────────────────────
 
 
 def _mcts_search(
@@ -143,11 +225,9 @@ def _mcts_search(
     for col in legal:
         board_copy = list(root_board)
         drop(board_copy, col, mark, ROWS, cols)
-        # Check if this move wins immediately
         if check_win(board_copy, col, mark, ROWS, cols):
             node = MCTSNode(
                 col=col, mark=mark, board_snapshot=list(board_copy),
-                is_terminal=True, terminal_value=1.0,
             )
             node.visits = 1
             node.wins = 1.0
@@ -178,7 +258,6 @@ def _mcts_search(
         path: list[MCTSNode] = [root]
 
         while current.children:
-            # Find best child by PUCT score
             best_puct = float('-inf')
             best_child = None
             for child in current.children.values():
@@ -187,7 +266,6 @@ def _mcts_search(
                     best_puct = p
                     best_child = child
                 elif p == best_puct and child.visits > (best_child.visits if best_child else 0):
-                    # Tie-break: prefer more visited (more stable estimate)
                     best_child = child
 
             if best_child is None:
@@ -197,23 +275,20 @@ def _mcts_search(
             path.append(current)
 
         # --- EXPANSION ---
-        if not current.is_terminal and current.children:
+        if not current.is_terminal:
             legal = valid_moves(current.board_snapshot, cols)
             if legal:
-                # Find a legal move not yet explored
                 explored = set(current.children.keys())
                 unexplored = [col for col in legal if col not in explored]
                 if unexplored:
-                    # Pick the first unexplored legal move (deterministic)
                     col = min(unexplored)
                     board_copy = list(current.board_snapshot)
-                    row = drop(board_copy, col, current.mark, ROWS, cols)
+                    drop(board_copy, col, current.mark, ROWS, cols)
 
                     if check_win(board_copy, col, current.mark, ROWS, cols):
                         child = MCTSNode(
                             col=col, mark=current.mark,
                             board_snapshot=list(board_copy),
-                            is_terminal=True, terminal_value=1.0,
                         )
                     else:
                         child = MCTSNode(
@@ -225,7 +300,6 @@ def _mcts_search(
                     path.append(child)
                     current = child
                 elif current.visits == 0:
-                    # All moves explored but node is unvisited — just pick one
                     col = min(legal)
                     board_copy = list(current.board_snapshot)
                     drop(board_copy, col, current.mark, ROWS, cols)
@@ -239,20 +313,19 @@ def _mcts_search(
 
         # --- SIMULATION ---
         sim_board = list(current.board_snapshot)
-        sim_mark = 3 - current.mark  # opponent's turn to move next
+        sim_mark = 3 - current.mark
         reward = _simulate(sim_board, sim_mark, cols, max_steps=42)
 
-        # The reward is from the SIMULATION player's perspective.
-        # We need to convert: if opponent (sim_mark) wins → reward=1 → our value = -1 → draw = 0.5
-        # If sim_mark doesn't win → reward=0 → our value = 1 (for draw) or 0 (for loss)
-        # Convert: our_value = 1.0 - reward (from our perspective, win=1, draw=0.5, loss=0)
-        our_value = 1.0 - reward  # if opponent won, we lost (0); if no win, we get partial credit
+        # Convert: 1.0 = sim_mark won → our_value = 0 (we lost)
+        #           0.0 = no win → our_value = 0 (draw)
+        our_value = 1.0 - reward
 
         # --- BACK-PROPAGATION ---
         for node in reversed(path):
-            # For nodes where it's the SEARCH player's turn
-            # (these are the nodes we're evaluating FROM the search player's perspective)
-            node.wins += our_value if node.mark == mark else (1.0 - our_value)
+            if node.mark == mark:
+                node.wins += our_value
+            else:
+                node.wins += 1.0 - our_value
             node.visits += 1
 
     # Return the most-visited child (most reliable estimate)
@@ -275,7 +348,7 @@ def mcts_bot(
     seed: Optional[int] = None,
 ) -> int:
     """
-    MCTS bot — uses Monte Carlo tree search for move selection.
+    MCTS bot — Monte Carlo tree search with tactical playouts.
 
     Args:
         board: flat board array (read-only)
@@ -316,21 +389,15 @@ def mcts_bot(
 
     board_list = list(board)
 
-    # Compute time budget (leave 0.05s margin)
-    time_limit = 0.15  # default: 150ms
+    # Compute time budget (leave 50ms margin)
+    time_limit = 0.15
     if move_deadline is not None:
         time_limit = max(0.05, move_deadline - time.time() - 0.05)
 
-    # Use seed for reproducibility if provided
     if seed is not None:
-        import random
         random.seed(seed)
 
-    best_col, _ = _mcts_search(
-        board_list, mark, time_limit,
-        cols, c=1.4,
-    )
-
+    best_col, _ = _mcts_search(board_list, mark, time_limit, cols, c=1.4)
     return best_col
 
 
@@ -350,12 +417,10 @@ def mcts_bot_fast(
     """
     board_list = list(board)
 
-    # Recompute legal moves
     legal = valid_moves(board_list, cols)
     if not legal:
         return 0
 
-    # Check for immediate win
     for col in legal:
         board_list[col] = mark
         if check_win(board_list, col, mark, ROWS, cols):
@@ -363,7 +428,6 @@ def mcts_bot_fast(
             return col
         board_list[col] = 0
 
-    # Check for immediate block
     opp = 3 - mark
     for col in legal:
         board_list[col] = opp
@@ -374,9 +438,7 @@ def mcts_bot_fast(
         board_list[col] = 0
 
     board_list = list(board)
-
     best_col, _ = _mcts_search(
         board_list, mark, 0.1, cols, c=1.4, max_iterations=500,
     )
-
     return best_col

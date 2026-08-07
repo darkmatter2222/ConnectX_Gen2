@@ -427,8 +427,33 @@ def _negamax(
     best_score = float("-inf")
     best_col = legal[0]
 
-    # Null-move pruning
+    # Null-move pruning — only when no immediate tactical moves exist.
+    # If opponent can win next turn, null-move would skip past that win
+    # and incorrectly evaluate the position as safe.
+    null_ok = True
     if depth >= 3 and len(legal) > 1:
+        try:
+            opp = 3 - mark
+            for col in legal:
+                try:
+                    drop(board, col, opp, ROWS, cols)
+                    if check_win(board, col, opp, ROWS, cols):
+                        null_ok = False  # opponent has a winning threat
+                        un_drop(board, col, ROWS, cols)
+                        break
+                except (ValueError, IndexError):
+                    pass  # column state inconsistent, skip
+                else:
+                    try:
+                        un_drop(board, col, ROWS, cols)
+                    except (ValueError, IndexError):
+                        pass  # board corrupted, continue
+            if not null_ok:
+                pass  # don't null-prune
+        except (ValueError, IndexError):
+            null_ok = False  # board too dirty, no pruning
+
+    if null_ok:
         null_board = list(board)
         score = -_negamax(
             null_board, mark, depth - 3,

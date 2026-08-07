@@ -189,6 +189,37 @@ comparably to v2 (72.5% vs mcts).
 **Conclusion:** Ensemble doesn't help. The NN needs fundamentally better training
 data to be useful.
 
+## Cycle 12: Behavioral Cloning Training Pipeline
+
+**Approach:** Train a policy network to predict v2's moves against MCTS.
+- Data: 500 v2 vs MCTS games → 3,562 positions
+- Architecture: 84 → 256 → 128 → 7 (policy: softmax over columns)
+- Training: 50 epochs, batch_size=256, RTX 5090
+
+**Results:**
+| Metric | Value |
+|--------|-------|
+| Val accuracy (epoch 13) | 100% |
+| bc_bot vs v2 | 50% |
+| bc_bot vs mcts | 60% |
+| v2 vs mcts | 62% |
+
+**Key Finding: BC matches v2 — cannot exceed the teacher.**
+
+BC perfectly memorizes v2's move choices. The BC bot performs comparably to v2
+but never exceeds it, because it's purely imitating v2's decision-making.
+
+**Lesson learned:** Imitation learning (knowledge distillation + behavioral cloning)
+can match but not exceed the teacher. To surpass v2, need:
+1. Value network predicting game outcomes (not v2's evaluation)
+2. Self-play refinement (AlphaZero-style)
+3. Different architecture (policy + value network with MCTS)
+
+## MCTS PUCT Bug Fix
+
+Fixed math domain error in PUCT score computation: `log(parent_visits)` when
+`parent_visits == 0`. Now returns raw win rate when parent_visits <= 1.
+
 ## Cycle 12: Behavioral Cloning + MCTS Fix
 
 **Approach:** Train a policy network to predict v2's moves (behavioral cloning).

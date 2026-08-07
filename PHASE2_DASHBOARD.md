@@ -31,17 +31,18 @@
 
 | Bot | W | L | D | Win% |
 |-----|---|---|---|------|
-| win_seek_block | 97 | 3 | 0 | 97.0% |
-| random | 69 | 26 | 5 | 69.0% |
-| mcts_fast | 59 | 36 | 5 | 59.0% |
-| depth2_minimax | 40 | 60 | 0 | 40.0% |
-| bitboard_ab_fast | 30 | 70 | 0 | 30.0% |
-| shallow_minimax | 0 | 100 | 0 | 0.0% |
+| win_seek_block | 60 | 0 | 0 | 100.0% |
+| random | 48 | 10 | 2 | 80.0% |
+| mcts_fast | 39 | 39 | 2 | 48.8% |
+| bitboard_ab_fast | 31 | 69 | 0 | 31.0% |
+| depth2_minimax | 20 | 60 | 0 | 25.0% |
+| shallow_minimax | 0 | 20 | 0 | 0.0% |
 
 ### Key pairwise results (ignoring random)
-- win_seek_block beats ALL opponents (100% W)
-- mcts_fast beats ALL opponents except win_seek_block (100% W vs depth2/minimax/bitboard)
-- depth2_minimax beats shallow_minimax (100%) and ties bitboard (50%)
+- win_seek_block beats ALL opponents (100% W) — dominant tactical player
+- mcts_fast dominates classical search: 39-2 vs bitboard_ab_fast, 18-2 vs depth2_minimax
+- mcts_fast loses 0-20 to win_seek_block — win_seek_block's deep tactical search wins
+- depth2_minimax ties bitboard_ab_fast (10-10), beats shallow_minimax (20-0)
 
 ## Key Decisions
 
@@ -62,11 +63,14 @@
 | `connectx/bots/mcts.py` | MCTS with PUCT selection |
 | `connectx/tournament.py` | Tournament system with seat-aware leaderboard |
 | `tests/test_connectx.py` | 72 tests across 12 classes |
+| `run_tournament.py` | Quick tournament runner script |
 | `.gitignore` | Python/ML ignores |
 
 ## Known Issues
 
-- `win_seek_block` dominates all other bots — evaluation needs work for deeper bots
+- `win_seek_block` dominates all other bots (100% W) — needs deeper counter-strategy (deeper MCTS, hybrid)
+- `bitboard_ab_fast` underperforms (31% W) — evaluation function needs fork detection, mobility
+- MCTS draws quickly with fast variant (same center column every game) — needs seed-based variation
+- `random` beats MCTS/bitboard in head-to-head due to chaotic positions — MCTS lacks robustness to noise
 - No PyTorch/GPU packages installed yet
 - No Kaggle packaging
-- MCTS vs bitboard_ab: MCTS wins 100%, suggesting evaluation function is weak vs search-based approaches

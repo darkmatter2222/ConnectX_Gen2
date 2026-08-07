@@ -162,3 +162,16 @@ MCTS, which plays more strategically than random.
 5. **NN ensemble with v2 fallback** — train larger NN, use as tiebreaker in v2
 6. **Evaluate v3 bot (bitboard_ab_improved_v3.py)** — compare vs v2
 7. **Neural network with self-play refinement loop** — train NN, test vs v2, retrain
+
+## Session Summary (Cycle 12)
+
+**Completed this session:**
+- Fixed ensemble bot CUDA warning
+- Built tournament system with correct mark mapping
+- Tested ensemble, NN, BC bots against v2 and mcts (100 games each)
+- Fixed MCTS PUCT math domain error
+- Built BC training pipeline (generate_bc_data.py, train_bc.py, bc_bot.py)
+- Trained BC model (100% val accuracy)
+- Updated dashboard and autonomous state
+
+**All changes pushed to origin/main (6 commits)**

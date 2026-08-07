@@ -1,6 +1,6 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 1
+**Session:** Cycle 2
 **Date:** 2026-08-06
 
 ## What Was Last Completed
@@ -25,31 +25,41 @@
    - `win_seek_block_bot` — priority tactical: win > block > center bias
    - `shallow_minimax_bot` (depth 3) / `depth2_minimax_bot` (depth 2) — negamax with alpha-beta
 
-6. **Tournament system built:**
+6. **Tournament system built and debugged:**
    - `BotRegistry` — register and lookup bots by name
    - `MatchResult` / `BotStats` — track match and bot performance
    - `Leaderboard` — rank bots by performance
-   - `Tournament` — pairwise match scheduling
+   - `Tournament` — pairwise match scheduling with seat-aware win counting
 
 7. **Comprehensive test suite:** 72/72 tests passing
    - 12 test classes covering: board ops, legal moves, drop/undrop, win detection, draw, env, paired play, baseline bots, tournament, edge cases, end-to-end, win-seek-block tactics
 
+8. **Bitboard alpha-beta bot built:**
+   - `connectx/bots/bitboard_ab.py` — negamax with TT, null-move pruning, adaptive depth
+   - Zobrist hashing for transposition table
+   - Bitboard-based evaluation with open-end bonus
+   - Time management: depth-adaptive based on deadline
+
+9. **Initial tournament run with 5 bots:**
+   - `win_seek_block` dominates (97.5% win rate)
+   - `bitboard_ab_fast` beats all bots except `win_seek_block`
+   - `shallow_minimax` is weakest (0% win rate)
+
 ## What Is Active
 
-**All foundational work complete.** Next: build stronger bots (bitboard alpha-beta, MCTS) and run initial tournaments.
+**All foundational work + bitboard bot complete.** Next: fix evaluation function for bitboard bot to improve against `win_seek_block`.
 
 ## What Failed
 
 - Multiple prior attempts to scaffold phase2 infrastructure via .ps1 scripts (all in orphaned files)
 - Research-only accumulation without moving to implementation
+- Tournament win-counting (fixed: seat-aware tracking in `run_pair` and `Leaderboard.add_match`)
 
 ## Next Highest-Value Unblocked Actions
 
-1. **Build stronger bitboard alpha-beta bot** — the first meaningful improvement over shallow minimax
-2. **Build pure MCTS baseline** — for comparison with tree-search approaches
-3. **Run initial tournament** — compare all baseline bots in a round-robin
+1. **Tune bitboard evaluation function** — the `win_seek_block` bot is significantly stronger; need to understand why
+2. **Build MCTS baseline** — pure Monte Carlo tree search for comparison with tree-search approaches
+3. **Run larger tournament** — compare all bots with more games per pair (10+)
 4. **Profile timing** — ensure bots meet Kaggle's 2-second action budget
-
-## Durable Continuation Notes
-
-The engine, bots, tournament, and tests are all complete. 72 tests pass. The next step is to build stronger bots and validate them through tournament play.
+5. **Build PUCT MCTS** — for comparison with classical tree search
+6. **Install PyTorch** — GPU packages not yet installed in venv

@@ -85,10 +85,10 @@
    - Use seat-reversed 40-game matchups (20 each way)
    - Record Elo ratings, confidence intervals
 
-5. **Fix original bitboard_ab invalid-move bug** (~20% of games)
-   - Root cause: board copy not preserved after search
-   - Fix: use board copy approach
-   - Or: fix valid_moves to check bottom row instead of top row
+5. **Fix original bitboard_ab invalid-move bug — DONE (Cycle 18)**
+   - Root cause: _negamax returned hardcoded col=0 in TT/exact/null-move paths
+   - Fixed: all early-exit paths now return legal[0] (valid move)
+   - Verified: 380 moves across 20 games, 0 invalid
 
 6. **Evaluate v3 bot** (bitboard_ab_improved_v3.py) — compare vs v2
    - Fork-aware evaluation, open3 detection, column control

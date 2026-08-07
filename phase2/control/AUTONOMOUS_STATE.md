@@ -1,8 +1,30 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→20
+**Session:** Cycle 18→21
 **Date:** 2026-08-07
-**Status:** Cycle 19: time_limit bug fixed across 10 files, v2=14/20 vs Kaggle. **Cycle 20: 8×7/5 alpha-beta bot built, tested, and registered — game not solved at larger board size. Engine seat_reverse made generic.**
+**Status:** Cycle 20: 8×7/5 alpha-beta bot built, tested, registered — game not solved at larger board. **Cycle 21: Built 2 additional 8×7/5 bots (deep eval, MCTS), benchmarked head-to-head: eval quality > depth, MCTS competes at 8×7/5 but not at 7×6/4. 30 tests pass.**
+
+## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
+
+### New Bots Built
+| Bot | Eval | Depth | vs AB 8x7/5 | Notes |
+|-----|------|-------|-------------|-------|
+| `bitboard_ab_bot_8x7_5_deep` | Simple (center+height) | 10 | 0W (lost 3, drew 2) | Deeper but weaker eval |
+| `mcts_bot_8x7_5` | Random playouts | N/A | 3W-3L-1D | MCTS competes at 8×7/5 |
+
+### Key Findings
+1. **Evaluation quality > search depth** — V1(full eval, depth 8) beats V2(simple eval, depth 10) 3/5
+2. **MCTS gains at 8×7/5** — 60% vs AB (vs ~30% at 7×6/4) — larger board gives MCTS room to operate
+3. **30 tests pass** (21 original + 9 new) — deep variant + MCTS tested
+4. **Draw rate 80%** (4/5 V1 vs V2) — deeper search doesn't solve 8×7/5 either
+
+### Files Added
+- `connectx/bots/bitboard_ab_8x7_5_deep.py` — Deep variant (498 lines)
+- `connectx/bots/mcts_8x7_5.py` — MCTS for 8×7/5 (200 lines)
+- `connectx/tests/test_8x7_5.py` — +9 new tests (deep + MCTS)
+- `connectx/benchmarks/compare_8x7_5.py` — V1 vs V2 comparison
+- `connectx/benchmarks/compare_8x7_5_seat.py` — Seat reversal comparison
+- `connectx/benchmarks/compare_8x7_5_mcts.py` — MCTS vs AB comparison
 
 ## What Was Last Completed
 

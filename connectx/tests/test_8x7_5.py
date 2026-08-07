@@ -238,3 +238,98 @@ def test_two_bots_vs_each_other():
     legal_87 = connectx.valid_moves(board_87, 8)
     m = bitboard_ab_bot_fast_8x7_5(board_87, 1, legal_87, 8)
     assert m in legal_87
+
+
+# ── Deep variant tests ─────────────────────────────────────────────────────────
+
+def test_deep_bot_import():
+    from connectx.bots.bitboard_ab_8x7_5_deep import (
+        bitboard_ab_bot_8x7_5_deep,
+        bitboard_ab_bot_8x7_5_fast_deep,
+    )
+    assert callable(bitboard_ab_bot_8x7_5_deep)
+    assert callable(bitboard_ab_bot_8x7_5_fast_deep)
+
+
+def test_deep_bot_from_package():
+    from connectx.bots import (
+        bitboard_ab_bot_8x7_5_deep,
+        bitboard_ab_bot_8x7_5_fast_deep,
+    )
+    assert callable(bitboard_ab_bot_8x7_5_deep)
+    assert callable(bitboard_ab_bot_8x7_5_fast_deep)
+
+
+def test_deep_bot_first_move():
+    from connectx.bots.bitboard_ab_8x7_5_deep import bitboard_ab_bot_8x7_5_fast_deep
+    board = connectx.make_board(7, 8)
+    legal = connectx.valid_moves(board, 8)
+    m = bitboard_ab_bot_8x7_5_fast_deep(board, 1, legal, 8)
+    assert m in legal
+    # Center column preferred
+    assert m in (3, 4, 2, 5)
+
+
+def test_deep_bot_legal_moves():
+    from connectx.bots.bitboard_ab_8x7_5_deep import bitboard_ab_bot_8x7_5_fast_deep
+    board = connectx.make_board(7, 8)
+    for turn in range(6):
+        mark = 1 if turn % 2 == 0 else 2
+        legal = connectx.valid_moves(board, 8)
+        if not legal:
+            break
+        m = bitboard_ab_bot_8x7_5_fast_deep(board, mark, legal, 8)
+        assert m in legal, f'Turn {turn}: move {m} not in legal {legal}'
+        connectx.drop(board, m, mark, 7, 8)
+
+
+# ── MCTS variant tests ─────────────────────────────────────────────────────────
+
+def test_mcts_8x7_5_import():
+    from connectx.bots.mcts_8x7_5 import mcts_bot_8x7_5, mcts_bot_fast_8x7_5
+    assert callable(mcts_bot_8x7_5)
+    assert callable(mcts_bot_fast_8x7_5)
+
+
+def test_mcts_8x7_5_from_package():
+    from connectx.bots import mcts_bot_8x7_5, mcts_bot_fast_8x7_5
+    assert callable(mcts_bot_8x7_5)
+    assert callable(mcts_bot_fast_8x7_5)
+
+
+def test_mcts_8x7_5_fast_first_move():
+    from connectx.bots.mcts_8x7_5 import mcts_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    legal = connectx.valid_moves(board, 8)
+    m = mcts_bot_fast_8x7_5(board, 1, legal, 8, seed=42)
+    assert m in legal
+
+
+def test_mcts_8x7_5_fast_legal_moves():
+    from connectx.bots.mcts_8x7_5 import mcts_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    for turn in range(6):
+        mark = 1 if turn % 2 == 0 else 2
+        legal = connectx.valid_moves(board, 8)
+        if not legal:
+            break
+        m = mcts_bot_fast_8x7_5(board, mark, legal, 8, seed=turn)
+        assert m in legal, f'Turn {turn}: move {m} not in legal {legal}'
+        connectx.drop(board, m, mark, 7, 8)
+
+
+def test_mcts_8x7_5_vs_ab():
+    """MCTS should play legal moves vs AB at 8×7/5."""
+    from connectx.bots.mcts_8x7_5 import mcts_bot_fast_8x7_5
+    board = connectx.make_board(7, 8)
+    for turn in range(6):
+        mark = 1 if turn % 2 == 0 else 2
+        legal = connectx.valid_moves(board, 8)
+        if not legal:
+            break
+        if mark == 1:
+            m = bitboard_ab_bot_fast_8x7_5(board, mark, legal, 8)
+        else:
+            m = mcts_bot_fast_8x7_5(board, mark, legal, 8, seed=turn)
+        assert m in legal
+        connectx.drop(board, m, mark, 7, 8)

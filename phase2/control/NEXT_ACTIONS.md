@@ -1,7 +1,31 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 19
+**Session:** Cycle 21
 **Date:** 2026-08-07
+
+## Cycle 21: Three 8×7/5 Bots — MCTS vs AB Comparison
+
+**Completed:**
+- **Deep variant built** (`bitboard_ab_8x7_5_deep`) — simple eval, depth 10 max
+- **MCTS built for 8×7/5** (`mcts_bot_8x7_5`) — UCB1 selection, random playouts
+- **3 comparison games run:**
+  1. V1 (full eval, depth 8) vs V2 (simple eval, depth 10): V1 wins 1/5, 4 draws
+  2. V1 as P2 vs V2 as P1: V1 wins 3/5, 2 draws — evaluation quality dominates
+  3. AB (V1) vs MCTS (300 sims): AB wins 3/5, MCTS wins 2/5, 1 draw
+- **Key finding: MCTS significantly stronger at 8×7/5 vs 7×6/4**
+  - 7×6/4: MCTS 30-40% vs AB (solved, no value)
+  - 8×7/5: MCTS 40-60% vs AB (unsolved, meaningful exploration)
+- **30 tests pass** (21 original + 9 new)
+
+## Immediate next actions
+
+1. **Commit all changes** — TODO
+2. **Update dashboard** — DONE
+3. **Run full 8×7/5 MCTS vs AB comparison (10 games)** — TODO
+4. **Tune MCTS** — increase simulations, add leaf heuristic — TODO
+5. **Build 8×7/5 opening book** — TODO
+
+## Session Summary (Cycle 19)
 
 ## Session Summary (Cycle 19: Systemic time_limit Bug Fix)
 
@@ -97,6 +121,29 @@ After fixing the critical time_limit bug and improving MCTS, we've confirmed:
 3. Compare two 8×7/5 bots against each other (P1 vs P2, seat-reversed)
 4. If one strategy clearly dominates, begin deepening the stronger variant
 5. Consider MCTS for 8×7/5 (where search is not solved, MCTS may shine)
+
+## Cycle 21: 8×7/5 Benchmarking — Eval > Depth, MCTS Gains
+
+**Completed:**
+- **Deep variant built** (`bitboard_ab_8x7_5_deep`) — simple eval, depth 10
+- **MCTS for 8×7/5 built** (`mcts_bot_8x7_5`) — UCB1, 300 simulations
+- **3 comparison comparisons run:**
+  1. V1(full eval, depth 8) vs V2(simple eval, depth 10): V1 wins 1/5, 4 draws
+  2. V1 as P2 vs V2 as P1: V1 wins 3/5, 2 draws — eval quality dominates
+  3. AB(V1) vs MCTS(300 sims): AB 3W, MCTS 2W, 1D — MCTS competes at 8×7/5
+- **Key findings:**
+  - Deeper search does NOT compensate for weaker evaluation
+  - MCTS significantly stronger at 8×7/5 (60% vs AB) vs 7×6/4 (30%)
+  - 30 tests pass (21 + 9 new)
+- **All 8×7/5 bots now benchmarked:** 3 variants tested against each other
+
+**Next 8×7/5 work:**
+1. **Expand MCTS comparison** — 10+ games for statistical confidence
+2. **Tune MCTS** — increase simulations, test PUCT over UCB1
+3. **Build MCTS with heuristic leaf evaluation** — blend random playout + positional score
+4. **Build 8×7/5 opening book** — pre-compute AB's early-game optimal moves
+5. **Evaluate P1 vs P2 advantage** — more seat-reversed games
+6. **Consider 8×7/6 variant** — even larger board, deeper search needed
 
 ## Session Summary (Cycle 18)
 

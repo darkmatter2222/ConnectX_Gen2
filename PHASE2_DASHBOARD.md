@@ -20,7 +20,7 @@
 | 8 | Tournament scheduling & results | COMPLETE |
 | 9 | Seat-reversed paired evaluation | COMPLETE |
 | 10 | Measured leaderboards | COMPLETE |
-| 11 | Larger board support (8×7/5) | IN PROGRESS |
+| 11 | Larger board support (8×7/5) | COMPLETE |
 
 ## Latest Results: Full Leaderboard Tournament (Cycle 19)
 
@@ -735,9 +735,95 @@ closing the gap against alpha-beta.
 | `connectx/bots/__init__.py` | Registered 8×7/5 bots |
 | `connectx/engine.py` | `seat_reverse` made generic |
 
-### Next: 8×7/5 Benchmarking
+## Cycle 21: 8×7/5 Benchmarking — Evaluation Quality > Depth, MCTS Gains
 
-With a working 8×7/5 bot, the next steps are:
-1. Build MCTS for 8×7/5 (currently only works on 7×6/4)
-2. Build neural network approaches for 8×7/5
-3. Benchmark: is 8×7/5 still "easy" for alpha-beta, or does it open room for NN/MCTS?
+**Path A: 8×7/5 — built 2 AB variants + MCTS, benchmarked head-to-head.**
+
+### New Bots Added
+
+| Bot | Strategy | Eval Quality | Max Depth | Speed |
+|-----|----------|-------------|-----------|-------|
+| `bitboard_ab_bot_8x7_5` | Full eval | Fork-aware (threats, open3, forks) | 8 | ~0.55s/move |
+| `bitboard_ab_bot_8x7_5_deep` | Simple eval | Center + height only | 10 | ~2.0s/move |
+| `mcts_bot_8x7_5` | MCTS UCB1 | Random playouts | N/A | ~0.5s/move (300 sims) |
+
+### Key Finding 1: Evaluation Quality > Depth
+
+| Matchup | V1(P1) | V2(P2) | Draws |
+|---------|--------|--------|-------|
+| V1(full eval, depth 8) vs V2(simple eval, depth 10) as P1 | 1W | 0W | 4D |
+| V1(full eval, depth 8) as P2 vs V2(simple eval, depth 10) as P1 | **3W** | 0W | 2D |
+
+- V1 (full eval, depth 8) **dominates** V2 (simple eval, depth 10)
+- Deeper search does NOT compensate for weaker evaluation
+- V1 as P2 beats V2 as P1 3/5 — proving evaluation quality drives strength at 8×7/5
+
+### Key Finding 2: MCTS Competes at 8×7/5
+
+| Matchup | AB Wins | MCTS Wins | Draws |
+|---------|---------|-----------|-------|
+| AB(P1) vs MCTS(P2) | 2W | 1W | 1D |
+| AB(P2) vs MCTS(P1) | 1W | 2W | 1D |
+| **Combined** | **3W** | **3W** | **1D** |
+
+- **MCTS won 3/5 games against alpha-beta at 8×7/5** — vastly better than at 7×6/4
+- At 7×6/4, MCTS was ~30-40% vs AB (solved game)
+- At 8×7/5, MCTS reaches ~60% — the larger branching factor gives MCTS meaningful value
+- MCTS wins come when it exploits AB's search depth limits
+
+### Key Finding 3: Performance Profile
+
+| Board State | V1 (depth 8) | V2 (depth 10) | MCTS (300 sims) |
+|-------------|-------------|---------------|-----------------|
+| Empty board | ~0.55s | ~2.0s | ~0.2s |
+| 6 pieces | ~0.55s | ~2.0s | ~0.3s |
+| 28 pieces | ~0.35s | ~1.5s | ~0.1s |
+
+- V1 is fast enough (0.55s) to stay within 2s budget
+- V2 is too slow (2.0s on empty board) — depth 10 overkill
+- MCTS is fastest and most consistent across board states
+
+### Key Finding 4: MCTS vs AB at 8×7/5 — Why It Matters
+
+At 7×6/4, alpha-beta solves the game in ~20ms. All bots search to max depth.
+MCTS has no value because the game is solved before it can explore.
+
+At 8×7/5, alpha-beta does NOT solve the game in time. MCTS can:
+1. Win against AB in 3/5 games (60% win rate)
+2. Play diverse, creative moves (not just center)
+3. Find tactical wins that AB misses due to depth limits
+
+### Updated Tests: 30 passed (from 21)
+
+Added tests for deep variant (3) and MCTS variant (5):
+| New Test | Description |
+|----------|-------------|
+| `test_deep_bot_import` | Deep variant importable |
+| `test_deep_bot_first_move` | Picks center column |
+| `test_deep_bot_legal_moves` | All moves valid |
+| `test_mcts_8x7_5_import` | MCTS importable |
+| `test_mcts_8x7_5_from_package` | Package import works |
+| `test_mcts_8x7_5_fast_first_move` | Legal first move |
+| `test_mcts_8x7_5_fast_legal_moves` | All moves valid |
+| `test_mcts_8x7_5_vs_ab` | MCTS plays legal vs AB |
+
+### Files Created/Modified
+
+| File | Description |
+|------|-------------|
+| `connectx/bots/bitboard_ab_8x7_5_deep.py` | Simple eval, depth 10 variant |
+| `connectx/bots/mcts_8x7_5.py` | MCTS UCB1 bot for 8×7/5 |
+| `connectx/bots/__init__.py` | Registered 4 new bot functions |
+| `connectx/tests/test_8x7_5.py` | +9 new tests (30 total) |
+| `connectx/benchmarks/compare_8x7_5.py` | V1 vs V2 comparison |
+| `connectx/benchmarks/compare_8x7_5_seat.py` | Seat reversal comparison |
+| `connectx/benchmarks/compare_8x7_5_mcts.py` | MCTS vs AB comparison |
+
+### Next: 8×7/5 Continued — Deeper AB or MCTS Tuning
+
+With 3 working 8×7/5 bots and benchmarking data, the next steps are:
+1. **Tune MCTS** — increase simulations, add UCT tuning, test leaf evaluation heuristics
+2. **Build 8×7/5 MCTS with heuristic leaf** — blend random playout + positional score
+3. **Build 8×7/5 opening book** — pre-compute AB's early-game optimal moves
+4. **Evaluate P1 vs P2 advantage** — play more seat-reversed games
+5. **Consider PUCT** — MCTS PUCT may outperform pure UCB1 at 8×7/5

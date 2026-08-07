@@ -59,6 +59,8 @@ class MCTSNode:
         """
         if self.visits == 0:
             return float('inf')  # unvisited nodes get infinite UCB
+        if parent_visits <= 1:
+            return self.wins / self.visits  # no exploration bonus needed
         q = self.wins / self.visits  # win rate from our perspective
         c_term = c * math.sqrt(math.log(parent_visits) / self.visits)
         return q + c_term

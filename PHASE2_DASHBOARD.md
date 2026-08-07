@@ -735,6 +735,49 @@ closing the gap against alpha-beta.
 | `connectx/bots/__init__.py` | Registered 8×7/5 bots |
 | `connectx/engine.py` | `seat_reverse` made generic |
 
+## Cycle 23: 8×7/5 MCTS Scaling — More Simulations Make MCTS Worse as P2
+
+**MCTS simulation budget test (500, 1000, 2000) — counterintuitive results.**
+
+### Simulation Scaling Results
+
+| Sim | MCTS vs AB (combined) | Draws | Key Observation |
+|-----|----------------------|-------|-----------------|
+| 500  | 0-20 (0%) | 1/20 | Draws 1 as P1, loses all as P2 (41 moves avg) |
+| 1000 | 0-10-10 (0-50%) | 10/20 | **100% draws as P1!** AB wins all as P2 (45 moves) |
+| 2000 | 0-20 (0%) | 0/20 | **Loses as P1 (38 moves)** — more sims = worse as P1 |
+
+### Key Finding: The More Simulations, The Worse MCTS Plays as P2
+
+Contrary to expectation, **increasing MCTS simulations degrades P2 play**:
+- 500 sims: AB wins in 41 moves on average
+- 1000 sims: AB wins in 45 moves (slightly more resilient)
+- 2000 sims: AB wins in 31 moves (much faster wins)
+
+This suggests that deeper MCTS search **amplifies first-player advantage** at 8×7/5.
+The tree exploration converges on AB's forced-win lines more efficiently, and
+MCTS's random playouts don't find counter-play paths.
+
+### The P1 Draw Phenomenon (1000 sims)
+
+With 1000 simulations, MCTS as P1 achieved **10/10 draws** — perfect resilience
+from the first-player position. However, this is likely because:
+1. MCTS P1 with 1000 sims finds defensive moves that avoid losses
+2. AB as P2 plays suboptimally (depth-8 search doesn't find the win)
+3. AB as P1 always wins (first-player advantage is absolute)
+
+### Conclusion: Simulation Budget Has Diminishing Returns
+
+MCTS at 8×7/5 is fundamentally limited by its search paradigm. More simulations:
+- Help as P1 (more exploration of defensive lines)
+- Harm as P2 (deeper search converges on forced-win lines faster)
+- Total win rate against AB remains 0% at all levels tested
+
+**The next step for MCTS improvement is NOT more simulations.** It needs:
+1. **Heuristic leaf evaluation** (already tested — negligible gain)
+2. **PUCT selection** (better exploration/exploitation balance)
+3. **Tactical playouts** (instead of random — current MCTS uses random)
+
 ## Cycle 22: 8×7/5 MCTS — Bug Fix + Heuristic Leaf Evaluation + Balanced Comparison
 
 **Fixed mark tracking bug in comparison scripts** — previous comparisons incorrectly

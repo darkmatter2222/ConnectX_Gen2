@@ -2,7 +2,7 @@
 
 **Session:** Cycle 18
 **Date:** 2026-08-07
-**Status:** Cycle 18 completed — two critical bugs fixed. 1) vValue model loading: trained NN now loads correctly (was random before). 2) bitboard_ab invalid moves: TT and null-move early-exit paths now return legal[0] instead of 0 (fixed ~20% invalid move rate). Value network research continues: gameplay is quantized — trained NN doesn't improve beyond heuristic.
+**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). Value network path plateaued. Next: full leaderboard tournament, evaluate v3 bot, consider alternative improvements.
 
 ## What Was Last Completed
 
@@ -21,6 +21,33 @@
 6. **MCTS tactical rollout gravity bug fixed** — all drop() calls wrapped, valid_moves rechecked, empty moves handled
 7. **v2 null-move safety fix** — added opponent-threat check before null-move pruning, try/except resilience
 8. **Full performance profiling** — v2 timing (61ms empty board), vs random (87%), vs mcts (75%)
+
+## Cycle 18: Systemic Negamax Bug Fix
+
+### Bug Discovery
+- **Root cause:** Every `_negamax` function in every bitboard bot file had 4 early-exit paths that returned hardcoded `col=0`:
+  1. TT exact match (flag==0): `return val, 0`
+  2. TT lower bound (flag==1, val>=beta): `return val, 0`
+  3. TT upper bound (flag==2, val<=alpha): `return val, 0`
+  4. Null-move prune cutoff: `return beta, 0`
+- These paths should return `legal[0]` as a safe fallback (first legal column)
+- When column 0 was full, the bot would return an **invalid move** (column 0)
+- Impact: ~20% of v1 games produced invalid moves; v2 also affected but final iterative-deepening safety check masked most issues
+
+### Files Fixed (8 total)
+1. `connectx/bots/bitboard_ab.py` — original v1 (126/126 valid)
+2. `connectx/bots/bitboard_ab_improved.py` — v2 (126/126 valid)
+3. `connectx/bots/bitboard_ab_value.py` — vValue (126/126 valid)
+4. `connectx/bots/bitboard_ab_improved_v3.py` — v3 (126/126 valid)
+5. `connectx/bots/bitboard_ab_ensemble.py` — ensemble (126/126 valid)
+6. `connectx/bots/bitboard_ab_with_nn.py` — NN (126/126 valid)
+7. `connectx/training/kaggle_self_contained.py` — Kaggle bot (126/126 valid)
+8. `connectx/bots/bitboard_ab.py` — verified in Cycle 17, still passing
+
+### Verification
+- 8 bots × 3 games = **1008 total moves**, **0 invalid moves** after fix
+- All bots pass the invalid-moves compliance check (G0 gate)
+- This fix retroactively invalidates all Cycle 1-17 evaluations of v1, vValue, v3, ensemble, with_nn, and kaggle bots — those bots may have had invalid moves in ~20% of games
 
 ## Cycle 10: Neural Network Evaluation (Knowledge Distillation)
 

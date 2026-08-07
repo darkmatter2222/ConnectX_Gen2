@@ -380,9 +380,9 @@ def _pvs(board, mark, depth, alpha, beta, cols=COLS,
 
     if tt_entry:
         val = tt_entry.value
-        if tt_entry.flag == 0: return val, 0
-        if tt_entry.flag == 1 and val >= beta: return val, 0
-        if tt_entry.flag == 2 and val <= alpha: return val, 0
+        if tt_entry.flag == 0: return val, legal[0]
+        if tt_entry.flag == 1 and val >= beta: return val, legal[0]
+        if tt_entry.flag == 2 and val <= alpha: return val, legal[0]
 
     if depth <= 0:
         return _ensemble_eval(board, mark, cols, w_nn), legal[0]
@@ -413,7 +413,7 @@ def _pvs(board, mark, depth, alpha, beta, cols=COLS,
         score = -_pvs(null_board, mark, depth - 3, -beta, -beta + 1,
                       cols, tt, time_limit, counter, start_time)[0]
         if score >= beta:
-            return beta, 0
+            return beta, legal[0]
 
     ordered = _order_moves(board, legal, mark, cols, tt, hash_key,
                            depth, 0, _KILLER_TABLE[depth][:])

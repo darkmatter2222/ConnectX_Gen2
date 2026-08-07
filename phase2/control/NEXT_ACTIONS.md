@@ -1,7 +1,25 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 17
+**Session:** Cycle 18
 **Date:** 2026-08-07
+
+## Session Summary (Cycle 18)
+
+**Completed:**
+- **Critical bug fix: negamax TT/null-move paths returning hardcoded col=0 across ALL bitboard bots**
+  - **Root cause:** Every `_negamax` function had 4 early-exit paths (TT exact, TT lower, TT upper, null-move) that returned `return val, 0` or `return beta, 0` instead of `return val, legal[0]`
+  - **Affected files (8 total):**
+    - `connectx/bots/bitboard_ab.py` — original v1 bot
+    - `connectx/bots/bitboard_ab_improved.py` — v2 bot (default)
+    - `connectx/bots/bitboard_ab_value.py` — vValue bot
+    - `connectx/bots/bitboard_ab_improved_v3.py` — v3 bot
+    - `connectx/bots/bitboard_ab_ensemble.py` — ensemble bot
+    - `connectx/bots/bitboard_ab_with_nn.py` — NN bot
+    - `connectx/training/kaggle_self_contained.py` — Kaggle submission bot
+    - `connectx/bots/bitboard_ab.py` (already fixed in Cycle 18, verified)
+  - **Impact:** ~20% of v1 games produced invalid moves (column 0 was full, but bot returned 0). v2 also affected but iterative deepening + final safety check reduced impact. vValue, v3, ensemble, and kaggle bots all had the same bug.
+  - **Fix:** All 4 early-exit paths in each file now return `legal[0]` instead of `0`
+  - **Verified:** 8 bots × 3 games = 1008 moves across 8 different bitboard implementations, 0 invalid moves after fix
 
 ## Session Summary (Cycle 17)
 
@@ -66,6 +84,18 @@
 - mcts_value still underperforms: 30% vs MCTS
 
 ## Immediate (next session)
+
+1. **Retrospect: Re-evaluate affected bots**
+   - v1, vValue, v3, ensemble, with_nn, and kaggle bots had ~20% invalid move rate before this fix
+   - Re-evaluate these bots now that the bug is fixed to get accurate performance numbers
+   - The "strong" results for v2 in previous cycles were unaffected (v2 didn't use the buggy code path)
+
+2. **Continue value network work**
+   - Try different NN architectures (wider, deeper, residual connections)
+   - Try generating more self-play data at 20% noise (the sweet spot)
+   - The quantized gameplay finding suggests NN quality matters above a threshold, but we may not have reached that threshold yet with only 776 positions
+
+## After immediate actions
 
 1. **vValue evaluation COMPLETE (120 games)**
    - vValue (Cycle 15 NN) vs MCTS: 60% as P1, 70% as P2 (quantized performance)

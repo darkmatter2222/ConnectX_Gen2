@@ -341,11 +341,11 @@ def _pvs(
     if tt_entry is not None:
         val = tt_entry.value
         if tt_entry.flag == 0:
-            return val, 0
+            return val, legal[0]
         if tt_entry.flag == 1 and val >= beta:
-            return val, 0
+            return val, legal[0]
         if tt_entry.flag == 2 and val <= alpha:
-            return val, 0
+            return val, legal[0]
 
     if depth <= 0:
         return _nn_evaluate(board, mark, cols), legal[0]
@@ -378,7 +378,7 @@ def _pvs(
             -beta, -beta + 1, cols, tt, time_limit, counter, start_time,
         )[0]
         if score >= beta:
-            return beta, 0
+            return beta, legal[0]
 
     ordered = _order_moves(board, legal, mark, cols, tt, hash_key,
                            depth, 0, _KILLER_TABLE[depth][:])

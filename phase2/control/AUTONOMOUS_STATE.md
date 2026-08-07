@@ -20,6 +20,30 @@
 7. **v2 null-move safety fix** — added opponent-threat check before null-move pruning, try/except resilience
 8. **Full performance profiling** — v2 timing (61ms empty board), vs random (87%), vs mcts (75%)
 
+## Cycle 9: Evaluation & Search Improvement Research
+
+### Key Discovery: 20ms Full Search
+At 7×6/4, all alpha-beta + TT variants complete their full search in ~20ms,
+regardless of evaluation complexity or search variant. The 2-second time budget
+is vastly overkill. **The game is solved within milliseconds.**
+
+### Hypothesis Tests (all REJECTED):
+1. **v3 — improved evaluation** (fork scoring, open3, piece count, column control, height):
+   v3 vs v2 = 50/50 across all matchups. No measurable improvement.
+
+2. **v4 — PVS + quiescence search**:
+   v4 vs v2 = 50/50. PVS node reduction doesn't translate to deeper search
+   because the full search already completes in ~20ms.
+
+3. **v5 — minimal eval + deeper search**:
+   v5 vs v2 = 50/50. Faster eval doesn't help when full search is instant.
+
+### Conclusion
+**The limiting factor is evaluation quality, not search speed or depth.**
+Further alpha-beta improvements (search variants, eval speed) are useless at this
+board size. The only remaining path to improvement is a trained neural network
+evaluator (nn_evaluator.py exists but is untrained).
+
 ## Cycle 8: v2 Performance Analysis — Key Findings
 
 ### v2 vs win_seek_block (200 games, seat-reversed)

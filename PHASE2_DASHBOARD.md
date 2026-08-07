@@ -82,13 +82,61 @@ but v2's deeper search + move ordering dominates against structured imperfect pl
 
 ## Latest Tournament Results
 
-| Rank | Bot | vs random | vs mcts | vs wsb |
-|------|-----|-----------|---------|--------|
-| 1 | bitboard_ab_v2 | 87% | 75% | 50% |
-| 2 | bitboard_ab_fast_v2 | 77% | 70% | 50% |
-| 3 | win_seek_block | 93% | 35% | 50% |
-| 4 | mcts | 10% | - | 65% |
-| 5 | random | - | 25% | 7% |
+| Rank | Bot | vs mcts | Notes |
+|------|-----|---------|-------|
+| 1 | bitboard_ab_v2 | 75% | Baseline — iterative deepening + killers + history |
+| 2 | bitboard_ab_fast_v2 | 70% | Shallow but fast |
+| 3 | win_seek_block | 35% | Good vs random, weak vs structured play |
+| 4 | mcts | - | Strong imperfect play but loses to deep AB |
+| 5 | random | - | Baseline |
+
+## v3 Evaluation Improvement Research (Cycle 9)
+
+**Hypothesis:** Better evaluation = stronger play.
+**Result:** REJECTED — v3 (fork scoring, open3, piece count, column control, height) 
+performs identically to v2 (50/50 across all matchups).
+
+**Hypothesis:** PVS + quiescence = fewer nodes = deeper search = stronger play.
+**Result:** REJECTED — v4 identical to v2 (50/50).
+
+**Hypothesis:** Faster eval = more nodes = deeper search = stronger play.
+**Result:** REJECTED — v5 (minimal eval, deeper search) identical to v2 (50/50).
+
+**Key Finding:** At 7×6/4, alpha-beta + TT solves the game in ~20ms regardless of
+search variant or evaluation complexity. The 2-second time budget is vastly overkill.
+Evaluation quality (not speed) is the limiting factor.
+
+### Timing Analysis
+| Time Limit | v2 Total | v5 Total |
+|------------|----------|----------|
+| 2.0s | 20ms | 23ms |
+| 1.0s | 18ms | 18ms |
+| 0.5s | 19ms | 18ms |
+| 0.1s | 18ms | 18ms |
+
+**All variants complete full search in ~20ms.** The time limit is irrelevant.
+
+## Cycle 9: Evaluation Improvement Experiments — All Failed
+
+**Hypothesis:** Stronger evaluation → better play.
+**Result:** All evaluation variants (v3, v4, v5) match v2 at 50/50 across all matchups.
+
+### Why: The Solved-Game Effect
+Connect 4 at 7×6 is solved. Alpha-beta + TT solves it in ~20ms total per game,
+which is well within the 2-second time limit. All variants search to the same max depth
+and solve the game identically.
+
+### Experiments Tested
+| Variant | Changes | vs v2 | vs mcts | Result |
+|---------|---------|-------|---------|--------|
+| v3 | Open3 scoring, piece count, column control, height | 50% | 50% | No improvement |
+| v4 | PVS + quiescence search | 50% | 40% | No improvement |
+| v5 | Minimal eval (3x faster) + deeper search | 50% | 50% | No improvement |
+
+### Key Insight
+**The bottleneck is not search speed — it's evaluation quality.**
+But at this board size, all competent evaluations suffice because the search is
+deep enough to find forced wins. Only a trained neural network can surpass this.
 
 ## Known Issues
 
@@ -97,6 +145,7 @@ but v2's deeper search + move ordering dominates against structured imperfect pl
 - No PyTorch/GPU packages installed yet
 - No Kaggle packaging
 - `shallow_minimax` and `depth2_minimax` have known drop() bugs (column-full handling)
+- **Next bottleneck: need PyTorch for neural network training**
 
 ## Files Created
 

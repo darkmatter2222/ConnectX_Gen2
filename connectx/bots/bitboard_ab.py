@@ -372,11 +372,11 @@ def _negamax(
     if tt_entry is not None:
         val = tt_entry.value
         if tt_entry.flag == 0:  # exact
-            return val, 0
+            return val, legal[0]
         if tt_entry.flag == 1 and val >= beta:  # lower bound (Alpha)
-            return val, 0
+            return val, legal[0]
         if tt_entry.flag == 2 and val <= alpha:  # upper bound (Beta)
-            return val, 0
+            return val, legal[0]
 
     # Depth reached — evaluate
     if depth <= 0:
@@ -404,7 +404,7 @@ def _negamax(
             cols, tt, time_limit, counter, start_time,
         )[0]
         if score >= beta:
-            return beta, 0
+            return beta, legal[0]
 
     # Order moves for better pruning
     ordered = _order_moves(board, legal, mark, cols)

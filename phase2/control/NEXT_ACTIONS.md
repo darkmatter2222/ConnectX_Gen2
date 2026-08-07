@@ -14,27 +14,21 @@
 - vValue improved: 56% → 70% vs MCTS
 - mcts_value still underperforms: 30% vs MCTS
 
-**Immediate (next session)
-
 ## Immediate (next session)
 
-1. **Build opening book** for v2
-   - Pre-compute optimal moves for first ~20 ply using v2 search
-   - Already takes ~61ms for empty board, book lookup is instant
-   - Useful for Kaggle submission (reduces cold-start latency)
-   - Format: dict mapping (board_state_string) → best_col
+1. **Combined dataset training — IN PROGRESS (Cycle 16)**
+   - 11,890 positions from v2 (15%/20%/25% noise) + WSB (15%/30% noise)
+   - Balanced: 5,863 W / 5,565 L / 462 D
+   - Training on combined data now running
 
-2. **Neural network with mixed-strength self-play**
-   - Previous equal-strength self-play (v2 vs v2) produced all draws → useless labels
-   - **New approach:** v2 vs MCTS with varying noise levels for both players
-   - This produces W/L/D labels from both perspectives
-   - Pipeline already built: selfplay_generate.py → CSV → NPZ → train_value_net
-   - Expected: value network learns positional advantage patterns
+2. **Evaluate value model on combined data**
+   - Compare vs Cycle 15 model (776 positions, 74% sign accuracy)
+   - Expected: improved accuracy with 11,890 positions
+   - Evaluate vValue and mcts_value with new model
 
-3. **Evaluate value-enhanced v2 vs vanilla v2**
-   - Test whether the new value network (trained on mixed data) can improve v2
-   - If MAE drops below 0.5, the network may be useful for alpha-beta leaf evaluation
-   - Re-evaluate vValue (v2 + NN guidance) with new model
+3. **Register vValue with new NN in bot registry**
+   - Currently old NN is default for vValue
+   - New NN should be the default
 
 ## After immediate actions
 

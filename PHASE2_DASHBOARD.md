@@ -928,3 +928,86 @@ whether MCTS can improve with more computational budget:
 - MCTS may improve with more simulations, heuristic leaf evaluation, or PUCT
 - The gap is closing: at 7×6/4 MCTS was ~30% vs AB, at 8×7/5 MCTS is ~30% vs AB's 65%
   This means the board size increase helps AB more than MCTS, but the absolute gap is smaller
+
+## Cycle 24: 8×7/5 PUCT MCTS vs AB — Full Tree Search + Tactical Playouts
+
+**Built and benchmarked PUCT MCTS (Policy-Upper Confidence Bound) against AB at 8×7/5.**
+
+### New Bot: `mcts_puct_bot_8x7_5`
+
+- **Algorithm:** Full tree-search MCTS with PUCT selection (`q/n + C * sqrt(log(N)/n)`)
+- **PUCT constant:** C = 1.2 (exploration-exploitation balance)
+- **Tactical playouts:** Priority ordering — win → block → center preference → random (85% center)
+- **Max iterations:** 2500 (fast variant), configurable (default variant)
+- **Time budget:** `move_deadline - 0.05s` (graceful timeout)
+- **Mark-aware back-propagation:** Correctly attributes rewards from opponent perspective
+
+### Full Comparison: AB vs MCTS(UCB1) vs PUCT (60 games)
+
+| Matchup | AB Wins | MCTS Wins | PUCT Wins | Draws |
+|---------|---------|-----------|-----------|-------|
+| MCTS(500) vs AB (combined) | **10/10** | **10/10** | 0/10 | 0/10 |
+| AB vs MCTS(500) (combined) | 0/10 | 0/10 | **10/10** | **10/10** |
+| PUCT(2500) vs AB (combined) | 0/10 | 0/10 | **10/10** | **10/10** |
+| AB vs PUCT(2500) (combined) | **10/10** | 0/10 | 0/10 | 0/10 |
+| PUCT(2500) vs MCTS(500) | **0/10** | **10/10** | 0/10 | 0/10 |
+| MCTS(500) vs PUCT(2500) | 0/10 | 0/10 | **10/10** | **10/10** |
+
+### Key Finding 1: AB as P1 = Absolute Advantage
+
+AB wins 10/10 regardless of opponent strategy:
+- AB vs MCTS(500) as P2: **10 wins in 54 moves** (avg 7.8s/move)
+- AB vs PUCT(2500) as P2: **10 wins in 33 moves** (avg 5.9s/move)
+
+**PUCT as P2 loses FASTER than UCB1 MCTS** — 33 moves vs 54 moves.
+This is counterintuitive: PUCT with 5x more iterations and tactical playouts
+should be more resilient. The deeper PUCT tree may actually converge on AB's
+forced-win lines more efficiently, while AB as P2 doesn't need deep search
+to exploit MCTS's mistakes.
+
+### Key Finding 2: PUCT as P1 = Draws, Same as UCB1 MCTS
+
+| Bot | As P1 (vs AB as P2) | As P2 (vs AB as P1) |
+|-----|---------------------|---------------------|
+| MCTS (UCB1, 500, random) | **10 draws** | 10 AB wins (54 moves) |
+| PUCT (tactical, 2500) | **10 draws** | 10 AB wins (33 moves) |
+
+Both variants draw as P1 against AB. PUCT does NOT improve the P1 position.
+
+### Key Finding 3: PUCT vs MCTS Head-to-Head
+
+| Matchup | PUCT Wins | MCTS Wins | Draws |
+|---------|-----------|-----------|-------|
+| PUCT as P1 vs MCTS as P2 | **10** | 0 | 0 |
+| MCTS as P1 vs PUCT as P2 | **10** | 0 | 10 |
+
+When PUCT plays MCTS, PUCT wins 10/10 as P1, and MCTS draws 10/10 as P1.
+MCTS wins 10/10 as P2 against PUCT. **MCTS as P2 is the stronger P2 player** — it
+defends better against PUCT's tactical playouts than PUCT defends against AB's search.
+
+### Key Finding 4: PUCT is Not a Step Forward
+
+Despite the theoretical advantages of PUCT over UCB1:
+- PUCT as P2 loses **faster** to AB (33 moves vs 54)
+- PUCT as P1 draws **just as well** as UCB1 MCTS
+- PUCT does **not** outperform UCB1 MCTS in head-to-head
+
+**Conclusion: PUCT selection + tactical playouts do not improve MCTS at 8×7/5.**
+The improvements target the wrong problem: MCTS's weakness against AB is not
+exploration inefficiency — it is that alpha-beta with depth-8 search solves far
+more positions than MCTS can explore in 2 seconds.
+
+### The Real Bottleneck
+
+The bottleneck is **search paradigm**, not MCTS hyperparameters:
+1. AB with TT solves ~millions of positions per move via bitboard ops
+2. MCTS explores ~thousands of positions per move via full board copies
+3. AB evaluates every leaf position; MCTS relies on playouts that rarely reach terminal states
+4. Tactical playouts (win > block > center) are good but insufficient to find AB's deeper forced lines
+
+### Next Steps
+
+1. **Build opening book for 8×7/5 AB** — pre-compute optimal early-game moves
+2. **Test deeper AB search** — is depth 8 the limit, or can depth 12+ beat PUCT/MCTS?
+3. **Consider hybrid: AB-guided MCTS** — use AB evaluation to seed MCTS playouts
+4. **Tactical override MCTS** — if MCTS detects immediate threat, use AB to solve

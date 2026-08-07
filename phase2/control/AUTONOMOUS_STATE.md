@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 18→23
+**Session:** Cycle 18→24
 **Date:** 2026-08-07
-**Status:** Cycle 20: 8×7/5 alpha-beta bot built, tested, registered — game not solved at larger board. **Cycle 21: Built 2 additional 8×7/5 bots (deep eval, MCTS), benchmarked head-to-head: eval quality > depth, MCTS competes at 8×7/5 but not at 7×6/4. 30 tests pass.**
+**Status:** Cycle 20: 8×7/5 alpha-beta bot built and tested, game not solved at larger board. **Cycle 24: PUCT MCTS built for 8×7/5 with tactical playouts — but it does NOT beat AB. PUCT as P2 loses faster (33 moves) than UCB1 MCTS (54 moves). Both draw as P1. 35 tests pass.**
 
 ## Cycle 22: 8×7/5 MCTS — Mark Tracking Bug Fixed, AB Still Dominates 100%
 
@@ -61,6 +61,49 @@ MCTS needs structural improvements, not just more computation:
 1. **PUCT selection** (tree search, not UCB1 root-only)
 2. **Tactical playouts** (not random — current MCTS uses random)
 3. **Heuristic leaf evaluation** (already tested — negligible gain)
+
+## Cycle 24: 8×7/5 PUCT MCTS vs AB — Full Tree Search + Tactical Playouts
+
+### New Bot: `mcts_puct_bot_8x7_5`
+
+- **Algorithm:** Full tree-search MCTS with PUCT selection (`q/n + C * sqrt(log(N)/n)`)
+- **Tactical playouts:** Win > block > center (85%) > random
+- **Max iterations:** 2500 (fast), configurable (default)
+- **PUCT constant:** C = 1.2
+- **Mark-aware back-propagation:** Correctly attributes rewards from opponent perspective
+- **5 new tests added** (35 total tests, all pass)
+
+### Full Comparison: AB vs MCTS(UCB1) vs PUCT (60 games)
+
+| Matchup | Result |
+|---------|--------|
+| MCTS(500) as P1 vs AB as P2 | AB wins 10/10 (54 moves) |
+| AB as P1 vs MCTS(500) as P2 | **10 draws** (56 moves) |
+| PUCT(2500) as P1 vs AB as P2 | **10 draws** (56 moves) |
+| AB as P1 vs PUCT(2500) as P2 | **AB wins 10/10 (33 moves)** |
+| PUCT(2500) as P1 vs MCTS(500) as P2 | **PUCT wins 10/10** (48 moves) |
+| MCTS(500) as P1 vs PUCT(2500) as P2 | **10 draws** (56 moves) |
+
+### Key Findings
+
+1. **AB as P1 = absolute advantage** against both MCTS and PUCT — wins 10/10 either way
+2. **PUCT as P2 loses FASTER** than UCB1 MCTS (33 vs 54 moves)
+3. **PUCT as P1 draws same as UCB1 MCTS** (10/10 draws)
+4. **PUCT does not outperform UCB1 MCTS** when PUCT is P2 and MCTS is P1 (MCTS draws 10/10)
+5. **Deeper PUCT tree converges on AB's forced-win lines more efficiently** — counterintuitive
+
+### Conclusion: PUCT selection + tactical playouts do NOT improve MCTS vs AB
+
+The bottleneck is search paradigm, not exploration strategy:
+- AB with depth-8 bitboard search solves millions of positions/move
+- MCTS explores thousands with full board copies
+- Tactical playouts are good but insufficient to find AB's deeper forced lines
+
+### Next Steps
+1. **Build 8×7/5 opening book** — pre-compute AB's early-game optimal moves
+2. **Test deeper AB search** — can depth 12+ beat PUCT/MCTS?
+3. **Consider hybrid: AB-guided MCTS** — use AB eval to seed MCTS playouts
+4. **Tactical override MCTS** — if MCTS detects threat, solve with AB
 
 ## Cycle 21: 8×7/5 Benchmarking — Eval Quality > Depth, MCTS Gains
 

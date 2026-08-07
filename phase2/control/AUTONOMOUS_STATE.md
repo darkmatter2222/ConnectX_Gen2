@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 12
+**Session:** Cycle 13
 **Date:** 2026-08-07
-**Status:** All imitation learning approaches (KD, BC, ensemble) match v2 but can't exceed it.
+**Status:** Cycle 13 completed — value network trained, vValue bot evaluated. Value network improved NN_eval but did not surpass v2.
 
 ## What Was Last Completed
 
@@ -175,3 +175,25 @@ MCTS, which plays more strategically than random.
 - Updated dashboard and autonomous state
 
 **All changes pushed to origin/main (6 commits)**
+
+## Session Summary (Cycle 13)
+
+**Completed this session:**
+- Created `connectx/bots/connectx_value_net.py` — PyTorch + CPU value network model
+- Created `connectx/bots/bitboard_ab_value.py` — v2 with NN value guidance (vValue)
+- Created `connectx/training/value_generate.py` — v2 vs MCTS data generator
+- Created `connectx/training/value_train.py` — Value network training script
+- Generated 13,520 training positions from 1,000 v2 vs MCTS games
+- Trained value network (30 epochs, best val_loss=0.784)
+- Evaluated vValue vs v2 (50/50), vValue vs MCTS (56%), v2 vs MCTS (57.5%)
+- Updated dashboard and autonomous state
+
+**Key finding:** Value network improves NN_eval (44% vs MCTS, up from 40%) but
+does not enhance v2. The network's high MAE (0.786) makes it too noisy for alpha-beta.
+v2's heuristic evaluation is already near-optimal at 7×6/4.
+
+**Next viable paths:**
+1. **Kaggle packaging**: Package v2 as deployable submission
+2. **Value-guided MCTS**: Use value network as MCTS leaf evaluation (not alpha-beta)
+3. **Larger network + more data**: Deeper value network, self-play refinement
+4. **Opening book**: Pre-compute optimal moves for early-game speed

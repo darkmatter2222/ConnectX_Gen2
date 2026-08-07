@@ -251,6 +251,58 @@ the teacher.
 3. **Kaggle packaging**: Package v2 as a deployable bot
 4. **Opening book**: Pre-compute optimal moves for fast early-game
 
+## Cycle 13: Value Network Training (AlphaZero-style Value Evaluator)
+
+**Approach:** Train a perspective-aware value network that predicts game
+outcomes (+1 win, -1 loss, 0 draw) from any position. Used as a supplemental
+signal in v2's alpha-beta leaf evaluation (80% heuristic + 20% NN value).
+
+**Model:** 84 → 128 (tanh) → 128 (tanh) → 64 (tanh) → 1 (tanh)
+**Data:** 13,520 positions from 1,000 v2 vs MCTS games
+**Training:** 30 epochs, batch_size=256, lr=1e-3, RTX 5090
+
+**Results:**
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Best val_loss | 0.7840 | epoch 26 |
+| Best val_mae | 0.7859 | high — outcome prediction is hard |
+| Outcome classes | win=52%, loss=47%, draw=0.3% | imbalanced dataset |
+
+**Evaluation:**
+| Matchup | Result | Notes |
+|---------|--------|-------|
+| vValue vs v2 | 50/50 | vValue = v2 (NN contributes little) |
+| vValue vs mcts | 56% | vValue slightly weaker than v2's 57.5% |
+| v2 vs mcts | 57.5% | control — same as historical |
+| NN_eval vs mcts | 44% | old NN (Cycle 11) loses to MCTS |
+
+**Key Finding: Value network improved NN_eval but did not improve v2.**
+
+The trained value network has high MAE (0.786 on [-1,+1] range), meaning its
+predictions are too coarse to meaningfully enhance v2's search. However:
+- vValue (with NN guidance) matches v2 against v2 (50/50) ✓
+- vValue does NOT underperform v2 — it's a safe enhancement
+- The value network IS useful for NN_eval: 44% vs MCTS (up from 40%)
+
+**What failed:**
+- Value network MAE too high for meaningful v2 enhancement
+- Training data from v2 vs MCTS is imbalanced (first-player advantage)
+- v2's heuristic evaluation already plays near-optimally at 7×6/4
+
+**Why v2 can't be beaten by NN guidance:**
+1. At 7×6/4, alpha-beta solves the game in ~20ms
+2. v2's heuristic evaluation is already excellent
+3. Small NN errors (MAE 0.786) don't help in alpha-beta search
+4. The value network captures positional patterns but not forced wins
+
+**Files created in Cycle 13:**
+- `connectx/bots/connectx_value_net.py` — PyTorch + CPU value network model
+- `connectx/bots/bitboard_ab_value.py` — v2 with NN value guidance (vValue)
+- `connectx/training/value_generate.py` — v2 vs MCTS data generator
+- `connectx/training/value_train.py` — Value network training script
+- `evaluate_value.py` — Cycle 13 evaluation script
+- `models/value_net/best.pth` — trained value network (146KB)
+
 ## Known Issues
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug

@@ -1,0 +1,16 @@
+{
+  "archive_filename": "connectx_submission_v0007.tar.gz",
+  "archive_path": "O:\\master_model_collection\\ConnectX_Gen2_Phase2\\submissions\\connectx_submission_v0007.tar.gz",
+  "sha256": "27007b3614cde7b2dcbedc8c4a2dff7aa1c68f0ae5c6ebcc7d20ed812c49f54b",
+  "compressed_size": 1319,
+  "extracted_size": 3368,
+  "candidate": "v2_8x7_5_booked",
+  "description": "v2 alpha-beta with depth-6 opening book (dual-book fallback)",
+  "commit": "279b8b74fa76df6b7ffa593cf8f56499a763636d",
+  "branch": "main",
+  "parent_submission": "v0006",
+  "change_summary": "Depth-6 opening book (1,110 entries vs 672 at depth-5)",
+  "gym_version": "1.0",
+  "validation_state": "PASS",
+  "created_utc": "2026-08-07T23:50:17.627613+00:00"
+}

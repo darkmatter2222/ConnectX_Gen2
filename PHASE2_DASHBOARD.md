@@ -22,7 +22,7 @@
 | **Parent** | (none — first release) |
 | **Change** | v2 alpha-beta with iterative deepening, TT, killers, history, null-move (7×6/4) |
 
-**Latest overall release:** v0006 (v2_8x7_5_booked research, 8×7/5) — not Kaggle-compatible (non-self-contained)
+**Latest overall release:** v0007 (v2_8x7_5_booked research, 8×7/5 depth-6) — not Kaggle-compatible (non-self-contained). Kaggle-ready: v0001 (v2_7x6_4 self-contained).
 
 ## Status: ACTIVE — Submission System Built, v0001 Ready, 8×7/5 Booked Comparison Complete (Cycle 31)
 
@@ -1391,13 +1391,22 @@ meaningful scores (-900 to +1800 vs original's near ±1.5).
 | Version | Candidate | Status | Archive |
 |---------|-----------|--------|---------|
 | v0001 | v2_7x6_4 (Kaggle) | READY_FOR_MANUAL_UPLOAD | `O:\...\connectx_submission_v0001.tar.gz` |
-| v0005 | v2_8x7_5_booked | PASS (research) | `O:\...\connectx_submission_v0005.tar.gz` |
+| v0006 | v2_8x7_5_booked (depth-5) | PASS (research) | `O:\...\connectx_submission_v0006.tar.gz` |
+| v0007 | v2_8x7_5_booked (depth-6) | PASS (research) | `O:\...\connectx_submission_v0007.tar.gz` |
+
+### v0007 — Depth-6 Opening Book
+
+- **Book entries:** 1,110 (up from 672 at depth 5)
+- **Archive:** `connectx_submission_v0007.tar.gz` (1,319 bytes compressed)
+- **SHA-256:** `27007b3614cde7b2dcbedc8c4a2dff7aa1c68f0ae5c6ebcc7d20ed812c49f54b`
+- **Validation:** PASS (structural checks; import/runtime skipped — non-self-contained research bot)
+- **Change from v0006:** Book expanded from depth-5 (672 entries) to depth-6 (1,110 entries)
 
 ### Next Actions
 
-1. **Build v0006** — v2_8x7_5_booked (validated research release)
-2. **Build depth 6 opening book** — better coverage than depth 5 (v2 book)
-3. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized opening book or deviation detection
+1. **Evaluate depth-6 vs depth-5** — run comparison benchmark (depth-6 book may change dynamics)
+2. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized opening book or deviation detection
+3. **Explore 8×7/5 with deeper search** — depth-7 book, full AB with PVS
 4. **Continue exploring larger boards** — 8×7/6 or 9×7/5 for more MCTS room
 
 ## Cycle 30: Mandatory Submission System

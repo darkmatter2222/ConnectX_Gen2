@@ -2,10 +2,11 @@
 
 | # | Date | Status | Candidate | Archive | Commit |
 |---|------|--------|-----------|---------|--------|
-| 2 | 2026-08-07 | PASS (research) | v2_8x7_5_booked (8x7/5 dual-book) | [v0006](manifests/v0006.json) | [`670fd4d`](https://github.com/ryansusman/ConnectX_Gen2/commit/670fd4d29b65e6659f9d006ff44fd30229e91b3c) |
+| 3 | 2026-08-07 | PASS (research) | v2_8x7_5_booked (8x7/5 depth-6 dual-book) | [v0007](manifests/v0007.json) | [`279b8b7`](https://github.com/ryansusman/ConnectX_Gen2/commit/279b8b74fa76df6b7ffa593cf8f56499a763636d) |
+| 2 | 2026-08-07 | PASS (research) | v2_8x7_5_booked (8x7/5 depth-5 dual-book) | [v0006](manifests/v0006.json) | [`670fd4d`](https://github.com/ryansusman/ConnectX_Gen2/commit/670fd4d29b65e6659f9d006ff44fd30229e91b3c) |
 | 1 | 2026-08-07 | READY_FOR_MANUAL_UPLOAD | v2_7x6_4 (Kaggle self-contained AB) | [v0001](manifests/v0001.json) | [`a711d3b`](https://github.com/ryansusman/ConnectX_Gen2/commit/a711d3b066e722c9b3b736e7f686a4a0671fcb20) |
 
-**Total submissions:** 2
+**Total submissions:** 3
 
 ---
 

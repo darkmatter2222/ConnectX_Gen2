@@ -465,13 +465,14 @@ No statistically meaningful conclusions yet.
 
 **Build state:**
 - v0001: v2_7x6_4 (Kaggle, READY_FOR_MANUAL_UPLOAD)
-- v0005: v2_8x7_5_booked (research, PASS validation)
+- v0006: v2_8x7_5_booked (research, PASS validation, depth-5 book)
+- v0007: v2_8x7_5_booked (research, PASS validation, depth-6 book, 1,110 entries)
 
 **Next actions:**
-1. **Build v0006** — v2_8x7_5_booked (official research release, validated)
-2. **Build depth 6 book** — better coverage than depth 5 (may need 600s timeout)
-3. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized approaches
-4. **Consider 9×7/5** — even larger board for more exploration room
+1. **Evaluate depth-6 vs depth-5** — run comparison benchmark (may not change dynamics but good to verify)
+2. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized approaches
+3. **Consider 9×7/5 or 8×7/6** — even larger board for more exploration room
+4. **Continue research on larger boards** — 8×7/5 is unsolved but AB dominates MCTS
 
 ## Cycle 28: AB-Guided MCTS + MCTS Comparison
 

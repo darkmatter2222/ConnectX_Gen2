@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 31
+**Session:** Cycle 32
 **Date:** 2026-08-07
-**Status:** Cycle 31: 8×7/5 v2 booked comparison complete (120 games). Booked dominates regular (10W-0L-10D) and PUCT (16W-0L-4D). v0001 Kaggle (7×6/4) ready. v0006 research (8×7/5 booked) built. Build system bugs fixed (build.py scope + version, validate.py research bot handling).
+**Status:** Cycle 32: v0007 built (depth-6 opening book, 1,110 entries). Next: evaluate depth-6 vs depth-5 in comparison benchmark. Explore 8×7/5 P1/P2 strategies. Consider larger board variants.
 
 **Session:** Cycle 18→26
 **Date:** 2026-08-07

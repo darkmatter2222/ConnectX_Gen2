@@ -151,3 +151,21 @@
   helps AB's side, not MCTS's. The bottleneck is search paradigm: AB solves millions of
   positions/move via bitboard ops; MCTS explores thousands via full board copies.
 - **Decision:** Stop pursuing pure MCTS variants as the primary improvement path.
+
+## D2026-08-07-016: Depth-6 Opening Book Improves Coverage
+
+- **Finding:** Depth-6 book has 1,110 entries vs 672 at depth-5 (65% increase)
+- **Build time:** ~600s at depth-6 (hits timeout) vs ~600s at depth-5
+- **Branching factor:** 4 (same as depth-5 book)
+- **Decision:** Continue with depth-6 book for v0007 submission
+- **Next step:** Evaluate depth-6 vs depth-5 in comparison benchmark
+- **Evidence:** Book build output (1,110 entries, 2,220 nodes)
+
+## D2026-08-07-017: v0007 Submission Built
+
+- **Archive:** `connectx_submission_v0007.tar.gz` (1,319 bytes compressed)
+- **Candidate:** v2_8x7_5_booked with depth-6 dual-book fallback
+- **Validation:** PASS (structural checks; research bot — import/runtime skipped)
+- **Manifest:** `phase2/submissions/manifests/v0007.json` (Git-tracked)
+- **Next version:** v0008
+- **Evidence:** build.py output

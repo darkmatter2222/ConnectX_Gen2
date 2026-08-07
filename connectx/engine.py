@@ -170,20 +170,21 @@ def count_moves(board: Sequence[int]) -> int:
     return sum(1 for cell in board if cell != EMPTY)
 
 
-def seat_reverse(board: Sequence[int]) -> list[int]:
+def seat_reverse(board: Sequence[int], cols: int = COLS,
+                 rows: int = ROWS) -> list[int]:
     """
     Return a copy of the board with columns reversed (mirror horizontally).
     This is used for symmetric evaluation.
     """
     result = list(board)
-    for r in range(ROWS):
-        left = index(r, 0, COLS)
-        right = index(r, COLS - 1, COLS)
+    for r in range(rows):
+        left = index(r, 0, cols)
+        right = index(r, cols - 1, cols)
         result[left], result[right] = result[right], result[left]
         mid = 1
         while left + mid < right - mid + 1:
-            lc = index(r, mid, COLS)
-            rc = index(r, COLS - 1 - mid, COLS)
+            lc = index(r, mid, cols)
+            rc = index(r, cols - 1 - mid, cols)
             result[lc], result[rc] = result[rc], result[lc]
             mid += 1
     return result

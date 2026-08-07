@@ -58,7 +58,7 @@ def play_game(bot1, bot2, seed=None):
 
 def main():
     random.seed(42)
-    n = 20
+    n = 10
 
     print("=" * 60)
     print("Original 8x7/5 AB vs v2 (improved eval)")

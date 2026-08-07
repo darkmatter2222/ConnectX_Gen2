@@ -66,13 +66,18 @@ def _init_lines() -> None:
 _init_lines()
 
 
+# ── Value network model path ────────────────────────────────────────────────────
+
+_DEFAULT_MODEL_PATH = "models/value_net_selfplay/best.pth"
+
+
 # ── Value network predictor (lazy init) ────────────────────────────────────────
 
 _value_predictor = None
 
 
 def _get_predictor():
-    """Lazy load the value network predictor."""
+    """Lazy load the value network predictor with trained weights."""
     global _value_predictor
     if _value_predictor is not None:
         return _value_predictor
@@ -81,6 +86,7 @@ def _get_predictor():
         from connectx.bots.connectx_value_net import get_value_net
         vn = get_value_net()
         if vn is not None:
+            vn.load(_DEFAULT_MODEL_PATH)
             _value_predictor = vn.evaluate
             return _value_predictor
     except Exception:

@@ -220,7 +220,34 @@ v2's heuristic evaluation is already near-optimal at 7×6/4.
 4. **Opening book** — Pre-compute optimal moves for early-game speed.
    Effort: ~2 hours.
 
-## Session Summary (Cycle 13.1)
+## Session Summary (Cycle 14: Opening Book)
+
+**Completed this session:**
+- **Built opening book** for v2 (`connectx/bots/opening_book.py`)
+  - DFS from empty board, branching factor = 3, max depth = 5
+  - Generated 115 unique board states (230 entries including both marks)
+  - Book covers first ~5 ply (~3 moves per side)
+  - Empty board → col 3 (center), matches v2 ✓
+  - Book lookup is instant; v2 search fallback for mid-game
+- **Created v2-booked bot** (`connectx/bots/bitboard_ab_v2_booked.py`)
+  - Drop-in replacement: book lookup first, full v2 search fallback
+  - Book contains `book.json` with 115 positions
+  - CLI: `python -m connectx.bots.opening_book build` / `info`
+- **Fixed bot import paths:** v2 is in `connectx.bots.bitboard_ab_improved`
+  - Opening book generator was importing wrong module (fell back to broken v3)
+  - Fixed: now imports from `connectx.bots.bitboard_ab_improved`
+- **Test suite:** 78/78 tests passing
+
+**Files created/updated:**
+- `connectx/bots/opening_book.py` — Book generation and lookup (340 lines)
+- `connectx/bots/bitboard_ab_v2_booked.py` — v2 + opening book bot (65 lines)
+- `connectx/bots/book.json` — Pre-computed opening book (~50 KB)
+
+**Key finding:** Book correctly reproduces v2's center preference and matches v2
+moves on all board states within the book. Book lookup is instant; full v2 search
+fallback handles all positions not in the book.
+
+## Session Summary (Cycle 13.1 + 13.2)
 
 **Completed this session:**
 - Registered `mcts_bot_value` in bot registry (connectx/bots/__init__.py)
@@ -237,10 +264,15 @@ v2's heuristic evaluation is already near-optimal at 7×6/4.
   - mcts: 37W 51L 12D (43 pts) — outperforms mcts_value (34.5 pts)
   - mcts_value: 29W 60L 11D — value network NOT helping MCTS move selection
   - mcts_value vs bitboard_ab_fast_v2: 2W 18L (complete loss)
-  - All v2 variants: 100% conversion vs win_seek_block, random
-- **Finding:** Value-guided MCTS underperforms vanilla MCTS — value network too coarse for node selection
-- **Kaggle packaging no longer TBD** — self-contained bot ready for submission
+- **Self-play refinement attempt:**
+  - v2-vs-v2 self-play: all 10 games were 42-move draws
+  - Value network trained on draw-only data → learned to predict 0 everywhere
+  - Lesson: equal-strength self-play at 7×6/4 produces only draws (game is solved)
+  - Need mixed-strength self-play for useful W/L labels
+- **Bug found in valid_moves:** checks `board[col]` (top row) not bottom row, but works correctly by coincidence since `drop` also checks `board[col]`
 
 **Files created:**
 - `connectx/training/kaggle_self_contained.py` — self-contained Kaggle bot
 - `connectx/bots/__init__.py` — updated (added mcts_bot_value to __all__)
+- `connectx/training/selfplay_generate.py` — v2-vs-v2 self-play generator
+- `connectx/training/selfplay_pipeline.py` — self-play → train pipeline

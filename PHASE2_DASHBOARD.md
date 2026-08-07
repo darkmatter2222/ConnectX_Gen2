@@ -1,7 +1,7 @@
 # ConnectX Phase 2 — Development Dashboard
 
 **Created:** 2026-08-06
-**Last Updated:** 2026-08-07 (Cycle 13 — inf fix + value network)
+**Last Updated:** 2026-08-07 (Cycle 14 — opening book)
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
@@ -312,7 +312,6 @@ predictions are too coarse to meaningfully enhance v2's search. However:
 - **40-game comparison (mcts vs mcts_value):**
   - mcts: 13 wins, mcts_value: 17 wins — within statistical noise
   - mcts avg: ~1.6s/game, mcts_value avg: ~2.5s/game (PyTorch overhead)
-- **Self-play mcts_value:** P1=8, P2=8, Draws=4 — consistent with v2 self-play pattern
 - **mcts_value registered in bot registry** (`connectx/bots/__init__.py`)
 
 ### Quick Tournament (130 games, 12 matchups)
@@ -334,10 +333,21 @@ predictions are too coarse to meaningfully enhance v2's search. However:
 - **mcts vs mcts_value:** 6W 10D 4B (seat-reversed) — comparable performance
 
 **Why mcts_value underperforms:**
-1. Value network trained on v2 self-play — poor generalization to MCTS move selection
+1. Value network trained on v2-vs-MCTS data with first-player bias
 2. The value network has high MAE (0.786) — predictions too coarse for MCTS node selection
 3. Most leaf evaluations fall into the "near-neutral" blend zone, negating value advantage
 4. PyTorch overhead (~2.5s/game vs ~1.6s/game for vanilla MCTS) reduces search budget
+
+### Self-Play Refinement Attempt (Cycle 13.2 attempt)
+
+**Approach:** v2-vs-v2 self-play to generate balanced W/L data for value network.
+**Result:** All 10 self-play games were 42-move draws (equal-strength bots always draw).
+**Lesson:** Equal-strength self-play (AlphaZero-style) produces only draws at 7×6/4
+because the game is solved. The value network learns "always predict 0" → useless.
+
+**Next viable approach for value network:**
+- Mixed strength self-play (v2 vs weaker bots with varying noise levels)
+- Or: use value network for alpha-beta leaf evaluation (already done in Cycle 13)
 
 ### Self-Contained Kaggle Bot
 - **File:** `connectx/training/kaggle_self_contained.py` (761 lines, ~23KB)
@@ -346,6 +356,52 @@ predictions are too coarse to meaningfully enhance v2's search. However:
   history heuristic, null-move pruning, bounds-capped negamax
 - **Test:** 20 moves, 0 invalid, consistent with v2 behavior
 - **Original wrapper** (`connectx/training/kaggle_bot.py`) remains as project-import-based version
+
+### Self-Play Refinement (Cycle 13.2)
+
+- **v2-vs-v2 self-play:** 10 games, all 42-move draws (100% draw rate)
+- **Lesson:** At 7×6/4, two equal-strength optimal bots always draw
+- **Value network trained on draw-only data:** learned to predict 0 everywhere
+- **Need mixed-strength self-play** (e.g., v2 vs MCTS with seat reversal) for useful W/L labels
+- **Files:** `connectx/training/selfplay_generate.py`, `connectx/training/selfplay_pipeline.py`
+
+## Cycle 14: Opening Book for v2
+
+**Approach:** Pre-compute optimal moves for early-game positions using v2's search.
+During play, the bot checks the book first for instant move selection.
+
+### Book Generation
+- **Algorithm:** DFS from empty board, branching factor = 3, max depth = 5
+- **Depth 5** = ~3 moves per side explored exhaustively (~230 positions, ~115 board states)
+- **Branching:** At each node, v2 evaluates the current board for both marks (1 and 2)
+- **Dedup:** Different move orders reaching the same board state merge naturally
+- **Budget:** 50ms per v2 call, total runtime ~30 seconds
+
+### Book Results
+| Metric | Value |
+|--------|-------|
+| Unique board states | 115 |
+| Total entries (board+mark) | 230 |
+| Empty board move | Col 3 (center) ✓ |
+| Book size | ~50 KB (JSON) |
+
+### Bot with Book (`bitboard_ab_bot_fast_v2_booked`)
+- **Drop-in replacement** for v2 with book lookup as first step
+- **Book hit:** return book move instantly (no search overhead)
+- **Book miss:** fall back to full v2 search
+- **Test:** Empty board → col 3 (matches v2) ✓
+- **Test:** Full game vs random → P1 wins in 17 moves ✓
+
+### Files Created
+- `connectx/bots/opening_book.py` — Book generation and lookup (CLI: `build` / `info`)
+- `connectx/bots/bitboard_ab_v2_booked.py` — v2 + opening book bot
+- `connectx/bots/book.json` — Pre-computed opening book (115 positions)
+
+### Limitations
+- Book only covers first ~5 ply (3 moves per side) — mid-game uses v2 search
+- Branching factor limited to 3 — not all legal moves explored at each depth
+- Book is static — no self-play refinement or learning from actual games
+- Book must be regenerated with `python -m connectx.bots.opening_book build` for updates
 
 ## Known Issues
 

@@ -1,43 +1,42 @@
 # Next Actions — ConnectX Phase 2
 
-**Session:** Cycle 13.1
+**Session:** Cycle 13.2
 **Date:** 2026-08-07
 
 ## Immediate (next session)
 
-1. **Neural network with self-play refinement loop** (AlphaZero-style)
-   - Current value network trained on v2-vs-MCTS data, but value-guided MCTS underperforms vanilla MCTS (34.5 vs 43 pts)
-   - Self-play data will be balanced (50/50 seats) — unlike v2-vs-MCTS which has first-player bias
-   - Steps:
-     a. Build MCTS with value-network-guided playouts (already have mcts_bot_value)
-     b. Run v2-vs-value-MCTS self-play to generate balanced data
-     c. Retrain value network on self-play data
-     d. Evaluate new value-guided MCTS
-     e. Iterate 5-10 times
-   - Expected: Lower MAE, meaningful MCTS improvement, possible value-enhanced v2
-
-2. **Build opening book** for v2
-   - Pre-compute optimal moves for first ~20 ply
-   - Could speed up early-game moves (already ~61ms, but book lookup is instant)
+1. **Build opening book** for v2
+   - Pre-compute optimal moves for first ~20 ply using v2 search
+   - Already takes ~61ms for empty board, book lookup is instant
    - Useful for Kaggle submission (reduces cold-start latency)
+   - Format: dict mapping (board_state_string) → best_col
+
+2. **Neural network with mixed-strength self-play**
+   - Previous equal-strength self-play (v2 vs v2) produced all draws → useless labels
+   - **New approach:** v2 vs MCTS with varying noise levels for both players
+   - This produces W/L/D labels from both perspectives
+   - Pipeline already built: selfplay_generate.py → CSV → NPZ → train_value_net
+   - Expected: value network learns positional advantage patterns
+
+3. **Evaluate value-enhanced v2 vs vanilla v2**
+   - Test whether the new value network (trained on mixed data) can improve v2
+   - If MAE drops below 0.5, the network may be useful for alpha-beta leaf evaluation
+   - Re-evaluate vValue (v2 + NN guidance) with new model
 
 ## After immediate actions
 
-3. **Full leaderboard tournament** — all 11 bots, all pairs, measured ratings
+4. **Full leaderboard tournament** — all 11 bots, all pairs, measured ratings
    - Need: mcts_fast, bitboard_ab_fast_v2, bitboard_ab_fast, v2, mcts, mcts_value
    - Use seat-reversed 40-game matchups (20 each way)
    - Record Elo ratings, confidence intervals
 
-4. **Fix original bitboard_ab invalid-move bug** (~20% of games)
+5. **Fix original bitboard_ab invalid-move bug** (~20% of games)
    - Root cause: board copy not preserved after search
    - Fix: use board copy approach
+   - Or: fix valid_moves to check bottom row instead of top row
 
-5. **Evaluate v3 bot** (bitboard_ab_improved_v3.py) — compare vs v2
+6. **Evaluate v3 bot** (bitboard_ab_improved_v3.py) — compare vs v2
    - Fork-aware evaluation, open3 detection, column control
-
-6. **Adversarial position suite** — design tactical traps and edge cases
-   - Fork traps, anti-forks, forced-defense positions
-   - Test all bots against curated positions
 
 7. **Kaggle submission** — deploy `kaggle_self_contained.py`
    - Package for Kaggle submission
@@ -51,10 +50,13 @@
 - [DONE] Kaggle self-contained bot (kaggle_self_contained.py)
 - [DONE] Value network trained (146KB, MAE 0.786)
 - [DONE] Quick tournament (130 games) — v2 dominant
+- [DONE] Self-play pipeline (generate, convert, train)
+- [DONE] Self-play refinement attempt (v2 vs v2 = all draws)
 
-## Blocked/Deferred
+## Key Findings
 
-- **v2 self-play data**: 100% first-player wins → useless labels
-- **Knowledge distillation from v2**: matches v2 but cannot exceed
-- **Behavioral cloning**: perfectly memorizes v2, cannot exceed
-- **Value network on v2-vs-MCTS data**: high MAE, underperforms vanilla MCTS
+- **v2 is the strongest bot:** 120W 0L in quick tournament
+- **mcts_value underperforms mcts:** value network too coarse for MCTS
+- **Equal-strength self-play produces draws at 7×6/4:** game is solved
+- **Need mixed-strength self-play** for useful W/L value network labels
+- **Kaggle self-contained bot ready** (20-move test: 0 invalid)

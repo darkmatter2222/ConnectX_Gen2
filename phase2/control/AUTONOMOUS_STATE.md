@@ -2,7 +2,7 @@
 
 **Session:** Cycle 13.1
 **Date:** 2026-08-07
-**Status:** Cycle 13.1 completed — value-guided MCTS registered (mcts_bot_value), self-contained Kaggle bot built. mcts_value vs mcts within statistical noise.
+**Status:** Cycle 13.1 completed — value-guided MCTS registered but UNDERPERFORMS vanilla MCTS; self-contained Kaggle bot ready. Quick tournament (130 games): bitboard_ab_fast_v2 dominant.
 
 ## What Was Last Completed
 
@@ -157,12 +157,17 @@ MCTS, which plays more strategically than random.
 1. **Kaggle packaging — DONE** (Cycle 13.1): `connectx/training/kaggle_self_contained.py`
    - Self-contained single file, ready for Kaggle submission
    - 20-move test: all moves valid, consistent with v2 behavior
-2. **Fix original bitboard_ab invalid-move bug** — use board copy approach
-3. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
-4. **Build opening book** for v2 (pre-computed early moves for speed)
-5. **NN ensemble with v2 fallback** — train larger NN, use as tiebreaker in v2
-6. **Evaluate v3 bot (bitboard_ab_improved_v3.py)** — compare vs v2
-7. **Neural network with self-play refinement loop** — train NN, test vs v2, retrain
+2. **Neural network with self-play refinement loop** — train value NN via AlphaZero-style self-play (not imitation)
+   - Rationale: Value-guided MCTS UNDERPERFORMS vanilla MCTS (34.5 vs 43 pts)
+   - Self-play data will be balanced (50/50 seats), unlike v2-vs-MCTS data
+   - Expected: Lower MAE, meaningful MCTS improvement
+3. **Build opening book** for v2 (pre-computed early moves for speed)
+   - Rationale: v2 solves 7×6/4 in ~20ms but still does tree search each move
+   - Could pre-compute optimal moves for first ~20 ply
+4. **Fix original bitboard_ab invalid-move bug** — use board copy approach
+5. **Full leaderboard tournament** — all 11 bots, all pairs, measured ratings
+6. **NN ensemble with v2 fallback** — train larger NN, use as tiebreaker in v2
+7. **Evaluate v3 bot (bitboard_ab_improved_v3.py)** — compare vs v2
 
 ## Session Summary (Cycle 12)
 
@@ -227,7 +232,14 @@ v2's heuristic evaluation is already near-optimal at 7×6/4.
   - Includes: engine, TT, killer moves, history heuristic, null-move pruning, bounds capping
   - No external dependencies at runtime
   - Self-test: 20 moves valid, 0 invalid moves, consistent with v2
-- All changes committed and ready to push
+- **Quick tournament (130 games, 12 matchups):**
+  - bitboard_ab_fast_v2: 120W 0L 0D (dominant across all matchups)
+  - mcts: 37W 51L 12D (43 pts) — outperforms mcts_value (34.5 pts)
+  - mcts_value: 29W 60L 11D — value network NOT helping MCTS move selection
+  - mcts_value vs bitboard_ab_fast_v2: 2W 18L (complete loss)
+  - All v2 variants: 100% conversion vs win_seek_block, random
+- **Finding:** Value-guided MCTS underperforms vanilla MCTS — value network too coarse for node selection
+- **Kaggle packaging no longer TBD** — self-contained bot ready for submission
 
 **Files created:**
 - `connectx/training/kaggle_self_contained.py` — self-contained Kaggle bot

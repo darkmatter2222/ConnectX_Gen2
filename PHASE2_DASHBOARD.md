@@ -304,7 +304,7 @@ predictions are too coarse to meaningfully enhance v2's search. However:
 - `evaluate_value.py` — Cycle 13 evaluation script
 - `models/value_net/best.pth` — trained value network (146KB)
 
-## Cycle 13.1: Value-Guided MCTS + Kaggle Packaging
+## Cycle 13.1: Value-Guided MCTS + Kaggle Packaging + Quick Tournament
 
 ### Value-Guided MCTS (`mcts_bot_value`)
 - **Approach:** MCTS with trained value network (70%) + tactical playout (30%) for leaf evaluation
@@ -314,6 +314,30 @@ predictions are too coarse to meaningfully enhance v2's search. However:
   - mcts avg: ~1.6s/game, mcts_value avg: ~2.5s/game (PyTorch overhead)
 - **Self-play mcts_value:** P1=8, P2=8, Draws=4 — consistent with v2 self-play pattern
 - **mcts_value registered in bot registry** (`connectx/bots/__init__.py`)
+
+### Quick Tournament (130 games, 12 matchups)
+
+**Results:**
+| Rank | Bot | W | L | D | GP | Win% |
+|------|-----|---|---|---|----|------|
+| 1 | bitboard_ab_fast_v2 | 120 | 0 | 0 | 120 | 100% |
+| 2 | win_seek_block | 38 | 42 | 0 | 80 | 47.5% |
+| 3 | mcts | 37 | 51 | 12 | 100 | 37% |
+| 4 | mcts_value | 29 | 60 | 11 | 100 | 29% |
+| 5 | bitboard_ab | 8 | 32 | 0 | 40 | 20% |
+| 6 | random | 15 | 62 | 3 | 80 | 18.8% |
+
+**Key Findings:**
+- **bitboard_ab_fast_v2 dominates:** 120W 0L across all matchups (v2 is the strongest bot)
+- **mcts_value UNDERPERFORMS mcts:** 34.5 pts vs 43 pts — value network not helping MCTS
+- **Both MCTS variants lose completely to v2:** 0W vs 20W in head-to-head
+- **mcts vs mcts_value:** 6W 10D 4B (seat-reversed) — comparable performance
+
+**Why mcts_value underperforms:**
+1. Value network trained on v2 self-play — poor generalization to MCTS move selection
+2. The value network has high MAE (0.786) — predictions too coarse for MCTS node selection
+3. Most leaf evaluations fall into the "near-neutral" blend zone, negating value advantage
+4. PyTorch overhead (~2.5s/game vs ~1.6s/game for vanilla MCTS) reduces search budget
 
 ### Self-Contained Kaggle Bot
 - **File:** `connectx/training/kaggle_self_contained.py` (761 lines, ~23KB)
@@ -329,6 +353,7 @@ predictions are too coarse to meaningfully enhance v2's search. However:
 - `mcts_fast` underperforms vs bitboard — shallower MCTS loses to deeper negamax
 - No Kaggle packaging
 - `shallow_minimax` and `depth2_minimax` have known drop() bugs (column-full handling)
+- **mcts_value underperforms vanilla mcts** — value network not yet useful for MCTS move selection
 - **Next path forward: NN needs self-play training data (not random-player data)**
 
 ## Files Created

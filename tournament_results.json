@@ -1,0 +1,148 @@
+{
+  "date": "2026-08-07",
+  "cycle": "13.1-quick",
+  "bots": [
+    "random",
+    "win_seek_block",
+    "bitboard_ab_fast_v2",
+    "bitboard_ab",
+    "bitboard_ab_fast",
+    "mcts",
+    "mcts_value"
+  ],
+  "games_per_pair": 10,
+  "total_time": 678.4270956516266,
+  "total_games": 130,
+  "results": [
+    {
+      "white": "bitboard_ab_fast_v2",
+      "black": "mcts",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 20,
+      "black_wins": 0,
+      "draws": 0,
+      "elapsed": 87.15856575965881
+    },
+    {
+      "white": "bitboard_ab_fast_v2",
+      "black": "mcts_value",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 20,
+      "black_wins": 0,
+      "draws": 0,
+      "elapsed": 151.51573586463928
+    },
+    {
+      "white": "mcts",
+      "black": "mcts_value",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 6,
+      "black_wins": 4,
+      "draws": 10,
+      "elapsed": 237.48675990104675
+    },
+    {
+      "white": "bitboard_ab_fast_v2",
+      "black": "win_seek_block",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 20,
+      "black_wins": 0,
+      "draws": 0,
+      "elapsed": 336.8863799571991
+    },
+    {
+      "white": "bitboard_ab",
+      "black": "mcts",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 8,
+      "black_wins": 12,
+      "draws": 0,
+      "elapsed": 349.33010482788086
+    },
+    {
+      "white": "mcts",
+      "black": "win_seek_block",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 9,
+      "black_wins": 11,
+      "draws": 0,
+      "elapsed": 374.3752281665802
+    },
+    {
+      "white": "bitboard_ab_fast_v2",
+      "black": "bitboard_ab",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 20,
+      "black_wins": 0,
+      "draws": 0,
+      "elapsed": 407.7553298473358
+    },
+    {
+      "white": "mcts_value",
+      "black": "win_seek_block",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 9,
+      "black_wins": 11,
+      "draws": 0,
+      "elapsed": 440.82941603660583
+    },
+    {
+      "white": "mcts_value",
+      "black": "bitboard_ab_fast_v2",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 0,
+      "black_wins": 20,
+      "draws": 0,
+      "elapsed": 543.386157989502
+    },
+    {
+      "white": "mcts",
+      "black": "random",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 10,
+      "black_wins": 8,
+      "draws": 2,
+      "elapsed": 573.6680376529694
+    },
+    {
+      "white": "mcts_value",
+      "black": "random",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 16,
+      "black_wins": 3,
+      "draws": 1,
+      "elapsed": 611.844019651413
+    },
+    {
+      "white": "bitboard_ab_fast_v2",
+      "black": "random",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 20,
+      "black_wins": 0,
+      "draws": 0,
+      "elapsed": 678.418744802475
+    },
+    {
+      "white": "win_seek_block",
+      "black": "random",
+      "games": 10,
+      "tier": "KEY",
+      "white_wins": 16,
+      "black_wins": 4,
+      "draws": 0,
+      "elapsed": 678.4270660877228
+    }
+  ]
+}

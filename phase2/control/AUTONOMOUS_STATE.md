@@ -1,6 +1,6 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 7
+**Session:** Cycle 8
 **Date:** 2026-08-06
 
 ## What Was Last Completed
@@ -15,62 +15,47 @@
    - `bitboard_ab_bot_v2` / `bitboard_ab_bot_fast_v2` — iterative deepening, killer moves, history heuristic, null-move pruning
    - `mcts_bot` / `mcts_bot_fast` — PUCT MCTS with tactical playouts
 4. **Tournament system** with seat-aware win counting and leaderboard
-5. **Comprehensive test suite:** 78/78 passing (6 new v2 tests)
+5. **Comprehensive test suite:** 78/78 passing
 6. **MCTS tactical rollout gravity bug fixed** — all drop() calls wrapped, valid_moves rechecked, empty moves handled
+7. **v2 null-move safety fix** — added opponent-threat check before null-move pruning, try/except resilience
+8. **Full performance profiling** — v2 timing (61ms empty board), vs random (87%), vs mcts (75%)
 
-## Cycle 7: v2 Completely Dominates win_seek_block
+## Cycle 8: v2 Performance Analysis — Key Findings
 
-### v2 Improvements:
-- Killer move heuristic (beta-cutoff memory per depth)
-- History heuristic (score for moves that cause cuts across depths)
-- Iterative deepening (depth 1..12, always return best found)
-- Null-move pruning (skip a turn when depth >= 3)
-- Improved move ordering (killers → wins → blocks → threats → center → history)
-- Board safety: validate returned move is legal, fallback to first legal
+### v2 vs win_seek_block (200 games, seat-reversed)
+- **Result: 50-50 tie** (expected — both solve first-player advantage in Connect 4)
+- Dashboard Cycle 7 claim of 100% was from unidirectional testing (v2 as white only)
+- **Both win 100% as first player** (solved game)
+- **Both lose 100% as second player** (solved game)
 
-### v2 vs win_seek_block (100 games, seat-reversed):
-- **v2 wins: 100, WSB wins: 0, Draws: 0**
-- Previously: win_seek_block was dominant (83% W)
+### v2 vs Imperfect Opponents
+- **v2 vs random:** 87% win rate (26-4 in 30 games)
+- **v2 vs mcts:** 75% win rate (15-5 in 20 games) — deep search dominates
+- **wsb vs mcts:** 35% win rate (7-13 in 20 games) — wsb significantly weaker
 
-### v2 vs random: ~84% win rate as first player
-### v2 timing: ~300ms per move (vs ~2ms for original bitboard_ab)
+### Key Insight: v2 is 2× stronger than wsb against structured imperfect play
+v2's deeper search, killer moves, and history heuristic provide a massive advantage against
+MCTS, which plays more strategically than random.
 
-## Previous Tournament (Cycle 5, 10 games/pair, fast variants)
+### v2 Timing
+- Empty board: ~61ms per move (worst case)
+- Mid-game: 1-14ms per move
+- Well within 1.75s strict profile
 
-| Bot | W | L | D | Win% |
-|-----|---|---|---|------|
-| win_seek_block | 50 | 10 | 0 | 83.3% |
-| bitboard_ab_fast | 76 | 24 | 0 | 76.0% |
-| random | 38 | 20 | 2 | 63.3% |
-| mcts_fast | 27 | 51 | 2 | 33.8% |
-| depth2_minimax | 7 | 73 | 0 | 8.8% |
-| shallow_minimax | 0 | 20 | 0 | 0.0% |
-
-### Key pairwise results (ignoring random)
-- win_seek_block beats ALL opponents (83% W) — dominant tactical player
-- **bitboard_ab_fast major improvement**: 30% -> 76% W (deeper search: depth 5->7 fast, 6-10+ time-aware)
-- **bitboard_ab_fast ties win_seek_block 10-10** — first time bitboard competes!
-- bitboard_ab_fast beats mcts_fast 12-8 — deeper negamax beats shallower MCTS
-- bitboard_ab_fast crushes depth2_minimax 20-0
-- mcts_fast beats depth2_minimax 17-3
-
-## What Is Active
-
-**Deeper search + move ordering = overwhelming strength.** v2 beat win_seek_block 100% by combining iterative deepening, killer moves, history heuristic, and null-move pruning.
-
-## What Failed
-
+### What Failed
 - Tournament win-counting bug (fixed)
 - Research-only accumulation (fixed by building actual bots)
 - MCTS tactical rollout crashes on full columns (fixed)
 - MCTS v2 experiments: no improvement over v1 (abandoned)
 - **Original bitboard_ab returns invalid moves (~20% of games)** — known bug, not fixed yet
+- **shallow_minimax and depth2_minimax have drop() bugs** — column-full handling
 
 ## Next Highest-Value Unblocked Actions
 
-1. **Optimize v2 evaluation** — reduce per-node cost while maintaining depth
-2. **Run full tournament** with v2 against ALL bots
-3. **Profile timing** — ensure v2 meets 1.75s strict profile
-4. **Install PyTorch** — prepare for neural network bots
+1. **Install PyTorch** — prepare for neural network bots (GPU not used yet)
+2. **Build v3 with alpha-beta + learned evaluation** — use v2 as base, add neural leaf eval
+3. **Build v2 ensemble** — combine v2 with mcts via confidence-gated hybrid
+4. **Fix original bitboard_ab invalid-move bug** — use board copy approach
 5. **Build opening book** for bitboard or MCTS
-6. **Fix original bitboard_ab invalid-move bug** — use board copy approach
+6. **Run full leaderboard tournament** — all bots, all pairs, measured ratings
+7. **Time-aware search tuning** — adjust depth based on elapsed game time

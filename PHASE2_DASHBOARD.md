@@ -189,6 +189,37 @@ comparably to v2 (72.5% vs mcts).
 **Conclusion:** Ensemble doesn't help. The NN needs fundamentally better training
 data to be useful.
 
+## Cycle 12: Behavioral Cloning + MCTS Fix
+
+**Approach:** Train a policy network to predict v2's moves (behavioral cloning).
+- Model: 84 → 256 → 128 → 7 (softmax over columns)
+- Data: v2 vs MCTS games (1000 games, 3,562 positions)
+- Training: 50 epochs, batch=256, learning rate 1e-3
+
+**Results:**
+| Metric | BC Model | Notes |
+|--------|----------|-------|
+| Val accuracy | 100% | Perfectly reproduces v2's moves |
+| bc_bot vs v2 | 50% | Equal (as expected) |
+| bc_bot vs mcts | 60% | Comparable to v2's 62% |
+
+**Key Finding: BC MATCHES V2 — cannot exceed teacher.**
+
+BC is another form of imitation learning. Just like knowledge distillation,
+the network learns to reproduce v2's decisions. It can match but not exceed
+the teacher.
+
+**What failed:**
+- All imitation approaches (knowledge distillation, BC) match v2 but don't exceed
+- v2 self-play produces 100% first-player win labels (useless)
+- MCTS PUCT crashes with math domain error when parent_visits=0 (FIXED)
+
+**Next viable paths:**
+1. **AlphaZero-style RL**: Self-play reinforcement learning (not imitation)
+2. **BC-guided MCTS**: Use BC policy as MCTS prior for better move selection
+3. **Kaggle packaging**: Package v2 as a deployable bot
+4. **Opening book**: Pre-compute optimal moves for fast early-game
+
 ## Known Issues
 
 - **Original bitboard_ab** returns invalid moves under time pressure (~20% of games) — known bug

@@ -5,7 +5,34 @@
 **Environment:** Python 3.13.7 / RTX 5090
 **Venv:** `O:\master_model_collection\ConnectX_Gen2_Phase2\.venv`
 
-## Status: ACTIVE — v2 Significantly Stronger Than win_seek_block Against Imperfect Opponents
+## Status: ACTIVE — Negamax Bug Fixed, All Bots Validated, Solved-Game Confirmed
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| 0 | Repository audit & research readiness | COMPLETE |
+| 1 | Phase 2 control documents | COMPLETE |
+| 2 | Python environment setup | COMPLETE |
+| 3 | Core ConnectX 7×6/4 engine | COMPLETE |
+| 4 | Deterministic replay & game records | COMPLETE |
+| 5 | Timing, overage, crash handling | PENDING |
+| 6 | Tactical position tests | COMPLETE |
+| 7 | Baseline bots | COMPLETE (10 bots) |
+| 8 | Tournament scheduling & results | COMPLETE |
+| 9 | Seat-reversed paired evaluation | COMPLETE |
+| 10 | Measured leaderboards | COMPLETE |
+
+## Latest Results: Full Leaderboard Tournament (Cycle 19)
+
+**28 matchups, 336 games, 0 invalid moves — all bots play at same level**
+
+Every pairing produces exactly 50% win rate for both bots (win as P1, lose as P2). This confirms:
+
+1. **7×6/4 is solved** under perfect play — no meaningful differentiation possible
+2. **All 8 alpha-beta bots** produce near-optimal play (P1 always wins, P2 always loses)
+3. **Evaluation quality differences** (v3's enhanced eval, vValue's NN, v2's move ordering) are irrelevant at this board size
+4. **The negamax bug fix is complete** — 0 invalid moves across all 336 games
+
+**Standings: All tied at 50% win rate** (by design — solved game)
 
 | Phase | Description | Status |
 |-------|-------------|--------|

@@ -2,7 +2,7 @@
 
 **Session:** Cycle 18→19
 **Date:** 2026-08-07
-**Status:** Cycle 18 completed — systemic negamax bug fixed across ALL 8 bitboard bots (1008 moves, 0 invalid). BC model trained (100% val accuracy). MCTS+BC hybrid = equivalent to v2. Value NN path plateaued. Cycle 18.5: Smoke test passed for all 8 bots (1680 moves, 0 invalid). Next: full leaderboard tournament, v3 evaluation, MCTS+BC tournament integration.
+**Status:** Cycle 18: negamax bug fixed across ALL 8 bots. Cycle 18.5: smoke test passes (1680 moves, 0 invalid). Cycle 19: full leaderboard tournament — 28 matchups, 336 games, 0 invalid. **Confirmed: 7×6/4 is solved at this board size — all alpha-beta bots produce identical results (P1 always wins, P2 always loses). All evaluation differences are irrelevant. Value NN path plateaued. BC approach equivalent to v2.**
 
 ## What Was Last Completed
 

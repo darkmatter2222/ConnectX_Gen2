@@ -20,7 +20,11 @@ from connectx.bots.bitboard_ab_8x7_5_deep import (
 )
 from connectx.bots.mcts import mcts_bot, mcts_bot_fast, mcts_bot_value, mcts_bot_heuristic
 from connectx.bots.mcts_puct import mcts_puct_bot
-from connectx.bots.mcts_8x7_5 import mcts_bot_8x7_5, mcts_bot_fast_8x7_5
+from connectx.bots.mcts_8x7_5 import (
+    mcts_bot_8x7_5,
+    mcts_bot_fast_8x7_5,
+    mcts_bot_heuristic_8x7_5,
+)
 
 __all__ = [
     "random_bot",
@@ -42,4 +46,5 @@ __all__ = [
     "mcts_puct_bot",
     "mcts_bot_8x7_5",
     "mcts_bot_fast_8x7_5",
+    "mcts_bot_heuristic_8x7_5",
 ]

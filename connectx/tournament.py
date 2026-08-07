@@ -145,34 +145,20 @@ class Leaderboard:
         sa = self._ensure(result.bot_a)
         sb = self._ensure(result.bot_b)
 
-        for rec in result.games:
-            sa.games_played += 1
-            sb.games_played += 1
+        n = result.total_games  # total games in the match (both seats)
+        sa.games_played += n
+        sb.games_played += n
 
-            if rec.winner == 1:
-                # Player 1 won
-                if rec.player1_action is not None and rec.player2_action is not None:
-                    # Determine which bot was P1 and which was P2
-                    pass
-                # We need to know the seat — for now, record generically
-                pass
+        # MatchResult already has correct win counts per bot (seat-aware).
+        # Each game is played in both seat orientations, so the total
+        # games_played per bot is 2× the number of pairs.
+        sa.wins += result.bot_a_wins
+        sa.losses += result.bot_b_wins
+        sa.draws += result.draws
 
-            if rec.terminal_reason == "timeout":
-                if result.bot_a == sa.name:
-                    pass  # Simplified
-                else:
-                    pass
-
-            # Simplified: just count wins/losses/draws per bot
-            if rec.winner == 0:
-                sa.draws += 1
-                sb.draws += 1
-            elif rec.winner == 1:
-                sa.wins += 1
-                sb.losses += 1
-            else:
-                sa.losses += 1
-                sb.wins += 1
+        sb.wins += result.bot_b_wins
+        sb.losses += result.bot_a_wins
+        sb.draws += result.draws
 
     def bot(self, name: str) -> BotStats:
         """Get stats for a bot."""
@@ -251,15 +237,23 @@ class Tournament:
             )
             games_list.extend([g1, g2])
 
-            for g in (g1, g2):
-                if g.winner == 1:
-                    # Player 1 won — could be bot_a or bot_b
-                    # We don't track seat in GameRecord directly
-                    pass
-                elif g.winner == 2:
-                    pass
-                else:
+            # g1: bot_a is P1, bot_b is P2
+            # g2: bot_b is P1, bot_a is P2  (seats reversed)
+            for g, p1_is_a in ((g1, True), (g2, False)):
+                if g.winner == 0:
                     draws += 1
+                elif g.winner == 1:
+                    # Player 1 won
+                    if p1_is_a:
+                        bot_a_wins += 1
+                    else:
+                        bot_b_wins += 1
+                elif g.winner == 2:
+                    # Player 2 won
+                    if p1_is_a:
+                        bot_b_wins += 1
+                    else:
+                        bot_a_wins += 1
 
         return MatchResult(
             bot_a=name_a,

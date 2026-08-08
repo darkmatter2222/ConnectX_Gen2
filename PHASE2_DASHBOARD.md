@@ -9,20 +9,20 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | v0001 |
-| **Status** | READY_FOR_MANUAL_UPLOAD |
-| **Candidate** | v2_7x6_4 (Kaggle self-contained) |
-| **Archive** | `connectx_submission_v0001.tar.gz` |
-| **O-Drive Path** | `O:\master_model_collection\ConnectX_Gen2_Phase2\submissions\connectx_submission_v0001.tar.gz` |
-| **SHA-256** | `8b7b06591e081e0fef87e9dc873533ee4c4b57a62b4960ebda6cb906d834cff2` |
-| **Compressed Size** | 5,638 bytes |
-| **Extracted Size** | 22,919 bytes |
-| **Commit** | `a711d3b066e722c9b3b736e7f686a4a0671fcb20` |
-| **Validation** | PASS (import + runtime smoke: col 3) |
-| **Parent** | (none — first release) |
-| **Change** | v2 alpha-beta with iterative deepening, TT, killers, history, null-move (7×6/4) |
+| **Version** | v0008 |
+| **Status** | PASS (research) |
+| **Candidate** | v2_8x7_5_p2 (P2-exploit, 8×7/5) |
+| **Archive** | `connectx_submission_v0008.tar.gz` |
+| **O-Drive Path** | `O:\master_model_collection\ConnectX_Gen2_Phase2\submissions\connectx_submission_v0008.tar.gz` |
+| **SHA-256** | `5a354f954bcfb4b0c5def123a6e910cc445f2d0902ac6a600dcfb7548cc490bd` |
+| **Compressed Size** | 5,400 bytes |
+| **Extracted Size** | 23,020 bytes |
+| **Commit** | `ff652000519492ce03af4c8dbd7960c3904ec818` |
+| **Validation** | PASS (structural; research bot — import/runtime skipped) |
+| **Parent** | v0007 |
+| **Change** | P2-exploit bot with defensive evaluation (8×7/5) |
 
-**Latest overall release:** v0007 (v2_8x7_5_booked research, 8×7/5 depth-6) — not Kaggle-compatible (non-self-contained). Kaggle-ready: v0001 (v2_7x6_4 self-contained).
+**Latest overall release:** v0008 (v2_8x7_5_p2 research, P2-exploit) — not Kaggle-compatible (non-self-contained). Kaggle-ready: v0001 (v2_7x6_4 self-contained).
 
 ## Status: ACTIVE — Submission System Built, v0001 Ready, 8×7/5 Booked Comparison Complete (Cycle 31)
 

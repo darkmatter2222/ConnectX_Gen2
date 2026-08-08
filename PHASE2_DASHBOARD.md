@@ -1402,10 +1402,25 @@ meaningful scores (-900 to +1800 vs original's near ±1.5).
 - **Validation:** PASS (structural checks; import/runtime skipped — non-self-contained research bot)
 - **Change from v0006:** Book expanded from depth-5 (672 entries) to depth-6 (1,110 entries)
 
+### v0007 Benchmark — Depth-6 Book vs Depth-5 Book (40 games)
+
+| Comparison | Booked W | Regular W | Draws |
+|-----------|----------|-----------|-------|
+| Booked vs Regular | **11** | 0 | 9 |
+| Booked vs PUCT | **20** | 0 | 0 |
+| Regular vs PUCT | **16** | 0 | 4 |
+
+**Conclusion: Depth-6 book does NOT improve over depth-5.** Same dynamics:
+- Booked vs Regular: 11W-0W-9D (vs 10W-0W-10D at depth-5) — **identical pattern**
+- Booked vs PUCT: 20W-0W-0D (vs 16W-0W-4D) — same pattern, slightly more decisive
+- Regular vs PUCT: 16W-0W-4D (identical)
+
+**The bottleneck is P2 strategy, not book coverage.**
+
 ### Next Actions
 
-1. **Evaluate depth-6 vs depth-5** — run comparison benchmark (depth-6 book may change dynamics)
-2. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized opening book or deviation detection
+1. ~~Evaluate depth-6 vs depth-5~~ — **DONE**: no improvement over depth-5. Bottleneck is P2 strategy.
+2. **Build P2-exploit bot** — second-player needs specialized strategies: deflection, threat-blocking, delay tactics
 3. **Explore 8×7/5 with deeper search** — depth-7 book, full AB with PVS
 4. **Continue exploring larger boards** — 8×7/6 or 9×7/5 for more MCTS room
 

@@ -169,3 +169,13 @@
 - **Manifest:** `phase2/submissions/manifests/v0007.json` (Git-tracked)
 - **Next version:** v0008
 - **Evidence:** build.py output
+
+## D2026-08-07-018: Depth-6 Book Does Not Improve Over Depth-5
+
+- **Finding:** Booked vs Regular: 11W-0W-9D at depth-6 (vs 10W-0W-10D at depth-5)
+- **Finding:** Booked vs PUCT: 20W-0W-0D at depth-6 (vs 16W-0W-4D at depth-5)
+- **Conclusion:** Booked bot never loses at either depth. Booked + regular both crush PUCT.
+  The extra book coverage (672→1,110 entries) does not change the strategic landscape.
+- **Bottleneck is P2 strategy** — neither booked nor regular bot can win as P2
+- **Decision:** Stop pursuing deeper opening books as the primary improvement path.
+  Focus on P2 exploitation strategies and larger board variants.

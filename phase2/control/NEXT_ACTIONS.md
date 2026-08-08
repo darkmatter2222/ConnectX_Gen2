@@ -468,11 +468,15 @@ No statistically meaningful conclusions yet.
 - v0006: v2_8x7_5_booked (research, PASS validation, depth-5 book)
 - v0007: v2_8x7_5_booked (research, PASS validation, depth-6 book, 1,110 entries)
 
+**Completed:**
+- **v0007 benchmark verified:** depth-6 book does NOT improve over depth-5 (same 100% draw rate vs regular, same PUCT domination)
+- **P2 bottleneck confirmed** — neither booked nor regular bot can win as P2 at 8×7/5
+
 **Next actions:**
-1. **Evaluate depth-6 vs depth-5** — run comparison benchmark (may not change dynamics but good to verify)
-2. **Consider 8×7/5 P1/P2 exploit strategies** — second-player needs specialized approaches
-3. **Consider 9×7/5 or 8×7/6** — even larger board for more exploration room
-4. **Continue research on larger boards** — 8×7/5 is unsolved but AB dominates MCTS
+1. **Build 8×7/5 P2-exploit bot** — design a bot that plays defensively as P2, looking for opponent errors to convert
+2. **Consider 8×7/6 or 9×7/5** — even larger boards where MCTS has more exploration room and P2 advantage is easier to exploit
+3. **Explore hybrid AB+MCTS for 8×7/5** — AB for P1 (aggressive), MCTS for P2 (adaptive to opponent errors)
+4. **Continue research on larger boards** — 8×7/5 is unsolved but AB dominates MCTS regardless
 
 ## Cycle 28: AB-Guided MCTS + MCTS Comparison
 

@@ -97,6 +97,10 @@ CANDIDATE_SOURCES: dict[str, dict] = {
         "source_file": REPO_ROOT / "connectx" / "bots" / "bitboard_ab_8x7_5_v2_booked.py",
         "description": "v2 + dual-book fallback for 8x7/5",
     },
+    "v2_8x7_5_p2": {
+        "source_file": REPO_ROOT / "connectx" / "bots" / "bitboard_ab_8x7_5_p2.py",
+        "description": "P2-exploit bot for 8x7/5 with defensive evaluation",
+    },
 }
 
 

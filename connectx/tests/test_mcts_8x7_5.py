@@ -104,16 +104,9 @@ def test_mcts_full_game():
 
 def test_random_playout_win():
     """Playout should return +1 if start_mark has a guaranteed win."""
-    board = [0] * 56
-    # Place 4 marks for player 1 in a row (cols 3-7 at row 0)
-    for i in range(4):
-        board[0 * 8 + 3 + i] = 1
-    # Player 2's turn — drop at col 3 to complete
     import random
     rng = random.Random(42)
-    b = list(board)
-    connectx.drop(b, 3, 2, 7, 8)  # This would be player 2's move
-    # Actually test: mark 1 has 4 in a row, mark 2 plays, should mark 1 win
+    # Test: mark 1 has 4 in a row vertically at col 3, rows 0-3
     board2 = [0] * 56
     for i in range(4):
         board2[i * 8 + 3] = 1  # 4 in a row vertically at col 3, rows 0-3

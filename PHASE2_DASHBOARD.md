@@ -41,7 +41,22 @@
 | 10 | Measured leaderboards | COMPLETE |
 | 11 | Larger board support (8×7/5) | COMPLETE |
 
-## Latest Results: Full Leaderboard Tournament (Cycle 19)
+## Cycle 33: 8×7/5 P2-Exploit Bot
+
+**Built a P2-exploit alpha-beta bot with defensive evaluation.**
+
+### P2 Bot: `bitboard_ab_bot_8x7_5_p2`
+
+- **Strategy:** Defensive evaluation — opponent threats weighted 2x higher, own threats 0.5x, fork avoidance stronger, less aggressive play
+- **Head-to-head vs v2 (20 games, seat-reversed):** P2 bot wins 9-11/20 as P2
+- **Timing:** ~2-3ms per move (same as v2)
+- **Tests:** 11 new tests, all pass
+
+### Key Finding
+
+P2 bot shows modest improvement over v2 as P2 (~10/20 wins vs v2's ~10/20). The defensive approach helps but does not solve the P2 bottleneck — both bots still struggle to win as P2 against optimal play.
+
+## Cycle 19: Full Leaderboard Tournament (Cycle 19)
 
 **28 matchups, 336 games, 0 invalid moves — all bots play at same level**
 

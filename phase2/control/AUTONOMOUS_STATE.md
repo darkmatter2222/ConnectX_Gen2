@@ -1,8 +1,8 @@
 # Autonomous State — ConnectX Phase 2
 
-**Session:** Cycle 32
+**Session:** Cycle 33
 **Date:** 2026-08-07
-**Status:** Cycle 32: v0007 built (depth-6 book, 1,110 entries). Benchmark complete: depth-6 book does NOT improve over depth-5. Same dynamics: booked never loses, both book/regular crush PUCT, P2 bottleneck persists. Next: explore 8×7/5 P1/P2 exploitation strategies, larger board variants (8×7/6, 9×7/5).
+**Status:** Cycle 33: P2-exploit bot built and registered. Head-to-head: P2 bot wins 9-11/20 as P2 vs v2 — modest improvement. P2 bottleneck persists. Next: build new submission or explore deeper P2 strategies.
 
 **Session:** Cycle 18→26
 **Date:** 2026-08-07
